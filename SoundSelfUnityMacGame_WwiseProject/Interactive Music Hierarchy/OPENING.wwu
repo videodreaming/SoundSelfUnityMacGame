@@ -14254,6 +14254,20 @@
 																		</MusicClip>
 																	</Local>
 																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{4CF54944-98E5-4EA0-8843-071A6A992334}" ShortID="681370439">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="299697.814948956"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
 															</ObjectList>
 														</ObjectLists>
 													</MusicTrackSequence>
@@ -16510,6 +16524,20 @@
 																				</PropertyCurve>
 																			</PropertyCurveList>
 																		</MusicClip>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{A71A03E7-3FF7-4BE9-A01B-B53586F33B45}" ShortID="876569280">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="121400.783940644"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
 																	</Local>
 																</Reference>
 															</ObjectList>

@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="150">
+	<SoundBanks>
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{3B0ED803-EBAA-9E1E-DC9B-21C358AB5BE6}">
+			<ShortName>CALIBRATION</ShortName>
+			<Path>CALIBRATION.bnk</Path>
+			<Media>
+				<File Id="6985824" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>VO_Calibration_Vibration_v1.wav</ShortName>
+					<CachePath>SFX/VO_Calibration_Vibration_v1_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="30291822" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>vo_endingSoon.wav</ShortName>
+					<Path>Media/30291822.wem</Path>
+					<CachePath>SFX/vo_endingSoon_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="54796230" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>vo_goodbye_short.wav</ShortName>
+					<Path>Media/54796230.wem</Path>
+					<CachePath>SFX/vo_goodbye_short_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="142502747" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>D.mid</ShortName>
+					<CachePath>SFX/D_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="163565718" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>environment_crickets.wav</ShortName>
+					<Path>Media/163565718.wem</Path>
+					<CachePath>SFX/environment_crickets_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="191826148" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>VO_Calibration_Volume_v1.wav</ShortName>
+					<CachePath>SFX/VO_Calibration_Volume_v1_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="229112935" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_shruti.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_shruti_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="248741514" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>vo_goodbye_anchoring.wav</ShortName>
+					<Path>Media/248741514.wem</Path>
+					<CachePath>SFX/vo_goodbye_anchoring_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="251817723" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>G.mid</ShortName>
+					<CachePath>SFX/G_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="273367130" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>E.mid</ShortName>
+					<CachePath>SFX/E_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="279448768" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B.mid</ShortName>
+					<CachePath>SFX/B_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="292416456" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>F.mid</ShortName>
+					<CachePath>SFX/F_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="305037647" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>VO_Calibration_Lights_v1.wav</ShortName>
+					<CachePath>SFX/VO_Calibration_Lights_v1_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="320884047" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C.mid</ShortName>
+					<CachePath>SFX/C_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="339955301" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C#Bb.mid</ShortName>
+					<CachePath>SFX/C#Bb_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="351785776" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>vo_goodbye_silence.wav</ShortName>
+					<Path>Media/351785776.wem</Path>
+					<CachePath>SFX/vo_goodbye_silence_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="423702346" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_toning_shruti.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_toning_shruti_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="447549247" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>VO_Calibration_Intro_v1.wav</ShortName>
+					<CachePath>SFX/VO_Calibration_Intro_v1_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="470655207" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>VO_Calibration_Mic_v1.wav</ShortName>
+					<CachePath>SFX/VO_Calibration_Mic_v1_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="473964817" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>vo_goodbye_long.wav</ShortName>
+					<Path>Media/473964817.wem</Path>
+					<CachePath>SFX/vo_goodbye_long_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="517296307" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>environment_openingWelcome.wav</ShortName>
+					<Path>Media/517296307.wem</Path>
+					<CachePath>SFX/environment_openingWelcome_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="521907833" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A#Bb.mid</ShortName>
+					<CachePath>SFX/A#Bb_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="522771732" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Calibration_End_v2.wav</ShortName>
+					<CachePath>SFX/Calibration_End_v2_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="543585764" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>vo_elicitSigh_closing.wav</ShortName>
+					<Path>Media/543585764.wem</Path>
+					<CachePath>SFX/vo_elicitSigh_closing_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="579672527" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>sfx_start.wav</ShortName>
+					<Path>Media/579672527.wem</Path>
+					<CachePath>SFX/sfx_start_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="623436931" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>RKU_LHH2_Percussion_Tingsha_2.wav</ShortName>
+					<Path>Media/623436931.wem</Path>
+					<CachePath>SFX/RKU_LHH2_Percussion_Tingsha_2_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="650293573" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<CachePath>SFX/sfx_breath in_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="657858480" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>D#Eb.mid</ShortName>
+					<CachePath>SFX/D#Eb_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="665576698" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>sfx_stop.wav</ShortName>
+					<Path>Media/665576698.wem</Path>
+					<CachePath>SFX/sfx_stop_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="745939041" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>menu_music_C Major.wav</ShortName>
+					<Path>Media/745939041.wem</Path>
+					<CachePath>SFX/menu_music_C Major_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="749900744" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>ThematicSavasana_MUSIC.wav</ShortName>
+					<Path>Media/749900744.wem</Path>
+					<CachePath>SFX/ThematicSavasana_MUSIC_20F507AD.wem</CachePath>
+				</File>
+				<File Id="789751157" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>environment_wind.wav</ShortName>
+					<Path>Media/789751157.wem</Path>
+					<CachePath>SFX/environment_wind_FD032056.wem</CachePath>
+				</File>
+				<File Id="883996255" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>environment_wind.wav</ShortName>
+					<Path>Media/883996255.wem</Path>
+					<CachePath>SFX/environment_wind_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="901997753" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>music_duet_D Major.wav</ShortName>
+					<Path>Media/901997753.wem</Path>
+					<CachePath>SFX/music_duet_D Major_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="929296902" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A.mid</ShortName>
+					<CachePath>SFX/A_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="977341665" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath out.wav</ShortName>
+					<CachePath>SFX/sfx_breath out_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="997677863" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>vo_thankYou.wav</ShortName>
+					<Path>Media/997677863.wem</Path>
+					<CachePath>SFX/vo_thankYou_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1006284074" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>environment_openingQuery.wav</ShortName>
+					<Path>Media/1006284074.wem</Path>
+					<CachePath>SFX/environment_openingQuery_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1050281884" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>music_meditationSilent_E Major.wav</ShortName>
+					<Path>Media/1050281884.wem</Path>
+					<CachePath>SFX/music_meditationSilent_E Major_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1056289911" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>G#Ab.mid</ShortName>
+					<CachePath>SFX/G#Ab_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="1070561637" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>vo_elicitQuery_closing.wav</ShortName>
+					<Path>Media/1070561637.wem</Path>
+					<CachePath>SFX/vo_elicitQuery_closing_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1071905058" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>F#Gb.mid</ShortName>
+					<CachePath>SFX/F#Gb_E3FF52BF.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<Custom>
+					<Plugin Id="21278335" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="56179526" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="145712967" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="393190976" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="409478190" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="559173273" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="632779657" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="670553737" Name="Soundseed Air Woosh" LibName="SoundSeed Air Woosh" LibId="7864322"/>
+					<Plugin Id="725142564" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="947492082" Name="Synth One" LibName="Wwise Synth One" LibId="9699330"/>
+				</Custom>
+				<ShareSets>
+					<Plugin Id="28907203" Name="AVS_Tremolo_Reference_R" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="28907229" Name="AVS_Tremolo_Reference_L" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="1506222489" Name="AVS_Modulation_Wave1_01" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="1506222490" Name="AVS_Modulation_Wave1_02" LibName="Wwise Tremolo" LibId="8585219"/>
+				</ShareSets>
+			</Plugins>
+			<Events>
+				<Event Id="236202206" Name="Mute_SILENTMEDITATION_MUSIC"/>
+				<Event Id="3981260521" Name="Play_AMBIENT_ENVIRONMENT_LOOP">
+					<MediaRefs>
+						<MediaRef Id="517296307"/>
+						<MediaRef Id="883996255"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3449237142" Name="Play_AVS_SineGenerators_REFERENCE">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="56179526"/>
+							<PluginRef Id="632779657"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="28907203"/>
+							<PluginRef Id="28907229"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="3630490451" Name="Play_AVS_Wave1">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="21278335"/>
+							<PluginRef Id="145712967"/>
+							<PluginRef Id="393190976"/>
+							<PluginRef Id="409478190"/>
+							<PluginRef Id="559173273"/>
+							<PluginRef Id="725142564"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="1506222489"/>
+							<PluginRef Id="1506222490"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="1347182731" Name="Play_BassSynth">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="947492082"/>
+						</Custom>
+					</PluginRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="1163393389" Name="Aux_ImpactsSub"/>
+					</AuxBusRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="929296902"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="521907833"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="279448768"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="947492082"/>
+								</Custom>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696444"/>
+							<MediaRefs>
+								<MediaRef Id="320884047"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="947492082"/>
+								</Custom>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="339955301"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="142502747"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="947492082"/>
+								</Custom>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="657858480"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="273367130"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="947492082"/>
+								</Custom>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="292416456"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="947492082"/>
+								</Custom>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="1071905058"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="251817723"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="947492082"/>
+								</Custom>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2950571229" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="1056289911"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3682980534" Name="Play_Calibration_Music">
+					<MediaRefs>
+						<MediaRef Id="749900744"/>
+					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
+					</AuxBusRefs>
+				</Event>
+				<Event Id="1731808482" Name="Play_Calibration_Sequence">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="1125500713"/>
+							<MediaRefs>
+								<MediaRef Id="447549247"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="3192784746"/>
+							<MediaRefs>
+								<MediaRef Id="305037647"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="1182670510"/>
+							<MediaRefs>
+								<MediaRef Id="470655207"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="529726532"/>
+							<MediaRefs>
+								<MediaRef Id="522771732"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="4241968201"/>
+							<MediaRefs>
+								<MediaRef Id="6985824"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="947492082"/>
+								</Custom>
+							</PluginRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696446"/>
+									<MediaRefs>
+										<MediaRef Id="929296902"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="3050272541"/>
+									<MediaRefs>
+										<MediaRef Id="521907833"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696445"/>
+									<MediaRefs>
+										<MediaRef Id="279448768"/>
+									</MediaRefs>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="947492082"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696444"/>
+									<MediaRefs>
+										<MediaRef Id="320884047"/>
+									</MediaRefs>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="947492082"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="3800083777"/>
+									<MediaRefs>
+										<MediaRef Id="339955301"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696443"/>
+									<MediaRefs>
+										<MediaRef Id="142502747"/>
+									</MediaRefs>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="947492082"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="791737535"/>
+									<MediaRefs>
+										<MediaRef Id="657858480"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696442"/>
+									<MediaRefs>
+										<MediaRef Id="273367130"/>
+									</MediaRefs>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="947492082"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696441"/>
+									<MediaRefs>
+										<MediaRef Id="292416456"/>
+									</MediaRefs>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="947492082"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="156517199"/>
+									<MediaRefs>
+										<MediaRef Id="1071905058"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="84696440"/>
+									<MediaRefs>
+										<MediaRef Id="251817723"/>
+									</MediaRefs>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="947492082"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2950571229" Id="3573977648"/>
+									<MediaRefs>
+										<MediaRef Id="1056289911"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="2415836739"/>
+							<MediaRefs>
+								<MediaRef Id="191826148"/>
+								<MediaRef Id="229112935"/>
+								<MediaRef Id="423702346"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="2957293210"/>
+							<MediaRefs>
+								<MediaRef Id="470655207"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="3682980534" Name="Play_Calibration_Music"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="3561899656" Name="Play_EndSoon_SEQUENCE">
+					<MediaRefs>
+						<MediaRef Id="30291822"/>
+					</MediaRefs>
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="236202206" Name="Mute_SILENTMEDITATION_MUSIC"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="3484562951" Name="Play_EXIT_MUSIC_PLAYLIST">
+					<AuxBusRefs>
+						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
+					</AuxBusRefs>
+				</Event>
+				<Event Id="3359246268" Name="Play_music_meditationSilent_E_Major_LOOP">
+					<MediaRefs>
+						<MediaRef Id="1050281884"/>
+					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
+					</AuxBusRefs>
+				</Event>
+				<Event Id="603425291" Name="Play_sfx_SoundSeed_BreathCycleWind">
+					<MediaRefs>
+						<MediaRef Id="883996255"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="670553737"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="410054881" Name="Play_SIGH_QUERY_SEQUENCE_2">
+					<MediaRefs>
+						<MediaRef Id="163565718"/>
+						<MediaRef Id="543585764"/>
+						<MediaRef Id="579672527"/>
+						<MediaRef Id="623436931"/>
+						<MediaRef Id="650293573"/>
+						<MediaRef Id="665576698"/>
+						<MediaRef Id="789751157"/>
+						<MediaRef Id="977341665"/>
+						<MediaRef Id="997677863"/>
+						<MediaRef Id="1006284074"/>
+						<MediaRef Id="1070561637"/>
+					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="2562455749" Name="Aux_SFX"/>
+					</AuxBusRefs>
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="236202206" Name="Mute_SILENTMEDITATION_MUSIC"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="3820138711" Name="Play_VO_CLOSING_GOODBYE">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="1927133646"/>
+							<MediaRefs>
+								<MediaRef Id="248741514"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="674228435"/>
+							<MediaRefs>
+								<MediaRef Id="473964817"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="2585211341"/>
+							<MediaRefs>
+								<MediaRef Id="54796230"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="3041563226"/>
+							<MediaRefs>
+								<MediaRef Id="351785776"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="360118433" Name="Set_BassSynth_C">
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="2950571229" Id="84696444" Name="C"/>
+					</ActionSetSwitch>
+				</Event>
+				<Event Id="4293537666" Name="Set_Calibration_Lights"/>
+				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP"/>
+				<Event Id="821655380" Name="Stop_AVS"/>
+				<Event Id="842157536" Name="Stop_AVS_All">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="767717232" Name="Stop_AVS_SineGenerators_REFERENCE"/>
+						<ActionPostEventEntry Id="4138940081" Name="Stop_AVS_Wave1"/>
+						<ActionPostEventEntry Id="4138940082" Name="Stop_AVS_Wave2"/>
+						<ActionPostEventEntry Id="4138940083" Name="Stop_AVS_Wave3"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="767717232" Name="Stop_AVS_SineGenerators_REFERENCE"/>
+				<Event Id="4138940081" Name="Stop_AVS_Wave1"/>
+				<Event Id="4138940082" Name="Stop_AVS_Wave2"/>
+				<Event Id="4138940083" Name="Stop_AVS_Wave3"/>
+				<Event Id="1502315953" Name="Stop_BassSynth"/>
+				<Event Id="1661327600" Name="Stop_Calibration_Music">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="2822016348" Name="Stop_SilentLoops"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="2252226012" Name="Stop_Calibration_Sequence">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="842157536" Name="Stop_AVS_All"/>
+						<ActionPostEventEntry Id="1661327600" Name="Stop_Calibration_Music"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="674892661" Name="Stop_sfx_SoundSeed_BreathCycleWind"/>
+				<Event Id="2822016348" Name="Stop_SilentLoops"/>
+				<Event Id="2811342292" Name="Stop_THEMATIC_SAVASANA_SEQUENCE">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="674892661" Name="Stop_sfx_SoundSeed_BreathCycleWind"/>
+					</ActionPostEvent>
+				</Event>
+			</Events>
+			<GameParameters>
+				<GameParameter Id="54156859" Name="AVS_MasterVolume_Wave1"/>
+				<GameParameter Id="467704492" Name="MusicLoops_Volume"/>
+				<GameParameter Id="1209148328" Name="AVS_Modulation_PWM_Wave1"/>
+				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
+				<GameParameter Id="2075358266" Name="AVS_Modulation_Smoothing_Wave1"/>
+				<GameParameter Id="2189202578" Name="AVS_Modulation_Frequency_Wave1"/>
+				<GameParameter Id="2398552911" Name="BassSynthesizer_Volume"/>
+				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
+				<GameParameter Id="2523786154" Name="AVS_REFERENCE_Volume"/>
+				<GameParameter Id="2591147255" Name="AVS_Modulation_Waveform_Wave1"/>
+				<GameParameter Id="3000490607" Name="AVS_Modulation_MonoStereo_Wave1"/>
+				<GameParameter Id="3133219855" Name="AVS_Modulation_Depth_Wave1"/>
+				<GameParameter Id="3244028902" Name="AVS_BLUE_Volume_Wave1"/>
+				<GameParameter Id="3740547865" Name="AVS_Modulation_BypassEffect_Wave1"/>
+				<GameParameter Id="3922087661" Name="AVS_RED_Volume_Wave1"/>
+				<GameParameter Id="4221340217" Name="AVS_GREEN_Volume_Wave1"/>
+			</GameParameters>
+			<SwitchGroups>
+				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="3041563226" Name="Silence"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="2950571229" Name="BassSynth_PitchSwitch">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3505294094" Name="InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3689261721" Name="Calibration_Sequence">
+					<Switches>
+						<Switch Id="529726532" Name="End"/>
+						<Switch Id="1125500713" Name="Intro"/>
+						<Switch Id="1182670510" Name="Mic"/>
+						<Switch Id="2415836739" Name="Volume"/>
+						<Switch Id="2957293210" Name="TechnicalIssues"/>
+						<Switch Id="3192784746" Name="Lights"/>
+						<Switch Id="4241968201" Name="Vibration"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{E5977B41-27C6-E677-CAA8-DBD5A7B66B83}</FileHash>
+</SoundBanksInfo>

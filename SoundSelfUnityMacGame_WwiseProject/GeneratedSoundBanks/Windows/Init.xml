@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
+	<SoundBanks>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{C8DE322F-2BCD-FCE7-606B-C8C391FDEBEC}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<ShareSets>
+					<Plugin Id="1008402193" Name="Low_Pass_20KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="1182561210" Name="Cut_3dB_10KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="2547645744" Name="Boost_3dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
+					<Plugin Id="3013737263" Name="Bass_Remover_1" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="3134687450" Name="Master_Limiter" LibName="Wwise Peak Limiter" LibId="7208963"/>
+					<Plugin Id="3986712950" Name="HighShelfReduction" LibName="Wwise Parametric EQ" LibId="6881283"/>
+				</ShareSets>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="2719312584" Name="System_01" LibName="System" LibId="11403271"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="65973818" Name="AVS System"/>
+				<Bus Id="393239870" Name="SFX"/>
+				<Bus Id="433461193" Name="AVS_Reference"/>
+				<Bus Id="958096227" Name="Impacts_SubAcoustics">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3013737263"/>
+						</ShareSets>
+					</PluginRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="1163393389" Name="Aux_ImpactsSub"/>
+					</AuxBusRefs>
+				</Bus>
+				<Bus Id="1229948536" Name="Environment"/>
+				<Bus Id="1534528548" Name="VO">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2652646462"/>
+						</ShareSets>
+					</PluginRefs>
+				</Bus>
+				<Bus Id="2218314507" Name="SubAcoustics"/>
+				<Bus Id="2479991680" Name="InteractiveMusic_Vocal_Toning">
+					<AuxBusRefs>
+						<AuxBusRef Id="183653145" Name="Aux_Toning"/>
+					</AuxBusRefs>
+				</Bus>
+				<Bus Id="2579128390" Name="InteractiveMusic_Vocal_Silent">
+					<AuxBusRefs>
+						<AuxBusRef Id="1959646260" Name="Aux_SilentLoops"/>
+					</AuxBusRefs>
+				</Bus>
+				<Bus Id="3511834067" Name="Binaural Beats Generator"/>
+				<Bus Id="3803692087" Name="Master Audio Bus">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3134687450"/>
+						</ShareSets>
+					</PluginRefs>
+				</Bus>
+				<Bus Id="3991942870" Name="Music">
+					<AuxBusRefs>
+						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
+					</AuxBusRefs>
+				</Bus>
+				<Bus Id="4090393748" Name="AVS_Wave 1"/>
+				<Bus Id="4090393750" Name="AVS_Wave 3"/>
+				<Bus Id="4090393751" Name="AVS_Wave 2"/>
+			</Busses>
+			<AuxBusses>
+				<AuxBus Id="183653145" Name="Aux_Toning">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2547645744"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+				<AuxBus Id="1163393389" Name="Aux_ImpactsSub">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1008402193"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+				<AuxBus Id="1959646260" Name="Aux_SilentLoops">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1182561210"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+				<AuxBus Id="2562455749" Name="Aux_SFX">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2547645744"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+				<AuxBus Id="3331583377" Name="Aux_Music">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3986712950"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+			</AuxBusses>
+			<GameParameters>
+				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
+				<GameParameter Id="54156857" Name="AVS_MasterVolume_Wave3"/>
+				<GameParameter Id="54156859" Name="AVS_MasterVolume_Wave1"/>
+				<GameParameter Id="92185602" Name="Unity_Absorbtion"/>
+				<GameParameter Id="467704492" Name="MusicLoops_Volume"/>
+				<GameParameter Id="609474916" Name="InteractiveMusic_Bus_Volume"/>
+				<GameParameter Id="732775546" Name="BinauralGenerator_RIGHT_Frequency"/>
+				<GameParameter Id="767906964" Name="ImpactsSub_Bus_Volume"/>
+				<GameParameter Id="1050949862" Name="SFX_Bus_Volume"/>
+				<GameParameter Id="1072896080" Name="Unity_ChantLerpFast"/>
+				<GameParameter Id="1111564044" Name="HarmonySilentVolume"/>
+				<GameParameter Id="1209148328" Name="AVS_Modulation_PWM_Wave1"/>
+				<GameParameter Id="1209148330" Name="AVS_Modulation_PWM_Wave3"/>
+				<GameParameter Id="1209148331" Name="AVS_Modulation_PWM_Wave2"/>
+				<GameParameter Id="1504547510" Name="HarmonyToningVolume"/>
+				<GameParameter Id="1523152327" Name="Unity_Charge"/>
+				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
+				<GameParameter Id="1703818055" Name="BinauralGenerator_Volume"/>
+				<GameParameter Id="1710998699" Name="Impacts_Volume"/>
+				<GameParameter Id="1729197293" Name="FundamentalToningVolume"/>
+				<GameParameter Id="1765174721" Name="TONING_Volume"/>
+				<GameParameter Id="2033106885" Name="BinauralGenerator_LEFT_Frequency"/>
+				<GameParameter Id="2075358264" Name="AVS_Modulation_Smoothing_Wave3"/>
+				<GameParameter Id="2075358265" Name="AVS_Modulation_Smoothing_Wave2"/>
+				<GameParameter Id="2075358266" Name="AVS_Modulation_Smoothing_Wave1"/>
+				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
+				<GameParameter Id="2189202576" Name="AVS_Modulation_Frequency_Wave3"/>
+				<GameParameter Id="2189202577" Name="AVS_Modulation_Frequency_Wave2"/>
+				<GameParameter Id="2189202578" Name="AVS_Modulation_Frequency_Wave1"/>
+				<GameParameter Id="2398552911" Name="BassSynthesizer_Volume"/>
+				<GameParameter Id="2438365033" Name="TONING_Player_Volume"/>
+				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
+				<GameParameter Id="2462119772" Name="Unity_SoundTweak"/>
+				<GameParameter Id="2523786154" Name="AVS_REFERENCE_Volume"/>
+				<GameParameter Id="2590911748" Name="LinearMusic_Volume"/>
+				<GameParameter Id="2591147252" Name="AVS_Modulation_Waveform_Wave2"/>
+				<GameParameter Id="2591147253" Name="AVS_Modulation_Waveform_Wave3"/>
+				<GameParameter Id="2591147255" Name="AVS_Modulation_Waveform_Wave1"/>
+				<GameParameter Id="2626252250" Name="BinauralGenerator_Bus_Volume"/>
+				<GameParameter Id="3000490604" Name="AVS_Modulation_MonoStereo_Wave2"/>
+				<GameParameter Id="3000490605" Name="AVS_Modulation_MonoStereo_Wave3"/>
+				<GameParameter Id="3000490607" Name="AVS_Modulation_MonoStereo_Wave1"/>
+				<GameParameter Id="3070055575" Name="SILENT_Volume"/>
+				<GameParameter Id="3133219852" Name="AVS_Modulation_Depth_Wave2"/>
+				<GameParameter Id="3133219853" Name="AVS_Modulation_Depth_Wave3"/>
+				<GameParameter Id="3133219855" Name="AVS_Modulation_Depth_Wave1"/>
+				<GameParameter Id="3244028900" Name="AVS_BLUE_Volume_Wave3"/>
+				<GameParameter Id="3244028901" Name="AVS_BLUE_Volume_Wave2"/>
+				<GameParameter Id="3244028902" Name="AVS_BLUE_Volume_Wave1"/>
+				<GameParameter Id="3426469145" Name="Unity_ChantLerpSlow"/>
+				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
+				<GameParameter Id="3687478936" Name="VO_Bus_Volume"/>
+				<GameParameter Id="3740547865" Name="AVS_Modulation_BypassEffect_Wave1"/>
+				<GameParameter Id="3740547866" Name="AVS_Modulation_BypassEffect_Wave2"/>
+				<GameParameter Id="3740547867" Name="AVS_Modulation_BypassEffect_Wave3"/>
+				<GameParameter Id="3761161481" Name="CrystalBowlGenerator_Volume"/>
+				<GameParameter Id="3922087661" Name="AVS_RED_Volume_Wave1"/>
+				<GameParameter Id="3922087662" Name="AVS_RED_Volume_Wave2"/>
+				<GameParameter Id="3922087663" Name="AVS_RED_Volume_Wave3"/>
+				<GameParameter Id="4179668880" Name="Master_Volume"/>
+				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
+				<GameParameter Id="4221340217" Name="AVS_GREEN_Volume_Wave1"/>
+				<GameParameter Id="4221340218" Name="AVS_GREEN_Volume_Wave2"/>
+				<GameParameter Id="4221340219" Name="AVS_GREEN_Volume_Wave3"/>
+			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="1731624755" Name="AbsorptionMode">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1971384320" Name="Playful"/>
+						<State Id="4231874361" Name="Meditative"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="3107675784" Name="MusicEnvironmentMode">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1229948536" Name="Environment"/>
+						<State Id="3991942870" Name="Music"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+			<SwitchGroups>
+				<SwitchGroup Id="184547165" Name="VO_Posture">
+					<Switches>
+						<Switch Id="3551080421" Name="Relax"/>
+						<Switch Id="3891673577" Name="LieDown"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="597707478" Name="LinearMusic_Switch">
+					<Switches>
+						<Switch Id="510174857" Name="NatureChimes_6m"/>
+						<Switch Id="841411210" Name="Chakapa_4m"/>
+						<Switch Id="1589520792" Name="NatureChimesSaxophone_6m"/>
+						<Switch Id="1672318622" Name="inHarmony_MusicSFX_25m"/>
+						<Switch Id="1816202284" Name="GuidedTutorial_111Hz_5m"/>
+						<Switch Id="1827068784" Name="ShrutiFemVox_7m"/>
+						<Switch Id="2389211517" Name="Metta_5m"/>
+						<Switch Id="3198811659" Name="DuetSonoFlore_5m"/>
+						<Switch Id="3368719192" Name="OpeningMeditation_AMajor_4m"/>
+						<Switch Id="3997136470" Name="OpeningOrientation_3m"/>
+						<Switch Id="4054988975" Name="Radiance_9m"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="611900938" Name="LinearMusic_Opening">
+					<Switches>
+						<Switch Id="335023706" Name="openingPassive"/>
+						<Switch Id="2367398737" Name="openingLong"/>
+						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="683317262" Name="VO_Wisdom">
+					<Switches>
+						<Switch Id="1057915111" Name="NotKnowing"/>
+						<Switch Id="1398814679" Name="Jaguar"/>
+						<Switch Id="1743886715" Name="Peru"/>
+						<Switch Id="2721896533" Name="DieWell"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1081559142" Name="SoundWorldMode_Switch">
+					<Switches>
+						<Switch Id="1467691068" Name="SonoFlore"/>
+						<Switch Id="2193720742" Name="Gentle"/>
+						<Switch Id="3140781661" Name="Shadow"/>
+						<Switch Id="4267886810" Name="Shruti"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1496240431" Name="MusicPlaylist_Switch">
+					<Switches>
+						<Switch Id="802424873" Name="_40m"/>
+						<Switch Id="2614701851" Name="_60m"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="3041563226" Name="Silence"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="2769148628" Name="VocalInstrument_PitchSwitch">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="2790444407" Name="ToneActive">
+					<Switches>
+						<Switch Id="1137673461" Name="Resting"/>
+						<Switch Id="1718895636" Name="Toning"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="2950571229" Name="BassSynth_PitchSwitch">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3282688384" Name="InteractiveMusicMode_Switch">
+					<Switches>
+						<Switch Id="1817215723" Name="InteractiveMusicSystem"/>
+						<Switch Id="3375574707" Name="MusicLoops"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3505294094" Name="InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3514265297" Name="InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3689261721" Name="Calibration_Sequence">
+					<Switches>
+						<Switch Id="529726532" Name="End"/>
+						<Switch Id="1125500713" Name="Intro"/>
+						<Switch Id="1182670510" Name="Mic"/>
+						<Switch Id="2415836739" Name="Volume"/>
+						<Switch Id="2957293210" Name="TechnicalIssues"/>
+						<Switch Id="3192784746" Name="Lights"/>
+						<Switch Id="4241968201" Name="Vibration"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3813349969" Name="VO_Somatic">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="2585211341" Name="Short"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3861178606" Name="MusicLoops_Switch">
+					<Switches>
+						<Switch Id="6971574" Name="SitarAmbience"/>
+						<Switch Id="931091870" Name="AweAtmosphere"/>
+						<Switch Id="1229948536" Name="Environment"/>
+						<Switch Id="1397804359" Name="SingingBowls"/>
+						<Switch Id="1568978605" Name="PinkNoiseAtmosphere"/>
+						<Switch Id="1837644484" Name="BreathworkHandpan"/>
+						<Switch Id="2710806120" Name="CelestialDreamscape"/>
+						<Switch Id="2973005081" Name="CosmicAir"/>
+						<Switch Id="3018331789" Name="AmbientLoop"/>
+						<Switch Id="3041563226" Name="Silence"/>
+						<Switch Id="3175422271" Name="ShiftingEarth"/>
+						<Switch Id="3550392237" Name="MysticalVision"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3925841397" Name="VO_ThematicContent">
+					<Switches>
+						<Switch Id="103389341" Name="Peace"/>
+						<Switch Id="1047870521" Name="Narrative"/>
+						<Switch Id="2721896533" Name="DieWell"/>
+						<Switch Id="2965941853" Name="Surrender"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4155508698" Name="VO_ThematicSavasana">
+					<Switches>
+						<Switch Id="103389341" Name="Peace"/>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1047870521" Name="Narrative"/>
+						<Switch Id="1126065684" Name="Fireflies"/>
+						<Switch Id="1721781634" Name="Gratitude"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="2655751454" Name="Kindness"/>
+						<Switch Id="2692078280" Name="Metta"/>
+						<Switch Id="2965941853" Name="Surrender"/>
+						<Switch Id="3041563226" Name="Silence"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4212583561" Name="VO_Opening">
+					<Switches>
+						<Switch Id="335023706" Name="openingPassive"/>
+						<Switch Id="2367398737" Name="openingLong"/>
+						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4213636952" Name="VO_testRepair">
+					<Switches>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696446" Name="A"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{441F6E4F-4F82-E1B2-ED7D-C3589E9C2D4A}</FileHash>
+</SoundBanksInfo>

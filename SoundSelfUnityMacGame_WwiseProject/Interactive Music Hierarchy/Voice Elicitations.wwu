@@ -3032,6 +3032,17 @@
 																</MusicClip>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{7C77C58E-EEA5-4CEA-9594-F602218AAD61}" ShortID="453883422">
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
