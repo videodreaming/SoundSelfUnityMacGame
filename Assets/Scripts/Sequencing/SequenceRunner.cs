@@ -231,6 +231,17 @@ namespace SoundSelf.Sequence
 
             handler.Enter(stage.variant);
 
+            // Re-entrancy guard: a handler's Enter() may call AdvanceToStage itself
+            // (e.g. CodeStageHandler routes to SetMenu / End for dual-stage section ends).
+            // In that case the inner call has already applied UI state, fired OnStageChanged,
+            // and possibly advanced past this stage. Skip the rest so we do not overwrite
+            // the inner stage's UI with this (now-stale) stage's UI.
+            if (CurrentStageIndex != index)
+            {
+                Debug.Log($"SequenceRunner.AdvanceToStage: handler for stage {index} ({stage.type}) re-entered runner; current index is now {CurrentStageIndex}. Skipping post-Enter UI/event for the outer stage.");
+                return;
+            }
+
             ApplyMenuScreenForSequenceStage(stage.type);
             ApplyDuskBackgroundForSequenceStage(stage.type);
 
@@ -401,8 +412,17 @@ namespace SoundSelf.Sequence
                 case StageType.End:
                     UIManager.Instance.ShowDuskBackground(true);
                     break;
-                default:
+                case StageType.LinearAudio:
+                case StageType.MusicPlaylist:
+                case StageType.Inquiry:
+                case StageType.Opening:
+                case StageType.Tutorial:
+                case StageType.Playground:
+                case StageType.Savasana:
+                case StageType.StartCountdown:
                     UIManager.Instance.ShowDuskBackground(false);
+                    break;
+                case StageType.Code:
                     break;
             }
         }
@@ -411,6 +431,49 @@ namespace SoundSelf.Sequence
         {
             var stage = CurrentStage;
             return stage.HasValue ? GetHandlerFor(stage.Value) : null;
+        }
+
+        /// <summary>
+        /// Jumps immediately to the first <see cref="StageType.Code"/> /
+        /// <see cref="StageVariant.Code_Dualstage_SectionEnd"/> stage in the active definition.
+        /// </summary>
+        /// <returns>True if that stage exists and <see cref="AdvanceToStage"/> was invoked (including when already on that index).</returns>
+        public bool TrySkipToDualstageSectionEndCodeStage()
+        {
+            if (definition == null)
+            {
+                Debug.LogWarning("SequenceRunner.TrySkipToDualstageSectionEndCodeStage: no active sequence definition.");
+                return false;
+            }
+
+            var stages = definition.StagesOrEmpty;
+            if (stages == null || stages.Length == 0)
+            {
+                Debug.LogWarning("SequenceRunner.TrySkipToDualstageSectionEndCodeStage: sequence has no stages.");
+                return false;
+            }
+
+            for (int i = 0; i < stages.Length; i++)
+            {
+                if (stages[i].type != StageType.Code || stages[i].variant != StageVariant.Code_Dualstage_SectionEnd)
+                    continue;
+
+                if (CurrentStageIndex == i)
+                {
+                    Debug.Log(
+                        $"SequenceRunner.TrySkipToDualstageSectionEndCodeStage: already at Code/Code_Dualstage_SectionEnd (index {i}).");
+                    return true;
+                }
+
+                Debug.Log(
+                    $"SequenceRunner.TrySkipToDualstageSectionEndCodeStage: advancing from index {CurrentStageIndex} to {i} (Code/Code_Dualstage_SectionEnd).");
+                AdvanceToStage(i);
+                return true;
+            }
+
+            Debug.LogWarning(
+                "SequenceRunner.TrySkipToDualstageSectionEndCodeStage: active definition has no Code stage with variant Code_Dualstage_SectionEnd.");
+            return false;
         }
 
         /// <summary>Invokes <see cref="IStageHandler.OnSessionSkipFromUi"/> on the current stage handler (meditation skip — cleanup before <see cref="SequenceCommand.EndThisSequenceStage"/>).</summary>

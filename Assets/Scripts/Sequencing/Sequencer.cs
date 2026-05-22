@@ -173,6 +173,30 @@ public class Sequencer : MonoBehaviour
         dualstageStage++;
         DbgLogSequencer($"Sequencer.IncrementDualstageStage: dualstageStage {before} → {dualstageStage}.");
         UIManager.Instance?.RefreshSessionDualStageBannerFromSequencer(this);
+        UIManager.Instance?.RefreshSkipStageButtonFromSequencer(this);
+    }
+
+    /// <summary>
+    /// Inspector / UI: skip to the <see cref="StageVariant.Code_Dualstage_SectionEnd"/> stage in the active sequence definition, if present.
+    /// Intended while <see cref="dualstageStage"/> is 1 (Skip Stage button visibility).
+    /// </summary>
+    public void SkipToDualstageSectionEndFromUi()
+    {
+        if (dualstageStage != 1)
+            DbgLogSequencer(
+                $"Sequencer.SkipToDualstageSectionEndFromUi: dualstageStage is {dualstageStage} (expected 1); attempting skip anyway.",
+                true);
+
+        if (sequenceRunner == null)
+        {
+            DbgLogSequencer("Sequencer.SkipToDualstageSectionEndFromUi: sequenceRunner is null.", true);
+            return;
+        }
+
+        if (!sequenceRunner.TrySkipToDualstageSectionEndCodeStage())
+            DbgLogSequencer(
+                "Sequencer.SkipToDualstageSectionEndFromUi: current sequence definition has no Code/Code_Dualstage_SectionEnd stage.",
+                true);
     }
 
     /// <summary>Second stage branch = Music (<see cref="dualstageSecondStageIsMusic"/> true, <see cref="dualstageSecondStageIsSoundSelf"/> false).</summary>

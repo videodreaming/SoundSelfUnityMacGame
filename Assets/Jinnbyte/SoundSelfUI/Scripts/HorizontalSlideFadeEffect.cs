@@ -46,6 +46,32 @@ public class HorizontalSlideFadeEffect : MonoBehaviour
 
     public bool IsTransitioning { get; private set; }
 
+    /// <summary>
+    /// Slide-in easing: fast start, decelerating to zero velocity at the end
+    /// (so motion happens while transparent and settles as it becomes visible).
+    /// Quadratic ease-out: 1 - (1 - t)^2.
+    /// </summary>
+    private static float EaseOutSlideIn(float t)
+    {
+        float c = Mathf.Clamp01(t);
+        float inv = 1f - c;
+        return 1f - inv * inv;
+    }
+
+    /// <summary>
+    /// Slide-out easing: starts slow, accelerating to max velocity at the end
+    /// (so motion picks up as the element fades away).
+    /// Quadratic ease-in: t^2.
+    /// </summary>
+    private static float EaseInSlideOut(float t)
+    {
+        float c = Mathf.Clamp01(t);
+        return c * c;
+    }
+
+    private static float Linear01(float elapsed, float duration) =>
+        duration > 0f ? Mathf.Clamp01(elapsed / duration) : 1f;
+
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -82,10 +108,13 @@ public class HorizontalSlideFadeEffect : MonoBehaviour
         while (elapsed < fadeInDuration)
         {
             elapsed += Time.deltaTime;
-            float t = fadeInDuration > 0f ? Mathf.Clamp01(elapsed / fadeInDuration) : 1f;
-            canvasGroup.alpha = Mathf.Lerp(0f, 1f, t);
+            float linearT = Linear01(elapsed, fadeInDuration);
+            canvasGroup.alpha = linearT;
             if (enableMovement && rectTransform != null)
-                rectTransform.anchoredPosition = Vector2.Lerp(startPos, centerAnchoredPosition, t);
+            {
+                float slideT = EaseOutSlideIn(linearT);
+                rectTransform.anchoredPosition = Vector2.Lerp(startPos, centerAnchoredPosition, slideT);
+            }
             yield return null;
         }
         canvasGroup.alpha = 1f;
@@ -123,10 +152,13 @@ public class HorizontalSlideFadeEffect : MonoBehaviour
         while (elapsed < fadeOutDuration)
         {
             elapsed += Time.deltaTime;
-            float t = fadeOutDuration > 0f ? Mathf.Clamp01(elapsed / fadeOutDuration) : 1f;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, t);
+            float linearT = Linear01(elapsed, fadeOutDuration);
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, linearT);
             if (enableMovement && rectTransform != null)
-                rectTransform.anchoredPosition = Vector2.Lerp(startPos, endPos, t);
+            {
+                float slideT = EaseInSlideOut(linearT);
+                rectTransform.anchoredPosition = Vector2.Lerp(startPos, endPos, slideT);
+            }
             yield return null;
         }
         canvasGroup.alpha = 0f;

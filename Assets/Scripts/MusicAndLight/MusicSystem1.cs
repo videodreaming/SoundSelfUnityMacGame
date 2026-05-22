@@ -75,6 +75,8 @@ public class MusicSystem1 : MonoBehaviour
     // FUNDAMENTAL AND HARMONY CONTROL
     private float _queueFundamentalChangeThreshold = 12f;
     private float _initiateImminentFundamentalChangeThreshold = 22f; //was 35f, changed on 4/4/2025
+    private const int _sustainedFundamentalShiftSemitones = -5;
+    private const float _sustainedFundamentalFillRateMultiplier = 0.25f;
     public NoteName fundamentalNoteName = NoteName.A; // Base note around which other notes are calculated
     private NoteName? fundamentalNoteCompare = null; // Used to catch changes that are not triggered in this script, and to compare with the previous fundamentalNoteName for the purpose of changing the fundamental
     public NoteName harmonyNote = NoteName.None; // Note that plays in harmony with the fundamental note
@@ -560,11 +562,90 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
+    private bool TryGetSustainedFundamentalShiftTarget(out NoteName targetFundamental)
+    {
+        targetFundamental = NoteUtils.AddInterval(fundamentalNoteName, _sustainedFundamentalShiftSemitones);
+        if (targetFundamental == NoteName.None)
+        {
+            if (debugAllowWarnings || debugAllowFundamentalLogicLogs)
+            {
+                Debug.LogWarning($"MUSIC: Sustained-root shift invalid for fundamentalNoteName={fundamentalNoteName}");
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private NoteName ResolveFundamentalChangeTarget(NoteName trackedKey)
+    {
+        if (trackedKey == fundamentalNoteName && TryGetSustainedFundamentalShiftTarget(out NoteName target))
+        {
+            return target;
+        }
+        return trackedKey;
+    }
+
+    /// <summary>
+    /// Shared fundamental-change trigger ladder used by both the non-root and sustained-root paths
+    /// in <see cref="FundamentalUpdate"/>. Evaluates lock, retrigger, threshold, and director-match
+    /// gates against the supplied <paramref name="changeTarget"/> and either invokes
+    /// <see cref="ChangeFundamental"/> immediately or queues an Action via the director.
+    /// </summary>
+    /// <param name="changeTarget">The note the fundamental should change to (sung pitch for normal path, shifted pitch for sustained root).</param>
+    /// <param name="newChangeFundamentalTimer">This note's just-incremented ChangeFundamentalTimer.</param>
+    /// <param name="highestFundamentalTimer">Highest ChangeFundamentalTimer across all tracked notes this frame.</param>
+    /// <param name="firstFrameActive">Whether this note just activated this frame (gates longish/short tests).</param>
+    /// <param name="logContext">Suffix appended to debug logs to distinguish sustained-root from normal-path triggers (e.g. " (sustained root)" or "").</param>
+    private void TryApplyFundamentalChangeTriggers(
+        NoteName changeTarget,
+        float newChangeFundamentalTimer,
+        float highestFundamentalTimer,
+        bool firstFrameActive,
+        string logContext)
+    {
+        bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
+        bool retriggerTest = (fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
+        bool test = !IsFundamentalLocked() && retriggerTest && isHighestFundamentalTimer;
+        bool directorMatchTest = directorStoredFundamental != changeTarget;
+
+        bool highThresholdPass = newChangeFundamentalTimer >= _initiateImminentFundamentalChangeThreshold;
+        bool highThresholdPass_variation = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold - 5.0f);
+        bool lowThresholdPass = newChangeFundamentalTimer >= _queueFundamentalChangeThreshold;
+
+        bool longTest = test && highThresholdPass;
+        bool longishTest = test && highThresholdPass_variation && firstFrameActive;
+        bool shortTest = test && lowThresholdPass && directorMatchTest && firstFrameActive;
+
+        if (longTest || longishTest)
+        {
+            if (debugAllowFundamentalLogicLogs)
+            {
+                if (longTest)
+                    Debug.Log("MUSIC: Long Test" + logContext + " Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(changeTarget));
+                else
+                    Debug.Log("MUSIC: Longish Test" + logContext + " Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(changeTarget));
+            }
+
+            ChangeFundamental(changeTarget);
+            director.ActivateQueue(5.0f);
+        }
+        else if (shortTest)
+        {
+            director.ClearQueueOfType("fundamentalChange");
+            director.AddActionToQueue(Action_ChangeFundamental(changeTarget), "fundamentalChange", true, false, 9999f, DirectorActivationBehavior.ExpireWithoutExecuting, DirectorExclusivityBehavior.ReplaceAllOfType);
+            directorStoredFundamental = changeTarget;
+
+            if (debugAllowFundamentalLogicLogs)
+            {
+                Debug.Log("MUSIC: Short Test" + logContext + " New Fundamental Queued: " + NoteUtils.NoteToWwiseString(changeTarget));
+            }
+        }
+    }
+
     //Take the fundamental behaviors in the InterpretImitonUpdate method and move them here for clarity
     private void FundamentalUpdate()
     {
         var updates = new Dictionary<NoteName, (float, bool, bool, float)>();
-        List<float> fundamentalTimerValues = new List<float>();
         float highestFundamentalTimer = 0;
 
         // Cache keys to avoid modifying the dictionary while iterating
@@ -575,7 +656,6 @@ public class MusicSystem1 : MonoBehaviour
             // First get the highest fundamental timer at the start
             foreach (NoteName key in noteKeys)
             {
-                fundamentalTimerValues.Add(NoteTracker[key].ChangeFundamentalTimer);
                 if (NoteTracker[key].ChangeFundamentalTimer > highestFundamentalTimer)
                 {
                     highestFundamentalTimer = NoteTracker[key].ChangeFundamentalTimer;
@@ -590,69 +670,57 @@ public class MusicSystem1 : MonoBehaviour
 
                 if (scaleNote.Active)
                 {
-                    // Use fundamentalNoteName field directly
-                    if (key != fundamentalNoteName)
+                    // Shared inputs for both the non-root and sustained-root paths.
+                    float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(RespirationTracker.instance._absorption, 0, 1) * -1);
+                    bool isSustainedRoot = (key == fundamentalNoteName);
+
+                    float _newChangeMultiplier;
+                    NoteName changeTarget;
+                    bool canTrigger;
+                    string logContext;
+
+                    if (!isSustainedRoot)
                     {
-                        // Conversion point: NoteName -> int for distance calculation
-                        // GetWrappedDistance() handles NoteName enum internally, converts to int for arithmetic
-                        // Calculate the wrapped distance between key and fundamentalNoteName using utility function
+                        // Non-root active note: rate scales with wrapped distance from fundamental; change target is the sung pitch.
+                        // Conversion point: NoteName -> int for distance calculation via GetWrappedDistance.
                         int d = NoteUtils.GetWrappedDistance(key, fundamentalNoteName);
                         if (d < 0)
                         {
-                            if(debugAllowWarnings || debugAllowFundamentalLogicLogs)
+                            if (debugAllowWarnings || debugAllowFundamentalLogicLogs)
                             {
                                 Debug.LogWarning($"MUSIC: GetWrappedDistance() returned -1 (indicating None was passed) for key={key}, fundamentalNoteName={fundamentalNoteName} - distance calculation may be incorrect");
                             }
                         }
-
-                        // Change timer rate based on absorption and wrapped distance from fundamental
-                        float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(RespirationTracker.instance._absorption, 0, 1) * -1);
                         float _fastWhenVeryDifferent = (d > 4 ? 2.0f : 1.0f);
-                        float _newChangeMultiplier = _slowWhenHighAbsorption * _fastWhenVeryDifferent;
-                        newChangeFundamentalTimer += (Time.deltaTime * _newChangeMultiplier);
-
-                        // Fundamental change conditions
-                        bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
-                        bool retriggerTest = (fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
-                        bool test = !IsFundamentalLocked() && retriggerTest && isHighestFundamentalTimer;
-                        bool directorMatchTest = directorStoredFundamental != key;
-
-                        bool highThresholdPass = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold);
-                        bool highThresholdPass_variation = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold - 5.0f);
-                        bool lowThresholdPass = newChangeFundamentalTimer >= (_queueFundamentalChangeThreshold);
-
-                        bool longTest = test && highThresholdPass;
-                        bool longishTest = test && highThresholdPass_variation && scaleNote.FirstFrameActive;
-                        bool shortTest = test && lowThresholdPass && directorMatchTest && scaleNote.FirstFrameActive;
-
-                        if (longTest || longishTest)
-                        {
-                            if (debugAllowFundamentalLogicLogs)
-                            {
-                                if (longTest)
-                                    Debug.Log("MUSIC: Long Test Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(key));
-                                else
-                                    Debug.Log("MUSIC: Longish Test Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(key));
-                            }
-
-                            ChangeFundamental(key);
-                            director.ActivateQueue(5.0f);
-                        }
-                        else if (shortTest)
-                        {
-                            director.ClearQueueOfType("fundamentalChange");
-                            director.AddActionToQueue(Action_ChangeFundamental(key), "fundamentalChange", true, false, 9999f, DirectorActivationBehavior.ExpireWithoutExecuting, DirectorExclusivityBehavior.ReplaceAllOfType);
-                            directorStoredFundamental = key;
-
-                            if (debugAllowFundamentalLogicLogs)
-                            {
-                                Debug.Log("MUSIC: Short Test New Fundamental Queued: " + NoteUtils.NoteToWwiseString(key));
-                            }
-                        }
+                        _newChangeMultiplier = _slowWhenHighAbsorption * _fastWhenVeryDifferent;
+                        changeTarget = key;
+                        canTrigger = true;
+                        logContext = "";
                     }
                     else
                     {
-                        // Reduce timers on other notes when current note is fundamental
+                        // Sustained root: fill at quarter speed; change target is fundamental shifted down 5 semitones.
+                        // canTrigger gates the change ladder so an invalid shift never re-queues the current fundamental.
+                        _newChangeMultiplier = _slowWhenHighAbsorption * _sustainedFundamentalFillRateMultiplier;
+                        canTrigger = TryGetSustainedFundamentalShiftTarget(out changeTarget);
+                        logContext = " (sustained root)";
+                    }
+
+                    newChangeFundamentalTimer += Time.deltaTime * _newChangeMultiplier;
+
+                    if (canTrigger)
+                    {
+                        TryApplyFundamentalChangeTriggers(
+                            changeTarget,
+                            newChangeFundamentalTimer,
+                            highestFundamentalTimer,
+                            scaleNote.FirstFrameActive,
+                            logContext);
+                    }
+
+                    if (isSustainedRoot)
+                    {
+                        // Decay competing notes' timers while the player holds the root.
                         foreach (NoteName otherKey in noteKeys)
                         {
                             if (otherKey != key)
@@ -1604,27 +1672,29 @@ public class MusicSystem1 : MonoBehaviour
             // Change fundamental if above threshold and valid note found
             if (highestFundamentalTimer >= _queueFundamentalChangeThreshold && newFundamental.HasValue)
             {
+                NoteName changeTarget = ResolveFundamentalChangeTarget(newFundamental.Value);
+
                 // If timer is above immediate threshold, trigger change immediately
                 // Otherwise, queue it for later execution
                 if (highestFundamentalTimer >= _initiateImminentFundamentalChangeThreshold)
                 {
                     // Timer is high enough for immediate change - trigger it now
-                    ChangeFundamental(newFundamental.Value);
+                    ChangeFundamental(changeTarget);
                     director.ActivateQueue(5.0f);
                     if(debugAllowFundamentalLockLogs || debugAllowFundamentalChangeLogs)
                     {
-                        Debug.Log("MUSIC FUNDAMENTAL MODE UNLOCK: Fundamental Changed Immediately on Unlock (high threshold): " + NoteUtils.NoteToWwiseString(newFundamental.Value));
+                        Debug.Log("MUSIC FUNDAMENTAL MODE UNLOCK: Fundamental Changed Immediately on Unlock (high threshold): " + NoteUtils.NoteToWwiseString(changeTarget));
                     }
                 }
                 else
                 {
                     // Timer is above queue threshold but below immediate threshold - queue it
                     director.ClearQueueOfType("fundamentalChange");
-                    director.AddActionToQueue(Action_ChangeFundamental(newFundamental.Value), "fundamentalChange", true, false, 120f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
-                    directorStoredFundamental = newFundamental.Value;
+                    director.AddActionToQueue(Action_ChangeFundamental(changeTarget), "fundamentalChange", true, false, 120f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
+                    directorStoredFundamental = changeTarget;
                     if(debugAllowFundamentalLockLogs || debugAllowFundamentalChangeLogs)
                     {
-                        Debug.Log("MUSIC FUNDAMENNTAL MODE UNLOCK: New Fundamental Queued on Unlock: " + NoteUtils.NoteToWwiseString(newFundamental.Value));
+                        Debug.Log("MUSIC FUNDAMENNTAL MODE UNLOCK: New Fundamental Queued on Unlock: " + NoteUtils.NoteToWwiseString(changeTarget));
                     }
                 }
             }

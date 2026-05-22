@@ -54,7 +54,8 @@ namespace SoundSelf.Sequence
             {
                 UIManager.Instance.SetMeditationScreen();
                 UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
-                UIManager.Instance.EnableSkipButton(true, "Skip Savasana");
+                UIManager.Instance.RefreshSkipStageButtonFromSequencer(_sequencer);
+                UIManager.Instance.EnableSkipButton(false, null);
             }
             if (_sequencer.director == null)
             {
@@ -99,6 +100,10 @@ namespace SoundSelf.Sequence
                     AVSSequence.instance.StartDropToDelta();
                 else
                     Debug.LogError("SavasanaStageHandler: AVSSequence.instance is null. Cannot start DropToDelta.");
+            }
+            if (IsStandardVariant())
+            {
+                _sequencer.FadePreferredColorDarkAndStopAvs();
             }
         }
 

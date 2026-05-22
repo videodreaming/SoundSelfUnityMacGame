@@ -18,8 +18,12 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] private int micReadChunkSize = 2048;
     [Tooltip("Retry interval used when microphone device is unavailable or capture fails.")]
     [SerializeField] private float recoveryRetryIntervalSeconds = 1f;
-    [Tooltip("How many consecutive frames with no write-head movement trigger mic recovery.")]
-    [SerializeField] private int stalledWriteHeadFrameThreshold = 120;
+    [Tooltip("How long (seconds) with no microphone write-head movement before mic recovery is scheduled. " +
+             "Replaces the previous frame-count threshold so behavior is FPS-independent — default 2 s " +
+             "preserves the original 60 FPS / 120-frame timing across the 30 / 20 FPS power-aware caps. " +
+             "Uses Time.unscaledDeltaTime so recovery still fires on wall-clock time even if Time.timeScale " +
+             "is ever changed.")]
+    [SerializeField] private float stalledWriteHeadTimeoutSeconds = 2f;
     [Tooltip("Second Microphone.GetPosition() when first is in-range; use if different (some platforms report a stale head on the first poll). F1-hybrid producer defense — keep on.")]
     [SerializeField] private bool micWriteHeadDoublePoll = true;
 
@@ -124,7 +128,11 @@ public partial class ImitoneVoiceIntepreter
     private int micInputChannels = 1;
     private bool micInputWasDownmixedToMono;
     private int lastMicWritePosition = -1;
+    // stalledWriteHeadFrameCount is retained purely for telemetry (debugMicLastStalledWriteHeadFrameCount,
+    // MicVoiceIngestDebugAggregate.aggMicStalledWriteHeadFrames). The actual recovery trigger now uses
+    // stalledWriteHeadStallSeconds so behavior is FPS-independent.
     private int stalledWriteHeadFrameCount;
+    private float stalledWriteHeadStallSeconds;
     private float nextRecoveryAttemptTime;
     private bool recoveryWarningLogged;
     private float[] latestRawFrame = Array.Empty<float>();
@@ -844,14 +852,16 @@ public partial class ImitoneVoiceIntepreter
         if (lastMicWritePosition == micPosWrite)
         {
             stalledWriteHeadFrameCount++;
+            stalledWriteHeadStallSeconds += Time.unscaledDeltaTime;
         }
         else
         {
             stalledWriteHeadFrameCount = 0;
+            stalledWriteHeadStallSeconds = 0f;
         }
         lastMicWritePosition = micPosWrite;
 
-        if (stalledWriteHeadFrameCount >= Mathf.Max(5, stalledWriteHeadFrameThreshold))
+        if (stalledWriteHeadStallSeconds >= Mathf.Max(0.1f, stalledWriteHeadTimeoutSeconds))
         {
             ScheduleRecoveryAttempt($"Detected stalled microphone write-head for device '{microphoneDeviceName}'.");
             int clipSamplesForDebug = microphoneBuffer.samples;
@@ -1094,6 +1104,7 @@ public partial class ImitoneVoiceIntepreter
         micPosRead = 0;
         lastMicWritePosition = -1;
         stalledWriteHeadFrameCount = 0;
+        stalledWriteHeadStallSeconds = 0f;
         captureEpoch++;
         micInputChannels = Mathf.Max(1, microphoneBuffer.channels);
         micInputWasDownmixedToMono = micInputChannels > (int)channelMode;
@@ -1275,6 +1286,7 @@ public partial class ImitoneVoiceIntepreter
         micPosRead = 0;
         lastMicWritePosition = -1;
         stalledWriteHeadFrameCount = 0;
+        stalledWriteHeadStallSeconds = 0f;
     }
 
     // runs on: main thread (Unity lifecycle). Stops both capture paths in the right order — audio

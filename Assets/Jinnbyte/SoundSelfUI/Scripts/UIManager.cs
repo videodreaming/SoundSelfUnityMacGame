@@ -65,6 +65,7 @@ public static class UIManagerTiming
 /// Session UI: battery/timer, screen roots with <see cref="ScreenFadeEffect"/>, and button debounce.
 /// <para><b>Choice menus</b> (<see cref="ChoiceScreen"/>, <see cref="ChoiceMenuScreen"/>): use <see cref="SetChoiceScreen"/>; forward navigation can push a return target onto <c>_choiceMenuBackStack</c>; Back uses <see cref="ChoiceMenuBackButtonPress"/>. <see cref="ChoiceScreen.SsOrMusic"/> arms a one-shot back anchor so child screens still record SS/Music even when that screen is not yet <c>activeSelf</c> during fades.</para>
 /// <para><b>Session skip</b>: <see cref="EnableSkipButton"/> + <see cref="SkipButtonPress"/> → <see cref="OnSkipSessionButtonPress"/> (Sequencer invokes the current stage handler skip hook, then sequence command EndThisSequenceStage).</para>
+/// <para><b>Dual-stage skip</b>: <see cref="EnableSkipStageButton"/> / <see cref="RefreshSkipStageButtonFromSequencer"/> — visible only when <see cref="Sequencer.dualstageStage"/> is 1; wire the button to <see cref="Sequencer.SkipToDualstageSectionEndFromUi"/>.</para>
 /// </summary>
 public class UIManager : MonoBehaviour
 {
@@ -114,6 +115,9 @@ public class UIManager : MonoBehaviour
     [Header("Meditation session — skip (assign Skip Button root; add ScreenFadeEffect on same object for session fades)")]
     [SerializeField] private GameObject skipSessionButton;
     [SerializeField] private Text skipSessionButtonText;
+
+    [Header("Dual-stage — Skip Stage (assign root; optional ScreenFadeEffect; wire OnClick to Sequencer.SkipToDualstageSectionEndFromUi)")]
+    [SerializeField] private GameObject skipStageButton;
 
     [Header("Meditation session — section headers (each row: CanvasGroup + ScreenFadeEffect, under Headers)")]
     [SerializeField] private GameObject sessionHeaderOpeningMeditation;
@@ -310,6 +314,7 @@ public class UIManager : MonoBehaviour
                 EnableSkipButton(true, "Skip Calibration (Not Recommended)");
             else
                 EnableSkipButton(false, null);
+            EnableSkipStageButton(false);
             ArmButtonInteractionCooldown();
         }, keepCalibrationHead: true, reverse: reverse);
     }
@@ -900,6 +905,9 @@ public class UIManager : MonoBehaviour
             if (_calibrationHeadGroup == null)
                 _calibrationHeadGroup = calibrationHeadText.AddComponent<CanvasGroup>();
         }
+
+        if (duskBackground != null)
+            _duskBackgroundShouldBeVisible = duskBackground.gameObject.activeSelf;
     }
 
     void Start()
@@ -1338,6 +1346,34 @@ public class UIManager : MonoBehaviour
         ArmButtonInteractionCooldown();
     }
 
+    /// <summary>Shows or hides the dual-stage Skip Stage control. Prefer <see cref="RefreshSkipStageButtonFromSequencer"/> from stage handlers.</summary>
+    public void EnableSkipStageButton(bool enabled)
+    {
+        if (skipStageButton == null)
+            return;
+        if (enabled)
+        {
+            if (!skipStageButton.activeSelf)
+                skipStageButton.SetActive(true);
+        }
+        else
+        {
+            if (!skipStageButton.activeSelf)
+                return;
+            var fade = skipStageButton.GetComponent<ScreenFadeEffect>();
+            if (fade != null)
+                fade.FadeOut(() => skipStageButton.SetActive(false));
+            else
+                skipStageButton.SetActive(false);
+        }
+    }
+
+    /// <summary>Skip Stage visible only when <see cref="Sequencer.dualstageStage"/> is 1.</summary>
+    public void RefreshSkipStageButtonFromSequencer(Sequencer sequencer)
+    {
+        EnableSkipStageButton(sequencer != null && sequencer.dualstageStage == 1);
+    }
+
     /// <summary>Wire the session skip control (meditation HUD). Root should use <see cref="ScreenFadeEffect"/> like other session rows. <paramref name="labelWhenEnabling"/> applies only when <paramref name="enabled"/> is true.</summary>
     public void EnableSkipButton(bool enabled, string labelWhenEnabling)
     {
@@ -1415,7 +1451,14 @@ public class UIManager : MonoBehaviour
         endMeditationScreen.SetActive(false);
     }
 
-    /// <summary>Fades in/out the shared dusk backdrop. No-op if already in the requested visible state (idempotent).</summary>
+    /// <summary>
+    /// Tracks the intended dusk visibility so back-to-back ShowDuskBackground calls
+    /// during a fade (e.g. transient stages flipping it off and on again) don't reverse direction:
+    /// we compare against intent, not <c>gameObject.activeSelf</c> (which goes false only after the FadeOut callback).
+    /// </summary>
+    private bool _duskBackgroundShouldBeVisible;
+
+    /// <summary>Fades in/out the shared dusk backdrop. No-op if intent and GameObject state already match (idempotent).</summary>
     public void ShowDuskBackground(bool show)
     {
         if (duskBackground == null)
@@ -1423,8 +1466,10 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("UIManager.ShowDuskBackground: duskBackground is not assigned.");
             return;
         }
-        if (show == duskBackground.gameObject.activeSelf)
+        bool isActive = duskBackground.gameObject.activeSelf;
+        if (show == _duskBackgroundShouldBeVisible && show == isActive)
             return;
+        _duskBackgroundShouldBeVisible = show;
         if (show)
         {
             duskBackground.gameObject.SetActive(true);
@@ -1432,14 +1477,31 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            duskBackground.GetComponent<ScreenFadeEffect>()?.FadeOut(() =>
+            var fade = duskBackground.GetComponent<ScreenFadeEffect>();
+            if (fade != null)
             {
-                duskBackground.gameObject.SetActive(false);
-                UIBlurManager.Instance.SetGraphic(GetComponent<Image>());
-
-            });
+                fade.FadeOut(() =>
+                {
+                    // Late-check: if intent flipped back to visible during the fade,
+                    // a fresh ShowDuskBackground(true) has already been issued — don't undo it.
+                    if (_duskBackgroundShouldBeVisible)
+                        return;
+                    ApplyDuskBackgroundHiddenImmediate();
+                });
+            }
+            else
+                ApplyDuskBackgroundHiddenImmediate();
         }
 
+    }
+
+    private void ApplyDuskBackgroundHiddenImmediate()
+    {
+        if (_duskBackgroundShouldBeVisible || duskBackground == null)
+            return;
+        duskBackground.gameObject.SetActive(false);
+        if (UIBlurManager.Instance != null)
+            UIBlurManager.Instance.SetGraphic(GetComponent<Image>());
     }
     public void ShowWarrningScreen(bool show)
     {

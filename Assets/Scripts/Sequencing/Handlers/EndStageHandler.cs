@@ -35,6 +35,7 @@ namespace SoundSelf.Sequence
             {
                 UIManager.Instance.SetEndMeditationScreen();
                 UIManager.Instance.EnableSkipButton(false, null);
+                UIManager.Instance.EnableSkipStageButton(false);
             }
             else
                 Debug.LogWarning("EndStageHandler: UIManager.Instance is null; cannot show Meditation Session — End.");
