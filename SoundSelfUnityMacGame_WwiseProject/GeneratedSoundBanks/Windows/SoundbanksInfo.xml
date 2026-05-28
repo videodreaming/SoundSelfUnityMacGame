@@ -403,7 +403,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{39426074-D916-EF5F-1BC5-BE6F78782014}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{E606DB19-25C7-36F3-7DAA-2AE35EA9A347}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -3615,7 +3615,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{E1E6E5B4-838C-85B6-2CFB-76A6208D6E8F}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{E4CB7E0A-0B74-1A7B-1F5E-E00108736D01}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -4346,7 +4346,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{4D952694-AE61-F9FC-51F8-FF06709BDF54}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{5F9E983B-4C9A-690F-9A7F-7180CA6B4248}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -6451,7 +6451,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{488F319F-C2AC-B43F-7025-C61DD37A335D}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{E91DEF69-361D-8136-10E4-E99FD05D3F4D}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -11326,6 +11326,7 @@
 				<Event Id="1761697258" Name="Stop_MusicLoops"/>
 				<Event Id="825137487" Name="Stop_MusicPlaylist"/>
 				<Event Id="4041051749" Name="Stop_sfx_breathworkcycle"/>
+				<Event Id="1336695519" Name="Stop_sfx_SoundSeed_BreathCycle"/>
 				<Event Id="674892661" Name="Stop_sfx_SoundSeed_BreathCycleWind"/>
 				<Event Id="2822016348" Name="Stop_SilentLoops"/>
 				<Event Id="4080801332" Name="Stop_SilentLoops_v3_FundamentalOnly"/>
@@ -11500,5 +11501,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{45B3C421-5E56-6269-CAB5-692EA3E69014}</FileHash>
+	<FileHash>{40201164-4D3D-B2ED-3547-0C4965CE7493}</FileHash>
 </SoundBanksInfo>
