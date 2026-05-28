@@ -373,6 +373,21 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Stop_sfx_SoundSeed_BreathCycle" ID="{B4D03D66-152F-4DCC-A6AE-4BD9B226904C}">
+					<ChildrenList>
+						<Action Name="" ID="{2D99EDBB-6B9A-43BD-B84D-79CEEDA7176F}" ShortID="87721512">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

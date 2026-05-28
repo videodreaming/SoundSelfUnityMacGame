@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="150">
 	<SoundBanks>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{8BE3D043-E695-4786-D0ED-A2D6187C196A}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{E91DEF69-361D-8136-10E4-E99FD05D3F4D}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -4876,6 +4876,7 @@
 				<Event Id="1761697258" Name="Stop_MusicLoops"/>
 				<Event Id="825137487" Name="Stop_MusicPlaylist"/>
 				<Event Id="4041051749" Name="Stop_sfx_breathworkcycle"/>
+				<Event Id="1336695519" Name="Stop_sfx_SoundSeed_BreathCycle"/>
 				<Event Id="674892661" Name="Stop_sfx_SoundSeed_BreathCycleWind"/>
 				<Event Id="2822016348" Name="Stop_SilentLoops"/>
 				<Event Id="4080801332" Name="Stop_SilentLoops_v3_FundamentalOnly"/>
@@ -5050,5 +5051,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{CB3B2B9C-9DEB-CE5C-B3A5-D8C28457341D}</FileHash>
+	<FileHash>{88C73CC2-6387-F1E8-A0CF-6D0204D1AB68}</FileHash>
 </SoundBanksInfo>
