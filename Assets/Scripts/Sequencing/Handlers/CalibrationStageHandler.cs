@@ -379,7 +379,7 @@ namespace SoundSelf.Sequence
             {
                 if (UIManager.Instance != null)
                 {
-                    UIManager.Instance.EnableSkipButton(false, null);
+                    UIManager.Instance.EnableSkipButton(false);
                     UIManager.Instance.SetCalibrationStepNextCuePendingVisual(CalibrationUI.Start, true);
                 }
                 Debug.Log("CalibrationStageHandler: Start Next pressed; skip hidden and loading spinner shown. Auto-advance happens on Cue_Calibration_Intro_End.");

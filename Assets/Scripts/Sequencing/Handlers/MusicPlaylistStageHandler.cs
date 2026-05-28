@@ -71,7 +71,7 @@ namespace SoundSelf.Sequence
                 UIManager.Instance.SetSessionSectionHeader(SessionSectionHeaderKind.Music);
                 UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
                 UIManager.Instance.RefreshSkipStageButtonFromSequencer(_sequencer);
-                UIManager.Instance.EnableSkipButton(false, null);
+                UIManager.Instance.EnableSkipButton(false);
             }
         }
 

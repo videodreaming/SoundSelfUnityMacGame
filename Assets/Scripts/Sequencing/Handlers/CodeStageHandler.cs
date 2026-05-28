@@ -34,7 +34,7 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             if (UIManager.Instance != null)
             {
-                UIManager.Instance.EnableSkipButton(false, null);
+                UIManager.Instance.EnableSkipButton(false);
                 UIManager.Instance.EnableSkipStageButton(false);
             }
 

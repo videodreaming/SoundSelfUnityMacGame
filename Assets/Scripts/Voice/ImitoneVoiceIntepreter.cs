@@ -39,7 +39,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     // Are we using this action? Robin doesn't understand how an action works.
     public Action<float> OnNewTone;
     public bool gameOn = false;
-    private bool gameOnLastFrame = true;
+    private bool gameOnLastFrame = false;
 
     [Tooltip("imitoneActive when toning.")]
     public bool imitoneActive { get; private set; } = false;
@@ -348,6 +348,10 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     [SerializeField] private volatile bool _lowPassFilterEnabled = true;
     [SerializeField] private volatile float _lowPassCutoffHz = 520f;
 
+    [Header("Debug — gameOn (critical session path)")]
+    [Tooltip("Logs every gameOn transition. SetGameOn() and direct assignments to gameOn (e.g. MusicSystem1) are reported separately.")]
+    [SerializeField] private bool debugAllowGameOnLogs = false;
+
     // Debug log category flags
     private bool debugAllowInitializationLogs = true;
    // private bool debugAllowToneActiveLogs = true;
@@ -423,20 +427,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
 
         if (gameOn != gameOnLastFrame)
         {
-            if (gameOn)
-            {
-                if(debugAllowMonitoringLogs)
-                {
-                    Debug.Log("Imitone: Game On");
-                }
-            }
-            else
-            {
-                if(debugAllowMonitoringLogs)
-                {
-                    Debug.Log("Imitone: Game Off");
-                }
-            }
+            LogGameOnTransition(gameOn, "direct assignment");
             gameOnLastFrame = gameOn;
         }
     }
@@ -1327,22 +1318,21 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
 
     public void SetGameOn(bool monitorOn)
     {
-        if (monitorOn)
-        {
-            if(debugAllowMonitoringLogs)
-            {
-                Debug.Log("Imitone: Monitoring start");
-            }
-            gameOn = true;
-        }
-        else
-        {
-            if(debugAllowMonitoringLogs)
-            {
-                Debug.Log("Imitone: Monitoring stop");
-            }
-            gameOn = false;
-        }
+        if (monitorOn == gameOn)
+            return;
+
+        gameOn = monitorOn;
+        gameOnLastFrame = monitorOn;
+        LogGameOnTransition(monitorOn, "SetGameOn");
+    }
+
+    private void LogGameOnTransition(bool on, string source)
+    {
+        if (!debugAllowGameOnLogs)
+            return;
+        Debug.Log(on
+            ? $"Imitone gameOn: ON ({source})"
+            : $"Imitone gameOn: OFF ({source})");
     }
 
     private void Wwise_BreathSound (float _input, float _addition = 0.0f) //THIS LOOKS PRETTY BROKEN TO ME

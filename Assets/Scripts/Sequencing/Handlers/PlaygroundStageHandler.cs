@@ -72,7 +72,7 @@ namespace SoundSelf.Sequence
                 UIManager.Instance.SetSessionSectionHeader(SessionSectionHeaderKind.Playground);
                 UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
                 UIManager.Instance.RefreshSkipStageButtonFromSequencer(_sequencer);
-                UIManager.Instance.EnableSkipButton(false, null);
+                UIManager.Instance.EnableSkipButton(false);
             }
 
             _sequencer.ForceSequenceAdvanceRequested = false;

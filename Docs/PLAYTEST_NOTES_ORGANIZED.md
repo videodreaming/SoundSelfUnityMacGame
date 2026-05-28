@@ -55,13 +55,13 @@ flowchart TD
 
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
-| - [ ] | Skip calibration label | Remove “(Not Recommended)” from skip button — Lorna: remove “not recommended” | [`UIManager.cs`](../Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs) — `SetCalibrationScreen` |
-| - [ ] | Stage labels | Change “Stage One:” / “Stage Two:” to remove colons | Unity scene/prefab (not code) |
-| - [ ] | End-of-session text | Make end text bigger and more legible | Unity scene/prefab (not code) |
-| - [ ] | Health log noise | Hide `DirectVoiceMonitoring Health` log (Inspector `logHealthSummary` or code gate) | [`DirectVoiceMonitoring.cs`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) |
-| - [ ] | `gameOn` logging | Add dedicated allow-logs flag for `gameOn` (critical; separate from general debug) | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs) |
-| - [ ] | Vibro troubleshooting copy | Calibration troubleshooting for vibroacoustic: include quitting and restarting the tablet | Calibration UI / [`UIManager.cs`](../Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs) |
-| - [ ] | Launcher copy | Review launcher copy and troubleshooting section clarity | **Non-Unity** — [Appendix A](#appendix-a--externallorna--non-unity-batch-together) |
+| - [x] | Skip calibration label | Remove “(Not Recommended)” from skip button — Lorna: remove “not recommended” | [`UIManager.cs`](../Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs) — `SetCalibrationScreen` |
+| - [x] | Stage labels | Change “Stage One:” / “Stage Two:” to remove colons | Unity scene/prefab (not code) |
+| - [x] | End-of-session text | Make end text bigger and more legible | Unity scene/prefab (not code) |
+| - [x] | Health log noise | Hide `DirectVoiceMonitoring Health` log (Inspector `logHealthSummary` or code gate) | [`DirectVoiceMonitoring.cs`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) |
+| - [x] | `gameOn` logging | Add dedicated allow-logs flag for `gameOn` (critical; separate from general debug) | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs) |
+| - [x] | Vibro troubleshooting copy | Calibration troubleshooting for vibroacoustic: include quitting and restarting the tablet | Calibration UI / [`UIManager.cs`](../Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs) |
+| - [~] | Launcher copy | Review launcher copy and troubleshooting section clarity | **Non-Unity** — [Appendix A](#appendix-a--externallorna--non-unity-batch-together) |
 
 ---
 

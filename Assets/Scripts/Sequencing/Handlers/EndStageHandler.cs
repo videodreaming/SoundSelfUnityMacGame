@@ -34,7 +34,7 @@ namespace SoundSelf.Sequence
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.SetEndMeditationScreen();
-                UIManager.Instance.EnableSkipButton(false, null);
+                UIManager.Instance.EnableSkipButton(false);
                 UIManager.Instance.EnableSkipStageButton(false);
             }
             else

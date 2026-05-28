@@ -44,7 +44,7 @@ namespace SoundSelf.Sequence
             Debug.Log($"{LogPrefix} Enter variant={variant}.");
 
             if (UIManager.Instance != null)
-                UIManager.Instance.EnableSkipButton(false, null);
+                UIManager.Instance.EnableSkipButton(false);
 
             var tt = TimeTrackerScript.instance;
             if (tt == null)

@@ -114,7 +114,6 @@ public class UIManager : MonoBehaviour
 
     [Header("Meditation session — skip (assign Skip Button root; add ScreenFadeEffect on same object for session fades)")]
     [SerializeField] private GameObject skipSessionButton;
-    [SerializeField] private Text skipSessionButtonText;
 
     [Header("Dual-stage — Skip Stage (assign root; optional ScreenFadeEffect; wire OnClick to Sequencer.SkipToDualstageSectionEndFromUi)")]
     [SerializeField] private GameObject skipStageButton;
@@ -140,7 +139,6 @@ public class UIManager : MonoBehaviour
     private int _sessionSectionHeaderTransitionToken;
     private int _sessionDualBannerTransitionToken;
 
-    private bool _skipButtonSuppressTextChanges;
     private bool _skipSessionButtonFadeOutPending;
 
     private CalibrationUI _activeCalibrationUi = CalibrationUI.Start;
@@ -311,9 +309,9 @@ public class UIManager : MonoBehaviour
                     break;
             }
             if (screen == CalibrationUI.Start)
-                EnableSkipButton(true, "Skip Calibration (Not Recommended)");
+                EnableSkipButton(true);
             else
-                EnableSkipButton(false, null);
+                EnableSkipButton(false);
             EnableSkipStageButton(false);
             ArmButtonInteractionCooldown();
         }, keepCalibrationHead: true, reverse: reverse);
@@ -1374,8 +1372,8 @@ public class UIManager : MonoBehaviour
         EnableSkipStageButton(sequencer != null && sequencer.dualstageStage == 1);
     }
 
-    /// <summary>Wire the session skip control (meditation HUD). Root should use <see cref="ScreenFadeEffect"/> like other session rows. <paramref name="labelWhenEnabling"/> applies only when <paramref name="enabled"/> is true.</summary>
-    public void EnableSkipButton(bool enabled, string labelWhenEnabling)
+    /// <summary>Wire the session skip control (calibration only). Label is set on the button in Unity. Root should use <see cref="ScreenFadeEffect"/> like other session rows.</summary>
+    public void EnableSkipButton(bool enabled)
     {
         if (skipSessionButton == null)
         {
@@ -1386,8 +1384,6 @@ public class UIManager : MonoBehaviour
 
         if (enabled)
         {
-            if (!_skipButtonSuppressTextChanges && skipSessionButtonText != null)
-                skipSessionButtonText.text = labelWhenEnabling ?? string.Empty;
             if (!skipSessionButton.activeSelf)
                 skipSessionButton.SetActive(true);
         }
@@ -1419,13 +1415,11 @@ public class UIManager : MonoBehaviour
 
         var fade = skipSessionButton.GetComponent<ScreenFadeEffect>();
         _skipSessionButtonFadeOutPending = true;
-        _skipButtonSuppressTextChanges = true;
         if (fade != null)
         {
             fade.FadeOut(() =>
             {
                 _skipSessionButtonFadeOutPending = false;
-                _skipButtonSuppressTextChanges = false;
                 skipSessionButton.SetActive(false);
                 OnSkipSessionButtonPress?.Invoke();
                 ArmButtonInteractionCooldown();
@@ -1434,7 +1428,6 @@ public class UIManager : MonoBehaviour
         else
         {
             _skipSessionButtonFadeOutPending = false;
-            _skipButtonSuppressTextChanges = false;
             skipSessionButton.SetActive(false);
             OnSkipSessionButtonPress?.Invoke();
             ArmButtonInteractionCooldown();
