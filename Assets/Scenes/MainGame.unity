@@ -12224,7 +12224,7 @@ MonoBehaviour:
   sequencer: {fileID: 1564575221}
   wwiseVOManager: {fileID: 486583134}
   hummingbirdContentPackRegistry: {fileID: 11400000, guid: 6b27cb3688869dd42b890da92109d2c2, type: 2}
-  hummingbirdContentPackOverride: {fileID: 11400000, guid: 6e55b0018e84b614dbed538342011c47, type: 2}
+  hummingbirdContentPackOverride: {fileID: 11400000, guid: bfb436b45ee21f443a4800a1a029ac5a, type: 2}
   firstTimeUserWhenContentPackOverride: 1
   timeToPlayClosingGoodbye: 0
   totalTimeOfPostUnguidedVocalizationContent: 0
@@ -29214,7 +29214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1653382167
 RectTransform:
   m_ObjectHideFlags: 0
