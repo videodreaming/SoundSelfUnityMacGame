@@ -42,9 +42,10 @@ namespace SoundSelf.Sequence
         private bool _hasCapturedNormalizationRiseRate;
         private float _capturedNormalizationRiseRateDbPerSecond;
         private const float CalibrationNormalizationRiseRateMultiplier = 6f;
-        private const string CalibrationMicMixerVolumeContributionName = "Calibration";
-        private const float CalibrationMicMixerVolumeContributionDb = -6f;
+        private const float CalibrationMicTestExtraDb = -6f;
+        private const float CalibrationMicTestLerpSeconds = 1f;
         private bool _hasClaimedMonitoringOverride;
+        private DirectVoiceMonitoring _directVoiceMonitoring;
 
         private const float CalibrationCueWaitTimeoutSeconds = 120f;
 
@@ -130,7 +131,8 @@ namespace SoundSelf.Sequence
                 case SequenceCommand.CalibrationAvsStart:
                     if (LightControl.instance != null && LightControl.instance.gameObject.activeInHierarchy)
                     {
-                        LightControl.instance.SetPreferredColor("White", 5.0f);
+                        LightControl.instance.SetCalibrationColorWorldStageActive(true);
+                        LightControl.instance.SetPreferredColor(PreferredColorWorld.Calibration, 5.0f);
                         LightControl.instance.SetStrobeRate(10f, 0.0f);
                     }
                     else
@@ -138,7 +140,10 @@ namespace SoundSelf.Sequence
                     break;
                 case SequenceCommand.CalibrationAvsEnd:
                     if (LightControl.instance != null && LightControl.instance.gameObject.activeInHierarchy)
+                    {
+                        LightControl.instance.SetCalibrationColorWorldStageActive(false);
                         LightControl.instance.LightSettingsInitialization(5.0f);
+                    }
                     else
                         Debug.LogError("CalibrationStageHandler: CalibrationAvsEnd — LightControl.instance is null or inactive; cannot restore lights.");
                     break;
@@ -170,6 +175,7 @@ namespace SoundSelf.Sequence
                 RefreshCalibrationProgressUi();
                 SubscribeCalibrationUiListeners();
                 EnforceGameOnForStep(_steps[_stepIndex]);
+                SyncOrientationNoiseFloorForCurrentStep();
             }
             else
                 Debug.LogError("CalibrationStageHandler: Sequencer or calibrationMenu is null. Cannot start calibration UI.");
@@ -205,18 +211,55 @@ namespace SoundSelf.Sequence
                 return;
 
             _sequencer.imitoneVoiceInterpreter.SetGameOn(CalibrationStepUsesGameOn(step));
+            SyncMicMixerForCalibrationStep(step);
+        }
+
+        private void SyncOrientationNoiseFloorForCurrentStep()
+        {
+            if (_steps == null || _stepIndex < 0 || _stepIndex >= _steps.Length)
+                return;
+
+            if (_steps[_stepIndex] == CalibrationUI.Start)
+                _sequencer?.imitoneVoiceInterpreter?.BeginOrientationNoiseFloorSampling();
+        }
+
+        private void EndOrientationNoiseFloorIfOnStartStep()
+        {
+            if (_steps == null || _stepIndex < 0 || _stepIndex >= _steps.Length)
+                return;
+
+            if (_steps[_stepIndex] == CalibrationUI.Start)
+                _sequencer?.imitoneVoiceInterpreter?.EndOrientationNoiseFloorSamplingAndCommit();
+        }
+
+        private DirectVoiceMonitoring ResolveDirectVoiceMonitoring()
+        {
+            if (_directVoiceMonitoring == null)
+                _directVoiceMonitoring = Object.FindObjectOfType<DirectVoiceMonitoring>();
+            return _directVoiceMonitoring;
+        }
+
+        /// <summary>Mic test step only: lerp an extra −6 dB MicMixer contribution in/out (vibro stays at gameplay bus sum).</summary>
+        private void SyncMicMixerForCalibrationStep(CalibrationUI step)
+        {
+            var monitoring = ResolveDirectVoiceMonitoring();
+            if (monitoring == null)
+                return;
+
+            float targetDb = step == CalibrationUI.Microphone ? CalibrationMicTestExtraDb : 0f;
+            monitoring.LerpMicMixerVolumeContributionTo(
+                DirectVoiceMonitoring.CalibrationMicrophoneContributionName,
+                targetDb,
+                CalibrationMicTestLerpSeconds);
         }
 
         private void ApplyCalibrationMonitoringBoost()
         {
-            var directVoiceMonitoring = Object.FindObjectOfType<DirectVoiceMonitoring>();
+            var directVoiceMonitoring = ResolveDirectVoiceMonitoring();
             if (directVoiceMonitoring != null)
             {
                 directVoiceMonitoring.AttenuateMonitoring(false);
                 directVoiceMonitoring.SetChantBasedAttenuationOverride(true);
-                directVoiceMonitoring.SetMicMixerVolumeContributionDb(
-                    CalibrationMicMixerVolumeContributionName,
-                    CalibrationMicMixerVolumeContributionDb);
             }
             if (MusicSystem1.instance != null)
             {
@@ -244,11 +287,12 @@ namespace SoundSelf.Sequence
             }
             _hasCapturedNormalizationRiseRate = false;
 
-            var directVoiceMonitoring = Object.FindObjectOfType<DirectVoiceMonitoring>();
+            var directVoiceMonitoring = ResolveDirectVoiceMonitoring();
             if (directVoiceMonitoring != null)
             {
+                directVoiceMonitoring.CancelMicMixerVolumeContributionLerp(DirectVoiceMonitoring.CalibrationMicrophoneContributionName);
                 directVoiceMonitoring.SetChantBasedAttenuationOverride(false);
-                directVoiceMonitoring.RemoveMicMixerVolumeContribution(CalibrationMicMixerVolumeContributionName);
+                directVoiceMonitoring.RemoveMicMixerVolumeContribution(DirectVoiceMonitoring.CalibrationMicrophoneContributionName);
             }
 
             if (_hasClaimedMonitoringOverride && MusicSystem1.instance != null)
@@ -417,6 +461,7 @@ namespace SoundSelf.Sequence
             if (_stepIndex < 0 || _stepIndex >= _steps.Length - 1)
                 return;
 
+            EndOrientationNoiseFloorIfOnStartStep();
             _stepIndex++;
             Debug.Log("CalibrationStageHandler: Next step → index " + _stepIndex + " screen " + _steps[_stepIndex]);
             UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
@@ -504,6 +549,7 @@ namespace SoundSelf.Sequence
             if (_sequencer != null && _sequencer.calibrationMenu != null)
                 _sequencer.calibrationMenu.RestartFromPortion(_sequencer, MapStepToPortion(_steps[_stepIndex]));
             EnforceGameOnForStep(_steps[_stepIndex]);
+            SyncOrientationNoiseFloorForCurrentStep();
         }
 
         private void HandleCalibrationConclusionConfirmPress()
@@ -652,7 +698,12 @@ namespace SoundSelf.Sequence
 
             UnsubscribeCalibrationUiListeners();
 
+            if (LightControl.instance != null)
+                LightControl.instance.SetCalibrationColorWorldStageActive(false);
+
             ReleaseCalibrationMonitoringBoost();
+
+            EndOrientationNoiseFloorIfOnStartStep();
 
             if (_sequencer != null && _sequencer.imitoneVoiceInterpreter != null)
                 _sequencer.imitoneVoiceInterpreter.SetGameOn(false);

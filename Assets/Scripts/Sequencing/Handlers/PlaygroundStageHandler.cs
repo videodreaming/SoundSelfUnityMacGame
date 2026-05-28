@@ -32,6 +32,7 @@ namespace SoundSelf.Sequence
             }
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             _sequencer.StopOpeningAudioFromStageEnter();
+            _sequencer.imitoneVoiceInterpreter?.ClearPinnedOrientationNoiseFloorHistory();
             if (_playgroundCoroutine != null)
             {
                 Debug.LogError("PlaygroundStageHandler: ENTER() CALLED WHILE COROUTINE IS ALREADY RUNNING. THE SEQUENCE IS LIKELY BROKEN. STOP THE SEQUENCE BEFORE STARTING IT AGAIN.");
@@ -239,7 +240,7 @@ namespace SoundSelf.Sequence
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
-            _sequencer.director.AddActionToQueue(LightControl.instance.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
+            _sequencer.director.AddActionToQueue(LightControl.instance.Action_SetPreferredColorWorld(PreferredColorWorld.Blue, 8.0f), "ColorWorld", false, true, 180.0f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
             Debug.Log("PlaygroundStageHandler: Step 4");
 
             while (SessionCountdownThisSection() > (13f * 60f) && !ShouldSkip(skipToEnd))

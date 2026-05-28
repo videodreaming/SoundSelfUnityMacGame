@@ -105,7 +105,7 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeLow, 0.0f);
             _sequencer.director.Disable();
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
-            _sequencer.worldShuffler.ExcludeColorWorld("Blue");
+            _sequencer.worldShuffler.ExcludeColorWorld(PreferredColorWorld.Blue);
             _sequencer.worldShuffler.ExcludeSoundscape("Shadow");
 
             if (variant == StageVariant.Opening_PS_Ascending)

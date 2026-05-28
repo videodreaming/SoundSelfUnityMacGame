@@ -207,17 +207,17 @@ public class AVSSequence : MonoBehaviour
         Cleanup(coroutineCleanupList);
         yield return null;
 
-        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + LightControl.instance.currentColorType);
+        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + LightControl.instance.currentColorWorld);
 
-        if (LightControl.instance.currentColorType != "Dark" && LightControl.instance.currentColorType != "BreathOnly")
+        if (LightControl.instance.currentColorWorld != PreferredColorWorld.Dark && LightControl.instance.currentColorWorld != PreferredColorWorld.BreathOnly)
         {
             DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Lights not Dark at start, resetting to Dark first.");
-            LightControl.instance.SetPreferredColor("Dark", 0.1f);
+            LightControl.instance.SetPreferredColor(PreferredColorWorld.Dark, 0.1f);
             LightControl.instance.SetStrobeRate(0f, 0.1f);
             yield return new WaitForSeconds(0.15f);
         }
 
-        while ((LightControl.instance.currentColorType == "Dark") || (LightControl.instance.currentColorType == "BreathOnly"))
+        while ((LightControl.instance.currentColorWorld == PreferredColorWorld.Dark) || (LightControl.instance.currentColorWorld == PreferredColorWorld.BreathOnly))
             yield return null;
 
         DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Lights detected, set strobe to 45hz.");

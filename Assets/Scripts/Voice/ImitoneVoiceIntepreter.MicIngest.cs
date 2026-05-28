@@ -33,7 +33,7 @@ public partial class ImitoneVoiceIntepreter
 
     [Header("Normalization")]
     [Tooltip("Master toggle for normalized output stream. Raw output is always unaffected.")]
-    [SerializeField] private bool normalizationEnabled = false;
+    [SerializeField] private bool normalizationEnabled = true;
     [Tooltip("Gain in dB applied to normalized output stream.")]
     [SerializeField] private float normalizationGainDb = 16f;
     [Tooltip("Clamp normalized samples to +/- clamp value after gain.")]
@@ -51,8 +51,8 @@ public partial class ImitoneVoiceIntepreter
 
     [Header("Normalization Gain Riding")]
     [Tooltip("Automatically rides normalization gain while imitone toneActive is true.")]
-    [SerializeField] private bool gainRidingEnabled = false;
-    [SerializeField] private float gainRidingTargetDb = -8f;
+    [SerializeField] private bool gainRidingEnabled = true;
+    [SerializeField] private float gainRidingTargetDb = -22f;
     [Tooltip("If mic dB is below target by more than this, raise gain.")]
     [SerializeField] [Range(0f, 24f)] private float gainRidingRaiseThresholdDb = 4f;
     [Tooltip("If mic dB is above target by more than this, lower gain at normal rate.")]
@@ -65,7 +65,7 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] [Range(0f, 48f)] private float gainRidingLowerRateDbPerSecond = 4f;
     [SerializeField] [Range(0f, 96f)] private float gainRidingRapidLowerRateDbPerSecond = 16f;
     [Tooltip("Clamp for ridden normalization gain.")]
-    [SerializeField] private Vector2 gainRidingGainDbClamp = new Vector2(-24f, 24f);
+    [SerializeField] private Vector2 gainRidingGainDbClamp = new Vector2(-36f, 36f);
 
     [Header("Normalization Runtime Telemetry (Inspector)")]
     [Tooltip("Current effective normalization gain in dB that consumers use.")]

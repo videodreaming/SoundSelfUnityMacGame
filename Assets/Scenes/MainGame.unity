@@ -7035,8 +7035,11 @@ MonoBehaviour:
   imitoneVoiceInterpreter: {fileID: 740096625}
   AVSColorCommand: 
   AVSStrobeCommand: 
-  currentColorType: Dark
-  preferredColor: Red
+  currentColorWorld: 4
+  preferredColor: 4
+  currentStrobeColor: {r: 0, g: 0, b: 0, a: 1}
+  currentWaveColor: {r: 0, g: 0, b: 0, a: 1}
+  _brightness: 0.6
   _fxWave: 0
   _currentStrobeRateInspectorDisplay: 0
   _strobePWM: 0
@@ -13260,7 +13263,7 @@ MonoBehaviour:
   director: {fileID: 1829208165}
   pitch_hz: 0
   note_st: 0
-  _dbThreshold: -25
+  _dbThreshold: 0
   gameOn: 1
   toneActiveBiasTrueTimer: 0
   telemetryToneActive: 0
@@ -13292,7 +13295,7 @@ MonoBehaviour:
   _volumeJumpTriggerThresholdDB: 12
   _afterDropWaitTime: 0.5
   _noiseFloorMeasurementTime: 2
-  noiseFloorMeasurementMaxAge: 0
+  noiseFloorMeasurementMaxAge: 120
   _thresholdAboveNoiseFloor: 8
   _noiseFloorThreshold: -52
   micIsNearNoiseFloor: 0
@@ -13306,6 +13309,12 @@ MonoBehaviour:
   telemetryNoiseFloorMeasurementElapsed: 0
   telemetryNoiseFloorMeasurementAverageDb: -80
   telemetryNoiseMeasurementsCount: 0
+  telemetryPinnedNoiseMeasurementsCount: 0
+  telemetryNoiseFloorCommittedCount: 0
+  telemetryNoiseFloorRestartsBeforeCommit: 0
+  telemetryExpectNoiseFloor: 0
+  telemetryOrientationNoiseFloorElapsed: 0
+  telemetryOrientationNoiseFloorSampleCount: 0
   telemetryMedianNoiseFloorDb: -80
   telemetryAppliedThresholdDb: -52
   telemetryMicDb: -80
@@ -13318,10 +13327,11 @@ MonoBehaviour:
   telemetryImitoneInactiveRawTimer: 0
   imitoneConfig: 
   _highPassFilterEnabled: 1
-  _highPassCutoffHz: 80
+  _highPassCutoffHz: 110
   _lowPassFilterEnabled: 1
   _lowPassCutoffHz: 520
   debugAllowGameOnLogs: 1
+  debugAllowNoiseFloorLogs: 0
   preferredDeviceName: 
   micCaptureSampleRate: 48000
   loopLengthSeconds: 6

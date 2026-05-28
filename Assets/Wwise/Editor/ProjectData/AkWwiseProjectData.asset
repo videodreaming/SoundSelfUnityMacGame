@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584233062875512615
+    m_lastTime: -8584216148681850031
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -2220,7 +2220,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584233062879165779
+    m_lastTime: -8584216148684415467
     List:
     - name: Play_AMBIENT_ENVIRONMENT_LOOP
       guid: 152a5858b3dfaa41a54d30c5074820c4
@@ -2288,8 +2288,8 @@ MonoBehaviour:
         guid: cc2a9f4bfd558542952b9206b5585121
       Path: Events\SFX\Play_Inhale_Long
       maxAttenuation: 0
-      maxDuration: 3.1872916
-      minDuration: 3.1872916
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Inhale_Medium
       guid: bba83bbb94fcfb428e1b11efb7f9ec68
       id: 1252315619
@@ -2305,8 +2305,8 @@ MonoBehaviour:
         guid: bba83bbb94fcfb428e1b11efb7f9ec68
       Path: Events\SFX\Play_Inhale_Medium
       maxAttenuation: 0
-      maxDuration: 3.1872916
-      minDuration: 3.1872916
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Inhale_Short
       guid: 4a35cf9a4f3e494289c48c49b0dff12b
       id: 2110561540
@@ -2322,8 +2322,8 @@ MonoBehaviour:
         guid: 4a35cf9a4f3e494289c48c49b0dff12b
       Path: Events\SFX\Play_Inhale_Short
       maxAttenuation: 0
-      maxDuration: 3.1872916
-      minDuration: 3.1872916
+      maxDuration: -1
+      minDuration: -1
     - name: Play_sfx_breathein
       guid: 3bb9951731f13247805529bc37e9b579
       id: 3830600368
@@ -2339,8 +2339,8 @@ MonoBehaviour:
         guid: 3bb9951731f13247805529bc37e9b579
       Path: Events\SFX\Play_sfx_breathein
       maxAttenuation: 0
-      maxDuration: 3.1872916
-      minDuration: 3.1872916
+      maxDuration: -1
+      minDuration: -1
     - name: Play_sfx_breatheout
       guid: 45fd7e94e476614f88550a00fe87bc89
       id: 77468567
@@ -2356,8 +2356,8 @@ MonoBehaviour:
         guid: 45fd7e94e476614f88550a00fe87bc89
       Path: Events\SFX\Play_sfx_breatheout
       maxAttenuation: 0
-      maxDuration: 4
-      minDuration: 4
+      maxDuration: -1
+      minDuration: -1
     - name: Play_sfx_breathinout
       guid: c71e78ed1a70794f9e17ba86dde9f592
       id: 4173816975
@@ -2373,8 +2373,8 @@ MonoBehaviour:
         guid: c71e78ed1a70794f9e17ba86dde9f592
       Path: Events\SFX\Play_sfx_breathinout
       maxAttenuation: 0
-      maxDuration: 10.666325
-      minDuration: 10.666325
+      maxDuration: -1
+      minDuration: -1
     - name: Play_sfx_breathworkcycle
       guid: 11b8e180a7308c43adbec264d16a171f
       id: 1941733943
@@ -2407,8 +2407,8 @@ MonoBehaviour:
         guid: 5f783404fb64af4a93004edf77019b5a
       Path: Events\SFX\Play_sfx_EndInteractive
       maxAttenuation: 0
-      maxDuration: 38.616783
-      minDuration: 38.616783
+      maxDuration: -1
+      minDuration: -1
     - name: Play_sfx_Impact
       guid: 32835a0a9f382e45b07c318cd4f7edd5
       id: 2908297336
@@ -2424,8 +2424,8 @@ MonoBehaviour:
         guid: 32835a0a9f382e45b07c318cd4f7edd5
       Path: Events\SFX\Play_sfx_Impact
       maxAttenuation: 0
-      maxDuration: 19.552813
-      minDuration: 2.6546667
+      maxDuration: -1
+      minDuration: -1
     - name: Play_sfx_Impact_AVS_Only
       guid: a087d9bfc447b542877d0397b90c2857
       id: 160921230
@@ -2441,8 +2441,8 @@ MonoBehaviour:
         guid: a087d9bfc447b542877d0397b90c2857
       Path: Events\SFX\Play_sfx_Impact_AVS_Only
       maxAttenuation: 0
-      maxDuration: 19.552813
-      minDuration: 2.6546667
+      maxDuration: -1
+      minDuration: -1
     - name: Play_sfx_SoundSeed_BreathCycle
       guid: 99106bfe1545de45801f62326cc3385b
       id: 3431547933
@@ -2492,8 +2492,8 @@ MonoBehaviour:
         guid: 4a9a0a1bbec36b4a90e1e5e751860a4d
       Path: Events\SFX\Stop_AMBIENT_ENVIRONMENT_LOOP
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_BinauralGenerator
       guid: 3c1f1dc5284cb14da9bf1b07152d2224
       id: 2452192253
@@ -2509,8 +2509,8 @@ MonoBehaviour:
         guid: 3c1f1dc5284cb14da9bf1b07152d2224
       Path: Events\SFX\Stop_BinauralGenerator
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_CrystalBowlGenerator
       guid: 5c3ad7973e439042b073bf488ecf89f7
       id: 4041758113
@@ -2526,8 +2526,8 @@ MonoBehaviour:
         guid: 5c3ad7973e439042b073bf488ecf89f7
       Path: Events\SFX\Stop_CrystalBowlGenerator
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_Inhales
       guid: 65f45a464e83f54980d0aa1071bdb9e2
       id: 237216068
@@ -2543,8 +2543,8 @@ MonoBehaviour:
         guid: 65f45a464e83f54980d0aa1071bdb9e2
       Path: Events\SFX\Stop_Inhales
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_sfx_breathworkcycle
       guid: c0b01cc1f239da4c9192cce7c7243727
       id: 4041051749
@@ -2560,8 +2560,25 @@ MonoBehaviour:
         guid: c0b01cc1f239da4c9192cce7c7243727
       Path: Events\SFX\Stop_sfx_breathworkcycle
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_sfx_SoundSeed_BreathCycle
+      guid: 663dd0b42f15cc4da6ae4bd9b226904c
+      id: 1336695519
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Stop_sfx_SoundSeed_BreathCycle
+        ObjectType: 3
+        guid: 663dd0b42f15cc4da6ae4bd9b226904c
+      Path: Events\SFX\Stop_sfx_SoundSeed_BreathCycle
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_sfx_SoundSeed_BreathCycleWind
       guid: ba913102b25a9a429c53b3a0c009be7b
       id: 674892661
@@ -2577,8 +2594,8 @@ MonoBehaviour:
         guid: ba913102b25a9a429c53b3a0c009be7b
       Path: Events\SFX\Stop_sfx_SoundSeed_BreathCycleWind
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Unity_TransitionSFX
       guid: 2d500e1e201d094289c0d28db3052cff
       id: 3913696011
@@ -2594,8 +2611,8 @@ MonoBehaviour:
         guid: 2d500e1e201d094289c0d28db3052cff
       Path: Events\SFX\Unity_TransitionSFX
       maxAttenuation: 0
-      maxDuration: 13.185377
-      minDuration: 4.9054503
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\VO.wwu
     PathAndIcons:
     - ElementName: Events

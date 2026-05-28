@@ -6,6 +6,44 @@ using System;
 
 public class WorldShuffler : MonoBehaviour
 {
+    // =============================================================================
+    // TODO (AI — read before refactoring WorldShuffler or Director color integration)
+    // =============================================================================
+    // When this class is next refactored together with the Director queue / flourish
+    // system, also fold in the LightControl color-world simplification plan (discuss with
+    // Robin first — do not implement unilaterally).
+    //
+    // Current inelegance (LightControl + Director + this class):
+    // - LightControl keeps both preferredColor and currentColorWorld (PreferredColorWorld),
+    //   but SetPreferredColor always applies immediately, so they rarely differ; nothing
+    //   outside LightControl reads preferredColor. Variant presets (Red1/2/3) live in
+    //   cycleRed/Blue/White instead. WorldShuffler uses a separate field also named
+    //   currentColorWorld — shuffle bookkeeping only, easy to confuse with LightControl.
+    // - Director "visual flourish" calls NextPreferredColorWorld() without SetPreferredColor,
+    //   which is the main reason preferred vs current still matters.
+    //
+    // Proposed direction (needs design agreement):
+    // - Single source of truth on LightControl (e.g. activeColorWorld); remove preferredColor.
+    // - Rename APIs: SetColorWorld (apply now) vs CycleVariantWithinCurrentWorld (flourish).
+    // - Rename WorldShuffler tracker (e.g. lastShuffledColorWorld) to avoid name collision.
+    // - Optional: explicit activePreset string instead of opaque cycle counters.
+    //
+    // Soundscape shuffle exclusions (fold into same refactor; discuss with Robin):
+    // - Replace global bool flags on availableSoundscapes (ExcludeSoundscape sets false with
+    //   no record of who excluded what) with a list or dictionary of soundscapes NOT to
+    //   shuffle, keyed/named by the caller/site that set the exclusion (e.g. "OpeningStage",
+    //   "PlaygroundStep2") so that site can clear only its own exclusions when done.
+    // - ShuffleSoundscape builds the eligible set from all soundscapes minus the union of
+    //   active exclusions; avoid orphaned false flags after stage exit.
+    // - If no soundscape remains eligible (all excluded or invalid), fall back to a
+    //   pre-defined backup list (agree contents with Robin) rather than logging an error
+    //   and skipping shuffle.
+    //
+    // See also: LightControl.SetPreferredColor / NextPreferredColorWorld / CycleColor,
+    // Director.ProcessQueue visual flourish branch, PlaygroundStageHandler color queue actions,
+    // OpeningStageHandler / PlaygroundStageHandler ExcludeSoundscape call sites.
+    // =============================================================================
+
     public MusicSystem1 musicSystem1;
     public LightControl lightControl;
     public RespirationTracker respirationTracker;
@@ -27,15 +65,15 @@ public class WorldShuffler : MonoBehaviour
         { "SonoFlore", true }
     };
 
-    public Dictionary<string, bool> availableColorWorlds = new Dictionary<string, bool>
+    public Dictionary<PreferredColorWorld, bool> availableColorWorlds = new Dictionary<PreferredColorWorld, bool>
     {
-        { "Red", true },
-        { "Blue", true },
-        { "White", true }
+        { PreferredColorWorld.Red, true },
+        { PreferredColorWorld.Blue, true },
+        { PreferredColorWorld.White, true }
     };
 
     private string currentSoundscape;
-    private string currentColorWorld;
+    private PreferredColorWorld? currentColorWorld;
 
     void Awake ()
     {
@@ -112,10 +150,10 @@ public class WorldShuffler : MonoBehaviour
         }
 
         //Shuffle the color world to a random available color world, excluding the current one
-        List<string> availableWorlds = new List<string>();
-        foreach(KeyValuePair<string, bool> entry in availableColorWorlds)
+        List<PreferredColorWorld> availableWorlds = new List<PreferredColorWorld>();
+        foreach(KeyValuePair<PreferredColorWorld, bool> entry in availableColorWorlds)
         {
-            if(entry.Value && entry.Key != currentColorWorld)
+            if(entry.Value && (!currentColorWorld.HasValue || entry.Key != currentColorWorld.Value))
             {
                 availableWorlds.Add(entry.Key);
             }
@@ -251,10 +289,9 @@ public class WorldShuffler : MonoBehaviour
         }
     }
 
-    public void ExcludeColorWorld(string world)
+    public void ExcludeColorWorld(PreferredColorWorld world)
     {
         Debug.Log("WorldShuffler: Excluding Color World -" + world + "- from shuffle.");
-        //Exclude a color world from the shuffle, turning it "false" in the dictionary. If the world is not correctly named, log an error
         if(availableColorWorlds.ContainsKey(world))
         {
             availableColorWorlds[world] = false;
@@ -281,8 +318,8 @@ public class WorldShuffler : MonoBehaviour
     {
         Debug.Log("WorldShuffler: Resetting all color worlds to be available for shuffling.");
         //Reset all color worlds to be available for shuffling
-        Dictionary<string, bool> updatedColorWorlds = new Dictionary<string, bool>(availableColorWorlds);
-        foreach(KeyValuePair<string, bool> entry in availableColorWorlds)
+        Dictionary<PreferredColorWorld, bool> updatedColorWorlds = new Dictionary<PreferredColorWorld, bool>(availableColorWorlds);
+        foreach(KeyValuePair<PreferredColorWorld, bool> entry in availableColorWorlds)
         { 
             updatedColorWorlds[entry.Key] = true;
         }
@@ -295,7 +332,7 @@ public class WorldShuffler : MonoBehaviour
         currentSoundscape = world;
     }
 
-    public void SetCurrentColorWorld(string world) //this is to tell the shuffler where we are now, it does not change the color.
+    public void SetCurrentColorWorld(PreferredColorWorld world) //this is to tell the shuffler where we are now, it does not change the color.
     {
         currentColorWorld = world;
     }
@@ -306,7 +343,7 @@ public class WorldShuffler : MonoBehaviour
     }
     public void ClearCurrentColorWorld()
     {
-        currentColorWorld = "";
+        currentColorWorld = null;
     }
 
 }

@@ -145,19 +145,24 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     [Header("Noise Floor")]
     //A dictionary that stores a float for the dbValue each frame, and the time that frame was recorded.
     private Dictionary<int, (float, float)> rawMic = new Dictionary<int, (float, float)>();
-    private Dictionary<int, (float, float)> noiseMeasurements = new Dictionary<int, (float, float)>();
+    private Dictionary<int, (float timestamp, float db, bool pinned)> noiseMeasurements =
+        new Dictionary<int, (float timestamp, float db, bool pinned)>();
+    private readonly List<int> _noiseMeasurementKeysToRemove = new List<int>();
     private readonly List<int> _rawMicKeysToRemove = new List<int>();
-    private bool expectNoiseFloor = false; //NOT YET IMPLEMENTED, use this when the system is programmatically expecting noise.
-    private bool noiseFloorFlag = false;
-    [SerializeField] private float _volumeChangeMeasurementWindow = 0.3f;
-    [SerializeField] private float _volumeDropTriggerThresholdDB = 7f;
+    private bool expectNoiseFloor;
+    private float _orientationNoiseFloorSum;
+    private int _orientationNoiseFloorSampleCount;
+    private float _orientationNoiseFloorBeginTime;
+    private const float OrientationNoiseFloorMinCommitSeconds = 5f;
+    [SerializeField] private float _volumeChangeMeasurementWindow = 0.2f;
+    [SerializeField] private float _volumeDropTriggerThresholdDB = 12f;
     [SerializeField] private float _volumeJumpTriggerThresholdDB = 12f;
     [SerializeField] private float _afterDropWaitTime = 0.5f;
     private float _afterDropWaitTimer = 0f;
-    [SerializeField] private float _noiseFloorMeasurementTime = 1.5f;
+    [SerializeField] private float _noiseFloorMeasurementTime = 2f;
     [SerializeField] private int noiseFloorMeasurementMaxAge = 120;
     private int uniqueKey = 0;
-    [SerializeField] private float _thresholdAboveNoiseFloor = 3f;
+    [SerializeField] private float _thresholdAboveNoiseFloor = 8f;
     [SerializeField] public float _noiseFloorThreshold = -52.0f;
     [Header("Noise Floor Runtime Telemetry")]
     [SerializeField] public bool micIsNearNoiseFloor = false;
@@ -171,6 +176,14 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     [SerializeField] private float telemetryNoiseFloorMeasurementElapsed = 0f;
     [SerializeField] [Range(-80f, -12f)] private float telemetryNoiseFloorMeasurementAverageDb = -80f;
     [SerializeField] private int telemetryNoiseMeasurementsCount = 0;
+    [SerializeField] private int telemetryPinnedNoiseMeasurementsCount = 0;
+    [Tooltip("Jump measurements that committed a sample this session.")]
+    [SerializeField] private int telemetryNoiseFloorCommittedCount = 0;
+    [Tooltip("Jump measurements killed by a new jump before they could commit (lost). High = you re-trigger before the 0.5s+1.5s measure window finishes.")]
+    [SerializeField] private int telemetryNoiseFloorRestartsBeforeCommit = 0;
+    [SerializeField] private bool telemetryExpectNoiseFloor;
+    [SerializeField] private float telemetryOrientationNoiseFloorElapsed;
+    [SerializeField] private int telemetryOrientationNoiseFloorSampleCount;
     [SerializeField] [Range(-80f, -12f)] private float telemetryMedianNoiseFloorDb = -80f;
     [SerializeField] [Range(-80f, -12f)] private float telemetryAppliedThresholdDb = -52f;
     [SerializeField] [Range(-80f, -12f)] private float telemetryMicDb = -80f;
@@ -339,9 +352,9 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     // ImitoneVoiceIntepreter.AudioThread.cs (`audioThreadHpPrevInput`, `audioThreadHpPrevOutput`,
     // `audioThreadLpPrevOutput`).
     [Header("High Pass Filter")]
-    [Tooltip("Removes low-frequency rumble (e.g. AC hum, wind) before pitch analysis. 80 Hz is typical for voice. Step 3b: applied on the audio thread, just before imitone.InputAudio.")]
+    [Tooltip("Removes low-frequency rumble (e.g. AC hum, wind) before pitch analysis. MainGame uses 110 Hz. Step 3b: applied on the audio thread, just before imitone.InputAudio.")]
     [SerializeField] private volatile bool _highPassFilterEnabled = true;
-    [SerializeField] private volatile float _highPassCutoffHz = 80f;
+    [SerializeField] private volatile float _highPassCutoffHz = 110f;
 
     [Header("Low Pass Filter")]
     [Tooltip("Removes high-frequency hiss and overtones above voice range. 520 Hz keeps tenor fundamentals. Step 3b: applied on the audio thread, just before imitone.InputAudio.")]
@@ -351,6 +364,9 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     [Header("Debug — gameOn (critical session path)")]
     [Tooltip("Logs every gameOn transition. SetGameOn() and direct assignments to gameOn (e.g. MusicSystem1) are reported separately.")]
     [SerializeField] private bool debugAllowGameOnLogs = false;
+
+    [Tooltip("Logs jump-triggered noise floor measurement lifecycle: trigger, restart-before-commit (lost), drop reached, commit.")]
+    [SerializeField] private bool debugAllowNoiseFloorLogs = true;
 
     // Debug log category flags
     private bool debugAllowInitializationLogs = true;
@@ -419,11 +435,12 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         MicIngestMainThreadTick();
         UpdateAudioThreadHealthOnMainThread();
         SetNoiseFloorThreshold();
+        UpdateOrientationNoiseFloorTelemetry();
         GetRawVoiceData();
         CheckToning();
         UpdateToneActiveTelemetryInspector();
         TrackMicVolume();
-        Wwise_BreathSound(_breathVolume, lightControl._fxWave);
+        Wwise_BreathSound(_breathVolume, lightControl.GetBreathFxWaveAddOn());
 
         if (gameOn != gameOnLastFrame)
         {
@@ -639,17 +656,181 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         telemetryDropExitDb = Mathf.Clamp(dropExitDb, -80f, -12f);
         telemetryJumpTriggerMet = _dbMicrophone > jumpTriggerDb;
 
+        if (expectNoiseFloor)
+        {
+            AccumulateOrientationNoiseFloorSample();
+            return;
+        }
+
         // Jump detection gate:
         // if current mic dB jumps enough above local floor, restart noise-floor measurement.
         // Restarting keeps us aligned with the latest event rather than stale pre-event context.
         if (telemetryJumpTriggerMet)
         {
-            if (currentNoiseFloorCoroutine != null)
-                StopCoroutine(currentNoiseFloorCoroutine);
+            bool killedInFlight = currentNoiseFloorCoroutine != null;
+            if (killedInFlight)
+            {
+                telemetryNoiseFloorRestartsBeforeCommit++;
+                if (debugAllowNoiseFloorLogs)
+                    Debug.LogWarning(
+                        "[NoiseFloor] Jump RE-triggered before previous measurement committed (phase '" +
+                        telemetryNoiseFloorPhase + "'): measurement LOST. mic " + _dbMicrophone.ToString("F1") +
+                        " dB > trigger " + jumpTriggerDb.ToString("F1") + " dB. restarts=" +
+                        telemetryNoiseFloorRestartsBeforeCommit);
+            }
+            else if (debugAllowNoiseFloorLogs)
+            {
+                Debug.Log(
+                    "[NoiseFloor] Jump triggered: starting measurement. mic " + _dbMicrophone.ToString("F1") +
+                    " dB > trigger " + jumpTriggerDb.ToString("F1") + " dB (drop exit " +
+                    dropExitDb.ToString("F1") + " dB).");
+            }
 
+            StopNoiseFloorMeasurementCoroutine();
+            telemetryNoiseFloorPhase = "jump_triggered";
             currentNoiseFloorCoroutine = StartCoroutine(MeasureNoiseFloorCoroutine());
         }
 
+    }
+
+    /// <summary>Calibration orientation (<see cref="CalibrationUI.Start"/>): expect quiet room; suppress jump samples until End.</summary>
+    public void BeginOrientationNoiseFloorSampling()
+    {
+        StopNoiseFloorMeasurementCoroutine();
+        RemoveAllPinnedNoiseMeasurements();
+        ApplyMedianNoiseFloorThreshold();
+
+        expectNoiseFloor = true;
+        _orientationNoiseFloorSum = 0f;
+        _orientationNoiseFloorSampleCount = 0;
+        _orientationNoiseFloorBeginTime = Time.time;
+        telemetryNoiseFloorPhase = "orientation_accumulating";
+        Debug.Log("ImitoneVoiceIntepreter: Begin orientation noise floor sampling.");
+    }
+
+    /// <summary>Commit full-window mean as one pinned history entry if orientation lasted &gt; <see cref="OrientationNoiseFloorMinCommitSeconds"/>.</summary>
+    public void EndOrientationNoiseFloorSamplingAndCommit()
+    {
+        if (!expectNoiseFloor)
+            return;
+
+        float duration = Time.time - _orientationNoiseFloorBeginTime;
+        if (duration > OrientationNoiseFloorMinCommitSeconds && _orientationNoiseFloorSampleCount > 0)
+        {
+            float averageDb = _orientationNoiseFloorSum / _orientationNoiseFloorSampleCount;
+            RecordNoiseFloorMeasurement(averageDb, pinned: true);
+            Debug.Log(
+                "ImitoneVoiceIntepreter: Orientation noise floor committed: " + averageDb +
+                " dB over " + duration.ToString("F1") + " s (" + _orientationNoiseFloorSampleCount + " frames).");
+        }
+        else
+        {
+            Debug.Log(
+                "ImitoneVoiceIntepreter: Orientation noise floor discarded (" + duration.ToString("F1") +
+                " s, min " + OrientationNoiseFloorMinCommitSeconds + " s).");
+        }
+
+        expectNoiseFloor = false;
+        _orientationNoiseFloorSum = 0f;
+        _orientationNoiseFloorSampleCount = 0;
+        if (!telemetryNoiseFloorCoroutineRunning)
+            telemetryNoiseFloorPhase = "idle";
+    }
+
+    /// <summary>Remove pinned orientation samples (Tutorial / Playground stage Enter).</summary>
+    public void ClearPinnedOrientationNoiseFloorHistory()
+    {
+        int removed = RemoveAllPinnedNoiseMeasurements();
+        if (removed > 0)
+        {
+            PruneExpiredNoiseMeasurements();
+            ApplyMedianNoiseFloorThreshold();
+            Debug.Log("ImitoneVoiceIntepreter: Cleared " + removed + " pinned orientation noise floor sample(s).");
+        }
+    }
+
+    private void AccumulateOrientationNoiseFloorSample()
+    {
+        if (!MicIngestIsReady)
+            return;
+
+        _orientationNoiseFloorSum += _dbMicrophone;
+        _orientationNoiseFloorSampleCount++;
+    }
+
+    private void StopNoiseFloorMeasurementCoroutine()
+    {
+        if (currentNoiseFloorCoroutine == null)
+            return;
+
+        StopCoroutine(currentNoiseFloorCoroutine);
+        currentNoiseFloorCoroutine = null;
+        telemetryNoiseFloorCoroutineRunning = false;
+        if (!expectNoiseFloor)
+            telemetryNoiseFloorPhase = "idle";
+    }
+
+    private void RecordNoiseFloorMeasurement(float db, bool pinned)
+    {
+        noiseMeasurements.Add(uniqueKey++, (Time.time, db, pinned));
+        PruneExpiredNoiseMeasurements();
+        ApplyMedianNoiseFloorThreshold();
+    }
+
+    private void PruneExpiredNoiseMeasurements()
+    {
+        _noiseMeasurementKeysToRemove.Clear();
+        foreach (var entry in noiseMeasurements)
+        {
+            if (!entry.Value.pinned && (Time.time - entry.Value.timestamp) > noiseFloorMeasurementMaxAge)
+                _noiseMeasurementKeysToRemove.Add(entry.Key);
+        }
+
+        foreach (var key in _noiseMeasurementKeysToRemove)
+            noiseMeasurements.Remove(key);
+    }
+
+    private int RemoveAllPinnedNoiseMeasurements()
+    {
+        _noiseMeasurementKeysToRemove.Clear();
+        foreach (var entry in noiseMeasurements)
+        {
+            if (entry.Value.pinned)
+                _noiseMeasurementKeysToRemove.Add(entry.Key);
+        }
+
+        foreach (var key in _noiseMeasurementKeysToRemove)
+            noiseMeasurements.Remove(key);
+
+        return _noiseMeasurementKeysToRemove.Count;
+    }
+
+    private void ApplyMedianNoiseFloorThreshold()
+    {
+        if (noiseMeasurements.Count == 0)
+            return;
+
+        List<float> values = noiseMeasurements.Values.Select(x => x.db).OrderBy(x => x).ToList();
+        float medianNoiseFloor = (values.Count % 2 != 0)
+            ? values[values.Count / 2]
+            : (values[(values.Count - 1) / 2] + values[values.Count / 2]) / 2.0f;
+
+        telemetryMedianNoiseFloorDb = Mathf.Clamp(medianNoiseFloor, -80f, -12f);
+        telemetryNoiseMeasurementsCount = noiseMeasurements.Count;
+        telemetryPinnedNoiseMeasurementsCount = noiseMeasurements.Values.Count(x => x.pinned);
+        _noiseFloorThreshold = medianNoiseFloor + _thresholdAboveNoiseFloor;
+        telemetryAppliedThresholdDb = Mathf.Clamp(_noiseFloorThreshold, -80f, -12f);
+        SetThreshold(_noiseFloorThreshold);
+        micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
+    }
+
+    private void UpdateOrientationNoiseFloorTelemetry()
+    {
+        telemetryExpectNoiseFloor = expectNoiseFloor;
+        telemetryOrientationNoiseFloorSampleCount = _orientationNoiseFloorSampleCount;
+        telemetryOrientationNoiseFloorElapsed = expectNoiseFloor
+            ? Time.time - _orientationNoiseFloorBeginTime
+            : 0f;
     }
 
 
@@ -661,13 +842,24 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         telemetryNoiseFloorMeasurementAverageDb = -80f;
         float _noiseFloorMeasurementSum = 0f;
         float _noiseFloorMeasurementCount = 0f;
-        //Debug.Log("Preparing to Measure Noise Floor...");
 
         // Phase 1: wait for post-event level to settle back down near floor.
+        // NOTE: if the mic keeps re-triggering jumps (continuous toning with short rests),
+        // SetNoiseFloorThreshold kills/restarts this coroutine before we ever reach the drop,
+        // so no sample commits. That shows as rising telemetryNoiseFloorRestartsBeforeCommit.
+        float _waitForDropElapsed = 0f;
         while (_dbMicrophone >= telemetryDropExitDb)
         {
+            _waitForDropElapsed += Time.deltaTime;
             yield return null;
         }
+        if (debugAllowNoiseFloorLogs)
+            Debug.Log(
+                "[NoiseFloor] Drop reached after " + _waitForDropElapsed.ToString("F1") +
+                " s (mic " + _dbMicrophone.ToString("F1") + " dB < drop exit " +
+                telemetryDropExitDb.ToString("F1") + " dB). Holding " + _afterDropWaitTime + " s then measuring " +
+                _noiseFloorMeasurementTime + " s.");
+
         // Phase 2: add an extra hold to avoid capturing the event tail.
         telemetryNoiseFloorPhase = "after_drop_wait";
         float _measuredPeak = latestRawMicWindowMaxDb;
@@ -686,42 +878,25 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
             yield return null;
         }
 
-        // Phase 4: store this measurement and compute a robust threshold from history.
         float _noiseFloorMeasurementAverage = _noiseFloorMeasurementSum / _noiseFloorMeasurementCount;
         telemetryNoiseFloorMeasurementAverageDb = Mathf.Clamp(_noiseFloorMeasurementAverage, -80f, -12f);
 
-        noiseMeasurements.Add(uniqueKey++, (Time.time, _noiseFloorMeasurementAverage));
-        //Then, if there are entries that are older than noiseFloorMeasurementMaxAge, remove them
-        List<int> keysToRemove = new List<int>();
-        foreach (var entry in noiseMeasurements)
-        {
-            if ((Time.time - entry.Value.Item1) > noiseFloorMeasurementMaxAge)
-            {
-                keysToRemove.Add(entry.Key);
-                //Debug.Log("Removing Noise Key " + entry.Key + " with value " + entry.Value.Item2 + " from time " + entry.Value.Item1 + " because it is older than " + noiseFloorMeasurementMaxAge + " seconds.");
-            }
-        }
-
-        foreach (var key in keysToRemove)
-        {
-            noiseMeasurements.Remove(key);
-        }
-
-        // Median across historical measurements resists one-off spikes better than mean.
-        List<float> values = noiseMeasurements.Values.Select(x => x.Item2).OrderBy(x => x).ToList();
-        float _medianNoiseFloor = (values.Count % 2 != 0) ?
-        values[values.Count / 2] :
-        (values[(values.Count - 1) / 2] + values[values.Count / 2]) / 2.0f;
-        telemetryMedianNoiseFloorDb = Mathf.Clamp(_medianNoiseFloor, -80f, -12f);
-        telemetryNoiseMeasurementsCount = noiseMeasurements.Count;
-        _noiseFloorThreshold = _medianNoiseFloor + _thresholdAboveNoiseFloor;
-        telemetryAppliedThresholdDb = Mathf.Clamp(_noiseFloorThreshold, -80f, -12f);
-        SetThreshold(_noiseFloorThreshold);
-        micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
-        telemetryNoiseFloorPhase = "applied_threshold";
-        //Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Threshold: " + _noiseFloorThreshold + " from " + noiseMeasurements.Count + " measurements.");
+        RecordNoiseFloorMeasurement(_noiseFloorMeasurementAverage, pinned: false);
+        telemetryNoiseFloorCommittedCount++;
         telemetryNoiseFloorCoroutineRunning = false;
-        telemetryNoiseFloorPhase = "idle";
+        currentNoiseFloorCoroutine = null;
+        // Phase carries the outcome of the LAST measurement (persists until next jump), instead of "idle".
+        telemetryNoiseFloorPhase =
+            "last: committed avg " + _noiseFloorMeasurementAverage.ToString("F1") + " dB (count " +
+            noiseMeasurements.Count + ", median " + telemetryMedianNoiseFloorDb.ToString("F1") +
+            ", thr " + telemetryAppliedThresholdDb.ToString("F1") + ")";
+        if (debugAllowNoiseFloorLogs)
+            Debug.Log(
+                "[NoiseFloor] COMMITTED unpinned sample: " + _noiseFloorMeasurementAverage.ToString("F1") +
+                " dB. history count=" + noiseMeasurements.Count + " (pinned=" + telemetryPinnedNoiseMeasurementsCount +
+                "), median=" + telemetryMedianNoiseFloorDb.ToString("F1") + " dB, threshold=" +
+                telemetryAppliedThresholdDb.ToString("F1") + " dB. committed=" + telemetryNoiseFloorCommittedCount +
+                ", lost=" + telemetryNoiseFloorRestartsBeforeCommit);
         yield return null;
     }
 

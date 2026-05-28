@@ -8,6 +8,18 @@ using AK.Wwise;
 using System;
 using TMPro;
 
+/// <summary>Logical color world for <see cref="LightControl.SetPreferredColor"/> / cycling (not numbered presets like Red1).</summary>
+public enum PreferredColorWorld
+{
+    Red,
+    Blue,
+    White,
+    Calibration,
+    Dark,
+    BreathOnly,
+    Test
+}
+
 public class LightControl : MonoBehaviour
 {
     public static LightControl instance { get; private set; }
@@ -38,20 +50,27 @@ public class LightControl : MonoBehaviour
     public bool bilateral {get; private set;} = false; 
     public string AVSColorCommand  = "";
     public string AVSStrobeCommand = "";
-    public string currentColorType = "Dark";
-    public string preferredColor = "Dark";
+    [FormerlySerializedAs("currentColorType")]
+    public PreferredColorWorld currentColorWorld = PreferredColorWorld.Dark;
+    [FormerlySerializedAs("preferredColor")]
+    public PreferredColorWorld preferredColor = PreferredColorWorld.Dark;
+
+    private bool _calibrationColorWorldStageActive;
+    private static bool _warnedCalibrationColorOutsideStage;
 
     [Header("Current color world (Play Mode)")]
-    [ColorUsage(true, true)]
-    [Tooltip("Strobe (AVS waves 1 and 2): RGB after _brightness scaling. Matches colorPresets strobeColor for the active world.")]
+    [ColorUsage(false, false)]
+    [Tooltip("Strobe (waves 1–2): 0–1 per channel after _brightness. Runtime mirror — SetWaveColor converts to Wwise 0–100.")]
     [FormerlySerializedAs("toneWaveColor")]
-    public Color currentStrobeColor = new Color(0.0f, 0.0f, 0.0f);
-    [ColorUsage(true, true)]
-    [Tooltip("Wave / breath (AVS wave 3): RGB after _brightness scaling. Matches colorPresets waveColor for the active world.")]
+    public UnityEngine.Color currentStrobeColor = UnityEngine.Color.black;
+    [ColorUsage(false, false)]
+    [Tooltip("Wave 3: 0–1 per channel after _brightness. Runtime mirror — SetWaveColor converts to Wwise 0–100.")]
     [FormerlySerializedAs("breathWaveColor")]
-    public Color currentWaveColor = new Color(0.0f, 0.0f, 0.0f);
+    public UnityEngine.Color currentWaveColor = UnityEngine.Color.black;
 
-    private float  _brightness = 0.6f;
+    [SerializeField]
+    [Tooltip("Global multiplier on colorPresets RGB when applying a color world. Shown read-only in the inspector for now.")]
+    private float _brightness = 1.0f;
     private int cycleRed = 0;
     private int cycleBlue = 0;
     private int cycleWhite = 0;
@@ -256,7 +275,7 @@ public class LightControl : MonoBehaviour
         if (!lightsInitialized)
         {
             DbgLogLightControl("LightControl: StartLights");
-            SetPreferredColor("Red", 5.0f);
+            SetPreferredColor(PreferredColorWorld.Red, 5.0f);
             lightsInitialized = true;
         }
         else
@@ -276,20 +295,6 @@ public class LightControl : MonoBehaviour
         DbgLogLightControl("LightControl: Waiting for 1 second before starting lights");
         yield return new WaitForSeconds(1f);
         StartLights();
-    }
-
-    public struct Color
-    {
-        public float r;
-        public float g;
-        public float b;
-
-        public Color(float red, float green, float blue)
-        {
-            r = red;
-            g = green;
-            b = blue;
-        }
     }
 
     // Update is called once per frame
@@ -469,42 +474,77 @@ public class LightControl : MonoBehaviour
     }
     
     //COLOR WORLD FUNCTIONS
-    //   Name        Strobe Color                Wave Color (these will be modified by _brightness in SetColorWorldByNumbers)
+    // colorPresets: per-channel 0–1 (not Wwise RTPC units). SetColorWorldByNumbers applies _brightness; SetWaveColor → RTPC 0–100.
+    private const float AvsVolumeRtpcMax = 100f;
+
+    private static float AvsVolumeToRtpc(float normalized01) =>
+        Mathf.Clamp01(normalized01) * AvsVolumeRtpcMax;
+
+    //   Name        Strobe Color (0–1)          Wave Color (0–1)
     private static readonly Dictionary<string, ((float, float, float) strobeColor, (float, float, float) waveColor)> colorPresets = new Dictionary<string, ((float, float, float), (float, float, float))>
     {
         { "Dark", ((0.0f, 0.0f, 0.0f),          (0.0f, 0.0f, 0.0f)) },
-        { "BreathOnly", ((0.0f, 0.0f, 0.0f),    (100.0f, 0.0f, 0.0f)) },
-        { "Red1", ((100.0f, 0.0f, 0.0f),        (72.0f, 100.0f, 100.0f)) },
-        { "Red2", ((100.0f, 0.0f, 100.0f),      (68.0f, 100.0f, 0.0f)) },
-        { "Red3", ((100.0f, 100.0f, 100.0f),    (68.0f, 100.0f, 0.0f)) },
-        { "Blue1", ((0.0f, 0.0f, 100.0f),       (0.0f, 100.0f, 0.0f)) },
-        { "Blue2", ((0.0f, 58.0f, 42.0f),       (0.0f, 44.0f, 30.0f)) },
-        { "Blue3", ((0.0f, 54.0f, 100.0f),      (46.0f, 49.0f, 0.0f)) },
-        { "White1", ((56.0f, 67.0f, 81.0f),     (40.0f, 65.0f, 66.0f)) },
-        { "White2", ((56.0f, 100.0f, 80.0f),    (71.0f, 0.0f, 100.0f)) },
-        { "White3", ((68.0f, 50.0f, 50.0f),     (71.0f, 0.0f, 40.0f)) },
-        { "Test1", ((100.0f, 0.0f, 0.0f),       (0.0f, 50.0f, 50.0f)) },
-        { "Test2", ((0.0f, 100.0f, 0.0f),       (50.0f, 0.0f, 50.0f)) },
-        { "Test3", ((0.0f, 0.0f, 100.0f),       (50.0f, 50.0f, 0.0f)) }
+        { "BreathOnly", ((0.0f, 0.0f, 0.0f),    (1.0f, 0.0f, 0.0f)) },
+        { "Red1", ((1.0f, 0.0f, 0.0f),          (0.72f, 1.0f, 1.0f)) },
+        { "Red2", ((1.0f, 0.0f, 1.0f),          (0.68f, 1.0f, 0.0f)) },
+        { "Red3", ((1.0f, 1.0f, 1.0f),          (0.68f, 1.0f, 0.0f)) },
+        { "Blue1", ((0.0f, 0.0f, 1.0f),         (0.0f, 1.0f, 0.0f)) },
+        { "Blue2", ((0.0f, 0.58f, 0.42f),      (0.0f, 0.44f, 0.30f)) },
+        { "Blue3", ((0.0f, 0.54f, 1.0f),       (0.46f, 0.49f, 0.0f)) },
+        // White1: +25% RGB vs (0.56,0.67,0.81)/(0.4,0.65,0.66) pre-boost baseline
+        { "White1", ((0.70f, 0.8375f, 1.0f),   (0.50f, 0.8125f, 0.825f)) },
+        { "White2", ((0.56f, 1.0f, 0.80f),     (0.71f, 0.0f, 1.0f)) },
+        // Calibration: matches White2; calibration stage only (see SetCalibrationColorWorldStageActive).
+        { "Calibration", ((0.56f, 1.0f, 0.80f), (0.71f, 0.0f, 1.0f)) },
+        // White3: +25% RGB vs (0.68,0.5,0.5)/(0.71,0,0.4) pre-boost baseline
+        { "White3", ((0.85f, 0.625f, 0.625f),   (0.8875f, 0.0f, 0.50f)) },
+        { "Test1", ((1.0f, 0.0f, 0.0f),        (0.0f, 0.50f, 0.50f)) },
+        { "Test2", ((0.0f, 1.0f, 0.0f),        (0.50f, 0.0f, 0.50f)) },
+        { "Test3", ((0.0f, 0.0f, 1.0f),        (0.50f, 0.50f, 0.0f)) }
 
     };
 
-    public void SetPreferredColor(string color, float transitionTimeSec = 2.0f, bool exponentialCurve = true)
+    // Frozen AVS RTPCs while currentColorWorld is Calibration (_input = 0, _gammaBurstMode = 0). See PLAYTEST_NOTES Block 2.
+    private const float CalibrationFrozenStrobeDepthW1 = 44f;
+    private const float CalibrationFrozenStrobeMasterW1 = 45f;
+    private const float CalibrationFrozenStrobeMasterW2 = 0f;
+    private const float CalibrationFrozenChargePwm = 25f;
+    private const float CalibrationFrozenChargeSmoothingW1 = 100f;
+    private const float CalibrationFrozenBreathMasterW3 = 0f;
+
+    private bool IsCalibrationColorWorld => currentColorWorld == PreferredColorWorld.Calibration;
+
+    /// <summary>FXWave add-on for breath lights; zero during Calibration color world.</summary>
+    public float GetBreathFxWaveAddOn() => IsCalibrationColorWorld ? 0f : _fxWave;
+
+    /// <summary>True while calibration stage owns the Calibration color world (lights glasses step).</summary>
+    public void SetCalibrationColorWorldStageActive(bool stageActive)
     {
-        if (color != "Red" && color != "Blue" && color != "White" && color != "Dark" && color != "BreathOnly" && color != "Test")
-        {
-            Debug.LogError("Color type " + color + " not recognized, please use Red, Blue, White, Dark, BreathOnly or Test");
-            return;
-        }
-        else
-        {
-            preferredColor = color;
-            Debug.Log("Preferred color set to: " + color);
-            NextPreferredColorWorld(transitionTimeSec, exponentialCurve);
-        }
+        _calibrationColorWorldStageActive = stageActive;
     }
 
-    public Action Action_SetPreferredColorWorld(string color, float transitionTimeSec = 2.0f, bool exponentialCurve = true)
+    private void WarnIfCalibrationColorOutsideStage()
+    {
+        if (_calibrationColorWorldStageActive || _warnedCalibrationColorOutsideStage)
+            return;
+
+        _warnedCalibrationColorOutsideStage = true;
+        Debug.LogWarning(
+            "LightControl: Calibration color world was selected outside the calibration stage. " +
+            "Only CalibrationStageHandler should use SetPreferredColor(PreferredColorWorld.Calibration).");
+    }
+
+    public void SetPreferredColor(PreferredColorWorld color, float transitionTimeSec = 2.0f, bool exponentialCurve = true)
+    {
+        if (color == PreferredColorWorld.Calibration)
+            WarnIfCalibrationColorOutsideStage();
+
+        preferredColor = color;
+        Debug.Log("Preferred color set to: " + color);
+        NextPreferredColorWorld(transitionTimeSec, exponentialCurve);
+    }
+
+    public Action Action_SetPreferredColorWorld(PreferredColorWorld color, float transitionTimeSec = 2.0f, bool exponentialCurve = true)
     {
         return () => SetPreferredColor(color, transitionTimeSec, exponentialCurve);
     }
@@ -514,32 +554,32 @@ public class LightControl : MonoBehaviour
         SetColorWorldByType(preferredColor, transitionTimeSec, exponentialCurve);
     }
 
-    public void SetColorWorldByType(string colorType, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
+    public void SetColorWorldByType(PreferredColorWorld colorType, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
     {
         switch (colorType)
         {
-            case "Red":
-                CycleColor(ref cycleRed, "Red", colorType, transitionTimeSec, exponentialCurve);
-                worldShuffler.SetCurrentColorWorld("Red");
+            case PreferredColorWorld.Red:
+                CycleColor(ref cycleRed, colorType, transitionTimeSec, exponentialCurve);
+                worldShuffler.SetCurrentColorWorld(PreferredColorWorld.Red);
                 break;
-            case "Blue":
-                CycleColor(ref cycleBlue, "Blue", colorType, transitionTimeSec, exponentialCurve);
-                worldShuffler.SetCurrentColorWorld("Blue");
+            case PreferredColorWorld.Blue:
+                CycleColor(ref cycleBlue, colorType, transitionTimeSec, exponentialCurve);
+                worldShuffler.SetCurrentColorWorld(PreferredColorWorld.Blue);
                 break;
-            case "White":
-                CycleColor(ref cycleWhite, "White", colorType, transitionTimeSec, exponentialCurve);
-                worldShuffler.SetCurrentColorWorld("White");
+            case PreferredColorWorld.White:
+                CycleColor(ref cycleWhite, colorType, transitionTimeSec, exponentialCurve);
+                worldShuffler.SetCurrentColorWorld(PreferredColorWorld.White);
                 break;
-            case "Test":
-                CycleColor(ref cycleTest, "Test", colorType, transitionTimeSec, exponentialCurve);
+            case PreferredColorWorld.Test:
+                CycleColor(ref cycleTest, colorType, transitionTimeSec, exponentialCurve);
                 worldShuffler.ClearCurrentColorWorld();
                 break;
-            case "BreathOnly":
-                SetColorWorldByName("BreathOnly", transitionTimeSec);
+            case PreferredColorWorld.BreathOnly:
+                SetColorWorldByName(PreferredColorWorld.BreathOnly, transitionTimeSec);
                 worldShuffler.ClearCurrentColorWorld();
                 break;
-            case "Dark":
-                SetColorWorldByName("Dark", transitionTimeSec);
+            case PreferredColorWorld.Dark:
+                SetColorWorldByName(PreferredColorWorld.Dark, transitionTimeSec);
                 if(worldShuffler == null)
                 {
                     Debug.LogError("worldShuffler is null! Cannot clear current color world.");
@@ -549,16 +589,35 @@ public class LightControl : MonoBehaviour
                     worldShuffler.ClearCurrentColorWorld();
                 }
                 break;
-        }
-
-        if (colorType != "Red" && colorType != "Blue" && colorType != "White" && colorType != "Dark" && colorType != "BreathOnly" && colorType != "Test")
-        {
-            Debug.LogError("Color type not recognized");
+            case PreferredColorWorld.Calibration:
+                SetColorWorldByName(PreferredColorWorld.Calibration, transitionTimeSec, exponentialCurve);
+                if (worldShuffler != null)
+                    worldShuffler.ClearCurrentColorWorld();
+                else
+                    Debug.LogError("worldShuffler is null! Cannot clear current color world.");
+                break;
         }
     }
-    private void CycleColor(ref int cycleCount, string colorBaseName, string colorType, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
+
+    private static string PresetKey(PreferredColorWorld world) => world.ToString();
+
+    private static PreferredColorWorld PreferredColorWorldFromPresetName(string colorName)
     {
-        if (currentColorType == colorType)
+        string baseName = colorName;
+        if (colorName.Length > 0 && char.IsDigit(colorName[colorName.Length - 1]))
+            baseName = colorName.Substring(0, colorName.Length - 1);
+
+        if (Enum.TryParse(baseName, out PreferredColorWorld world))
+            return world;
+
+        Debug.LogWarning("LightControl: preset name '" + colorName + "' did not map to a PreferredColorWorld; defaulting to Dark.");
+        return PreferredColorWorld.Dark;
+    }
+
+    private void CycleColor(ref int cycleCount, PreferredColorWorld colorType, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
+    {
+        string colorBaseName = PresetKey(colorType);
+        if (currentColorWorld == colorType)
         {
             cycleCount++;
             switch (cycleCount % 3)
@@ -591,12 +650,20 @@ public class LightControl : MonoBehaviour
         }
     }
 
+    void SetColorWorldByName(PreferredColorWorld colorWorld, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
+    {
+        SetColorWorldByName(PresetKey(colorWorld), transitionTimeSec, exponentialCurve);
+    }
+
     void SetColorWorldByName(string colorName, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
     {
+        if (colorName == PresetKey(PreferredColorWorld.Calibration))
+            WarnIfCalibrationColorOutsideStage();
+
         if (colorPresets.TryGetValue(colorName, out var colors))
         {
             SetColorWorldByNumbers(colorName, colors.strobeColor, colors.waveColor, transitionTimeSec, exponentialCurve);
-            if (colorName == "Dark")
+            if (colorName == PresetKey(PreferredColorWorld.Dark))
             {
                 StartCoroutine(GoDark((int)(transitionTimeSec * 1000)));
             }
@@ -615,75 +682,72 @@ public class LightControl : MonoBehaviour
 
      
         //a variable that is the color name without the number
-        if (colorName.Length > 0 && char.IsDigit(colorName[colorName.Length - 1]))
-        {
-            currentColorType = colorName.Substring(0, colorName.Length - 1);
-        }
-        else
-        {
-            currentColorType = colorName;
-        }
+        currentColorWorld = PreferredColorWorldFromPresetName(colorName);
         
         SetWaveColor(1, strobeColor.Item1*_v, strobeColor.Item2*_v, strobeColor.Item3*_v, transitionTimeMS, exponentialCurve);
         SetWaveColor(2, strobeColor.Item1*_v, strobeColor.Item2*_v, strobeColor.Item3*_v, transitionTimeMS, exponentialCurve);
         SetWaveColor(3, waveColor.Item1*_v, waveColor.Item2*_v, waveColor.Item3*_v, transitionTimeMS, exponentialCurve);
 
         AVSColorCommand = $"Transition to {colorName} over {transitionTimeSec} s";
-        Debug.Log($"Transition to {colorName} over {transitionTimeSec} s with new currentColorType of {currentColorType}");
+        Debug.Log($"Transition to {colorName} over {transitionTimeSec} s with new currentColorWorld of {currentColorWorld}");
     }
 
-    void SetWaveColor(int wave, float _red, float _green, float _blue, int transitionTimeMS, bool exponentialCurve = false)
+    void SetWaveColor(int wave, float normalizedRed, float normalizedGreen, float normalizedBlue, int transitionTimeMS, bool exponentialCurve = false)
     {
-        
-        //store the current color for the wave
-        Color startColor;
+        normalizedRed = Mathf.Clamp01(normalizedRed);
+        normalizedGreen = Mathf.Clamp01(normalizedGreen);
+        normalizedBlue = Mathf.Clamp01(normalizedBlue);
+
+        UnityEngine.Color startColor;
         if (wave == 1 || wave == 2)
         {
             startColor = currentStrobeColor;
-            currentStrobeColor = new Color(_red, _green, _blue);
+            currentStrobeColor = new UnityEngine.Color(normalizedRed, normalizedGreen, normalizedBlue);
         }
         else
         {
             startColor = currentWaveColor;
-            currentWaveColor = new Color(_red, _green, _blue);
+            currentWaveColor = new UnityEngine.Color(normalizedRed, normalizedGreen, normalizedBlue);
         }
 
-        //produce error if "wave" is not between 1 and 3
         if (wave < 1 || wave > 3)
         {
             Debug.LogError("AVS wave must be between 1 and 3");
             return;
         }
 
-        //Change a string, between AVS_Red_Volume_Wave1 and AVS_Red_Volume_Wave2 (etc.) depending on the int value of wave:
+        float rtpcRed = AvsVolumeToRtpc(normalizedRed);
+        float rtpcGreen = AvsVolumeToRtpc(normalizedGreen);
+        float rtpcBlue = AvsVolumeToRtpc(normalizedBlue);
+        float rtpcStartR = AvsVolumeToRtpc(startColor.r);
+        float rtpcStartG = AvsVolumeToRtpc(startColor.g);
+        float rtpcStartB = AvsVolumeToRtpc(startColor.b);
+
         string stringRed = "AVS_Red_Volume_Wave" + wave;
         string stringGreen = "AVS_Green_Volume_Wave" + wave;
         string stringBlue = "AVS_Blue_Volume_Wave" + wave;
 
         if(!exponentialCurve)
         {
-            AkSoundEngine.SetRTPCValue(stringRed, _red, gameObjectSystem2Listener, transitionTimeMS);
-            AkSoundEngine.SetRTPCValue(stringGreen, _green, gameObjectSystem2Listener, transitionTimeMS);
-            AkSoundEngine.SetRTPCValue(stringBlue, _blue, gameObjectSystem2Listener, transitionTimeMS);
+            AkSoundEngine.SetRTPCValue(stringRed, rtpcRed, gameObjectSystem2Listener, transitionTimeMS);
+            AkSoundEngine.SetRTPCValue(stringGreen, rtpcGreen, gameObjectSystem2Listener, transitionTimeMS);
+            AkSoundEngine.SetRTPCValue(stringBlue, rtpcBlue, gameObjectSystem2Listener, transitionTimeMS);
         }
         else
-        {   
-            // Determine the curve type for each color based on the start and end values
-            
+        {
             AkCurveInterpolation curveDown = AkCurveInterpolation.AkCurveInterpolation_Exp3;
             AkCurveInterpolation curveUp = AkCurveInterpolation.AkCurveInterpolation_Log3;
 
-            AkCurveInterpolation curveR = startColor.r < _red ? curveUp : curveDown;
-            AkCurveInterpolation curveG = startColor.g < _green ? curveUp : curveDown;
-            AkCurveInterpolation curveB = startColor.b < _blue ? curveUp : curveDown;
+            AkCurveInterpolation curveR = rtpcStartR < rtpcRed ? curveUp : curveDown;
+            AkCurveInterpolation curveG = rtpcStartG < rtpcGreen ? curveUp : curveDown;
+            AkCurveInterpolation curveB = rtpcStartB < rtpcBlue ? curveUp : curveDown;
 
-            //then set the values
-            AkSoundEngine.SetRTPCValue(stringRed, _red, gameObjectSystem2Listener, transitionTimeMS, curveR);
-            AkSoundEngine.SetRTPCValue(stringGreen, _green, gameObjectSystem2Listener, transitionTimeMS, curveG);
-            AkSoundEngine.SetRTPCValue(stringBlue, _blue, gameObjectSystem2Listener, transitionTimeMS, curveB);
+            AkSoundEngine.SetRTPCValue(stringRed, rtpcRed, gameObjectSystem2Listener, transitionTimeMS, curveR);
+            AkSoundEngine.SetRTPCValue(stringGreen, rtpcGreen, gameObjectSystem2Listener, transitionTimeMS, curveG);
+            AkSoundEngine.SetRTPCValue(stringBlue, rtpcBlue, gameObjectSystem2Listener, transitionTimeMS, curveB);
         }
         
-        if(_red >0 || _green > 0 || _blue > 0)
+        if(normalizedRed > 0f || normalizedGreen > 0f || normalizedBlue > 0f)
         {
             playReference = true;
             playReferenceFrame = true;
@@ -754,6 +818,19 @@ public class LightControl : MonoBehaviour
     }
     public void Wwise_Strobe_ToneDisplay (float _input)
     {
+        if (IsCalibrationColorWorld)
+        {
+            if (toneVisualizationFlag)
+            {
+                Debug.LogWarning("Warning: AVS Tone Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+            }
+            toneVisualizationFlag = true;
+            AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave1", CalibrationFrozenStrobeDepthW1, gameObjectSystem2Listener);
+            AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave1", CalibrationFrozenStrobeMasterW1, gameObjectSystem2Listener);
+            AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave2", CalibrationFrozenStrobeMasterW2, gameObjectSystem2Listener);
+            return;
+        }
+
         float _input2 = _input;
         float _m2 = Mathf.Max(Mathf.Min(_gammaBurstMode, 1.0f), 0.0f);
         float _m1 = 1.0f - _m2;
@@ -776,6 +853,19 @@ public class LightControl : MonoBehaviour
 
     public void Wwise_Strobe_ChargeDisplay (float _input) //RENAME THIS TO JUST BE WWISE_CHARGE
     {
+        if (IsCalibrationColorWorld)
+        {
+            AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave1", CalibrationFrozenChargePwm, gameObjectSystem2Listener);
+            AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave2", CalibrationFrozenChargePwm, gameObjectSystem2Listener);
+            AkSoundEngine.SetRTPCValue("AVS_Modulation_Smoothing_Wave1", CalibrationFrozenChargeSmoothingW1, gameObjectSystem2Listener);
+            if (chargeVisualizationFlag)
+            {
+                Debug.LogWarning("Warning: AVS Charge Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+            }
+            chargeVisualizationFlag = true;
+            return;
+        }
+
         float _input2 = _input;
        
         float _i = Mathf.Max(Mathf.Min(_input2, 1.0f), 0.0f);
@@ -796,6 +886,13 @@ public class LightControl : MonoBehaviour
 
     public void Wwise_BreathDisplay (float _waveValue)
     {
+        if (IsCalibrationColorWorld)
+        {
+            AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", CalibrationFrozenBreathMasterW3, gameObjectSystem2Listener);
+            breathVisualizationFlag = true;
+            return;
+        }
+
         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", _waveValue, gameObjectSystem2Listener);
 
         if (_waveValue != 0.0f)
@@ -809,7 +906,10 @@ public class LightControl : MonoBehaviour
 
     public void FXWave(float _amplitude, float _dur, float _split, bool rampShape = false, bool allowDuringDark = false)
     {
-        if(currentColorType == "Dark" && !allowDuringDark)
+        if (IsCalibrationColorWorld)
+            return;
+
+        if(currentColorWorld == PreferredColorWorld.Dark && !allowDuringDark)
         {
             Debug.LogWarning("FXWave command ignored because the current color world is Dark");
             return;
@@ -829,9 +929,9 @@ public class LightControl : MonoBehaviour
 
         _fxWaveDict.Add(key, 0.0f);
 
-        if(currentColorType == "Dark")
+        if(currentColorWorld == PreferredColorWorld.Dark)
         {
-            SetColorWorldByName("BreathOnly", 0.1f);
+            SetColorWorldByName(PreferredColorWorld.BreathOnly, 0.1f);
             setDarkAtEnd = true;
             _delay = 0.25f;
         }
@@ -861,9 +961,9 @@ public class LightControl : MonoBehaviour
             yield return null;
         }
 
-        if(setDarkAtEnd && currentColorType == "BreathOnly")
+        if(setDarkAtEnd && currentColorWorld == PreferredColorWorld.BreathOnly)
         {
-            SetColorWorldByName("Dark", 0.1f);
+            SetColorWorldByName(PreferredColorWorld.Dark, 0.1f);
         }
 
         _fxWaveDict.Remove(key);
@@ -926,7 +1026,7 @@ public class LightControl : MonoBehaviour
 
     public void LightSettingsInitialization(float transitionTimeSec = 0.0f)
     {
-        SetPreferredColor("Dark", transitionTimeSec);
+        SetPreferredColor(PreferredColorWorld.Dark, transitionTimeSec);
         SetStrobeRate(0f, transitionTimeSec);
     }
 

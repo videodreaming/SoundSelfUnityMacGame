@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -436,7 +436,7 @@ public class Sequencer : MonoBehaviour
     public void FadeOut()
     {
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Environment);
-        LightControl.instance?.SetPreferredColor("Dark", 18f);
+        LightControl.instance?.SetPreferredColor(PreferredColorWorld.Dark, 18f);
     }
     
     
@@ -455,7 +455,7 @@ public class Sequencer : MonoBehaviour
     public void FadePreferredColorDarkAndStopAvs(float transitionTimeSec = 5f)
     {
         if (LightControl.instance != null)
-            LightControl.instance.SetPreferredColor("Dark", transitionTimeSec);
+            LightControl.instance.SetPreferredColor(PreferredColorWorld.Dark, transitionTimeSec);
         else
             DbgLogSequencer("Sequencer: LightControl.instance is null; cannot fade to Dark.", true);
         StopAllAvsPrograms();
@@ -536,7 +536,7 @@ public class Sequencer : MonoBehaviour
         }
         if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode && startLights)
         {
-            LightControl.instance?.SetColorWorldByType("Red", 0.0f);
+            LightControl.instance?.SetColorWorldByType(PreferredColorWorld.Red, 0.0f);
         }
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
         if(directorEnabled)

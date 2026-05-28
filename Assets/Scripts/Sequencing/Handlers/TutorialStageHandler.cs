@@ -84,6 +84,8 @@ namespace SoundSelf.Sequence
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             Debug.Log("TutorialStageHandler: Enter");
 
+            _sequencer.imitoneVoiceInterpreter?.ClearPinnedOrientationNoiseFloorHistory();
+
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.SetMeditationScreen();

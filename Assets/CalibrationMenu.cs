@@ -382,7 +382,7 @@ public class CalibrationMenu : MonoBehaviour
                 Debug.Log("Calibration:  Cue_AVS_Calibration_Start");
                 if (lightControl != null && lightControl.gameObject.activeInHierarchy)
                 {
-                    lightControl.SetPreferredColor("White", 5.0f);
+                    lightControl.SetPreferredColor(PreferredColorWorld.White, 5.0f);
                     lightControl.SetStrobeRate(10f, 0.0f);
                 }
                 else

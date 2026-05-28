@@ -67,16 +67,131 @@ flowchart TD
 
 ## Block 2 — Calibration-only audio / light tweaks
 
-**Test focus:** Mic calibration comfortable (−6 dB only on mic step); vibro step at gameplay level; calibration white lights match playground white brightness.
+**Test focus:** Mic calibration comfortable (−6 dB only on mic step, **1 s** fade); vibro at gameplay MicMixer level; calibration lights use dedicated **Calibration** color world (stable, not voice-pumped); playground **White1/White3** globally brighter.
+
+**Robin's note:** Mic attenuation uses named **MicMixer** dB contributions (`LerpMicMixerVolumeContributionTo` / `SetMicMixerVolumeContributionDb` on [`DirectVoiceMonitoring`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs)), not the legacy SoundSelf Mic Processing attenuation fader alone.
 
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
-| - [ ] | Mic calibration level | **Further reduce mic level during mic calibration only by another 6 dB** — not during vibroacoustic calibration | [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`DirectVoiceMonitoring.cs`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) |
-| - [ ] | Calibration lights dim | **Investigate:** calibration light level dimmer than gameplay — same color set? “White” should be equivalently bright | [`LightControl.cs`](../Assets/Scripts/MusicAndLight/LightControl.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs) (`CalibrationAvsStart` → `SetPreferredColor("White")`) |
-| - [ ] | Noise floor in orientation | **Sneak noise floor sample during calibration “orientation”** (no vocalization expected) | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs) — `SetNoiseFloorThreshold`, `imitoneActive = gameOn && !micIsNearNoiseFloor` |
+| - [x] | Mic calibration level | **1 s** lerp of extra **−6 dB** MicMixer contribution on **Microphone** step only (`CalibrationMicrophone`); generalized `LerpMicMixerVolumeContributionTo` on DVR | [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`DirectVoiceMonitoring.cs`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) |
+| - [x] | Calibration lights | See **[Calibration lights — implementation plan](#calibration-lights--implementation-plan)** below | [`LightControl.cs`](../Assets/Scripts/MusicAndLight/LightControl.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`CalibrationMenu.cs`](../Assets/CalibrationMenu.cs) |
+| - [ ] | Noise floor in orientation | See **[Noise floor — orientation (implementation plan)](#noise-floor--orientation-implementation-plan)** below | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`TutorialStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`PlaygroundStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs) |
 | - [ ] | HPF pre-imitone | **Increase HPF** on pre-imitone path to filter subwoofer bleed | [`ImitoneVoiceIntepreter.AudioThread.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.AudioThread.cs) |
 
-**Lorna (context):** Microphone very quiet globally — addressed primarily in [Block 8](#block-8--microphone-volume-envelope-large-unity-side); calibration mic too loud is separate (this block).
+### Block 2 — playtest (mic MicMixer contribution)
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [x] | **Mic step fade-in** | Enter **Microphone** calibration step: monitoring level eases to the quieter mic-test level over **~1 s** (not an instant click). |
+| - [x] | **Mic step fade-out** | Advance to **Vibro** (or any non-mic step): level eases back toward normal gameplay monitoring over **~1 s**. |
+| - [x] | **Vibro / other steps** | On **VibroAcoustic** and non-mic steps, no extra **−6 dB** offset (gameplay MicMixer sum only, e.g. **Initialization** +6 dB baseline). |
+| - [ ] | **Skip / exit calibration** | Skip or complete calibration while on mic step (or mid-fade): no stuck quiet mic in playground; `CalibrationMicrophone` contribution cleared. |
+| - [ ] | **Subjective level** | Mic step still readable/comfortable vs other steps; compare to pre-change if unsure. |
+
+**Lorna (context):** Microphone very quiet globally — addressed primarily in [Block 8](#block-8--microphone-volume-envelope-large-unity-side); calibration mic level is separate (this block).
+
+---
+
+### Calibration lights — implementation plan
+
+**Investigation summary:** Calibration used the same `SetPreferredColor("White")` → `White1/2/3` presets as gameplay, but (1) **White** presets are numerically dimmer than Red/Blue in `colorPresets`, (2) playground often shuffles to Red/Blue, (3) calibration had **no** voice-driven strobe boosts (`Wwise_Strobe_ToneDisplay` / `ChargeDisplay`) on the light-glasses step (`gameOn` off) and limited pumping on mic step.
+
+**Decisions (confirmed):**
+
+| Topic | Choice |
+|--------|--------|
+| White1 / White3 brightness | **+25% RGB** on strobe + wave — **global** (all sessions using those presets) |
+| Calibration color | New color world **`Calibration`** — single preset (copy of **White2**), only calibration may select it |
+| Strobe tone / charge | **Freeze at minimum modulation** (`_input = 0`) for calmer screen — not 0.5 |
+| Breath AVS | **Freeze** `Wwise_BreathDisplay` (wave 3 master at 0) while in Calibration color world |
+| `_fxWave` / breath add-on | **Bypass** during Calibration color world (no `FXWave` pulsing from breath) |
+| Misuse of Calibration world | **One-time `Debug.LogWarning`** if Calibration color active outside calibration stage (log only) |
+| Terminology | **Color world** = `SetPreferredColor` type (`Red`, `White`, `Calibration`, …); **preset** = `colorPresets` key (`White2`, `Calibration`, …) |
+
+**Frozen RTPC values** (from [`LightControl`](Assets/Scripts/MusicAndLight/LightControl.cs) formulas at `_input = 0`, `_gammaBurstMode = 0`):
+
+| Method | RTPCs set |
+|--------|-----------|
+| `Wwise_Strobe_ToneDisplay` | Depth W1 **44**, Master W1 **45**, Master W2 **0** |
+| `Wwise_Strobe_ChargeDisplay` | PWM W1/W2 **25**, Smoothing W1 **100** |
+| `Wwise_BreathDisplay` | Master W3 **0** |
+
+**Implementation checklist:**
+
+| Done | Step | Details |
+|------|------|---------|
+| - [x] | **1a. White1 +25%** | Update `colorPresets` strobe/wave for `White1` (replace magic numbers; document +25% in comments) |
+| - [x] | **1b. White3 +25%** | Same for `White3` |
+| - [x] | **2a. `Calibration` preset** | Add `Calibration` entry to `colorPresets` — copy **current White2** strobe/wave values |
+| - [x] | **2b. `Calibration` color type** | Allow `"Calibration"` in `SetPreferredColor` / `SetColorWorldByType`; `SetColorWorldByName("Calibration")`; `worldShuffler.ClearCurrentColorWorld()` — **do not** add to `WorldShuffler.availableColorWorlds` |
+| - [x] | **2c. Stage uses Calibration** | `CalibrationAvsStart`: `SetPreferredColor("Calibration", 5f)` + `SetStrobeRate(10f, 0)` — [`CalibrationStageHandler`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs) (legacy `CalibrationMenu` callback is commented out) |
+| - [x] | **2d. Stage flag** | `LightControl.SetCalibrationColorWorldStageActive(true/false)` from handler on Avs start/end + `LocalCleanup` |
+| - [x] | **2e. Misuse warning** | One-time warning if Calibration color selected while stage flag false |
+| - [x] | **3a. Freeze tone/charge** | Early return in `Wwise_Strobe_ToneDisplay` / `Wwise_Strobe_ChargeDisplay` when `currentColorWorld == Calibration`; apply frozen RTPCs above |
+| - [x] | **3b. Freeze breath** | Early return in `Wwise_BreathDisplay` when Calibration — force Master W3 **0** |
+| - [x] | **3c. Bypass `_fxWave`** | `GetBreathFxWaveAddOn()` returns 0 during Calibration; `FXWave` ignored while Calibration color world active |
+| - [x] | **4. Playtest** | Light-glasses step: stable white, no voice pumping; mic step: still readable tone UI but lights steady; leaving calibration → Dark; playground White1/3 brighter than before |
+
+```mermaid
+flowchart LR
+  subgraph global [Global gameplay]
+    W1[White1 plus 25pct]
+    W3[White3 plus 25pct]
+  end
+  subgraph calOnly [Calibration only]
+    CalPreset[Calibration preset equals White2]
+    Freeze[Freeze tone charge breath at 0]
+    NoFx[No fxWave breath add-on]
+  end
+  CalStage[CalibrationAvsStart] --> CalPreset
+  CalPreset --> Freeze
+  CalPreset --> NoFx
+```
+
+---
+
+### Noise floor — orientation (implementation plan)
+
+**Scope:** **`CalibrationUI.Start` only** — the first calibration screen (“orientation”), ~**15 s**, same step list as [`CalibrationStageHandler`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs) (`MapStepToPortion` → `"Intro"`). **Not** Opening, not Headphone/Mic/Lights. Pinned sample **persists through Opening** until Tutorial or Playground stage **Enter**.
+
+**Goal:** Before the user is asked to tone on the **Microphone** step, seed imitone’s adaptive threshold from a **quiet-room** estimate taken while `expectNoiseFloor` is true (no jump-triggered 1.5 s samples during that window).
+
+**Current system (unchanged for gameplay):** Jump on raw `_dbMicrophone` → drop → **1.5 s** average → append to `noiseMeasurements` → **median** + **3 dB** → `SetThreshold()`. Ephemeral entries expire after **120 s**.
+
+**Memory model change (Option A):** Extend history to `(timestamp, db, pinned)`. **Prune** only `!pinned && age > 120 s`. **At most one** pinned orientation sample per calibration run; **`BeginOrientationNoiseFloorSampling()`** removes any previous pinned entry. Median/threshold logic unchanged.
+
+| Phase | Behavior |
+|--------|----------|
+| **Begin** | `CalibrationStageHandler` when orientation starts (`Enter` on `Start`, or re-enter `Start`): `expectNoiseFloor = true`, stop in-flight `MeasureNoiseFloorCoroutine`, clear prior **pinned**, reset sum/count. **Suppress** jump-triggered coroutines. Accumulate `_dbMicrophone` every frame. |
+| **During (~15 s)** | No jump coroutines. **Do not** push partial averages to `SetThreshold()` each frame — accumulate only; apply once on **End**. |
+| **End** | Leaving `Start` (primary: `Cue_Calibration_Intro_End` before advance; also any path off `Start`): mean dB over window → **one pinned** history entry → prune → median → `SetThreshold()`, `expectNoiseFloor = false`. |
+| **Skip calibration** | `LocalCleanup` while still on `Start`: commit if accumulated duration **> 5 s**, else discard; always clear `expectNoiseFloor`. |
+| **Clear pinned** | `TutorialStageHandler.Enter()` and `PlaygroundStageHandler.Enter()` call `ClearPinnedOrientationNoiseFloorHistory()` (recompute median/threshold without pinned). **Opening does not clear.** |
+
+**API (on `ImitoneVoiceIntepreter`):** `BeginOrientationNoiseFloorSampling()`, `EndOrientationNoiseFloorSamplingAndCommit()`, `ClearPinnedOrientationNoiseFloorHistory()`. Refactor: `RecordNoiseFloorMeasurement(db, pinned)`, `PruneExpiredNoiseMeasurements()`, `ApplyMedianNoiseFloorThreshold()`. Remove unused **`noiseFloorFlag`**.
+
+**Implementation checklist:**
+
+| Done | Step | Details |
+|------|------|---------|
+| - [x] | **NF-1. Tuple + prune** | `noiseMeasurements`: `(time, db, pinned)`; prune respects `pinned` |
+| - [x] | **NF-2. Orientation accumulate** | `expectNoiseFloor`: per-frame sum/count; suppress jumps; stop in-flight coroutine on begin |
+| - [x] | **NF-3. Cal handler hooks** | Begin on `Start`; End before leave `Start` / Intro_End; skip commit if **> 5 s** |
+| - [x] | **NF-4. Clear pinned** | Tutorial + Playground `Enter()` only |
+| - [x] | **NF-5. Cleanup** | Delete `noiseFloorFlag`; shared commit/prune/median helpers |
+| - [ ] | **NF-6. Playtest** | See checklist below |
+
+**Block 2 — playtest (noise floor orientation)**
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [x] | **Inspector / telemetry** | During `Start`: `expectNoiseFloor` true; orientation sample count/elapsed increases; no jump coroutine phase activity. |
+| - [ ] | **After Intro_End** | Threshold moves off default **−52** if room level differs; `telemetryNoiseMeasurementsCount` includes **one pinned** sample. |
+| - [ ] | **Mic step** | With `gameOn`, toning near floor behaves reasonably (not permanently dead from stale −52). |
+| - [ ] | **Through Opening** | Pinned still present in telemetry until Tutorial/Playground **Enter** (then cleared). |
+| - [ ] | **Skip from Start (short)** | Skip before **5 s** on Start: no pinned commit; **5 s or more** on Start: partial average committed. |
+
+**Playtest note — intro VO in the average:** The orientation window includes time after the user presses **Next** when **Wwise intro VO** may play from the device. That audio is included in the **mean** (not excluded). If the mic step feels too insensitive afterward, consider a follow-up (e.g. measure only pre-Next silence, or percentile instead of mean) — out of scope for v1.
 
 ---
 
@@ -161,9 +276,11 @@ flowchart LR
 - **Master fundamental:** Controlled by user or music system authority.
 - **Input driven:** Most current behavior in [`MusicSystem1.cs`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs). Generally updates master when **not** in MusicLoops mode (Freeplay / interactive). In MusicLoops, master fed from loop key (and likely tutorial / savasana from coroutine/director — review closing/opening/tutorial).
 
-### Wwise music-key cues (12 pitches) — Lorna + Unity
+### Wwise music-key cues — Lorna + Unity
 
-**Context:** Lorna is adding Wwise user cues wherever the **music bed changes key** — opening, closing, and transitions **out of / within MusicLoops** (playlist segments, loop crossfades, etc.). Unity should set the **master fundamental** from those cues instead of guessing from loop metadata alone.
+**Context:** Lorna embeds user cues wherever the **music bed changes key** — opening, closing, and transitions **out of / within MusicLoops**. Unity sets the **master fundamental** from those cues (not from loop metadata alone).
+
+**Wwise cue format (from Lorna):** `Cue_Key_{pitch}` — pitch suffix uses **naturals** (`C`, `D`, …) or **sharp/flat spellings as below** (`Gsharp`, `Bflat`, `Aflat`, `Eflat`). Replaces the old `Cue_MusicKey_*` placeholders.
 
 **Listeners (both must delegate to one shared handler — no duplicated switch cases):**
 
@@ -172,41 +289,52 @@ flowchart LR
 | [`WwiseVOManager.VOCallbackFunction`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) | Opening, tutorial VO, preparation sequences, etc. |
 | [`WwiseVOManager.ClosingCallBackFunction`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) | Thematic savasana, ascending closing |
 
-**Implementation shape (no code yet):**
+**Implementation shape:**
 
-1. Add **`TryHandleMusicFundamentalCue(string cue) → bool`** on `WwiseVOManager` (or a small dedicated helper class called from it).
-2. At the **top** of each callback’s `switch` (or via `default` that tries this first and returns), call the shared method; if it returns `true`, skip other handling.
-3. Map cue name → `NoteName` → `MusicSystem1` master update (e.g. content lock or `SetFundamentalDirect` — align with master/input-driven split above).
-4. Single dictionary or generated table for all 12 names; optional log when unknown `Cue_MusicKey_*` arrives.
+1. Add **`TryHandleMusicKeyCue(string cue) → bool`** on `WwiseVOManager` (or a small helper called from it).
+2. At the **top** of each callback (before the big `switch`, or first in `default`), call the shared method; if it returns `true`, return early.
+3. Map exact cue string → [`NoteName`](../Assets/Scripts/Utilities/ConversionUtilities.cs) → `MusicSystem1` master update (`SetFundamentalDirect` / content lock — align with master vs input-driven split).
+4. Single dictionary keyed by full cue name (e.g. `"Cue_Key_C"`). Log unknown `Cue_Key_*` at warning level.
 
-**Placeholder cue names (replace when Lorna’s Wwise names are final):**
+**Cue → `NoteName` map (use Lorna’s strings exactly):**
 
-| Note | Placeholder cue |
-|------|-----------------|
-| C | `Cue_MusicKey_C` |
-| C♯ / D♭ | `Cue_MusicKey_Cs` |
-| D | `Cue_MusicKey_D` |
-| D♯ / E♭ | `Cue_MusicKey_Ds` |
-| E | `Cue_MusicKey_E` |
-| F | `Cue_MusicKey_F` |
-| F♯ / G♭ | `Cue_MusicKey_Fs` |
-| G | `Cue_MusicKey_G` |
-| G♯ / A♭ | `Cue_MusicKey_Gs` |
-| A | `Cue_MusicKey_A` |
-| A♯ / B♭ | `Cue_MusicKey_As` |
-| B | `Cue_MusicKey_B` |
+| Wwise cue | `NoteName` | Notes |
+|-----------|------------|--------|
+| `Cue_Key_C` | C | |
+| `Cue_Key_D` | D | |
+| `Cue_Key_E` | E | |
+| `Cue_Key_F` | F | |
+| `Cue_Key_G` | G | |
+| `Cue_Key_A` | A | |
+| `Cue_Key_B` | B | |
+| `Cue_Key_Gsharp` | Gs | G♯ |
+| `Cue_Key_Bflat` | As | B♭ |
+| `Cue_Key_Aflat` | Gs | A♭ ≡ G♯ in 12-TET |
+| `Cue_Key_Eflat` | Ds | E♭ |
 
-Suffixes should match [`NoteUtils.NoteToWwiseString`](../Assets/Scripts/Utilities/ConversionUtilities.cs) conventions where possible so renaming is a one-line table edit.
+**Not in Lorna’s naming yet (optional aliases if she adds later):** `Cue_Key_Fsharp`, `Cue_Key_Csharp`, `Cue_Key_Dsharp`, etc. — only add when Wwise uses them.
+
+Wwise **interactive** switches still use [`NoteUtils.NoteToWwiseString`](../Assets/Scripts/Utilities/ConversionUtilities.cs) (`CsharpDflat`, …); cue names are separate from switch group spellings.
+
+**Example timeline from Lorna (one bed — reference only):**
+
+```
+Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
+→ Cue_Key_Gsharp → Cue_Key_Bflat → Cue_Key_C → (n/a) → Cue_Key_Aflat → Cue_Key_C
+→ Cue_Key_C → Cue_Key_C → Cue_Key_D → Cue_Key_C → Cue_Key_C → Cue_Key_Eflat
+→ Cue_Key_C → Cue_Key_C → Cue_Key_A
+```
+
+`(n/a)` = no cue at that moment in her sheet — not a Wwise cue name.
 
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
-| - [ ] | Shared cue handler | `TryHandleMusicFundamentalCue` — one implementation, called from **both** `VOCallbackFunction` and `ClosingCallBackFunction` | [`WwiseVOManager.cs`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) |
-| - [ ] | Placeholder cue table | Wire all 12 `Cue_MusicKey_*` names above; document that names are provisional | Same |
-| - [ ] | Apply to master fundamental | On match: update master fundamental (and binaural follow-up per Block 7) | [`MusicSystem1.cs`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs) |
-| - [ ] | Lorna: embed cues in music | Cues on key change in opening / closing / music-loop segments | Wwise — [Appendix A](#appendix-a--externallorna--non-unity-batch-together) |
-| - [ ] | Rename pass | When Lorna delivers final names, update table only (no listener duplication) | `WwiseVOManager` cue map |
+| - [ ] | Shared cue handler | `TryHandleMusicKeyCue` — one implementation, both `VOCallbackFunction` and `ClosingCallBackFunction` | [`WwiseVOManager.cs`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) |
+| - [ ] | `Cue_Key_*` table | Wire map above (Lorna’s spellings); log unknown `Cue_Key_*` | Same |
+| - [ ] | Apply to master fundamental | On match: update master (+ binaural per Block 7) | [`MusicSystem1.cs`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs) |
+| - [ ] | Lorna: embed cues in Wwise | Key changes per her timelines in opening / closing / music-loop segments | Wwise — [Appendix A](#appendix-a--externallorna--non-unity-batch-together) |
 
-**Test:** Opening or closing segment with known key change fires cue → log shows note → Wwise fundamental switch matches bed; same behavior whether cue arrived on VO or closing callback.
+**Test:** Known `Cue_Key_*` in opening/closing → log shows note → fundamental matches bed; same on VO and closing callbacks.
 
 ---
 
@@ -292,7 +420,7 @@ Suffixes should match [`NoteUtils.NoteToWwiseString`](../Assets/Scripts/Utilitie
 | - [ ] | Mic volume acceptable (Block 8) across session |
 | - [ ] | Single sound world / harmonious pitches (Block 7) |
 | - [ ] | Silent loops persist through toning stops (Block 7) |
-| - [ ] | Wwise `Cue_MusicKey_*` cues update master fundamental (opening + closing callbacks) |
+| - [ ] | Wwise `Cue_Key_*` cues update master fundamental (opening + closing callbacks) |
 
 ---
 
@@ -312,7 +440,7 @@ Use one outreach session for Lorna; separate block for Robin non-dev tasks.
 | - [ ] | **Copy:** Update in-app and launcher text to Lorna’s preferred wording |
 | - [ ] | **DualStage Stage 1 closing** variant if pursuing later release |
 | - [ ] | **Stop_Toning / fade timings** in Wwise vs Unity — coordinate after Block 4 audit |
-| - [ ] | **Music-key cues (12 pitches):** Add user cues on every music key change in opening, closing, and music-loop beds. Unity placeholders: `Cue_MusicKey_C` … `Cue_MusicKey_B` (Robin will rename in code when final) — see [Block 7 — Wwise music-key cues](#wwise-music-key-cues-12-pitches--lorna--unity) |
+| - [ ] | **Music-key cues:** Format `Cue_Key_{pitch}` (`Cue_Key_C`, `Cue_Key_Gsharp`, `Cue_Key_Bflat`, …) on key changes — see [Block 7 — Wwise music-key cues](#wwise-music-key-cues--lorna--unity) |
 
 ### Robin — non-Unity
 

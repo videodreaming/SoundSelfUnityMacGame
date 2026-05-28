@@ -86,7 +86,7 @@ public class CSVLoader : MonoBehaviour
     public const string ContentPackAlbumSonoflore = "AlbumSonoflore";
 
     /// <summary>Seconds shorter than pack baseline when Wwise <c>VO_ClosingGoodbye</c> is Short (returned from <see cref="VOInitializations"/> as negative).</summary>
-    public const float ClosingGoodbyeShortVersusLongDeltaSeconds = 60f; //was 53, manually changed to 60
+    public const float ClosingGoodbyeShortVersusLongDeltaSeconds = 53f; //was 53, manually changed to 60
 
     /// <summary>Hummingbird sends exactly these modes (case-insensitive); unknown strings pass through unchanged.</summary>
     public static string NormalizeGameMode(string raw)

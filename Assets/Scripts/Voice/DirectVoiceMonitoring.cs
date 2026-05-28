@@ -52,11 +52,48 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [Tooltip("Smoothing time for attenuation transitions to reduce click risk when toggled.")]
     [SerializeField] [Range(0.005f, 0.25f)] private float attenuationSmoothingSeconds = 0.03f;
 
-    // TODO (next cleanup pass): Move per-music-type monitoring attenuation (today MusicSystem1 →
-    // AttenuateMonitoring / monitoringAttenuated + monitoringAttenuationDb for SoundWorld vs MusicLoop)
-    // into the named MicMixer volume contributions below (SetMicMixerVolumeContributionDb), and retire
-    // or slim this software path. Re-tune the dB values — inspector fields here are temporarily zeroed
-    // while that behavior is bypassed; confirm against MicMixer Initialization (+6 dB) and Calibration (−6).
+    // =============================================================================
+    // TODO (AI — read before refactoring monitoring or record/replay on the mic bus)
+    // =============================================================================
+    // Trigger: planned record/replay and a monitoring cleanup pass (discuss with Robin first —
+    // do not implement unilaterally). Block 2 playtest notes in Docs/PLAYTEST_NOTES_ORGANIZED.md
+    // cover calibration MicMixer contribution only; this block is the architecture plan.
+    //
+    // Current architecture (two parallel gain systems in this class):
+    //
+    // 1) MicMixer bus fader (below) — named dB contributions summed into exposed parameter
+    //    micMixerVolumeParameterName (default MicProcessingVolume) on mixer group
+    //    SoundSelf MicProcessing. LerpMicMixerVolumeContributionTo for stepped changes.
+    //    Live contributors today: Initialization (+6 dB at startup), CalibrationMicrophone
+    //    (CalibrationStageHandler, target/duration in handler).
+    //
+    // 2) Software monitoring gain — ApplyMonitoringVolume (main thread): scales
+    //    monitoringSource.volume by gameOnScale x chargeDuckScale x chantPresenceScale, then
+    //    x AttenuateMonitoring / monitoringAttenuationDb. chargeDuckScale follows GameValues
+    //    _chantCharge / chargeLerp; chantPresenceScale follows GameValues._chantLerpSlow.
+    //    Chant charge ducking is NOT on the MicMixer contribution dict.
+    //    MusicSystem1 drives AttenuateMonitoring for SoundWorld vs MusicLoop
+    //    (SetMonitoringAttenuationOnce, tutorial/calibration overrides). Calibration uses
+    //    SetChantBasedAttenuationOverride to force chant duck off while gameOn gate stays live.
+    //
+    // Likely direction (needs design agreement):
+    // - Record/replay will add pre-recorded elements on the mic bus BEFORE SoundSelf
+    //   MicProcessing. Session/scene level rides (SoundWorld attenuation, calibration offsets,
+    //   future modes) should probably move to mixer stages before MicProcessing, not only
+    //   MicProcessingVolume + per-frame monitoringSource scaling — so live mic, replay beds,
+    //   and shared buses use one clear gain structure.
+    // - Initialization may stay the global startup offset on MicProcessing (or move earlier
+    //   on the bus — decide in design).
+    // - Retire or slim AttenuateMonitoring + MusicSystem1 monitoringAttenuationApplied cache
+    //   once equivalents exist as named bus contributions or pre-fader automation; use
+    //   LerpMicMixerVolumeContributionTo (or successor) for fades.
+    // - Re-unify chant/gameOn dynamics: chantPresence / chargeDuck as monitoringSource scale vs
+    //   mixer contributions vs split (e.g. gameOn pre-fader, chant duck post-sum).
+    //
+    // See also: MusicSystem1.SetMonitoringAttenuationOnce / SetCalibrationMonitoringOverride,
+    // CalibrationStageHandler.SyncMicMixerForCalibrationStep, GameValues chant charge coroutines,
+    // WorldShuffler.cs TODO (Director/color — separate refactor).
+    // =============================================================================
 
     [Header("MicMixer bus volume (named dB contributions)")]
     [Tooltip("Exposed MicMixer parameter (SoundSelf MicProcessing → Volume).")]
@@ -66,6 +103,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] private float debugMicMixerVolumeSumDb;
 
     public const string MicMixerInitializationContributionName = "Initialization";
+    /// <summary>Named MicMixer offset used during calibration mic test (see <c>CalibrationStageHandler</c> for target dB / duration).</summary>
+    public const string CalibrationMicrophoneContributionName = "CalibrationMicrophone";
 
     [Header("Dynamic Monitoring Volume")]
     [Tooltip("When enabled, monitoring volume follows gameOn/toneActive/chant state (migrated from MusicSystem1).")]
@@ -128,6 +167,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private float smoothedAttenuationScale = 1f;
     private bool attenuationScaleInitialized;
     private readonly Dictionary<string, float> micMixerVolumeContributionsDb = new Dictionary<string, float>();
+    private readonly Dictionary<string, Coroutine> _micMixerVolumeContributionLerpCoroutines = new Dictionary<string, Coroutine>();
     private AudioMixer resolvedMicMixer;
     private bool loggedMicMixerApplyFailure;
     /// <summary>External override (e.g. <c>CalibrationStageHandler</c>) — when true, the chant-driven ducking contributions (<c>chantPresenceScale</c> and <c>chargeDuckScale</c>) are forced to 1f. Mic-gate (<c>gameOnScale</c>) and outer attenuation are unaffected.</summary>
@@ -950,7 +990,55 @@ public class DirectVoiceMonitoring : MonoBehaviour
         return true;
     }
 
-    /// <summary>Adds or updates a named dB contribution; reapplies the summed MicMixer fader.</summary>
+    /// <summary>Linearly lerps a named dB contribution, then removes the key if <paramref name="targetDb"/> is ~0 and <paramref name="removeContributionWhenTargetIsZero"/> is true.</summary>
+    public void LerpMicMixerVolumeContributionTo(
+        string contributionName,
+        float targetDb,
+        float durationSeconds,
+        bool useUnscaledTime = true,
+        bool removeContributionWhenTargetIsZero = true)
+    {
+        if (string.IsNullOrEmpty(contributionName))
+        {
+            return;
+        }
+
+        CancelMicMixerVolumeContributionLerp(contributionName);
+        _micMixerVolumeContributionLerpCoroutines[contributionName] = StartCoroutine(
+            LerpMicMixerVolumeContributionCoroutine(
+                contributionName,
+                targetDb,
+                durationSeconds,
+                useUnscaledTime,
+                removeContributionWhenTargetIsZero));
+    }
+
+    /// <summary>Stops an in-flight lerp for <paramref name="contributionName"/> without changing the current contribution value.</summary>
+    public void CancelMicMixerVolumeContributionLerp(string contributionName)
+    {
+        if (string.IsNullOrEmpty(contributionName))
+        {
+            return;
+        }
+
+        if (_micMixerVolumeContributionLerpCoroutines.TryGetValue(contributionName, out Coroutine coroutine) && coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+
+        _micMixerVolumeContributionLerpCoroutines.Remove(contributionName);
+    }
+
+    /// <summary>Stops all in-flight MicMixer contribution lerps without changing current contribution values.</summary>
+    public void CancelAllMicMixerVolumeContributionLerps()
+    {
+        foreach (string contributionName in new List<string>(_micMixerVolumeContributionLerpCoroutines.Keys))
+        {
+            CancelMicMixerVolumeContributionLerp(contributionName);
+        }
+    }
+
+    /// <summary>Adds or updates a named dB contribution; reapplies the summed MicMixer fader. Cancels any in-flight lerp for this name.</summary>
     public void SetMicMixerVolumeContributionDb(string contributionName, float volumeDb)
     {
         if (string.IsNullOrEmpty(contributionName))
@@ -958,11 +1046,12 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
+        CancelMicMixerVolumeContributionLerp(contributionName);
         micMixerVolumeContributionsDb[contributionName] = volumeDb;
         ApplyMicMixerVolumeFromContributions();
     }
 
-    /// <summary>Removes a named dB contribution if present; reapplies the summed MicMixer fader.</summary>
+    /// <summary>Removes a named dB contribution if present; reapplies the summed MicMixer fader. Cancels any in-flight lerp for this name.</summary>
     public bool RemoveMicMixerVolumeContribution(string contributionName)
     {
         if (string.IsNullOrEmpty(contributionName))
@@ -970,6 +1059,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return false;
         }
 
+        CancelMicMixerVolumeContributionLerp(contributionName);
         bool removed = micMixerVolumeContributionsDb.Remove(contributionName);
         if (removed)
         {
@@ -977,19 +1067,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         return removed;
-    }
-
-    /// <summary>Changes an existing named contribution; no-op if the name is missing.</summary>
-    public bool TryChangeMicMixerVolumeContributionDb(string contributionName, float volumeDb)
-    {
-        if (string.IsNullOrEmpty(contributionName) || !micMixerVolumeContributionsDb.ContainsKey(contributionName))
-        {
-            return false;
-        }
-
-        micMixerVolumeContributionsDb[contributionName] = volumeDb;
-        ApplyMicMixerVolumeFromContributions();
-        return true;
     }
 
     public bool TryGetMicMixerVolumeContributionDb(string contributionName, out float volumeDb)
@@ -1012,6 +1089,59 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         return sum;
+    }
+
+    private IEnumerator LerpMicMixerVolumeContributionCoroutine(
+        string contributionName,
+        float targetDb,
+        float durationSeconds,
+        bool useUnscaledTime,
+        bool removeContributionWhenTargetIsZero)
+    {
+        float startDb = 0f;
+        if (TryGetMicMixerVolumeContributionDb(contributionName, out float currentDb))
+        {
+            startDb = currentDb;
+        }
+
+        if (Mathf.Approximately(startDb, targetDb))
+        {
+            CommitMicMixerVolumeContributionLerpEnd(contributionName, targetDb, removeContributionWhenTargetIsZero);
+            yield break;
+        }
+
+        float duration = Mathf.Max(0.01f, durationSeconds);
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float db = Mathf.Lerp(startDb, targetDb, t);
+            micMixerVolumeContributionsDb[contributionName] = db;
+            ApplyMicMixerVolumeFromContributions();
+            yield return null;
+        }
+
+        CommitMicMixerVolumeContributionLerpEnd(contributionName, targetDb, removeContributionWhenTargetIsZero);
+    }
+
+    private void CommitMicMixerVolumeContributionLerpEnd(
+        string contributionName,
+        float targetDb,
+        bool removeContributionWhenTargetIsZero)
+    {
+        _micMixerVolumeContributionLerpCoroutines.Remove(contributionName);
+
+        if (removeContributionWhenTargetIsZero && Mathf.Approximately(targetDb, 0f))
+        {
+            micMixerVolumeContributionsDb.Remove(contributionName);
+        }
+        else
+        {
+            micMixerVolumeContributionsDb[contributionName] = targetDb;
+        }
+
+        ApplyMicMixerVolumeFromContributions();
     }
 
     private void ApplyMicMixerVolumeFromContributions()
