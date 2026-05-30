@@ -67,6 +67,8 @@ flowchart TD
 
 ## Block 2 — Calibration-only audio / light tweaks
 
+**Block 2 status: complete** (implementation + playtest verified). Parallel **[inspector cleanup](INSPECTOR_CLEANUP_IMITONE_AND_DVR2.md)** for `ImitoneVoiceIntepreter` and `DirectVoiceMonitoring` is also **complete**.
+
 **Test focus:** Mic calibration comfortable (−6 dB only on mic step, **1 s** fade); vibro at gameplay MicMixer level; calibration lights use dedicated **Calibration** color world (stable, not voice-pumped); playground **White1/White3** globally brighter.
 
 **Robin's note:** Mic attenuation uses named **MicMixer** dB contributions (`LerpMicMixerVolumeContributionTo` / `SetMicMixerVolumeContributionDb` on [`DirectVoiceMonitoring`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs)), not the legacy SoundSelf Mic Processing attenuation fader alone.
@@ -75,8 +77,8 @@ flowchart TD
 |------|------|--------|---------------|
 | - [x] | Mic calibration level | **1 s** lerp of extra **−6 dB** MicMixer contribution on **Microphone** step only (`CalibrationMicrophone`); generalized `LerpMicMixerVolumeContributionTo` on DVR | [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`DirectVoiceMonitoring.cs`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) |
 | - [x] | Calibration lights | See **[Calibration lights — implementation plan](#calibration-lights--implementation-plan)** below | [`LightControl.cs`](../Assets/Scripts/MusicAndLight/LightControl.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`CalibrationMenu.cs`](../Assets/CalibrationMenu.cs) |
-| - [ ] | Noise floor in orientation | See **[Noise floor — orientation (implementation plan)](#noise-floor--orientation-implementation-plan)** below | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`TutorialStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`PlaygroundStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs) |
-| - [ ] | HPF pre-imitone | **Increase HPF** on pre-imitone path to filter subwoofer bleed | [`ImitoneVoiceIntepreter.AudioThread.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.AudioThread.cs) |
+| - [x] | Noise floor in orientation | See **[Noise floor — orientation (implementation plan)](#noise-floor--orientation-implementation-plan)** below | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`TutorialStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`PlaygroundStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs) |
+| - [x] | HPF pre-imitone | **Increase HPF** on pre-imitone path to filter subwoofer bleed | [`ImitoneVoiceIntepreter.AudioThread.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.AudioThread.cs) |
 
 ### Block 2 — playtest (mic MicMixer contribution)
 
@@ -85,8 +87,8 @@ flowchart TD
 | - [x] | **Mic step fade-in** | Enter **Microphone** calibration step: monitoring level eases to the quieter mic-test level over **~1 s** (not an instant click). |
 | - [x] | **Mic step fade-out** | Advance to **Vibro** (or any non-mic step): level eases back toward normal gameplay monitoring over **~1 s**. |
 | - [x] | **Vibro / other steps** | On **VibroAcoustic** and non-mic steps, no extra **−6 dB** offset (gameplay MicMixer sum only, e.g. **Initialization** +6 dB baseline). |
-| - [ ] | **Skip / exit calibration** | Skip or complete calibration while on mic step (or mid-fade): no stuck quiet mic in playground; `CalibrationMicrophone` contribution cleared. |
-| - [ ] | **Subjective level** | Mic step still readable/comfortable vs other steps; compare to pre-change if unsure. |
+| - [x] | **Skip / exit calibration** | Skip or complete calibration while on mic step (or mid-fade): no stuck quiet mic in playground; `CalibrationMicrophone` contribution cleared. |
+| - [x] | **Subjective level** | Mic step still readable/comfortable vs other steps; compare to pre-change if unsure. |
 
 **Lorna (context):** Microphone very quiet globally — addressed primarily in [Block 8](#block-8--microphone-volume-envelope-large-unity-side); calibration mic level is separate (this block).
 
@@ -179,17 +181,17 @@ flowchart LR
 | - [x] | **NF-3. Cal handler hooks** | Begin on `Start`; End before leave `Start` / Intro_End; skip commit if **> 5 s** |
 | - [x] | **NF-4. Clear pinned** | Tutorial + Playground `Enter()` only |
 | - [x] | **NF-5. Cleanup** | Delete `noiseFloorFlag`; shared commit/prune/median helpers |
-| - [ ] | **NF-6. Playtest** | See checklist below |
+| - [x] | **NF-6. Playtest** | See checklist below |
 
 **Block 2 — playtest (noise floor orientation)**
 
 | Done | Step | Pass criteria |
 |------|------|----------------|
 | - [x] | **Inspector / telemetry** | During `Start`: `expectNoiseFloor` true; orientation sample count/elapsed increases; no jump coroutine phase activity. |
-| - [ ] | **After Intro_End** | Threshold moves off default **−52** if room level differs; `telemetryNoiseMeasurementsCount` includes **one pinned** sample. |
-| - [ ] | **Mic step** | With `gameOn`, toning near floor behaves reasonably (not permanently dead from stale −52). |
-| - [ ] | **Through Opening** | Pinned still present in telemetry until Tutorial/Playground **Enter** (then cleared). |
-| - [ ] | **Skip from Start (short)** | Skip before **5 s** on Start: no pinned commit; **5 s or more** on Start: partial average committed. |
+| - [x] | **After Intro_End** | Threshold moves off default **−52** if room level differs; `telemetryNoiseMeasurementsCount` includes **one pinned** sample. |
+| - [x] | **Mic step** | With `gameOn`, toning near floor behaves reasonably (not permanently dead from stale −52). |
+| - [x] | **Through Opening** | Pinned still present in telemetry until Tutorial/Playground **Enter** (then cleared). |
+| - [x] | **Skip from Start (short)** | Skip before **5 s** on Start: no pinned commit; **5 s or more** on Start: partial average committed. |
 
 **Playtest note — intro VO in the average:** The orientation window includes time after the user presses **Next** when **Wwise intro VO** may play from the device. That audio is included in the **mean** (not excluded). If the mic step feels too insensitive afterward, consider a follow-up (e.g. measure only pre-Next silence, or percentile instead of mean) — out of scope for v1.
 

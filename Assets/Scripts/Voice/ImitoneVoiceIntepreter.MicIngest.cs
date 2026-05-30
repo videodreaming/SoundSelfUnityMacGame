@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public partial class ImitoneVoiceIntepreter
 {
@@ -10,26 +9,24 @@ public partial class ImitoneVoiceIntepreter
         Mono = 1
     }
 
-    [Header("Microphone Source")]
-    [SerializeField] private string preferredDeviceName = "";
-    [SerializeField] [FormerlySerializedAs("sampleRate")] private int micCaptureSampleRate = 48000;
-    [SerializeField] private int loopLengthSeconds = 6;
+    private string preferredDeviceName = "";
+    private int micCaptureSampleRate = 48000;
+    private int loopLengthSeconds = 6;
     [Tooltip("Chunk size used for microphone GetData reads to reduce allocation churn.")]
-    [SerializeField] private int micReadChunkSize = 2048;
+    private int micReadChunkSize = 2048;
     [Tooltip("Retry interval used when microphone device is unavailable or capture fails.")]
-    [SerializeField] private float recoveryRetryIntervalSeconds = 1f;
+    private float recoveryRetryIntervalSeconds = 1f;
     [Tooltip("How long (seconds) with no microphone write-head movement before mic recovery is scheduled. " +
              "Replaces the previous frame-count threshold so behavior is FPS-independent — default 2 s " +
              "preserves the original 60 FPS / 120-frame timing across the 30 / 20 FPS power-aware caps. " +
              "Uses Time.unscaledDeltaTime so recovery still fires on wall-clock time even if Time.timeScale " +
              "is ever changed.")]
-    [SerializeField] private float stalledWriteHeadTimeoutSeconds = 2f;
+    private float stalledWriteHeadTimeoutSeconds = 2f;
     [Tooltip("Second Microphone.GetPosition() when first is in-range; use if different (some platforms report a stale head on the first poll). F1-hybrid producer defense — keep on.")]
-    [SerializeField] private bool micWriteHeadDoublePoll = true;
+    private bool micWriteHeadDoublePoll = true;
 
-    [Header("Channel Contract")]
     [Tooltip("Pipeline output contract for consumers. This pipeline publishes mono samples.")]
-    [SerializeField] private MicChannelMode channelMode = MicChannelMode.Mono;
+    private MicChannelMode channelMode = MicChannelMode.Mono;
 
     [Header("Normalization")]
     [Tooltip("Master toggle for normalized output stream. Raw output is always unaffected.")]
@@ -37,7 +34,7 @@ public partial class ImitoneVoiceIntepreter
     [Tooltip("Gain in dB applied to normalized output stream.")]
     [SerializeField] private float normalizationGainDb = 16f;
     [Tooltip("Clamp normalized samples to +/- clamp value after gain.")]
-    [SerializeField] private bool normalizationHardClampEnabled = true;
+    private bool normalizationHardClampEnabled = true;
     [Tooltip("Absolute clamp value used when hard clamp is enabled.")]
     [SerializeField] [Range(0.01f, 1f)] private float normalizationClampAbs = 0.98f;
 
@@ -218,6 +215,22 @@ public partial class ImitoneVoiceIntepreter
     // runs on: main thread (Unity lifecycle).
     private void Awake()
     {
+        gameOn = true;
+        gameOnLastFrame = true;
+
+        // Runtime accumulators — defensively zeroed each session so a stray serialized value never leaks in.
+        _imitoneInactiveRawTimer = 0f;
+        _tThisTone = 0f;
+        _tThisToneRaw = 0f;
+        _tThisToneConfident = 0f;
+        _tThisToneBiasTrue = 0f;
+        _tThisRest = 0f;
+        _tThisRestRaw = 0f;
+        _tThisRestConfident = 0f;
+        _breathHoldTimeBeforeInhale = 0f;
+        _tNextInhaleDuration = 0f;
+        _breathVolume = 0f;
+
         InitializeMicrophone();
     }
 

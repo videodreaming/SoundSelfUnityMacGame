@@ -20,8 +20,7 @@ using UnityEngine;
 /// </summary>
 public partial class ImitoneVoiceIntepreter
 {
-    [Header("Audio-thread capture (Step 1 — parallel path)")]
-    [SerializeField] private int audioCallbackPrimingFramesToSkip = 8;
+    private int audioCallbackPrimingFramesToSkip = 8;
     // Diagnostic-only threshold (Step 3b play-test follow-up retired the FAIL flag this used to
     // drive). Each callback whose elapsed time exceeds this value increments
     // audioCallbackGCAllocSuspectTotal as a "how often does the audio thread spike?" telemetry.
@@ -31,7 +30,7 @@ public partial class ImitoneVoiceIntepreter
     // sub-budget, but unusual enough to be worth seeing in the Inspector. Real audio-thread
     // starvation is caught by FAIL_AUDIO_CALLBACK_RATE_LOW and FAIL_AUDIO_CALLBACK_FROZEN; for
     // true GC verification, use the Profiler. Tune this freely — it's pure observability now.
-    [SerializeField] private float audioCallbackGcSuspectMsThreshold = 15f;
+    private float audioCallbackGcSuspectMsThreshold = 15f;
 
     // Step 3a hybrid pivot — see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md.
     // Imitone-feed latency: the audio-thread read cursor is primed this far behind the live rawRingBuffer
@@ -39,8 +38,7 @@ public partial class ImitoneVoiceIntepreter
     // faster pitch response. Floor 32 ms (≈ 1.5 callback periods at 1024 sa / 48 kHz; below that the
     // cursor underruns at the slightest writer hesitation). Default 64 ms gives ~3 callback periods of
     // headroom. Takes effect on the next capture session — does NOT live-retune mid-session.
-    [Tooltip("Latency budget for the audio-thread imitone feed. The cursor is primed this far behind the live mic write head and advances at audio-thread cadence. Higher = more robust against main-thread write bursts; lower = faster pitch response. Floor 32 ms (≈ 1.5 callback periods at 1024 sa / 48 kHz). Default 64 ms is the sweet spot for sustained voice. Takes effect on next capture session.")]
-    [SerializeField, Range(32f, 250f)] private float audioThreadFeedLatencyMs = 64f;
+    private float audioThreadFeedLatencyMs = 64f;
 
     // Step 3a: imitone is fed from OnAudioFilterRead; reusable buffer sized to current callback's `frames`.
     // Allocations are amortized — frames is constant within a session (= dspBufferSize), so realloc only on

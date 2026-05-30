@@ -73,7 +73,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     public float negativeActiveThreshold2 { get; private set; } = 0.4f; //for toneActiveConfident
     public float _activeThreshold3 { get; private set; } = 0.75f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     //public float _activeThreshold4 { get; private set; } = 7.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
-    public bool exceptionFlag = false;
+    private bool exceptionFlag = false;
 
     //TODO: using these vars
     public float ssVolume { get; private set; }     //WORK ON THIS ONE IN GAMEVALUES
@@ -132,7 +132,6 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     private string _selectedDevice;
     private int _sampleRate;
     private readonly float _referenceAmplitude = 20.0f * Mathf.Pow(10.0f, -6.0f);
-    [SerializeField] private float _pitchDifference = 3;
 
     private Dictionary<int, float> _breathVolumeContributions = new Dictionary<int, float>();
     private int _coroutineCounter = 0; // To generate unique keys
@@ -351,14 +350,14 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     // Filter STATE (previous-input / previous-output) lives on the audio thread only — see
     // ImitoneVoiceIntepreter.AudioThread.cs (`audioThreadHpPrevInput`, `audioThreadHpPrevOutput`,
     // `audioThreadLpPrevOutput`).
-    [Header("High Pass Filter")]
-    [Tooltip("Removes low-frequency rumble (e.g. AC hum, wind) before pitch analysis. MainGame uses 110 Hz. Step 3b: applied on the audio thread, just before imitone.InputAudio.")]
-    [SerializeField] private volatile bool _highPassFilterEnabled = true;
+    private volatile bool _highPassFilterEnabled = true;
+    [Header("Band Pass Filter")]
+    [Tooltip("High pass cutoff (Hz). Removes low-frequency rumble (e.g. AC hum, wind) before pitch analysis. MainGame uses 110 Hz. Step 3b: applied on the audio thread, just before imitone.InputAudio.")]
     [SerializeField] private volatile float _highPassCutoffHz = 110f;
 
-    [Header("Low Pass Filter")]
     [Tooltip("Removes high-frequency hiss and overtones above voice range. 520 Hz keeps tenor fundamentals. Step 3b: applied on the audio thread, just before imitone.InputAudio.")]
-    [SerializeField] private volatile bool _lowPassFilterEnabled = true;
+    private volatile bool _lowPassFilterEnabled = true;
+    [Tooltip("Low pass cutoff (Hz). Removes high-frequency hiss and overtones above voice range. 520 Hz keeps tenor fundamentals. Step 3b: applied on the audio thread, just before imitone.InputAudio.")]
     [SerializeField] private volatile float _lowPassCutoffHz = 520f;
 
     [Header("Debug — gameOn (critical session path)")]

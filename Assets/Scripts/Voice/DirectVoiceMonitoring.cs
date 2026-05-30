@@ -41,16 +41,16 @@ public class DirectVoiceMonitoring : MonoBehaviour
     
     [Header("Monitoring Controls")]
     [SerializeField] private bool monitoringEnabled = true;
-    [SerializeField] [Range(0f, 1f)] private float monitoringVolume = 1f;
+    [SerializeField] [Range(0f, 1f)] private float monitoringVolume = 0.357f;
     [Tooltip("Select which mic ring stream (raw vs. normalized) to monitor for A/B testing and debugging.")]
     [SerializeField] private MonitoringStreamSource monitoringStreamSource = MonitoringStreamSource.Normalized;
     [Tooltip("When true, monitoring is attenuated (post dynamic scaling) by monitoringAttenuationDb.")]
     [SerializeField] private bool monitoringAttenuated = false;
     [Tooltip("Gain applied when attenuated (dB). 0 dB = unity; -8 dB ≈ former linear 0.4.")]
     [FormerlySerializedAs("monitoringAttenuationMultiplier")]
-    [SerializeField] [Range(-60f, 0f)] private float monitoringAttenuationDb = -4f;
+    [SerializeField] [Range(-60f, 0f)] private float monitoringAttenuationDb = 0f;
     [Tooltip("Smoothing time for attenuation transitions to reduce click risk when toggled.")]
-    [SerializeField] [Range(0.005f, 0.25f)] private float attenuationSmoothingSeconds = 0.03f;
+    private float attenuationSmoothingSeconds = 0.03f;
 
     // =============================================================================
     // TODO (AI — read before refactoring monitoring or record/replay on the mic bus)
@@ -96,8 +96,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     // =============================================================================
 
     [Header("MicMixer bus volume (named dB contributions)")]
-    [Tooltip("Exposed MicMixer parameter (SoundSelf MicProcessing → Volume).")]
-    [SerializeField] private string micMixerVolumeParameterName = "MicProcessingVolume";
+    private string micMixerVolumeParameterName = "MicProcessingVolume";
     [Tooltip("Baseline Mic Processing attenuation fader (dB). Seeded as contribution \"Initialization\".")]
     [SerializeField] private float micMixerInitializationVolumeDb = 6f;
     [SerializeField] private float debugMicMixerVolumeSumDb;
@@ -114,45 +113,37 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] private float chargeRiseSpeed = 1f;
     [SerializeField] private float chargeFallSpeed = 1f;
     [Header("Chant Presence Gain Shaping")]
-    [Tooltip("Chant gain at the bottom of the dB ramp (e.g. -35 dB).")]
-    [SerializeField] private float chantPresenceMinGainDb = -35f;
-    [Tooltip("Chant gain at the top of the dB ramp (typically 0 dB).")]
-    [SerializeField] private float chantPresenceMaxGainDb = 0f;
-    [Tooltip("Initial chantLerpFast range that also gets an extra linear fade-to-zero multiplier.")]
-    [SerializeField] [Range(0.01f, 0.5f)] private float chantPresenceLinearFloorRange = 0.125f;
+    private float chantPresenceMinGainDb = -35f;
+    private float chantPresenceMaxGainDb = 0f;
+    private float chantPresenceLinearFloorRange = 0.125f;
 
-    [Header("Buffered Pull Transport")]
-    [Tooltip("Read cursor delay behind live mic write head for buffered transport.")]
-    [SerializeField] [Range(20f, 500f)] private float bufferedReadLatencyMs = 125f;
-    [SerializeField] private int bufferUnderflowWarningThresholdPerWindow = 8;
-    [SerializeField] private int bufferOverflowWarningThresholdPerWindow = 4;
-    [SerializeField] private int callbackStarvationWarningThresholdPerWindow = 8;
+    private float bufferedReadLatencyMs = 125f;
+    private int bufferUnderflowWarningThresholdPerWindow = 8;
+    private int bufferOverflowWarningThresholdPerWindow = 4;
+    private int callbackStarvationWarningThresholdPerWindow = 8;
 
     [Header("Reliability Telemetry")]
     [SerializeField] private bool enableReliabilityLogs = true;
-    [Tooltip("Automatically reset reliability counters shortly after monitoring starts to ignore startup transients.")]
-    [SerializeField] private bool autoResetTelemetryAfterMonitoringStart = true;
-    [SerializeField] [Range(0f, 10f)] private float autoResetTelemetryDelaySeconds = 1f;
-    [SerializeField] [Range(1f, 60f)] private float healthSummaryLogIntervalSeconds = 10f;
-    [SerializeField] [Range(1f, 300f)] private float warningWindowSeconds = 60f;
-    [SerializeField] private int seekWarningThresholdPerWindow = 12;
-    [SerializeField] private int rebindWarningThresholdPerWindow = 4;
-    [SerializeField] private int cooldownSuppressionWarningThresholdPerWindow = 30;
+    private bool autoResetTelemetryAfterMonitoringStart = true;
+    private float autoResetTelemetryDelaySeconds = 1f;
+    private float healthSummaryLogIntervalSeconds = 10f;
+    private float warningWindowSeconds = 60f;
+    private int seekWarningThresholdPerWindow = 12;
+    private int rebindWarningThresholdPerWindow = 4;
+    private int cooldownSuppressionWarningThresholdPerWindow = 30;
     [SerializeField] private bool logWindowWarnings = true;
     [SerializeField] private bool logHealthSummary = true;
     [Header("Debug Log Controls")]
     [SerializeField] private bool debugAllowMonitoringLogs = true;
     [SerializeField] private bool debugAllowMonitoringWarnings = true;
-    [Header("Transition Audit")]
-    [SerializeField] private bool enableTransitionAuditWarnings = true;
-    [SerializeField] [Range(0.01f, 1f)] private float hardVolumeStepThreshold = 0.2f;
-    [SerializeField] [Range(0.5f, 30f)] private float rebindFailureWarningIntervalSeconds = 5f;
-    [SerializeField] [Range(0.1f, 5f)] private float setupRetryIntervalSeconds = 0.5f;
-    [SerializeField] [Range(0.5f, 30f)] private float clipBindFailureErrorIntervalSeconds = 5f;
+
+    private bool enableTransitionAuditWarnings = true;
+    private float hardVolumeStepThreshold = 0.2f;
+    private float rebindFailureWarningIntervalSeconds = 5f;
+    private float setupRetryIntervalSeconds = 0.5f;
+    private float clipBindFailureErrorIntervalSeconds = 5f;
     
-    [Header("Click Mitigation (5a M1/M2/M6)")]
-    [Tooltip("Length (in audio samples) of the linear fade applied at every underflow / overflow / recovery boundary inside OnAudioFilterRead. ~32 samples ≈ 0.67 ms at 48 kHz. Lower = more transparent but more click-prone if the discontinuity is large; higher = inaudible but slightly muffled at the boundary. Sweep range 8–128.")]
-    [SerializeField] [Range(8, 128)] private int clickMitigationFadeSamples = 32;
+    private int clickMitigationFadeSamples = 32;
 
     private bool isInitialized = false;
     private int lastSeenCaptureEpoch = -1;
@@ -175,44 +166,54 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private string nextStartPrimeReason = "start_prime";
     private float lastHealthSummaryLogTime = -999f;
     private float lastWarningWindowResetTime = 0f;
-    [SerializeField] private int seekCorrectionCountTotal = 0;
-    [SerializeField] private int seekCorrectionCountDrift = 0;
-    [SerializeField] private int seekCorrectionCountStartPrime = 0;
-    [SerializeField] private int seekCorrectionCountStreamSwitchPrime = 0;
-    [SerializeField] private int seekCooldownSuppressedCount = 0;
-    [SerializeField] private int captureRebindCount = 0;
-    [SerializeField] private int captureRebindFailureCount = 0;
-    [SerializeField] private int seekCorrectionCountWindow = 0;
-    [SerializeField] private int seekCorrectionCountDriftWindow = 0;
-    [SerializeField] private int seekCooldownSuppressedCountWindow = 0;
-    [SerializeField] private int captureRebindCountWindow = 0;
-    [SerializeField] private int bufferUnderflowFillCount = 0;
-    [SerializeField] private int bufferUnderflowFillCountWindow = 0;
-    [SerializeField] private int bufferUnderflowFillSamples = 0;
-    [SerializeField] private int bufferOverflowDropCount = 0;
-    [SerializeField] private int bufferOverflowDropCountWindow = 0;
-    [SerializeField] private int bufferOverflowDropSamples = 0;
-    [SerializeField] private int callbackStarvationCount = 0;
-    [SerializeField] private int callbackStarvationCountWindow = 0;
-    [SerializeField] private int transitionStartCount = 0;
-    [SerializeField] private int transitionStopCount = 0;
-    [SerializeField] private int transitionAttenuationToggleCount = 0;
-    [SerializeField] private int transitionStreamSwitchCount = 0;
-    [SerializeField] private int hardVolumeStepCount = 0;
-    [SerializeField] private float lastVolumeStepDelta = 0f;
-    [SerializeField] private string lastVolumeStepContext = "";
-    [Header("Runtime Dynamic Volume Debug")]
+    private int seekCorrectionCountTotal = 0;
+    private int seekCorrectionCountDrift = 0;
+    private int seekCorrectionCountStartPrime = 0;
+    private int seekCorrectionCountStreamSwitchPrime = 0;
+    private int seekCooldownSuppressedCount = 0;
+    private int captureRebindCount = 0;
+    private int captureRebindFailureCount = 0;
+    private int seekCorrectionCountWindow = 0;
+    private int seekCorrectionCountDriftWindow = 0;
+    private int seekCooldownSuppressedCountWindow = 0;
+    private int captureRebindCountWindow = 0;
+    private int bufferUnderflowFillCount = 0;
+    private int bufferUnderflowFillCountWindow = 0;
+    private int bufferUnderflowFillSamples = 0;
+    private int bufferOverflowDropCount = 0;
+    private int bufferOverflowDropCountWindow = 0;
+    private int bufferOverflowDropSamples = 0;
+    private int callbackStarvationCount = 0;
+    private int callbackStarvationCountWindow = 0;
+    private int transitionStartCount = 0;
+    private int transitionStopCount = 0;
+    private int transitionAttenuationToggleCount = 0;
+    private int transitionStreamSwitchCount = 0;
+    private int hardVolumeStepCount = 0;
+    private float lastVolumeStepDelta = 0f;
+    private string lastVolumeStepContext = "";
+    [Header("Dynamic Volume Telemetry")]
     [Tooltip("Final linear gain applied in OnAudioFilterRead (monitoringVolume × dynamicScale × attenuation × AudioSource.volume; mute forces 0).")]
-    [SerializeField] [Range(0f, 1f)] private float debugEffectiveMonitoringGain = 0f;
-    [SerializeField] [Range(0f, 1f)] private float debugAppliedAudioSourceVolume = 0f;
-    [SerializeField] [Range(0f, 1f)] private float debugChantLerpSlow = 0f;
-    [SerializeField] [Range(0f, 1f)] private float debugChantLerpFast = 0f;
-    [SerializeField] [Range(0f, 1f)] private float debugChantCharge = 0f;
-    [SerializeField] private bool debugToneActive = false;
-    [SerializeField] private bool debugToneActiveRaw = false;
-    [SerializeField] private bool debugToneActiveConfident = false;
-    [SerializeField] private bool debugToneActiveVeryConfident = false;
-    [SerializeField] private bool debugToneActiveBiasTrue = false;
+    [FormerlySerializedAs("debugEffectiveMonitoringGain")]
+    [SerializeField] [Range(0f, 1f)] private float telemetryEffectiveMonitoringGain = 0f;
+    [FormerlySerializedAs("debugAppliedAudioSourceVolume")]
+    [SerializeField] [Range(0f, 1f)] private float telemetryAppliedAudioSourceVolume = 0f;
+    [FormerlySerializedAs("debugChantLerpSlow")]
+    [SerializeField] [Range(0f, 1f)] private float telemetryChantLerpSlow = 0f;
+    [FormerlySerializedAs("debugChantLerpFast")]
+    [SerializeField] [Range(0f, 1f)] private float telemetryChantLerpFast = 0f;
+    [FormerlySerializedAs("debugChantCharge")]
+    [SerializeField] [Range(0f, 1f)] private float telemetryChantCharge = 0f;
+    [FormerlySerializedAs("debugToneActive")]
+    [SerializeField] private bool telemetryToneActive = false;
+    [FormerlySerializedAs("debugToneActiveRaw")]
+    [SerializeField] private bool telemetryToneActiveRaw = false;
+    [FormerlySerializedAs("debugToneActiveConfident")]
+    [SerializeField] private bool telemetryToneActiveConfident = false;
+    [FormerlySerializedAs("debugToneActiveVeryConfident")]
+    [SerializeField] private bool telemetryToneActiveVeryConfident = false;
+    [FormerlySerializedAs("debugToneActiveBiasTrue")]
+    [SerializeField] private bool telemetryToneActiveBiasTrue = false;
     private float lastAppliedMonitoringVolume = -1f;
     private volatile float effectiveMonitoringGain = 0f;
     private float lastRebindFailureWarningTime = -999f;
@@ -248,6 +249,11 @@ public class DirectVoiceMonitoring : MonoBehaviour
     // runs on: main thread (Unity lifecycle).
     private void Awake()
     {
+        // Always start from the normalized mic stream; the inspector toggle stays editable for A/B at runtime.
+        monitoringStreamSource = MonitoringStreamSource.Normalized;
+        dynamicVolumeEnabled = true;
+        monitoringEnabled = true;
+
         MigrateLegacyLinearAttenuationIfNeeded();
         float initialAttenuationScale = GetMonitoringAttenuationLinearScale();
         smoothedAttenuationScale = initialAttenuationScale;
@@ -426,37 +432,37 @@ public class DirectVoiceMonitoring : MonoBehaviour
 
     private void UpdateRuntimeDynamicDebugState()
     {
-        debugEffectiveMonitoringGain = Mathf.Clamp01(effectiveMonitoringGain);
-        debugAppliedAudioSourceVolume = monitoringSource != null ? monitoringSource.volume : 0f;
+        telemetryEffectiveMonitoringGain = Mathf.Clamp01(effectiveMonitoringGain);
+        telemetryAppliedAudioSourceVolume = monitoringSource != null ? monitoringSource.volume : 0f;
 
         if (GameValues.instance != null)
         {
-            debugChantLerpSlow = GameValues.instance._chantLerpSlow;
-            debugChantLerpFast = GameValues.instance._chantLerpFast;
-            debugChantCharge = GameValues.instance._chantCharge;
+            telemetryChantLerpSlow = GameValues.instance._chantLerpSlow;
+            telemetryChantLerpFast = GameValues.instance._chantLerpFast;
+            telemetryChantCharge = GameValues.instance._chantCharge;
         }
         else
         {
-            debugChantLerpSlow = 0f;
-            debugChantLerpFast = 0f;
-            debugChantCharge = 0f;
+            telemetryChantLerpSlow = 0f;
+            telemetryChantLerpFast = 0f;
+            telemetryChantCharge = 0f;
         }
 
         if (imitoneVoiceInterpreter != null)
         {
-            debugToneActive = imitoneVoiceInterpreter.toneActive;
-            debugToneActiveRaw = imitoneVoiceInterpreter.toneActiveRaw;
-            debugToneActiveConfident = imitoneVoiceInterpreter.toneActiveConfident;
-            debugToneActiveVeryConfident = imitoneVoiceInterpreter.toneActiveVeryConfident;
-            debugToneActiveBiasTrue = imitoneVoiceInterpreter.toneActiveBiasTrue;
+            telemetryToneActive = imitoneVoiceInterpreter.toneActive;
+            telemetryToneActiveRaw = imitoneVoiceInterpreter.toneActiveRaw;
+            telemetryToneActiveConfident = imitoneVoiceInterpreter.toneActiveConfident;
+            telemetryToneActiveVeryConfident = imitoneVoiceInterpreter.toneActiveVeryConfident;
+            telemetryToneActiveBiasTrue = imitoneVoiceInterpreter.toneActiveBiasTrue;
         }
         else
         {
-            debugToneActive = false;
-            debugToneActiveRaw = false;
-            debugToneActiveConfident = false;
-            debugToneActiveVeryConfident = false;
-            debugToneActiveBiasTrue = false;
+            telemetryToneActive = false;
+            telemetryToneActiveRaw = false;
+            telemetryToneActiveConfident = false;
+            telemetryToneActiveVeryConfident = false;
+            telemetryToneActiveBiasTrue = false;
         }
     }
 
