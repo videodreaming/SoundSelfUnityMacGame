@@ -9686,7 +9686,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 547986728}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1133452317}
+        m_TargetAssemblyTypeName: CalibrationScreen, Assembly-CSharp
+        m_MethodName: ResetCalibrationScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &547986728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11878,7 +11890,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quit Now
+  m_Text: Troubleshooting
 --- !u!222 &668640014
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11973,10 +11985,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1133452317}
-        m_TargetAssemblyTypeName: CalibrationScreen, Assembly-CSharp
-        m_MethodName: TroubleShootButtonPress
-        m_Mode: 1
+      - m_Target: {fileID: 571501617}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 671278837}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -16559,7 +16583,7 @@ GameObject:
   - component: {fileID: 899863308}
   - component: {fileID: 899863309}
   m_Layer: 5
-  m_Name: Quit Now
+  m_Name: Troubleshooting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16666,7 +16690,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 899863306}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1133452317}
+        m_TargetAssemblyTypeName: CalibrationScreen, Assembly-CSharp
+        m_MethodName: ShowNoVibrationPopup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &899863309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19399,15 +19435,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   troubleshootButton: {fileID: 1409372910}
-  middleScreen: {fileID: 541312565}
-  lastScreen: {fileID: 1653382166}
+  voiceMeterActivationPopup: {fileID: 0}
+  noVibrationPopup: {fileID: 0}
+  stillNoVibrationPopup: {fileID: 0}
   OnTroubleshootButtonPress:
-    m_PersistentCalls:
-      m_Calls: []
-  OnNextStepButtonPress:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBackScreenButtonPress:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1071554257
@@ -20167,7 +20198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1133452314
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20184,8 +20215,8 @@ RectTransform:
   - {fileID: 417372472}
   - {fileID: 841301146}
   - {fileID: 671278838}
-  - {fileID: 1843108958}
   - {fileID: 571501618}
+  - {fileID: 1843108958}
   - {fileID: 454300565}
   - {fileID: 1424043719}
   m_Father: {fileID: 6603800742308052307}
@@ -20237,15 +20268,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   troubleshootButton: {fileID: 671278837}
-  middleScreen: {fileID: 1843108957}
-  lastScreen: {fileID: 571501617}
+  voiceMeterActivationPopup: {fileID: 571501617}
+  noVibrationPopup: {fileID: 1843108957}
+  stillNoVibrationPopup: {fileID: 454300564}
   OnTroubleshootButtonPress:
-    m_PersistentCalls:
-      m_Calls: []
-  OnNextStepButtonPress:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBackScreenButtonPress:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1133452318
@@ -20549,8 +20575,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   troubleshootButton: {fileID: 1382045449}
-  middleScreen: {fileID: 648291954}
-  lastScreen: {fileID: 1713198221}
+  voiceMeterActivationPopup: {fileID: 0}
+  noVibrationPopup: {fileID: 0}
+  stillNoVibrationPopup: {fileID: 0}
   OnTroubleshootButtonPress:
     m_PersistentCalls:
       m_Calls:
@@ -20577,60 +20604,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-  OnNextStepButtonPress:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 748356986}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 720017755}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnBackScreenButtonPress:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 748356986}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 720017755}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1147446953
 MonoBehaviour:
@@ -21287,7 +21260,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1133452317}
         m_TargetAssemblyTypeName: CalibrationScreen, Assembly-CSharp
-        m_MethodName: NextStepButtonPress
+        m_MethodName: ShowStillNoVibrationPopup
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21309,7 +21282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 4a9b877618b6143a1a7ca80d35e428fd, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -29351,7 +29324,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1133452317}
         m_TargetAssemblyTypeName: CalibrationScreen, Assembly-CSharp
-        m_MethodName: BackScreenButtonPress
+        m_MethodName: ResetCalibrationScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -32334,7 +32307,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1133452317}
         m_TargetAssemblyTypeName: CalibrationScreen, Assembly-CSharp
-        m_MethodName: BackScreenButtonPress
+        m_MethodName: ShowNoVibrationPopup
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34927,8 +34900,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   troubleshootButton: {fileID: 1325295231}
-  middleScreen: {fileID: 628995563}
-  lastScreen: {fileID: 1365796158}
+  voiceMeterActivationPopup: {fileID: 0}
+  noVibrationPopup: {fileID: 0}
+  stillNoVibrationPopup: {fileID: 0}
   OnTroubleshootButtonPress:
     m_PersistentCalls:
       m_Calls:
@@ -34955,60 +34929,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-  OnNextStepButtonPress:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1259605908}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1437988761}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnBackScreenButtonPress:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1259605908}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1437988761}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1990855360
 MonoBehaviour:
@@ -40267,8 +40187,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   troubleshootButton: {fileID: 226014816}
-  middleScreen: {fileID: 1682918471}
-  lastScreen: {fileID: 1471353071}
+  voiceMeterActivationPopup: {fileID: 0}
+  noVibrationPopup: {fileID: 0}
+  stillNoVibrationPopup: {fileID: 0}
   OnTroubleshootButtonPress:
     m_PersistentCalls:
       m_Calls:
@@ -40295,60 +40216,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-  OnNextStepButtonPress:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1783655866}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 827111383}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnBackScreenButtonPress:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1783655866}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 827111383}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &6118818609140259935
 MonoBehaviour:
@@ -42308,15 +42175,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   troubleshootButton: {fileID: 801304041}
-  middleScreen: {fileID: 2002614133}
-  lastScreen: {fileID: 263495906}
+  voiceMeterActivationPopup: {fileID: 0}
+  noVibrationPopup: {fileID: 0}
+  stillNoVibrationPopup: {fileID: 0}
   OnTroubleshootButtonPress:
-    m_PersistentCalls:
-      m_Calls: []
-  OnNextStepButtonPress:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBackScreenButtonPress:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &8167610280031054418

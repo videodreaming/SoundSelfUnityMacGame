@@ -5,37 +5,50 @@ using UnityEngine.Events;
 public class CalibrationScreen : MonoBehaviour
 {
     public GameObject troubleshootButton;
-    public GameObject middleScreen;
-    public GameObject lastScreen;
+    public GameObject voiceMeterActivationPopup;
+    public GameObject noVibrationPopup;
+    public GameObject stillNoVibrationPopup;
 
+    [HideInInspector]
     public UnityEvent OnTroubleshootButtonPress;
-    public UnityEvent OnNextStepButtonPress;
-    public UnityEvent OnBackScreenButtonPress;
+
 
     public void TroubleShootButtonPress()
     {
         OnTroubleshootButtonPress?.Invoke();
         // Implement troubleshooting logic here
-        middleScreen.SetActive(true);
-        lastScreen.SetActive(false);
+        voiceMeterActivationPopup.SetActive(true);
+        noVibrationPopup.SetActive(false);
+        stillNoVibrationPopup.SetActive(false);
         troubleshootButton.SetActive(false);
 
     }
 
-    public void NextStepButtonPress()
+
+    public void ShowVoiceMeterActivationPopup()
     {
-        OnNextStepButtonPress?.Invoke();
-        // Implement logic to transition to the next screen here
-        middleScreen.SetActive(false);
-        lastScreen.SetActive(true);
+        voiceMeterActivationPopup.SetActive(true);
+        noVibrationPopup.SetActive(false);
+        stillNoVibrationPopup.SetActive(false);
 
     }
-
-    public void BackScreenButtonPress()
+    public void ShowNoVibrationPopup()
     {
-        OnBackScreenButtonPress?.Invoke();
-        middleScreen.SetActive(true);
-        lastScreen.SetActive(false);
-        //troubleshootButton.SetActive(true);
+        voiceMeterActivationPopup.SetActive(false);
+        noVibrationPopup.SetActive(true);
+        stillNoVibrationPopup.SetActive(false);
+    }
+    public void ShowStillNoVibrationPopup()
+    {
+        voiceMeterActivationPopup.SetActive(false);
+        noVibrationPopup.SetActive(false);
+        stillNoVibrationPopup.SetActive(true);
+    }
+    public void ResetCalibrationScreen()
+    {
+        voiceMeterActivationPopup.SetActive(false);
+        noVibrationPopup.SetActive(false);
+        stillNoVibrationPopup.SetActive(false);
+        troubleshootButton.SetActive(true);
     }
 }
