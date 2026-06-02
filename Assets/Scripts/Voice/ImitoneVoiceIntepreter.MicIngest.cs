@@ -95,6 +95,14 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] private bool gainRidingGateRaiseWindowOpen = false;
     [Tooltip("True when mic level is not at/below the interpreter noise-floor threshold (raises blocked when false).")]
     [SerializeField] private bool gainRidingGateRaiseNoiseFloorClear = false;
+    [Tooltip("True when stage policy blocks gain-riding raises (opening/savasana); lowers still allowed.")]
+    [SerializeField] private bool gainRidingGateRaiseFrozen = false;
+
+    /// <summary>
+    /// When true, normalization gain riding may lower gain but not raise it.
+    /// Used during opening/savasana where toning is not expected (avoids creep on false positives).
+    /// </summary>
+    private bool normalizationGainRidingRaiseFrozen;
 
     [Header("Telemetry (Inspector)")]
     [Tooltip("Current-frame absolute peak after normalization (0..1).")]
@@ -171,6 +179,16 @@ public partial class ImitoneVoiceIntepreter
     {
         gainRidingRaiseRateDbPerSecond = Mathf.Clamp(dbPerSecond, 0f, 24f);
     }
+
+    /// <summary>When <paramref name="frozen"/> is true, gain riding may lower normalization gain but not raise it.</summary>
+    public void SetNormalizationGainRidingRaiseFrozen(bool frozen)
+    {
+        if (normalizationGainRidingRaiseFrozen == frozen)
+            return;
+        normalizationGainRidingRaiseFrozen = frozen;
+    }
+
+    public bool NormalizationGainRidingRaiseFrozen => normalizationGainRidingRaiseFrozen;
 
     [Serializable]
     public struct MicNormalizationState
@@ -1196,7 +1214,11 @@ public partial class ImitoneVoiceIntepreter
         float confidentToneDuration = Mathf.Max(0f, _tThisToneConfident);
         bool raiseWindowOpen = confidentToneDuration < Mathf.Max(0f, gainRidingRaiseMaxToneActiveConfidentSeconds);
         bool raiseNoiseFloorClear = !micIsNearNoiseFloor;
-        bool canRaiseGain = toneActiveConfident && raiseWindowOpen && raiseNoiseFloorClear;
+        bool canRaiseGain = MicNormalizationStagePolicy.AllowsGainRidingRaise(
+            normalizationGainRidingRaiseFrozen,
+            toneActiveConfident,
+            raiseWindowOpen,
+            raiseNoiseFloorClear);
         bool canLowerGain = toneActiveBiasTrue;
         if (!canRaiseGain && !canLowerGain)
         {
@@ -1269,6 +1291,7 @@ public partial class ImitoneVoiceIntepreter
         gainRidingGateToneActive = toneActiveConfident || toneActiveBiasTrue;
         gainRidingGateRaiseWindowOpen = _tThisToneConfident < Mathf.Max(0f, gainRidingRaiseMaxToneActiveConfidentSeconds);
         gainRidingGateRaiseNoiseFloorClear = !micIsNearNoiseFloor;
+        gainRidingGateRaiseFrozen = normalizationGainRidingRaiseFrozen;
 
         float currentMicDb = _dbMicrophone;
         gainRidingGateMicDbValid = !float.IsNaN(currentMicDb) && !float.IsInfinity(currentMicDb);

@@ -81,6 +81,9 @@ namespace SoundSelf.Sequence
 
             Debug.Log("SavasanaStageHandler: Enter - running Savasana for variant '" + _variant + "'.");
 
+            MicNormalizationStagePolicy.ApplyRaiseFrozenOnStageEnter(
+                _sequencer.imitoneVoiceInterpreter, StageType.Savasana);
+
             MusicSystem1.instance.SetFundamentalContentLock(NoteName.C);
             _sequencer.director.ActivateQueue(15f);
             _sequencer.director.Disable();
@@ -160,6 +163,7 @@ namespace SoundSelf.Sequence
                     if (IsStandardVariant())
                     {
                         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+                        _sequencer.ApplyGameOnPolicy(MusicSystem1.MusicMode.FrozenFreeplay);
                         Debug.Log("SavasanaStageHandler: CueStopInteractive — SetMusicModeTo FrozenFreeplay (Standard).");
                     }
                     else
@@ -168,7 +172,7 @@ namespace SoundSelf.Sequence
                     }
                     break;
                 case SequenceCommand.CueStopInteractive3m:
-                    _sequencer.StartCoroutine(DelayedMicOff(120f));
+                    _sequencer.StartCoroutine(DelayedMicOff(GameOnPolicy.SavasanaAscendingDelayedMicOffSeconds));
                     break;
                 case SequenceCommand.CueSilentMeditationStart:
                     Debug.Log("SavasanaStageHandler: CueSilentMeditationStart — fading to dark and stopping AVS programs.");
@@ -179,9 +183,13 @@ namespace SoundSelf.Sequence
 
         private IEnumerator DelayedMicOff(float delay)
         {
+            float delayMinutes = delay / 60f;
+            Debug.Log(
+                "SavasanaStageHandler: Cue_Stop_Interactive_3m — gameOn will turn OFF in "
+                + delayMinutes.ToString("0.#") + " min (" + delay + " s). " + SessionCountdownPairForLog());
             yield return new WaitForSeconds(delay);
-            if(_hasEntered && !IsComplete)
-            _sequencer.imitoneVoiceInterpreter.SetGameOn(false);
+            if (_hasEntered && !IsComplete && _sequencer.imitoneVoiceInterpreter != null)
+                _sequencer.imitoneVoiceInterpreter.SetGameOn(false);
         }
 
         //--------------------------------

@@ -128,6 +128,8 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetTutorialMonitoringOverride(true);
             LightControl.instance.StartLights();
             _sequencer.imitoneVoiceInterpreter.gameOn = true;
+            MicNormalizationStagePolicy.ApplyRaiseFrozenOnStageEnter(
+                _sequencer.imitoneVoiceInterpreter, StageType.Tutorial);
 
             // Music intent for the tutorial variant. If opening music is still playing (PS_Ascending today), wait for
             // Sequencer.OnOpeningMusicEnded so we don't trample the still-playing opening bed. Otherwise start now.

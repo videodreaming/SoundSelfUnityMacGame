@@ -445,6 +445,21 @@ public class Sequencer : MonoBehaviour
     //PUBLIC METHODS
     //====================================================================================================
 
+    /// <summary>
+    /// Applies <see cref="GameOnPolicy.GetGameOnAssignmentForMusicMode"/> via <see cref="ImitoneVoiceIntepreter.SetGameOn"/>.
+    /// Call from sequencing after <see cref="MusicSystem1.SetMusicModeTo"/> when session intent requires it
+    /// (including when the music mode flag was already set). See <c>Docs/REFACTOR_GAMEON_OUT_OF_MUSICSYSTEM1.md</c>.
+    /// </summary>
+    public void ApplyGameOnPolicy(MusicSystem1.MusicMode mode)
+    {
+        if (imitoneVoiceInterpreter == null)
+            return;
+
+        bool? assignment = GameOnPolicy.GetGameOnAssignmentForMusicMode(mode);
+        if (assignment.HasValue)
+            imitoneVoiceInterpreter.SetGameOn(assignment.Value);
+    }
+
     /// <summary>Stops all <see cref="AVSSequence"/> program coroutines (Dynamic Drop, Drop-to-Delta) and clears tracked director queue indices.</summary>
     public void StopAllAvsPrograms() => _avsSequence?.StopAllAvsPrograms();
 
@@ -538,7 +553,8 @@ public class Sequencer : MonoBehaviour
         {
             LightControl.instance?.SetColorWorldByType(PreferredColorWorld.Red, 0.0f);
         }
-        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+        ApplyGameOnPolicy(MusicSystem1.MusicMode.Freeplay);
         if(directorEnabled)
         {
             director.Enable();

@@ -101,10 +101,18 @@ namespace SoundSelf.Sequence
             }
 
             //INITIALIZE MUSIC AND DIRECTOR
-            
+
+            MicNormalizationStagePolicy.ApplyRaiseFrozenOnStageEnter(
+                _sequencer.imitoneVoiceInterpreter, StageType.Opening);
+
             MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeLow, 0.0f);
             _sequencer.director.Disable();
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
+            if (_sequencer.imitoneVoiceInterpreter != null)
+            {
+                _sequencer.imitoneVoiceInterpreter.SetGameOn(true);
+                Debug.Log("OpeningStageHandler: Opening Enter — gameOn enabled (all variants).");
+            }
             _sequencer.worldShuffler.ExcludeColorWorld(PreferredColorWorld.Blue);
             _sequencer.worldShuffler.ExcludeSoundscape("Shadow");
 

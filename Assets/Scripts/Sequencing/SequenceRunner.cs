@@ -46,6 +46,10 @@ namespace SoundSelf.Sequence
         private bool _sequenceComplete;
         private int _transitioningOutStageIndex = -1;
 
+        /// <summary>Edge-detect <see cref="ImitoneVoiceIntepreter.gameOn"/> false while <see cref="CurrentStage"/> is Playground (Block 3 diagnostics).</summary>
+        private bool _playgroundGameOnWatchInitialized;
+        private bool _playgroundLastGameOn;
+
         /// <summary>
         /// Assigns the in-memory sequence definition only. Does <b>not</b> exit active stage handlers, stop Wwise/calibration audio, or advance —
         /// the runner keeps whatever stage index and handlers it already had, now pointed at a new asset (usually wrong at runtime).
@@ -149,6 +153,7 @@ namespace SoundSelf.Sequence
             // Otherwise BeginTransitionOut may read the wrong stage or go out of range; Update() can also mark
             // the new sequence complete immediately (index >= new length) without ever entering stage 0 — e.g. 0 countdown for MusicPlaylist.
             CurrentStageIndex = -1;
+            ResetPlaygroundGameOnWatch();
 
             var stages0 = definition.StagesOrEmpty;
             if (stages0.Length > 0)
@@ -353,9 +358,63 @@ namespace SoundSelf.Sequence
                 return;
             }
 
+            WarnIfPlaygroundGameOnTurnedOff();
+
             var handler = GetHandlerFor(stages[CurrentStageIndex].type);
             if (handler != null && handler.IsComplete)
                 TransitionToNextStage();
+        }
+
+        private void ResetPlaygroundGameOnWatch()
+        {
+            _playgroundGameOnWatchInitialized = false;
+            _playgroundLastGameOn = false;
+        }
+
+        private Sequencer ResolveSequencer() => GetComponent<Sequencer>();
+
+        private ImitoneVoiceIntepreter ResolveImitoneVoiceInterpreter()
+        {
+            var sequencer = ResolveSequencer();
+            return sequencer != null ? sequencer.imitoneVoiceInterpreter : null;
+        }
+
+        /// <summary>Logs once per false transition while Playground is the current stage.</summary>
+        private void WarnIfPlaygroundGameOnTurnedOff()
+        {
+            if (CurrentStage != StageType.Playground)
+            {
+                ResetPlaygroundGameOnWatch();
+                return;
+            }
+
+            var interpreter = ResolveImitoneVoiceInterpreter();
+            if (interpreter == null)
+                return;
+
+            bool gameOn = interpreter.gameOn;
+            if (!_playgroundGameOnWatchInitialized)
+            {
+                _playgroundGameOnWatchInitialized = true;
+                _playgroundLastGameOn = gameOn;
+                return;
+            }
+
+            if (_playgroundLastGameOn && !gameOn)
+            {
+                float countdown = TimeTrackerScript.instance != null
+                    ? TimeTrackerScript.instance.CountdownThisSection
+                    : -1f;
+                string countdownText = countdown >= 0f
+                    ? $"{countdown:F0}s remaining ({countdown / 60f:F1} min)"
+                    : "CountdownThisSection unavailable";
+                Debug.LogWarning(
+                    "SequenceRunner: gameOn became FALSE during Playground stage (" + countdownText + "). " +
+                    "Dual Stacks expects mic on while main countdown ≤ 20:00 — check Console for SetGameOn/OFF " +
+                    "(Wwise Cue_Microphone_OFF, Cue_Stop_Interactive fallback, ApplyGameOnPolicy).");
+            }
+
+            _playgroundLastGameOn = gameOn;
         }
 
         private IStageHandler GetHandlerFor(StageType type)

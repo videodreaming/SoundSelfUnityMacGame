@@ -9,6 +9,23 @@
 - Robin decisions from notes are in **bold asterisks**.
 - `- [ ]` = not done / not verified · `- [x]` = done and playtest-verified
 
+**Testing vocabulary** (see [`.cursor/rules/soundself-director-mode.mdc`](../.cursor/rules/soundself-director-mode.mdc)):
+
+| Term | Meaning |
+|------|---------|
+| **Test Runner tests** / **Unity Test Runner tests** | Automated **EditMode** tests — **Window → General → Test Runner → EditMode**, or `.\Tools\run-editmode-tests.ps1` with Unity closed |
+| **EditMode tests** | Same as Test Runner tests (technical name for the test platform tab) |
+| **Playtests** | Play Mode verification — overrides, log flags, numbered steps, Console checks, headphones when needed |
+
+**Director mode:** Say **director mode** + block number to work a block end-to-end. Each block lists **Test Runner tests (EditMode)** then **Playtests**, then work items (implementation reference subsections may follow, as in Block 2 and Block 7).
+
+**Block template (in order):**
+
+1. Test focus / goal  
+2. **Test Runner tests (EditMode)**  
+3. **Playtests**  
+4. Work items table (`Done` / `Item` / …)
+
 **Clock times** in Block 3 and Block 7 (e.g. 16:15, 15:37, 15:00) refer to **time remaining on the countdown** in Adjunctive Dual Stacks (`TimeTrackerScript.CountdownThisSection`), traceable against [`PlaygroundStageHandler.ProtocolStacksPlaygroundCoroutine`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs).
 
 ---
@@ -53,6 +70,22 @@ flowchart TD
 
 **Test focus:** Calibration skip label; `gameOn` transitions visible in log without health-summary spam.
 
+### Test Runner tests (EditMode)
+
+**None yet** (block playtest-verified before Test Runner suite). *Candidates if backfilling:* `gameOn` log gate does not spam when off; health summary respects `logHealthSummary`.
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+### Playtests
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [x] | **Skip calibration label** | Skip button does not show “(Not Recommended)”. |
+| - [x] | **Stage / end copy** | Stage labels without colons; end-of-session text legible (scene/prefab). |
+| - [x] | **Health log** | Console free of `DirectVoiceMonitoring Health` spam unless `logHealthSummary` enabled. |
+| - [x] | **`gameOn` log** | With `debugAllowGameOnLogs` on: each `gameOn` transition logs once with source. |
+| - [x] | **Vibro troubleshooting** | Calibration vibro copy mentions quit/restart tablet. |
+
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
 | - [x] | Skip calibration label | Remove “(Not Recommended)” from skip button — Lorna: remove “not recommended” | [`UIManager.cs`](../Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs) — `SetCalibrationScreen` |
@@ -73,14 +106,15 @@ flowchart TD
 
 **Robin's note:** Mic attenuation uses named **MicMixer** dB contributions (`LerpMicMixerVolumeContributionTo` / `SetMicMixerVolumeContributionDb` on [`DirectVoiceMonitoring`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs)), not the legacy SoundSelf Mic Processing attenuation fader alone.
 
-| Done | Item | Action | Primary files |
-|------|------|--------|---------------|
-| - [x] | Mic calibration level | **1 s** lerp of extra **−6 dB** MicMixer contribution on **Microphone** step only (`CalibrationMicrophone`); generalized `LerpMicMixerVolumeContributionTo` on DVR | [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`DirectVoiceMonitoring.cs`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) |
-| - [x] | Calibration lights | See **[Calibration lights — implementation plan](#calibration-lights--implementation-plan)** below | [`LightControl.cs`](../Assets/Scripts/MusicAndLight/LightControl.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`CalibrationMenu.cs`](../Assets/CalibrationMenu.cs) |
-| - [x] | Noise floor in orientation | See **[Noise floor — orientation (implementation plan)](#noise-floor--orientation-implementation-plan)** below | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`TutorialStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`PlaygroundStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs) |
-| - [x] | HPF pre-imitone | **Increase HPF** on pre-imitone path to filter subwoofer bleed | [`ImitoneVoiceIntepreter.AudioThread.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.AudioThread.cs) |
+### Test Runner tests (EditMode)
 
-### Block 2 — playtest (mic MicMixer contribution)
+**None yet** (block complete). *Candidates when backfilling:* calibration step → `gameOn` map; mic-step **−6 dB** / **1 s** fade constants; orientation noise-floor pinned prune rules; `Calibration` color world misuse guard.
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+### Playtests
+
+#### Mic MicMixer contribution
 
 | Done | Step | Pass criteria |
 |------|------|----------------|
@@ -89,6 +123,33 @@ flowchart TD
 | - [x] | **Vibro / other steps** | On **VibroAcoustic** and non-mic steps, no extra **−6 dB** offset (gameplay MicMixer sum only, e.g. **Initialization** +6 dB baseline). |
 | - [x] | **Skip / exit calibration** | Skip or complete calibration while on mic step (or mid-fade): no stuck quiet mic in playground; `CalibrationMicrophone` contribution cleared. |
 | - [x] | **Subjective level** | Mic step still readable/comfortable vs other steps; compare to pre-change if unsure. |
+
+#### Noise floor orientation
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [x] | **Inspector / telemetry** | During `Start`: `expectNoiseFloor` true; orientation sample count/elapsed increases; no jump coroutine phase activity. |
+| - [x] | **After Intro_End** | Threshold moves off default **−52** if room level differs; `telemetryNoiseMeasurementsCount` includes **one pinned** sample. |
+| - [x] | **Mic step** | With `gameOn`, toning near floor behaves reasonably (not permanently dead from stale −52). |
+| - [x] | **Through Opening** | Pinned still present in telemetry until Tutorial/Playground **Enter** (then cleared). |
+| - [x] | **Skip from Start (short)** | Skip before **5 s** on Start: no pinned commit; **5 s or more** on Start: partial average committed. |
+
+**Playtest note — intro VO in the average:** The orientation window includes time after the user presses **Next** when **Wwise intro VO** may play from the device. That audio is included in the **mean** (not excluded). If the mic step feels too insensitive afterward, consider a follow-up (e.g. measure only pre-Next silence, or percentile instead of mean) — out of scope for v1.
+
+#### Calibration lights
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [x] | **Light-glasses step** | Stable white, no voice pumping; mic step readable tone UI but lights steady; leaving calibration → Dark; playground White1/3 brighter than before. |
+
+**Session entry:** Full calibration from [`Adjunctive_Dualstage_Start`](../Assets/Definitions/Sequences/Adjunctive_Dualstage_Start.asset) or production pack sequence; no sequence override required for cal-only checks.
+
+| Done | Item | Action | Primary files |
+|------|------|--------|---------------|
+| - [x] | Mic calibration level | **1 s** lerp of extra **−6 dB** MicMixer contribution on **Microphone** step only (`CalibrationMicrophone`); generalized `LerpMicMixerVolumeContributionTo` on DVR | [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`DirectVoiceMonitoring.cs`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) |
+| - [x] | Calibration lights | See **[Calibration lights — implementation plan](#calibration-lights--implementation-plan)** below | [`LightControl.cs`](../Assets/Scripts/MusicAndLight/LightControl.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`CalibrationMenu.cs`](../Assets/CalibrationMenu.cs) |
+| - [x] | Noise floor in orientation | See **[Noise floor — orientation (implementation plan)](#noise-floor--orientation-implementation-plan)** below | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), [`TutorialStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`PlaygroundStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs) |
+| - [x] | HPF pre-imitone | **Increase HPF** on pre-imitone path to filter subwoofer bleed | [`ImitoneVoiceIntepreter.AudioThread.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.AudioThread.cs) |
 
 **Lorna (context):** Microphone very quiet globally — addressed primarily in [Block 8](#block-8--microphone-volume-envelope-large-unity-side); calibration mic level is separate (this block).
 
@@ -181,34 +242,59 @@ flowchart LR
 | - [x] | **NF-3. Cal handler hooks** | Begin on `Start`; End before leave `Start` / Intro_End; skip commit if **> 5 s** |
 | - [x] | **NF-4. Clear pinned** | Tutorial + Playground `Enter()` only |
 | - [x] | **NF-5. Cleanup** | Delete `noiseFloorFlag`; shared commit/prune/median helpers |
-| - [x] | **NF-6. Playtest** | See checklist below |
-
-**Block 2 — playtest (noise floor orientation)**
-
-| Done | Step | Pass criteria |
-|------|------|----------------|
-| - [x] | **Inspector / telemetry** | During `Start`: `expectNoiseFloor` true; orientation sample count/elapsed increases; no jump coroutine phase activity. |
-| - [x] | **After Intro_End** | Threshold moves off default **−52** if room level differs; `telemetryNoiseMeasurementsCount` includes **one pinned** sample. |
-| - [x] | **Mic step** | With `gameOn`, toning near floor behaves reasonably (not permanently dead from stale −52). |
-| - [x] | **Through Opening** | Pinned still present in telemetry until Tutorial/Playground **Enter** (then cleared). |
-| - [x] | **Skip from Start (short)** | Skip before **5 s** on Start: no pinned commit; **5 s or more** on Start: partial average committed. |
-
-**Playtest note — intro VO in the average:** The orientation window includes time after the user presses **Next** when **Wwise intro VO** may play from the device. That audio is included in the **mean** (not excluded). If the mic step feels too insensitive afterward, consider a follow-up (e.g. measure only pre-Next silence, or percentile instead of mean) — out of scope for v1.
+| - [x] | **NF-6. Playtest** | See [Playtests](#playtests) above |
 
 ---
 
 ## Block 3 — `gameOn` fixes (mic audible / lights reactive)
 
-**Test focus:** Adjunctive opening — mic + reactive lights; savasana guided breath; full Dual Stacks run with `gameOn` log; investigate clock anomalies.
+**Test focus:** Adjunctive opening — mic + reactive lights; savasana guided breath; Dual Stacks `gameOn` log; clock anomalies (16:15, 15:37).
+
+### Test Runner tests (EditMode)
+
+Policy: [`GameOnPolicy.cs`](../Assets/Scripts/Voice/GameOnPolicy.cs), [`MicNormalizationStagePolicy.cs`](../Assets/Scripts/Voice/MicNormalizationStagePolicy.cs).  
+Tests: [`Block3PolicyEditModeTests.cs`](../Assets/Editor/SoundSelf/Tests/EditMode/Block3PolicyEditModeTests.cs).
+
+**Run:** **Window → General → Test Runner → EditMode** (Unity open), or `.\Tools\run-editmode-tests.ps1` (Unity closed).
+
+| Covered by Test Runner / EditMode tests |
+|----------------------------------------|
+| Music mode → `gameOn` via `Sequencer.ApplyGameOnPolicy` (Silent / Freeplay / FrozenFreeplay) |
+| Opening Enter: `gameOn` true all variants (`OpeningStageHandler`, not `MusicSystem1`) |
+| Dual Stacks countdown windows (16:15, 15:37, step 1 at ≤20:00 remaining) |
+| Savasana ascending: 120 s delayed mic-off constant |
+| Normalization raise-freeze on stage Enter (opening/savasana vs tutorial/playground) |
+| Raise-freeze blocks gain-riding raises when frozen |
+
+### Playtests
+
+**Session entry (Adjunctive / Dual Stage example):**
+
+| Inspector | Value |
+|-----------|--------|
+| `CSVLoader` → Content Pack Override | `HB_Adjunctive_DualStage` |
+| `SequenceRunner` → Definition Override | `Adjunctive_Dualstage_StageInteractive` (or debug sequence with skip playground when testing savasana only) |
+| `ImitoneVoiceIntepreter` → `debugAllowGameOnLogs` | on |
+| Watch | `gainRidingGateRaiseFrozen` on `ImitoneVoiceIntepreter` during opening/savasana |
+
+**Playtest only** (not covered by Test Runner tests):
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [x] | **Opening mic + lights** | Console: `gameOn` OFF (Silent) then ON; **headphones:** hear monitoring, lights react to tone |
+| - [x] | **Normalization freeze** | Opening/savasana: `gainRidingGateRaiseFrozen` true; `normalizationGainDb` must not creep **up** on quiet noise; may go **down** if toning loud |
+| - [x] | **16:15 / 15:37** | Full or partial playground; paste `gameOn` log lines at anomalies |
+| - [x] | **Savasana mic / Lorna cues** | Play savasana stage; mic + VO behavior |
+| - [ ] | **Full session feel** | Optional; not required to check off individual work rows |
 
 | Done | Item | Report / action | Primary files |
 |------|------|-----------------|---------------|
-| - [ ] | Opening breathwork (Adjunctive) | Cannot hear mic; lights dark / non-interactive (was beautiful). **Ensure `gameOn` is on at start of opening for Adjunctive mode** | [`OpeningStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/OpeningStageHandler.cs) — `Opening_PS_Ascending`; today `SetMusicModeTo(Silent)` → `gameOn = false` via [`MusicSystem1.SetMusicModeTo`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs) |
-| - [ ] | Savasana breath in / sigh | Microphone not audible. **Prefer Lorna cue-driven `Cue_Microphone_ON/OFF`** — Robin contacts Lorna ([Appendix A](#appendix-a--externallorna--non-unity-batch-together)) | [`WwiseVOManager.cs`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs), [`SavasanaStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/SavasanaStageHandler.cs) |
+| - [ ] | Opening breathwork | Mic audible + reactive lights on Enter (**all** opening variants). Refactor: [`OpeningStageHandler`](../Assets/Scripts/Sequencing/Handlers/OpeningStageHandler.cs) `SetGameOn(true)` after Silent; not via `MusicSystem1` | Same + Block 3 playtests |
+| - [x] | Savasana breath in / sigh | Microphone not audible. **Prefer Lorna cue-driven `Cue_Microphone_ON/OFF`** — Robin contacts Lorna ([Appendix A](#appendix-a--externallorna--non-unity-batch-together)) | [`WwiseVOManager.cs`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs), [`SavasanaStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/SavasanaStageHandler.cs) |
 | - [ ] | Spravato / DualStage before savasana | Mic “turned off” before savasana transition. **Investigate** — Robin didn’t reproduce; likely volume not `gameOn`. Ascending: `Cue_Stop_Interactive_3m` + 120s `DelayedMicOff` only | [`SavasanaStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/SavasanaStageHandler.cs) |
 | - [ ] | **16:15** on clock | Mic went away; should stay on during this period. **Investigate** | [`PlaygroundStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs), `gameOn` logs |
 | - [ ] | **15:37** on clock | Mic suddenly jumps in. **Investigate** | Same |
-| - [ ] | See `gameOn` in logs | Critical for whole game logic — covered in Block 1 dedicated log flag | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs) |
+| - [x] | See `gameOn` in logs | Critical for whole game logic — covered in Block 1 dedicated log flag | [`ImitoneVoiceIntepreter.cs`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs) |
 
 ---
 
@@ -217,6 +303,22 @@ flowchart LR
 **Lorna:** SWITCH WARNING — select switches before initiating game calls, as early as possible (`SoundWorldMode_Switch`, `MusicLoops_Switch`). Interactive music fade-in abrupt, too loud, all sound worlds at once.
 
 **Test focus:** First interactive entry — one sound world, smooth fade; no switch warnings in Activation playthrough (re-test at end).
+
+### Test Runner tests (EditMode)
+
+**None yet.** *Candidates:* MusicLoops → Silence before interactive entry; sound-world switch ordering one frame before mode switch; no duplicate switch posts in same frame.
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+### Playtests
+
+**Session entry:** **Activation** mode sequence + pack (or Adjunctive path that hits first interactive music). Console open for Wwise switch warnings.
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [ ] | **First interactive entry** | Single sound world audible; fade-in not abrupt/cacophonous; `MusicLoops` → Silence before interactive if implemented |
+| - [ ] | **Switch warnings** | No `SoundWorldMode_Switch` / `MusicLoops_Switch` warnings through Activation opening → first playground toning |
+| - [ ] | **Stop_Toning** | Stops feel Wwise-paced, not instant Unity cut-off (subjective + log if instrumented) |
 
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
@@ -234,6 +336,19 @@ flowchart LR
 
 **Test focus:** Playlist / linear stages silent binaural; tutorial + playground still have beats.
 
+### Test Runner tests (EditMode)
+
+**None yet.** *Candidates:* `SetMusicModeFlags` disables binaural for MusicPlaylist + LinearAudio stage types; enabled for Tutorial + Playground.
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+### Playtests
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [ ] | **Music playlist / linear** | No binaural bed (or clearly off) during those stage types |
+| - [ ] | **Tutorial + playground** | Binaural present when expected; level not fighting music harshly (full key match = Block 7) |
+
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
 | - [ ] | Disable on playlist / linear | **Disable binaural on MusicPlaylist and Linear Music stages**; re-enable by default in Tutorial and Playground | [`MusicPlaylistStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/MusicPlaylistStageHandler.cs), [`LinearAudioStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/LinearAudioStageHandler.cs), [`MusicSystem1.SetMusicModeFlags`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs) |
@@ -247,6 +362,22 @@ flowchart LR
 
 **Test focus:** Dark → no reference bleed; color change → reference on; back to Dark → reference off after fade.
 
+### Test Runner tests (EditMode)
+
+**None yet.** *Candidates:* reference RTPC off when `currentColorWorld` is Dark (after fade gate); on for non-Dark worlds.
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+### Playtests
+
+**Session entry:** Adjunctive opening ([Block 3](#block-3--gameon-fixes-mic-audible--lights-reactive) overrides) — verify lights + reference together.
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [ ] | **Dark state** | After `GoDark` / dark color world: no reference bleed on glasses (subjective + inspector `playReference` if exposed) |
+| - [ ] | **Non-dark color** | Red/White/etc.: reference on when color active |
+| - [ ] | **Opening / tutorial** | Stage init does not leave reference stuck on in dark breathwork moments |
+
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
 | - [ ] | Reference tied to color | Refactor reference signal to follow light color state | [`LightControl.cs`](../Assets/Scripts/MusicAndLight/LightControl.cs) — `playReference`, `GoDark`, `SetWaveColor` |
@@ -259,6 +390,28 @@ flowchart LR
 ## Block 7 — Music system: fundamental, pitch, silent loops (large)
 
 **Lorna:** Pitches not always harmonious (design around 5ths: Fundamental C, Harmony G). Silent loops wrong pitch. Chaos / dissonance; only one sound world at a time; transitions strange; little difference between sound worlds. Balancing: silent loops disappear — shouldn’t. **Robin:** Audit sound world transitions (shadow, shruti, etc.) — possibly broken in recent work.
+
+**Test focus:** One sound world at a time; harmonious pitches / 5ths; silent loops persist; `Cue_Key_*` updates master fundamental; **15:00** playground transition smooth; lock C before savasana.
+
+### Test Runner tests (EditMode)
+
+**None yet.** *Candidates:* `TryHandleMusicKeyCue` maps Lorna spellings → `NoteName`; master vs input-driven mode gates; shuffle-expired still activates queue when non-empty.
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`. Re-run [`Block3PolicyEditModeTests`](../Assets/Editor/SoundSelf/Tests/EditMode/Block3PolicyEditModeTests.cs) when touching shared music/voice policy.
+
+### Playtests
+
+**Session entry:** Adjunctive Dual Stacks (`HB_Adjunctive_DualStage` + `Adjunctive_Dualstage_StageInteractive`); optional Activation for switch/fade cross-check ([Block 4](#block-4--wwise-switch-hygiene-safety-fixes)). Enable music/fundamental debug logs if available.
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [ ] | **`Cue_Key_*` (opening)** | Each key change logs handled note; master fundamental matches bed (VO callback) |
+| - [ ] | **`Cue_Key_*` (closing)** | Same on `ClosingCallBackFunction` / savasana closing |
+| - [ ] | **Sound worlds** | Only one dominant world at a time; Shadow/Shruti transitions feel intentional |
+| - [ ] | **Silent loops** | Loops remain after toning stops (no “all silent bed gone” regression) |
+| - [ ] | **15:00 milestone** | Countdown ~15:00 remaining: crossfade smooth; pitches locked before transition if implemented |
+| - [ ] | **Lock C (~60 s before savasana)** | Fundamental held on C entering savasana segment |
+| - [ ] | **Shuffle expired** | If log says shuffle expired, next tone still changes soundscape when queue non-empty |
 
 ### Architectural intent (fundamental split)
 
@@ -329,14 +482,14 @@ Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
 
 `(n/a)` = no cue at that moment in her sheet — not a Wwise cue name.
 
+### Work items
+
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
 | - [ ] | Shared cue handler | `TryHandleMusicKeyCue` — one implementation, both `VOCallbackFunction` and `ClosingCallBackFunction` | [`WwiseVOManager.cs`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) |
 | - [ ] | `Cue_Key_*` table | Wire map above (Lorna’s spellings); log unknown `Cue_Key_*` | Same |
 | - [ ] | Apply to master fundamental | On match: update master (+ binaural per Block 7) | [`MusicSystem1.cs`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs) |
 | - [ ] | Lorna: embed cues in Wwise | Key changes per her timelines in opening / closing / music-loop segments | Wwise — [Appendix A](#appendix-a--externallorna--non-unity-batch-together) |
-
-**Test:** Known `Cue_Key_*` in opening/closing → log shows note → fundamental matches bed; same on VO and closing callbacks.
 
 ---
 
@@ -346,7 +499,7 @@ Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
 | - [ ] | Binaural key | Binaural plays same key as master; fix stale fundamental in MusicLoops | `MusicSystem1`, [`MusicBinauralBeats.cs`](../Assets/Scripts/MusicAndLight/MusicBinauralBeats.cs) |
 | - [ ] | Pitch / 5ths audit | Audit pitch selections, `changeHarmony`, `NoteName.None` guard | `MusicSystem1` |
 | - [ ] | Sound world transitions | Audit Shadow, Shruti, shuffle exclusions (≤300s / ≤180s) | [`PlaygroundStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs), [`WorldShuffler.cs`](../Assets/Scripts/MusicAndLight/WorldShuffler.cs) |
-| - [ ] | Interactive fade | Abrupt / too loud — RTPC `SILENT_Volume` + switch order ([Block 4](#block-4--wwise-switch-hygiene-safety-fixs)) | `MusicSystem1` |
+| - [ ] | Interactive fade | Abrupt / too loud — RTPC `SILENT_Volume` + switch order ([Block 4](#block-4--wwise-switch-hygiene-safety-fixes)) | `MusicSystem1` |
 | - [ ] | Silent loops disappear | Re-verify prior fix; `StopInteractiveMusic`, `MusicLoopSilent`, harmony None | `MusicSystem1` |
 | - [ ] | Lock C before savasana | **60 seconds before end of Adjunctive (before Savasana), lock fundamental to C** — director first OK | `PlaygroundStageHandler` / [`Director.cs`](../Assets/Scripts/Sequencing/Director.cs) |
 | - [ ] | **15:00** transition | Transition clunky; should be smooth fade. **Lock pitches before this point** for sensible crossfade into music. **Investigate** | `PlaygroundStageHandler` — coroutine milestone ~`16×60` s remaining in code |
@@ -363,6 +516,40 @@ Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
 
 **Test focus:** Opening, playground, savasana — audible mic without harsh jumps; no endless slow creep.
 
+### DirectVoiceMonitoring telemetry (when working this block)
+
+On [`DirectVoiceMonitoring`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs), Play Mode field **`telemetryEffectiveMonitoringGain`** mirrors **`effectiveMonitoringGain`** from `ApplyMonitoringVolume` (what `OnAudioFilterRead` applies to headphone monitoring, before per-sample smoothing):
+
+**`telemetryEffectiveMonitoringGain` ≈ `monitoringVolume` × `dynamicScale` × `attenuationScale` × `monitoringSource.volume` × (0 if muted)**
+
+When **`dynamicVolumeEnabled`** is on:
+
+- **`dynamicScale`** = **`gameOnLerp`** × **`chargeDuckScale`** × **`chantPresenceScale`**
+- **`chantPresenceScale`** comes from `BoardFader(GameValues._chantLerpSlow, …)` — watch **`telemetry Chant Lerp Slow`** in the same Inspector section
+- Calibration **`SetChantBasedAttenuationOverride(true)`** forces chant + charge duck to 1; **`gameOnLerp`** still applies
+
+**Not in this formula:** MicMixer bus sum (`debugMicMixerVolumeSumDb`, calibration **−6 dB** contribution) or imitone **`normalizationGainDb`** — separate paths; see calibration → opening playtest row below.
+
+### Test Runner tests (EditMode)
+
+**None yet.** *Candidates:* ADSR rise/decay/release curves from mocked `toneActive` / `chantCharge`; `BoardFader` endpoints **0 dB** / **−18 dB**.
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+### Playtests
+
+**Session entry:** Adjunctive full path or skip-to-playground debug sequence; **headphones** required. Compare to pre-change build if unsure.
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [ ] | **Calibration → opening → tutorial** | Play through from **calibration** (note mic monitoring on **microphone / vibro** steps) into **opening**, then **tutorial**, without skipping. Compare headphone monitoring level across the three stages: drop after cal, opening vs tutorial, and whether toning brings level back. Inspector: `ImitoneVoiceIntepreter` → `normalizationGainDb` / `gainRidingGateRaiseFrozen`; `DirectVoiceMonitoring` → `telemetry Effective Monitoring Gain`, `telemetry Chant Lerp Slow` |
+| - [ ] | **Opening** | Mic monitoring loud enough to guide breath; attack not sluggish; release not harsh |
+| - [ ] | **Playground** | Sustained toning holds usable level; decay to ~50% charge feels natural |
+| - [ ] | **Savasana** | Guided breath mic audible; no runaway slow creep while humming quietly |
+| - [ ] | **Meditative vs not** | Meditative sessions use blended fast/slow rise; non-meditative paths feel snappier (if distinguishable in pack) |
+
+**Related (not this envelope):** `SetMusicToningLayerVolume` / Wwise `TONING_Volume` RTPC in imitone path — note in Console if music layer masks mic.
+
 | Done | Item | Specification | Primary files |
 |------|------|---------------|---------------|
 | - [ ] | ADSR envelope | On `toneActive`: rise only, then decay; not simple tracking multiply | [`GameValues.handlecChanting`](../Assets/Scripts/Voice/GameValues.cs), [`DirectVoiceMonitoring.ApplyMonitoringVolume`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) |
@@ -371,13 +558,27 @@ Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
 | - [ ] | Release | If `toneActiveBiasTrue` false → drop to 0 with curve matching `chantLerpSlow` down behavior | Same |
 | - [ ] | BoardFader | Run through `BoardFader()`: high **0 dB**, low **−18 dB** | [`AudioLevelUtilities.BoardFader`](../Assets/Scripts/Utilities/AudioLevelUtilities.cs) |
 
-**Related (not this envelope):** `SetMusicToningLayerVolume` / Wwise `TONING_Volume` RTPC in imitone path — keep in mind when testing.
-
 ---
 
 ## Block 9 — Tutorial & correction behavior
 
 **Test focus:** Repeat Sonoflore user gets short tutorial; correction harmony matches music; correction lags one VO behind on fail.
+
+### Test Runner tests (EditMode)
+
+**None yet.** *Candidates:* not-first-time Sonoflore → short tutorial variant; `ProvideCorrection` targets failed vocalization not next cue.
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+### Playtests
+
+**Session entry:** Sonoflore pack + sequence with repeat-user flag (or CSV path that skips long tutorial); complete tutorial fail paths deliberately.
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [ ] | **Short tutorial (repeat user)** | Returning Sonoflore user gets short tutorial, not long |
+| - [ ] | **A vs C hum** | Wrong hum correction uses pitch matching **music** (Tone Advanced if needed) |
+| - [ ] | **Correction timing** | Fail last **Ahh** before **Ohh** cue → **Ahh** correction, not Ohh |
 
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
@@ -393,6 +594,23 @@ Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
 
 **Test focus:** Dual Stacks countdown end timing; savasana director behavior; AVS continuous lift on 3m cue.
 
+### Test Runner tests (EditMode)
+
+**None yet.** *Candidates:* DualStage countdown duration includes +7–10 s buffer constant; director partial disable vs full off at `Cue_Stop_Interactive_3m`.
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+### Playtests
+
+**Session entry:** `Adjunctive_Dualstage_StageInteractive` (or debug skip-to-playground → savasana). Watch countdown hit **0** and `Cue_Stop_Interactive_3m`.
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [ ] | **Countdown end** | Session end lands at **0** without feeling ~7–10 s “late” vs music (after buffer fix) |
+| - [ ] | **Playground → savasana** | World shuffler / soundscape changes stop; director still runs other duties until 3m cue |
+| - [ ] | **AVS on 3m cue** | AVS lifts continuous look, fades, **then** director fully off |
+| - [ ] | **Celestial Dreamscape** | N/A Unity — confirm with Lorna Wwise fix when available |
+
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
 | - [ ] | +7–10 s DualStage countdown | **Add same 7–10 s buffer to DualStage countdown** in sequence definition (Activation/Sonoflore sessions already adjusted) | [`Adjunctive_Dualstage_*.asset`](../Assets/Definitions/Sequences/), [`StartCountdownStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/StartCountdownStageHandler.cs) |
@@ -406,6 +624,20 @@ Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
 
 **Test focus:** Facilitator can open helper in main game; icon reflects live `toneActive`.
 
+### Test Runner tests (EditMode)
+
+**None yet.** *Candidates:* UI binding reads `toneActive` without scene play (mock interpreter or test harness).
+
+**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+### Playtests
+
+| Done | Step | Pass criteria |
+|------|------|----------------|
+| - [ ] | **Open helper** | Facilitator can open mic helper from main game UI |
+| - [ ] | **Icon** | Icon on/off tracks live toning (`toneActive`) |
+| - [ ] | **Two screens** | “What you need to know” and “What you need to do” both reachable and readable |
+
 | Done | Item | Action |
 |------|------|--------|
 | - [ ] | Microphone helper | Box with text + icon on/off with `toneActive`. Two screens: “what you need to know” and “what you need to do” | New UI + [`ImitoneVoiceIntepreter`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs) |
@@ -413,6 +645,16 @@ Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
 ---
 
 ## Block 12 — Verification pass (after Blocks 1–11)
+
+**Test focus:** End-to-end regression across blocks; re-run all Test Runner suites before sign-off.
+
+### Test Runner tests (EditMode)
+
+Run **all** EditMode assemblies (Test Runner → EditMode → Run All), or `.\Tools\run-editmode-tests.ps1` with filter cleared / broadened once multiple block suites exist. Today: [`Block3PolicyEditModeTests`](../Assets/Editor/SoundSelf/Tests/EditMode/Block3PolicyEditModeTests.cs) must pass.
+
+### Playtests
+
+Full-session checklist (check off when verified in one or more focused playtests):
 
 | Done | Check |
 |------|-------|
@@ -428,7 +670,7 @@ Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
 
 ## Appendix A — External / Lorna / non-Unity (batch together)
 
-Use one outreach session for Lorna; separate block for Robin non-dev tasks.
+Use one outreach session for Lorna; separate block for Robin non-dev tasks. **No Test Runner tests** — track completion in tables below; link Unity playtests to blocks 3, 4, 7, 10 as needed.
 
 ### Contact Lorna (Wwise / VO / content)
 
@@ -457,7 +699,7 @@ Use one outreach session for Lorna; separate block for Robin non-dev tasks.
 
 ## Appendix B — Future / Notion (not this build)
 
-Add to project management / Notion; no implementation in current release.
+Add to project management / Notion; no implementation or Test Runner / playtest sections in current release.
 
 | Item |
 |------|

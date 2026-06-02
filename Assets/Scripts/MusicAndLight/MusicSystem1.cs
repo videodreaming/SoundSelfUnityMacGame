@@ -860,7 +860,6 @@ public class MusicSystem1 : MonoBehaviour
         SoundWorld,
         MusicLoop
     }
- 
 
     public void SetMusicModeTo(MusicMode mode)
     {
@@ -912,8 +911,6 @@ public class MusicSystem1 : MonoBehaviour
             if(!modeSilentFlag)
             {
                 SetMusicModeFlags(true, false, false, false, false);      
-                
-                imitoneVoiceInterpreter.gameOn = false;
                 StopInteractiveMusic();
                 //RecoverInteractiveMusicModeFromInteractionType();
                 if(debugAllowMusicModeLogs)
@@ -970,7 +967,6 @@ public class MusicSystem1 : MonoBehaviour
 
                 SetFundamentalModeLock(false);
                 StartInteractiveMusic();
-                imitoneVoiceInterpreter.gameOn = true;
                 SetMusicSilentLayerVolume(_silentVolumeHigh, 40f);  
 
                 RecoverInteractiveMusicModeFromInteractionType();
@@ -997,8 +993,6 @@ public class MusicSystem1 : MonoBehaviour
                 }
 
                 SetFundamentalModeLock(true, NoteName.C);
-                imitoneVoiceInterpreter.gameOn = false;
-                
                 RecoverInteractiveMusicModeFromInteractionType();
             }
             else

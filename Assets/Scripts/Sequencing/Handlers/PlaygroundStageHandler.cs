@@ -32,6 +32,8 @@ namespace SoundSelf.Sequence
             }
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             _sequencer.StopOpeningAudioFromStageEnter();
+            MicNormalizationStagePolicy.ApplyRaiseFrozenOnStageEnter(
+                _sequencer.imitoneVoiceInterpreter, StageType.Playground);
             _sequencer.imitoneVoiceInterpreter?.ClearPinnedOrientationNoiseFloorHistory();
             if (_playgroundCoroutine != null)
             {
@@ -79,6 +81,7 @@ namespace SoundSelf.Sequence
             _sequencer.ForceSequenceAdvanceRequested = false;
             _sequencer.director.Enable();
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+            _sequencer.ApplyGameOnPolicy(MusicSystem1.MusicMode.Freeplay);
             MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetAllowThumpAlways(false);
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(true);
@@ -126,6 +129,7 @@ namespace SoundSelf.Sequence
             if (sequenceCommand != SequenceCommand.CueStopInteractive || !IsStandardVariant())
                 return;
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+            _sequencer.ApplyGameOnPolicy(MusicSystem1.MusicMode.FrozenFreeplay);
             Debug.Log("PlaygroundStageHandler: CueStopInteractive — SetMusicModeTo FrozenFreeplay (Standard).");
         }
 
@@ -220,6 +224,7 @@ namespace SoundSelf.Sequence
             Debug.Log("PlaygroundStageHandler: Step 1 - Starting interactive music (20 minutes or less remaining)");
             MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+            _sequencer.ApplyGameOnPolicy(MusicSystem1.MusicMode.Freeplay);
             MusicSystem1.instance.SetSoundscape("ShiftingEarth");
             _sequencer.StartPlayground(false, false, true);
 
@@ -371,6 +376,7 @@ namespace SoundSelf.Sequence
             _sequencer.director.ActivateQueue(15f);
             _sequencer.director.Disable();
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+            _sequencer.ApplyGameOnPolicy(MusicSystem1.MusicMode.FrozenFreeplay);
 
             while (SessionCountdownThisSection() > 15f && !ShouldSkip(skipToEnd))
                 yield return null;

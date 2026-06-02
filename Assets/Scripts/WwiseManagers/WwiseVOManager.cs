@@ -335,8 +335,17 @@ public class WwiseVOManager : MonoBehaviour
             case "Cue_Stop_Interactive":
                 Debug.Log("WWise_VO: Cue_Stop_Interactive");
                 bool handled = sequencer != null && sequencer.HandleSequenceCommand(SequenceCommand.CueStopInteractive);
-                if (!handled && musicSystem1 != null)
-                    musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+                if (!handled)
+                {
+                    // TODO: Investigate whether this fallback runs in production (active handler should own CueStopInteractive).
+                    Debug.LogWarning("WwiseVOManager: Cue_Stop_Interactive — sequencer did not handle; applying FrozenFreeplay + gameOn fallback.");
+                    if (musicSystem1 != null)
+                        musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+                    if (sequencer != null)
+                        sequencer.ApplyGameOnPolicy(MusicSystem1.MusicMode.FrozenFreeplay);
+                    else
+                        VoTryImitoneSetGameOn(cue, false);
+                }
                 break;
 
             case "Cue_Stop_Interactive_3m":

@@ -1,0 +1,72 @@
+---
+description: Director mode — spec-driven work, Test Runner tests, playtests
+alwaysApply: true
+---
+
+# Director mode (SoundSelf)
+
+Robin may say **director mode** (optionally with a doc block, e.g. “director mode, Block 3”). Treat that as the workflow below — not line-by-line pair programming.
+
+## Vocabulary
+
+Use these terms in rules, plan `.md` files, and chat. Do **not** use “Tier 1/2” or “manual mode”.
+
+| Term | Meaning |
+|------|---------|
+| **EditMode tests** | Automated tests in `Assets/Editor/SoundSelf/Tests/EditMode/` (same thing as **Test Runner tests** / **Unity Test Runner tests**) |
+| **Test Runner tests** | Synonym for EditMode tests — run via **Window → General → Test Runner → EditMode** (Unity open) or `Tools/run-editmode-tests.ps1` (Unity closed) |
+| **Playtests** | Robin runs **Play Mode** with agent-prepared overrides, log flags, and numbered steps; paste Console output; headphones when asked. Synonym: what we used to call “manual tests” |
+
+**Block order in plan `.md` files:** **Test Runner tests (EditMode) first**, then **Playtests** second.
+
+## Roles
+
+| Who | Does |
+|-----|------|
+| **Agent** | Read spec/constraints; implement; extract **policy** where rules exist; add **EditMode / Test Runner tests** as work proceeds; run tests when possible; configure logging for **playtests**; give numbered Play Mode steps and expected log lines; prompt Robin for headphones only when perceptual checks are required |
+| **Robin** | Run **playtests**; paste logs; perceptual verification; check off doc when playtests pass |
+
+## When working from a plan `.md` (e.g. `Docs/PLAYTEST_NOTES_ORGANIZED.md`)
+
+Each **block** should include, in order:
+
+1. **Goal / acceptance** — what “done” means  
+2. **Test Runner tests (EditMode)** — policy files, test class names, what rules are automated, how to run  
+3. **Playtests** — session entry (overrides, sequence assets, stage variants), log flags, numbered steps, expected Console lines, when to ask for headphones  
+4. **Must not break** — constraints (may be inline in goal)  
+5. Work items table (if present)
+
+If a block lacks Test Runner or playtest sections, **add them** when implementing that block.
+
+## Session entry (playtests)
+
+Start **where the block needs**, not always from calibration:
+
+- **`CSVLoader`** → `hummingbirdContentPackOverride` (Editor): Wwise VO posture, timing, game mode  
+- **`SequenceRunner`** → `definitionOverride` (Editor): stage graph + variants (e.g. skip playground → savasana)  
+- **Sequence stage dropdown** / future jump tools: use when documented  
+
+CSV override + sequence override compose: pack drives Wwise/timing; sequence drives stages/variants. Align savasana/playground **variants** with the pack (Dual Stage vs Activation).
+
+Document exact assets and Inspector fields in the block’s **Playtests** section.
+
+## Tests as you go
+
+When adding behavior with clear rules (thresholds, stage gates, mode → flag maps):
+
+1. Prefer a small **policy** class (e.g. `GameOnPolicy`, `MicNormalizationStagePolicy`)  
+2. Wire production code through the policy  
+3. Add or extend **EditMode / Test Runner tests** in the same work session  
+4. Update the block’s **Test Runner tests** and **Playtests** sections in the plan `.md`  
+
+Remove **temporary** debug logging/helpers at the **final commit** for a completed playtest pass; keep policy + Test Runner tests.
+
+## Prompting (examples)
+
+- `Director mode, Block 3 — Test Runner tests + playtest for opening gameOn`  
+- `Director mode from PLAYTEST_NOTES Block 3: implement, add tests, walk me playtest steps`  
+- `Re-run Block3PolicyEditModeTests and report`  
+
+## Perceptual checks
+
+Do not claim audio/light quality is fixed from Test Runner tests alone. When a **playtest** needs feel, **prompt Robin**: put on headphones, tone briefly, describe mic monitoring and light reactivity.
