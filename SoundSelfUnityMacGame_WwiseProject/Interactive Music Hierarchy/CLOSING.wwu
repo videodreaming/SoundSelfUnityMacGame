@@ -5410,20 +5410,6 @@
 																</MusicClip>
 															</Local>
 														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{9DD1E2D5-5F65-4DEF-9F41-734BB9D7A7C1}" ShortID="493795373">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="386000"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
