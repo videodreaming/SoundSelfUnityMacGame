@@ -13256,9 +13256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce06df8ab098394995c5c4862618d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioCallbackPrimingFramesToSkip: 8
-  audioCallbackGcSuspectMsThreshold: 15
-  audioThreadFeedLatencyMs: 64
   lightControl: {fileID: 437048159}
   director: {fileID: 1829208165}
   pitch_hz: 0
@@ -13271,7 +13268,6 @@ MonoBehaviour:
   telemetryToneActiveConfident: 0
   telemetryToneActiveVeryConfident: 0
   telemetryToneActiveBiasTrue: 0
-  exceptionFlag: 0
   _imitoneInactiveRawTimer: 0
   _tThisTone: 0
   _tThisToneRaw: 0
@@ -13288,7 +13284,6 @@ MonoBehaviour:
   _dbMicrophone: -999
   _timbre: 0
   _level: 0
-  _pitchDifference: 3
   imitoneState: 
   _volumeChangeMeasurementWindow: 0.2
   _volumeDropTriggerThresholdDB: 12
@@ -13326,23 +13321,12 @@ MonoBehaviour:
   telemetryImitoneActiveRawTimer: 0
   telemetryImitoneInactiveRawTimer: 0
   imitoneConfig: 
-  _highPassFilterEnabled: 1
   _highPassCutoffHz: 110
-  _lowPassFilterEnabled: 1
   _lowPassCutoffHz: 520
   debugAllowGameOnLogs: 1
   debugAllowNoiseFloorLogs: 0
-  preferredDeviceName: 
-  micCaptureSampleRate: 48000
-  loopLengthSeconds: 6
-  micReadChunkSize: 2048
-  recoveryRetryIntervalSeconds: 1
-  stalledWriteHeadTimeoutSeconds: 2
-  micWriteHeadDoublePoll: 1
-  channelMode: 1
   normalizationEnabled: 1
   normalizationGainDb: 16
-  normalizationHardClampEnabled: 1
   normalizationClampAbs: 0.98
   imitoneInterpreterBound: 0
   imitoneToneActive: 0
@@ -13375,6 +13359,7 @@ MonoBehaviour:
   gainRidingGateMicDbValid: 0
   gainRidingGateRaiseWindowOpen: 0
   gainRidingGateRaiseNoiseFloorClear: 0
+  gainRidingGateRaiseFrozen: 0
   normalizedPeakCurrentFrame: 0
   normalizedPeakMeter: 0
   normalizedPeakMeterDecayPerSecond: 2.5
@@ -15610,8 +15595,6 @@ MonoBehaviour:
   monitoringStreamSource: 0
   monitoringAttenuated: 0
   monitoringAttenuationDb: 0
-  attenuationSmoothingSeconds: 0.03
-  micMixerVolumeParameterName: MicProcessingVolume
   micMixerInitializationVolumeDb: 6
   debugMicMixerVolumeSumDb: 0
   dynamicVolumeEnabled: 1
@@ -15619,67 +15602,21 @@ MonoBehaviour:
   gameOnFallSpeed: 0.5
   chargeRiseSpeed: 1
   chargeFallSpeed: 1
-  chantPresenceMinGainDb: -35
-  chantPresenceMaxGainDb: 0
-  chantPresenceLinearFloorRange: 0.125
-  bufferedReadLatencyMs: 125
-  bufferUnderflowWarningThresholdPerWindow: 8
-  bufferOverflowWarningThresholdPerWindow: 4
-  callbackStarvationWarningThresholdPerWindow: 8
   enableReliabilityLogs: 1
-  autoResetTelemetryAfterMonitoringStart: 1
-  autoResetTelemetryDelaySeconds: 1
-  healthSummaryLogIntervalSeconds: 10
-  warningWindowSeconds: 60
-  seekWarningThresholdPerWindow: 12
-  rebindWarningThresholdPerWindow: 4
-  cooldownSuppressionWarningThresholdPerWindow: 30
   logWindowWarnings: 1
   logHealthSummary: 0
   debugAllowMonitoringLogs: 1
   debugAllowMonitoringWarnings: 1
-  enableTransitionAuditWarnings: 1
-  hardVolumeStepThreshold: 0.2
-  rebindFailureWarningIntervalSeconds: 5
-  setupRetryIntervalSeconds: 0.5
-  clipBindFailureErrorIntervalSeconds: 5
-  clickMitigationFadeSamples: 32
-  seekCorrectionCountTotal: 0
-  seekCorrectionCountDrift: 0
-  seekCorrectionCountStartPrime: 0
-  seekCorrectionCountStreamSwitchPrime: 0
-  seekCooldownSuppressedCount: 0
-  captureRebindCount: 0
-  captureRebindFailureCount: 0
-  seekCorrectionCountWindow: 0
-  seekCorrectionCountDriftWindow: 0
-  seekCooldownSuppressedCountWindow: 0
-  captureRebindCountWindow: 0
-  bufferUnderflowFillCount: 0
-  bufferUnderflowFillCountWindow: 0
-  bufferUnderflowFillSamples: 0
-  bufferOverflowDropCount: 0
-  bufferOverflowDropCountWindow: 0
-  bufferOverflowDropSamples: 0
-  callbackStarvationCount: 0
-  callbackStarvationCountWindow: 0
-  transitionStartCount: 0
-  transitionStopCount: 0
-  transitionAttenuationToggleCount: 0
-  transitionStreamSwitchCount: 0
-  hardVolumeStepCount: 0
-  lastVolumeStepDelta: 0
-  lastVolumeStepContext: 
-  debugEffectiveMonitoringGain: 0
-  debugAppliedAudioSourceVolume: 0
-  debugChantLerpSlow: 0
-  debugChantLerpFast: 0
-  debugChantCharge: 0
-  debugToneActive: 0
-  debugToneActiveRaw: 0
-  debugToneActiveConfident: 0
-  debugToneActiveVeryConfident: 0
-  debugToneActiveBiasTrue: 0
+  telemetryEffectiveMonitoringGain: 0
+  telemetryAppliedAudioSourceVolume: 0
+  telemetryChantLerpSlow: 0
+  telemetryChantLerpFast: 0
+  telemetryChantCharge: 0
+  telemetryToneActive: 0
+  telemetryToneActiveRaw: 0
+  telemetryToneActiveConfident: 0
+  telemetryToneActiveVeryConfident: 0
+  telemetryToneActiveBiasTrue: 0
 --- !u!1 &870918186
 GameObject:
   m_ObjectHideFlags: 0

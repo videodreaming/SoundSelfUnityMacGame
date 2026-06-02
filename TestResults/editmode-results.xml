@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="15" result="Passed" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.0632337">
+  <test-suite type="TestSuite" id="1024" name="SoundSelf Live Sequence" fullname="SoundSelf Live Sequence" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.063234" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1043" name="Assembly-CSharp-Editor.dll" fullname="C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.030942" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="30596" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <test-suite type="TestFixture" id="1025" name="GameOnPolicyBlock3Tests" fullname="GameOnPolicyBlock3Tests" classname="GameOnPolicyBlock3Tests" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.030110" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="ParameterizedMethod" id="1038" name="CountdownClock_ParsesToSecondsRemaining" fullname="GameOnPolicyBlock3Tests.CountdownClock_ParsesToSecondsRemaining" classname="GameOnPolicyBlock3Tests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.018777" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1035" name="CountdownClock_ParsesToSecondsRemaining(&quot;16:15&quot;,975)" fullname="GameOnPolicyBlock3Tests.CountdownClock_ParsesToSecondsRemaining(&quot;16:15&quot;,975)" methodname="CountdownClock_ParsesToSecondsRemaining" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="298253843" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.011178" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1036" name="CountdownClock_ParsesToSecondsRemaining(&quot;15:37&quot;,937)" fullname="GameOnPolicyBlock3Tests.CountdownClock_ParsesToSecondsRemaining(&quot;15:37&quot;,937)" methodname="CountdownClock_ParsesToSecondsRemaining" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="1199869735" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000189" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1037" name="CountdownClock_ParsesToSecondsRemaining(&quot;20:00&quot;,1200)" fullname="GameOnPolicyBlock3Tests.CountdownClock_ParsesToSecondsRemaining(&quot;20:00&quot;,1200)" methodname="CountdownClock_ParsesToSecondsRemaining" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="379407629" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000075" asserts="0">
+            <properties />
+          </test-case>
+        </test-suite>
+        <test-case id="1039" name="DualStacksPlayground_AtLornaReportClocks_ExpectsGameOn" fullname="GameOnPolicyBlock3Tests.DualStacksPlayground_AtLornaReportClocks_ExpectsGameOn" methodname="DualStacksPlayground_AtLornaReportClocks_ExpectsGameOn" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="1966685023" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000257" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1041" name="DualStacksPlayground_AtStep1Threshold_ExpectsGameOn" fullname="GameOnPolicyBlock3Tests.DualStacksPlayground_AtStep1Threshold_ExpectsGameOn" methodname="DualStacksPlayground_AtStep1Threshold_ExpectsGameOn" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="57556457" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000115" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1040" name="DualStacksPlayground_BeforeStep1_DoesNotExpectGameOn" fullname="GameOnPolicyBlock3Tests.DualStacksPlayground_BeforeStep1_DoesNotExpectGameOn" methodname="DualStacksPlayground_BeforeStep1_DoesNotExpectGameOn" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="1028332688" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000198" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1027" name="FreeplayMode_AssignsGameOnTrue" fullname="GameOnPolicyBlock3Tests.FreeplayMode_AssignsGameOnTrue" methodname="FreeplayMode_AssignsGameOnTrue" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="1148386092" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000363" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1028" name="FrozenFreeplayMode_AssignsGameOnFalse" fullname="GameOnPolicyBlock3Tests.FrozenFreeplayMode_AssignsGameOnFalse" methodname="FrozenFreeplayMode_AssignsGameOnFalse" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="908938733" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000123" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1029" name="MusicLoopSilentMode_DoesNotAssignGameOn" fullname="GameOnPolicyBlock3Tests.MusicLoopSilentMode_DoesNotAssignGameOn" methodname="MusicLoopSilentMode_DoesNotAssignGameOn" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="361275443" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000212" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1030" name="OpeningPsAscending_RequiresGameOnAfterEnter" fullname="GameOnPolicyBlock3Tests.OpeningPsAscending_RequiresGameOnAfterEnter" methodname="OpeningPsAscending_RequiresGameOnAfterEnter" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="1786395059" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000150" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1042" name="SavasanaAscending_DelayedMicOff_Is120Seconds" fullname="GameOnPolicyBlock3Tests.SavasanaAscending_DelayedMicOff_Is120Seconds" methodname="SavasanaAscending_DelayedMicOff_Is120Seconds" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="1718093934" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000191" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1026" name="SilentMode_AssignsGameOnFalse" fullname="GameOnPolicyBlock3Tests.SilentMode_AssignsGameOnFalse" methodname="SilentMode_AssignsGameOnFalse" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="234775335" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000110" asserts="0">
+          <properties />
+        </test-case>
+        <test-suite type="ParameterizedMethod" id="1034" name="StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter" fullname="GameOnPolicyBlock3Tests.StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter" classname="GameOnPolicyBlock3Tests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.001261" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1031" name="StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter(Opening_Preparation)" fullname="GameOnPolicyBlock3Tests.StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter(Opening_Preparation)" methodname="StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="1390022784" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000225" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1032" name="StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter(Opening_Sonoflore)" fullname="GameOnPolicyBlock3Tests.StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter(Opening_Sonoflore)" methodname="StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="544492614" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000068" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1033" name="StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter(Opening_Activation)" fullname="GameOnPolicyBlock3Tests.StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter(Opening_Activation)" methodname="StandardOpeningVariants_DoNotRequireGameOnOverrideAfterEnter" classname="GameOnPolicyBlock3Tests" runstate="Runnable" seed="1494819808" result="Passed" start-time="2026-06-01 21:54:31Z" end-time="2026-06-01 21:54:31Z" duration="0.000041" asserts="0">
+            <properties />
+          </test-case>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
