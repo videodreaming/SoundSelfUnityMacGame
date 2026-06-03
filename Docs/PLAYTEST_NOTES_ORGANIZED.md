@@ -598,7 +598,7 @@ Deliberately fail tutorial prompts (stay silent through fail threshold) on Long 
 | Done | Step | Pass criteria |
 |------|------|----------------|
 | - [x] | **Short tutorial (repeat user)** | Returning Sonoflore user gets short tutorial, not long |
-| - [ ] | **A vs C hum** | Wrong hum correction uses pitch matching **music** (Tone Advanced if needed) |
+| - [x] | **A vs C hum** | Wrong hum correction uses pitch matching **music** (Tone Advanced if needed) |
 | - [ ] | **Correction timing** | Fail last **Ahh** before **Ohh** cue → **Ahh** correction, not Ohh |
 
 | Done | Item | Action | Primary files |
