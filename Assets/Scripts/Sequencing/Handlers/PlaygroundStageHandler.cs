@@ -85,7 +85,13 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetAllowThumpAlways(false);
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(true);
-            if (IsStandardVariant())
+            if (PlaygroundStagePolicy.IsParkedDebugVariant(variant))
+            {
+                Debug.Log("PlaygroundStageHandler: Playground_Debug — parked (Freeplay, no timeline coroutine). Use MusicDebugHarness keys.");
+                if (!_sequencer.worldShuffler.shuffling)
+                    _sequencer.worldShuffler.BeginShuffle();
+            }
+            else if (IsStandardVariant())
             {
                 Debug.Log("PlaygroundStageHandler: Standard variant: Starting Standard Playground coroutine.");
                 if(!_sequencer.worldShuffler.shuffling)

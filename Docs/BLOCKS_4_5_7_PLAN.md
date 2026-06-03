@@ -67,6 +67,22 @@ Editor/dev-only; **no production behavior change**, so it can land first and de-
 
 **Commit:** `Add Playground_Debug harness + keyboard music controls (editor/dev only).`
 
+### Stage 0 — Playtests (when implemented)
+
+| Inspector | Value |
+|-----------|--------|
+| `CSVLoader` → Definition Override | `DebugSequence` (MainGame default) |
+| Enter Play Mode | Advance/skip to **Playground** (variant `Playground_Debug`) |
+
+| Step | Pass criteria |
+|------|----------------|
+| Parked playground | Console: `Playground_Debug — parked`; stage does not auto-complete |
+| **P** | One-line `[MusicDebugHarness] STATE mode=… \| fundamental=… \| …` |
+| **;** | Steps Lorna `Cue_Key_*` timeline; fundamental updates in state line |
+| **R** | Director repro queued; after tone, either repro action log **or** (pre–Stage 1) empty-queue bug log |
+
+**Harness keys:** P=state · [=world · ]=loop · ;=key cue · L=lock C · U=unlock · B/V=binaural · R=director repro · 1=15:00 cd · 2=60s cd
+
 ---
 
 ## Stage 1 — Director queue + shuffle + sound-world transitions

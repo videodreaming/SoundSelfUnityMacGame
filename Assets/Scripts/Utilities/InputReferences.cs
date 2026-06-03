@@ -49,6 +49,10 @@ public class InputReferences : MonoBehaviour
         }
         if (sequencer == null) sequencer = FindObjectOfType<Sequencer>();
         if (director == null) director = FindObjectOfType<Director>();
+#if UNITY_EDITOR
+        if (GetComponent<MusicDebugHarness>() == null)
+            gameObject.AddComponent<MusicDebugHarness>();
+#endif
     }
 
     private IEnumerator SequenceAdvanceAndCountdownCoroutine()

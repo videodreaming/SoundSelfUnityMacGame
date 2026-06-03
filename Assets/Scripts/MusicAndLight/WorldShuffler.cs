@@ -73,6 +73,11 @@ public class WorldShuffler : MonoBehaviour
     };
 
     private string currentSoundscape;
+
+#if UNITY_EDITOR
+    /// <summary>Harness / editor diagnostics only.</summary>
+    public string EditorCurrentSoundscape => currentSoundscape ?? "";
+#endif
     private PreferredColorWorld? currentColorWorld;
 
     void Awake ()

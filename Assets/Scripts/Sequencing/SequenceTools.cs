@@ -107,6 +107,8 @@ namespace SoundSelf.Sequence
         Code_Dualstage_SectionEnd = 34,
         /// <summary><see cref="StageType.SetMenu"/>: Choice Album screen (<see cref="UIManager.SetChoiceScreen"/>(<see cref="ChoiceScreen.Album"/>)).</summary>
         Menu_AlbumChoice = 35,
+        /// <summary><see cref="StageType.Playground"/>: parked Freeplay for Blocks 4/5/7 harness — no timeline coroutine (<see cref="PlaygroundStagePolicy"/>).</summary>
+        Playground_Debug = 36,
     }
 
     [System.Serializable]

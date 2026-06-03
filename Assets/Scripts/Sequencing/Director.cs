@@ -446,17 +446,22 @@ public class Director : MonoBehaviour
 
     public void LogQueue()
     {
-        //outputs a single log line, with the following format: "Director Queue: <index> <type>, <index> <type>, <index> <type>..."
-        string logString = "Director Queue Contents: ";
-        foreach (var item in queue)
-        {
-            logString += "<" + item.Key + " " + item.Value.type + ", " + item.Value.timeLeft + "s> ";
-        }
         if(debugAllowLogs)
-        {
-            Debug.Log(logString);
-        }
+            Debug.Log(EditorFormatQueueContents());
     }
+
+#if UNITY_EDITOR
+    /// <summary>Single-line queue snapshot for <see cref="MusicDebugHarness"/> and playtests.</summary>
+    public string EditorFormatQueueContents()
+    {
+        if (queue.Count == 0)
+            return "Director Queue Contents: (empty)";
+        var logString = "Director Queue Contents: ";
+        foreach (var item in queue)
+            logString += "<" + item.Key + " " + item.Value.type + ", " + item.Value.timeLeft.ToString("F2") + "s, " + item.Value.activationBehavior + "> ";
+        return logString;
+    }
+#endif
 
     public bool SearchQueueForType(string type)
     {
