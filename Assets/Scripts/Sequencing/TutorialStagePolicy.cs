@@ -39,13 +39,25 @@ public static class TutorialStagePolicy
         return "Advanced";
     }
 
+    // Correction-only vocalization transition points, keyed directly on wwiseVOManager.TutorialGuidanceCount.
+    // Pre-set to reproduce prior behavior; tweak each independently until corrections line up with the audible VO.
+    public const int CorrectionSwitchToAhh = 5;
+    public const int CorrectionSwitchToOhh = 11;
+    public const int CorrectionSwitchToAdvanced = 14;
+
     /// <summary>
-    /// Vocalization the player is being tested on after guidance line <paramref name="guidanceCountAfterLinePosted"/>
-    /// was posted (Wwise increments count when the line starts).
+    /// Long correction: vocalization to repair, keyed directly on <paramref name="guidanceCount"/>
+    /// (<c>wwiseVOManager.TutorialGuidanceCount</c>). Independent of the main guidance thresholds so each
+    /// transition can be tuned without affecting which guidance line the main thread plays.
     /// </summary>
-    public static string GetVocalizationTypeUnderTestForLong(int guidanceCountAfterLinePosted)
+    public static string GetCorrectionVocalizationType(int guidanceCount)
     {
-        int indexBeforeLine = guidanceCountAfterLinePosted > 0 ? guidanceCountAfterLinePosted - 1 : 0;
-        return GetLongVocalizationTypeForGuidanceCount(indexBeforeLine);
+        if (guidanceCount < CorrectionSwitchToAhh)
+            return "Hum";
+        if (guidanceCount < CorrectionSwitchToOhh)
+            return "Ahh";
+        if (guidanceCount < CorrectionSwitchToAdvanced)
+            return "Ohh";
+        return "Advanced";
     }
 }

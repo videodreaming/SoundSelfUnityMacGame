@@ -48,8 +48,6 @@ public class Tutorial : MonoBehaviour
 
     float failThreshold = 8.0f;
 
-    private bool testSuccess = false;
-
     public string testVocalizationType { get; private set; } = "Hum";
 
     public string testVocalizationTypeLastFrame;
@@ -113,16 +111,6 @@ public class Tutorial : MonoBehaviour
     void Update()
 
     {
-
-        if(imitoneVoiceInterpreter._tThisToneBiasTrue >= testThreshold)
-
-        {
-
-            testSuccess = true;
-
-        }        
-
-
 
         if(testVocalizationType != testVocalizationTypeLastFrame)
 
@@ -202,6 +190,8 @@ public class Tutorial : MonoBehaviour
 
             inTutorial = true;            
 
+            guidanceCount = 0;   //match wwiseVOManager.ResetTutorialGuidanceCount() in TutorialStageHandler.Enter so a second tutorial doesn't start with a stale count
+
             if(startVariant == null)
 
             {
@@ -276,9 +266,7 @@ public class Tutorial : MonoBehaviour
 
             Debug.Log("Tutorial: Voice Test Coroutine");
 
-
-
-            testSuccess = false;
+            LogTutorialDiag("VoiceTestCoroutine enter");
 
             float _sectionTimer = 0.0f;
 
@@ -312,19 +300,35 @@ public class Tutorial : MonoBehaviour
 
 
 
+            bool loggedMainWaitGameOn = false;
+
             while(!imitoneVoiceInterpreter.gameOn)
 
             {
 
-                //wait for the previous guidance to end
+                if (!loggedMainWaitGameOn)
+
+                {
+
+                    LogTutorialDiag("main: waiting for gameOn before test");
+
+                    loggedMainWaitGameOn = true;
+
+                }
 
                 yield return null;
 
             }
 
+            if (loggedMainWaitGameOn)
+
+                LogTutorialDiag("main: gameOn open — starting main mic test");
+
 
 
             CaptureVocalizationTypeUnderTest();
+
+            LogCorrectionTimingCheck("main test start");
 
 
 
@@ -340,9 +344,27 @@ public class Tutorial : MonoBehaviour
 
         
 
-            while(!testSuccess)
+            //Success is detected locally each frame: the tone must be held for testThreshold seconds
+
+            //within THIS listen window. No shared/sticky flag, so residual toning during VO playback,
+
+            //the 3s pad, gameOn waits, or the correction confirmation VO cannot pre-pass the next test.
+
+            bool toneHeldLongEnough = false;
+
+            while(!toneHeldLongEnough)
 
             {
+
+                if(imitoneVoiceInterpreter._tThisToneBiasTrue >= testThreshold)
+
+                {
+
+                    toneHeldLongEnough = true;
+
+                    continue;
+
+                }
 
                 //waiting for success...
 
@@ -359,6 +381,10 @@ public class Tutorial : MonoBehaviour
                     {
 
                         Debug.Log("Tutorial: TEST FAIL");
+
+                        LogTutorialDiag("main TEST FAIL → starting ProvideCorrection");
+
+                        LogCorrectionTimingCheck("main fail");
 
                         correctionCoroutine = StartCoroutine(ProvideCorrection());                   
 
@@ -410,6 +436,8 @@ public class Tutorial : MonoBehaviour
 
             Debug.Log("Tutorial: TEST SUCCESS (wait for breath)");
 
+            LogTutorialDiag("main TEST SUCCESS — wait for breath to end");
+
             while(imitoneVoiceInterpreter.toneActiveBiasTrue)
 
             {
@@ -418,6 +446,8 @@ public class Tutorial : MonoBehaviour
 
             }
 
+            LogTutorialDiag("main breath ended — posting next guidance");
+
             //on success, start the next coroutine
 
 
@@ -425,6 +455,8 @@ public class Tutorial : MonoBehaviour
             if(variant == "Short")
 
             {
+
+                LogTutorialDiag("overlap-risk: PlayTutorialGuidance(Lite) after main success");
 
                 guidanceCount = wwiseVOManager.PlayTutorialGuidance("Lite");
 
@@ -470,6 +502,8 @@ public class Tutorial : MonoBehaviour
 
                     imitoneVoiceInterpreter.SetGameOn(false);
 
+                LogTutorialDiag("overlap-risk: PlayTutorialGuidance(" + testVocalizationType + ") after main success");
+
                 guidanceCount = wwiseVOManager.PlayTutorialGuidance(testVocalizationType);
 
                 Debug.Log("Tutorial: (Long) Played " + testVocalizationType + " guidance, guidanceCount: " + guidanceCount);
@@ -477,6 +511,8 @@ public class Tutorial : MonoBehaviour
             }
 
 
+
+            LogTutorialDiag("overlap-risk: restarting VoiceTestCoroutine after main success");
 
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
 
@@ -494,9 +530,11 @@ public class Tutorial : MonoBehaviour
 
     {
 
-        testSuccess = false;
+        LogTutorialDiag("ProvideCorrection enter");
 
         CaptureVocalizationTypeUnderTest();
+
+        LogCorrectionTimingCheck("ProvideCorrection enter");
 
         if(debugAllowLogs)
 
@@ -508,13 +546,19 @@ public class Tutorial : MonoBehaviour
 
         
 
+        LogAcHumDiag("before SetFundamentalModeLock(C) for correction");
+
         musicSystem1.SetFundamentalModeLock(true, NoteName.C);
+
+        LogAcHumDiag("after SetFundamentalModeLock(C) for correction");
 
 
 
         if (variant == "Long")
 
             imitoneVoiceInterpreter.SetGameOn(false);
+
+        LogTutorialDiag("before PlayCorrectionGuidance(" + _vocalizationTypeUnderTest + ")");
 
 
 
@@ -536,19 +580,46 @@ public class Tutorial : MonoBehaviour
 
      
 
+        bool loggedCorrWaitGameOn = false;
+
+        float _gameOnWait = 0.0f;
+
         while(!imitoneVoiceInterpreter.gameOn)
 
         {
 
-            //wait for the correction guidance to end
+            if (!loggedCorrWaitGameOn)
+
+            {
+
+                LogTutorialDiag("correction: waiting for gameOn before correction mic test");
+
+                loggedCorrWaitGameOn = true;
+
+            }
+
+            _gameOnWait += Time.deltaTime;
+
+            if (_gameOnWait > 13f)
+            {
+                //Some correction Wwise assets lack Cue_VO_GuidedVocalization_End; don't depend on it to re-open the mic.
+                Debug.Log("Tutorial: Correction mic test window waited 13s for gameOn — forcing gameOn back on");
+                imitoneVoiceInterpreter.SetGameOn(true);
+            }
 
             yield return null;
 
         }
 
+        if (loggedCorrWaitGameOn)
+
+            LogTutorialDiag("correction: gameOn open — starting correction mic test");
+
 
 
         CaptureVocalizationTypeUnderTest();
+
+        LogCorrectionTimingCheck("after correction VO (before correction mic test)");
 
 
 
@@ -560,11 +631,32 @@ public class Tutorial : MonoBehaviour
 
         }
 
+        float correctionFailLimit = variant == "Long" ? (failThreshold + 8.0f) : failThreshold;
+
+        LogTutorialDiag("correction mic test window (failLimit=" + correctionFailLimit + "s)");
+
         float _failTimer = 0.0f;
 
-        while(!testSuccess)
+        bool toneHeldLongEnough = false;
+
+        while(!toneHeldLongEnough)
 
         {
+            if (_failTimer > 0.5f &&Mathf.FloorToInt(_failTimer) != Mathf.FloorToInt(_failTimer - Time.deltaTime))
+            {
+                Debug.Log("Tutorial: Correction fail timer = " + _failTimer.ToString("F2") + "s");
+            }
+       
+
+            if(imitoneVoiceInterpreter._tThisToneBiasTrue >= testThreshold)
+
+            {
+
+                toneHeldLongEnough = true;
+
+                continue;
+
+            }
 
             //waiting for success...
 
@@ -576,13 +668,15 @@ public class Tutorial : MonoBehaviour
 
                 _failTimer += Time.deltaTime;
 
-                float correctionFailLimit = variant == "Long" ? (failThreshold + 4.0f) : failThreshold;
-
                 if(_failTimer > correctionFailLimit)
 
                 {
 
                     Debug.Log("Tutorial: CORRECTION TEST FAIL");
+
+                    LogTutorialDiag("correction TEST FAIL → retry ProvideCorrection");
+
+                    LogCorrectionTimingCheck("correction fail");
 
                     correctionCoroutine = StartCoroutine(ProvideCorrection());                   
 
@@ -602,6 +696,8 @@ public class Tutorial : MonoBehaviour
 
         Debug.Log("Tutorial: CORRECTION TEST SUCCESS (wait for breath...)");
 
+        LogTutorialDiag("correction TEST SUCCESS — wait for breath to end");
+
         while(imitoneVoiceInterpreter.toneActiveBiasTrue)
 
         {
@@ -609,6 +705,8 @@ public class Tutorial : MonoBehaviour
             yield return null;
 
         }
+
+        LogTutorialDiag("correction breath ended — before confirmation VO");
 
         if(debugAllowLogs)
 
@@ -624,9 +722,15 @@ public class Tutorial : MonoBehaviour
 
             musicSystem1.SetFundamentalModeLock(false);
 
+            LogAcHumDiag("unlocked fundamental after correction (non-Hum segment)");
+
         }
 
+        LogTutorialDiag("overlap-risk: PlayCorrectionConfirmationVO (watch for same-frame main VoiceTestCoroutine)");
+
         wwiseVOManager.PlayCorrectionConfirmationVO();
+
+        LogTutorialDiag("overlap-risk: starting VoiceTestCoroutine immediately after confirmation VO");
 
         testCoroutine = StartCoroutine(VoiceTestCoroutine());
 
@@ -714,6 +818,10 @@ public class Tutorial : MonoBehaviour
 
             Debug.Log("Tutorial: SetTestVocalizationType: " + vocalizationType);
 
+            if (inTutorial)
+
+                LogCorrectionTimingCheck("SetTestVocalizationType (Wwise cue — next segment)");
+
         }
 
     }
@@ -724,13 +832,15 @@ public class Tutorial : MonoBehaviour
 
     {
 
+        int guidanceCountForCapture = wwiseVOManager != null ? wwiseVOManager.TutorialGuidanceCount : -1;
+
         if (variant == "Long" && wwiseVOManager != null)
 
         {
 
-            _vocalizationTypeUnderTest = TutorialStagePolicy.GetVocalizationTypeUnderTestForLong(
+            _vocalizationTypeUnderTest = TutorialStagePolicy.GetCorrectionVocalizationType(
 
-                wwiseVOManager.TutorialGuidanceCount);
+                guidanceCountForCapture);
 
         }
 
@@ -741,6 +851,114 @@ public class Tutorial : MonoBehaviour
             _vocalizationTypeUnderTest = testVocalizationType;
 
         }
+
+        if (debugAllowLogs)
+
+            Debug.Log("Tutorial: CaptureVocalizationTypeUnderTest guidanceCount=" + guidanceCountForCapture
+
+                + " → underTest=" + _vocalizationTypeUnderTest + " (queued testVocal=" + testVocalizationType + ")");
+
+    }
+
+
+
+    private void LogTutorialDiag(string phase)
+
+    {
+
+        if (!debugAllowLogs || imitoneVoiceInterpreter == null)
+
+            return;
+
+        int gCount = wwiseVOManager != null ? wwiseVOManager.TutorialGuidanceCount : -1;
+
+        NoteName fund = musicSystem1 != null ? musicSystem1.fundamentalNoteName : NoteName.A;
+
+        string repairSwitch = fund == NoteName.C ? "C" : "A";
+
+        float correctionFailLimit = variant == "Long" ? (failThreshold + 4.0f) : failThreshold;
+
+        Debug.Log("Tutorial: " + phase
+
+            + " | frame=" + Time.frameCount
+
+            + " variant=" + variant
+
+            + " gameOn=" + imitoneVoiceInterpreter.gameOn
+
+            + " toneActive=" + imitoneVoiceInterpreter.toneActiveBiasTrue
+
+            + " toneHeldSec=" + imitoneVoiceInterpreter._tThisToneBiasTrue + "/" + testThreshold
+
+            + " testVocal=" + testVocalizationType
+
+            + " underTest=" + _vocalizationTypeUnderTest
+
+            + " guidanceCount=" + gCount
+
+            + " musicFundamental=" + fund
+
+            + " expectedRepairSwitch=" + repairSwitch
+
+            + " mainFail=" + failThreshold + "s correctionFail=" + correctionFailLimit + "s"
+
+            + " testCoroutine=" + (testCoroutine != null)
+
+            + " correctionCoroutine=" + (correctionCoroutine != null));
+
+    }
+
+
+
+    /// <summary>Block 9 playtest: correction VO must match the segment that failed, not the next queued type.</summary>
+
+    private void LogCorrectionTimingCheck(string phase)
+
+    {
+
+        if (!debugAllowLogs)
+
+            return;
+
+        if (_vocalizationTypeUnderTest == testVocalizationType)
+
+            return;
+
+        Debug.LogWarning("Tutorial: CORRECTION-TIMING at " + phase
+
+            + ": underTest=" + _vocalizationTypeUnderTest
+
+            + " but queued testVocalizationType=" + testVocalizationType
+
+            + " (fail should use underTest for repair VO)");
+
+    }
+
+
+
+    /// <summary>Block 9 playtest: A vs C hum — music fundamental vs Wwise VO_testRepair switch (Ahh/Advanced sync in WwiseVOManager).</summary>
+
+    private void LogAcHumDiag(string phase)
+
+    {
+
+        if (!debugAllowLogs || musicSystem1 == null)
+
+            return;
+
+        NoteName fund = musicSystem1.fundamentalNoteName;
+
+        string repairSwitch = fund == NoteName.C ? "C" : "A";
+
+        Debug.Log("Tutorial: A/C-hum at " + phase
+
+            + " | musicFundamental=" + fund
+
+            + " expected VO_testRepair=" + repairSwitch
+
+            + " underTest=" + _vocalizationTypeUnderTest
+
+            + " (Hum repair uses Wwise Hum event; Ahh/Advanced call SyncTestRepairSwitch in WwiseVOManager — watch WWise_VO / WwiseVOManager logs)");
 
     }
 

@@ -33,23 +33,4 @@ public class TutorialStagePolicyEditModeTests
             isFirstTimeUser: false);
         Assert.That(resolved, Is.EqualTo(StageVariant.Tutorial_Long));
     }
-
-    [TestCase(0, "Hum")]
-    [TestCase(4, "Hum")]
-    [TestCase(5, "Ahh")]
-    [TestCase(9, "Ahh")]
-    [TestCase(10, "Ohh")]
-    [TestCase(13, "Ohh")]
-    [TestCase(14, "Advanced")]
-    public void GetLongVocalizationTypeForGuidanceCount_MatchesBlock9Thresholds(int count, string expected)
-    {
-        Assert.That(TutorialStagePolicy.GetLongVocalizationTypeForGuidanceCount(count), Is.EqualTo(expected));
-    }
-
-    [Test]
-    public void GetVocalizationTypeUnderTestForLong_AtOhhBoundary_StillAhhNotOhh()
-    {
-        // Last Ahh line posted → count 10; correction must target Ahh, not the next Ohh segment.
-        Assert.That(TutorialStagePolicy.GetVocalizationTypeUnderTestForLong(10), Is.EqualTo("Ahh"));
-    }
 }

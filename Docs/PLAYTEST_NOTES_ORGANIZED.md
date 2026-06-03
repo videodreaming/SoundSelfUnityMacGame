@@ -593,9 +593,11 @@ Tests: [`TutorialStagePolicyEditModeTests.cs`](../Assets/Editor/SoundSelf/Tests/
 
 Deliberately fail tutorial prompts (stay silent through fail threshold) on Long first-time path for correction checks.
 
+**Console (Block 9 diag):** filter **`Tutorial:`** in `Tutorial.cs` (`debugAllowLogs` must be true). Pair with existing **`WWise_VO`** / **`WwiseVOManager`** repair-switch lines for A/C hum.
+
 | Done | Step | Pass criteria |
 |------|------|----------------|
-| - [ ] | **Short tutorial (repeat user)** | Returning Sonoflore user gets short tutorial, not long |
+| - [x] | **Short tutorial (repeat user)** | Returning Sonoflore user gets short tutorial, not long |
 | - [ ] | **A vs C hum** | Wrong hum correction uses pitch matching **music** (Tone Advanced if needed) |
 | - [ ] | **Correction timing** | Fail last **Ahh** before **Ohh** cue → **Ahh** correction, not Ohh |
 

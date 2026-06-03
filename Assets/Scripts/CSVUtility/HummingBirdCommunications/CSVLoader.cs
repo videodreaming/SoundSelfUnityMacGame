@@ -11,25 +11,27 @@ public class CSVLoader : MonoBehaviour
 
     public WwiseVOManager wwiseVOManager;
 
-    /// <summary>
-    /// Maps normalized (gameMode, contentPack) to pack SOs. Create via <b>Assets → Create → SoundSelf → Hummingbird → Hummingbird Content Pack Registry</b>;
-    /// store under <c>Assets/Definitions/HummingbirdCalls/</c>. Required for session VO/timing resolution at startup.
-    /// </summary>
-    [SerializeField] private HummingbirdContentPackRegistry hummingbirdContentPackRegistry;
-
-    /// <summary>Registry asset listing every supported pack row. Assign under <c>Assets/Definitions/HummingbirdCalls/</c>.</summary>
-    public HummingbirdContentPackRegistry ContentPackRegistry => hummingbirdContentPackRegistry;
-
     /// <summary>Set during <see cref="Awake"/> when the registry resolves the active session pack.</summary>
     private HummingbirdContentPackDefinition _resolvedSessionPack;
 
 #if UNITY_EDITOR
-    [Header("Debug (Editor only)")]
+    [Header("Editor-Only Overrides")]
     [Tooltip("Registry-listed pack to impersonate. Effective session keys come from that pack's registry row. Ignored in player builds.")]
     [SerializeField] private HummingbirdContentPackDefinition hummingbirdContentPackOverride;
 
     [Tooltip("When Content Pack Override is assigned, IsFirstTimeUser uses this value instead of session_params.csv.")]
     [SerializeField] private bool firstTimeUserWhenContentPackOverride;
+
+    /// <summary>
+    /// If set in the Editor, <see cref="SoundSelf.Sequence.SequenceRunner"/> starts from this asset instead of CSV / pack resolution.
+    /// Not compiled into release players.
+    /// </summary>
+    [Tooltip("If assigned, SequenceRunner starts from this SequenceDefinition instead of the resolved session pack. Editor only.")]
+    [FormerlySerializedAs("startDefinition")]
+    [SerializeField] private SequenceDefinition definitionOverride;
+
+    /// <summary>Editor-only sequence start override (see inspector).</summary>
+    public SequenceDefinition DefinitionOverride => definitionOverride;
 #endif
 
     /// <summary>Resolved pack for this session after CSV (+ editor override). Consumers include sequencing.</summary>
@@ -48,6 +50,9 @@ public class CSVLoader : MonoBehaviour
     public bool IsFirstTimeUser { get; private set; }
     public bool IsLayingDown { get; private set; }
     public bool IsVibroacoustic { get; private set; }
+    
+    [Header("Session Information")]
+
     public float timeToPlayClosingGoodbye;
     public float totalTimeOfPostUnguidedVocalizationContent;
     public static int currentSessionNumber = 0;
@@ -67,6 +72,16 @@ public class CSVLoader : MonoBehaviour
     [SerializeField] private string decryptedLayingDown;
     [SerializeField] private string encryptedVibroacoustic;
     [SerializeField] private string decryptedVibroacoustic;
+
+    /// <summary>
+    /// Maps normalized (gameMode, contentPack) to pack SOs. Create via <b>Assets → Create → SoundSelf → Hummingbird → Hummingbird Content Pack Registry</b>;
+    /// store under <c>Assets/Definitions/HummingbirdCalls/</c>. Required for session VO/timing resolution at startup.
+    /// </summary>
+    [Header("Hummingbird Content Pack Registry")]
+    [SerializeField] private HummingbirdContentPackRegistry hummingbirdContentPackRegistry;
+
+    /// <summary>Registry asset listing every supported pack row. Assign under <c>Assets/Definitions/HummingbirdCalls/</c>.</summary>
+    public HummingbirdContentPackRegistry ContentPackRegistry => hummingbirdContentPackRegistry;
 
     public const string GameModeSonoflore = "Sonoflore";
     public const string GameModeActivation = "Activation";

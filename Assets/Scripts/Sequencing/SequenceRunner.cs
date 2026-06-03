@@ -6,18 +6,6 @@ namespace SoundSelf.Sequence
 {
     public class SequenceRunner : MonoBehaviour
     {
-        
-        [Header("Sequence Definitions (Inspector)")]
-#if UNITY_EDITOR
-        [Header("Development — Editor only (field and Start() path stripped from non-editor builds)")]
-        /// <summary>
-        /// If set in the Editor, <see cref="Start"/> runs this sequence instead of CSV / pack resolution.
-        /// This field is not compiled into release players.
-        /// </summary>
-        [FormerlySerializedAs("startDefinition")]
-        [SerializeField] private SequenceDefinition definitionOverride;
-#endif
-        
         [Header("API-callable sequences")]
         [SerializeField] private SequenceDefinition protocolStacksInteractiveDefinition;
         [FormerlySerializedAs("protocolStacksMusicPlaylistDefinition")]
@@ -263,11 +251,13 @@ namespace SoundSelf.Sequence
         {
             // Start() (not Awake) avoids ordering issues with handler registration in Sequencer.Awake().
 #if UNITY_EDITOR
+            var loader = CSVLoader.instance;
+            var definitionOverride = loader != null ? loader.DefinitionOverride : null;
             if (definitionOverride != null)
             {
                 Debug.LogWarning(
-                    "SequenceRunner: Definition Override is assigned in the Editor — starting from it instead of CSV / pack resolution. This path is not included in release player builds.");
-                LogDevelopmentStartBanner("Starting sequence from Definition Override (inspector).");
+                    "SequenceRunner: Definition Override is assigned on CSVLoader (Editor) — starting from it instead of CSV / pack resolution. This path is not included in release player builds.");
+                LogDevelopmentStartBanner("Starting sequence from Definition Override (CSVLoader inspector).");
                 StartSequence(definitionOverride);
                 return;
             }
