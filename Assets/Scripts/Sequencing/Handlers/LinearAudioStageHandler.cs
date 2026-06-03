@@ -30,6 +30,7 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             _sequencer.StopOpeningAudioFromStageEnter();
+            BinauralStagePolicy.ApplyBinauralVolumeForStage(StageType.LinearAudio);
             Debug.Log("LinearAudioStageHandler: Enter (stub - skipping until implementation added)");
             UIManager.Instance?.RefreshSkipStageButtonFromSequencer(_sequencer);
 
@@ -37,10 +38,8 @@ namespace SoundSelf.Sequence
             {
                 MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
                 MusicSystem1.instance.SetBreathworkCycle(false);
-                MusicBinauralBeats.instance.SetVolume(0f);
                 _sequencer.imitoneVoiceInterpreter.SetGameOn(false);
             }
-                
 
             MarkComplete(); // Stub: complete immediately until implementation is added
         }

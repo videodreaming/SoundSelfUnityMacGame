@@ -81,6 +81,7 @@ namespace SoundSelf.Sequence
             _sequencer.ForceSequenceAdvanceRequested = false;
             _sequencer.director.Enable();
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+            BinauralStagePolicy.ApplyBinauralVolumeForStage(StageType.Playground);
             _sequencer.ApplyGameOnPolicy(MusicSystem1.MusicMode.Freeplay);
             MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetAllowThumpAlways(false);

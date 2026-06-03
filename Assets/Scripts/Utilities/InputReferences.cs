@@ -115,19 +115,19 @@ public class InputReferences : MonoBehaviour
         }
 
 #if UNITY_EDITOR
-        // Shift+Q (editor only): same as UI "End This Sequence Stage" — handlers that watch it MarkComplete / skip calibration, etc.
-        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Q))
+        // Shift+E (editor only): end current sequence stage. (Avoid Shift+Q — Unity Editor often steals Q for the Hand tool when Scene view is focused.)
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.E))
         {
             if (sequencer == null)
                 sequencer = FindObjectOfType<Sequencer>();
             if (sequencer == null)
-                Debug.LogWarning("[Input] Shift+Q (editor): No Sequencer in scene.");
+                Debug.LogWarning("[Input] Shift+E (editor): No Sequencer in scene.");
             else
             {
                 bool handled = sequencer.HandleSequenceCommand(SequenceCommand.EndThisSequenceStage);
                 Debug.Log(handled
-                    ? "[Input] Shift+Q (editor): EndThisSequenceStage handled — current stage should complete / advance."
-                    : "[Input] Shift+Q (editor): EndThisSequenceStage not handled (no watcher for this stage, or no active stage).");
+                    ? "[Input] Shift+E (editor): EndThisSequenceStage handled — current stage should complete / advance."
+                    : "[Input] Shift+E (editor): EndThisSequenceStage not handled (no watcher for this stage, or no active stage).");
             }
         }
 #endif

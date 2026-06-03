@@ -81,7 +81,7 @@ Editor/dev-only; **no production behavior change**, so it can land first and de-
 | **;** | Steps Lorna `Cue_Key_*` timeline; fundamental updates in state line |
 | **R** | Director repro queued; after tone, either repro action log **or** (pre–Stage 1) empty-queue bug log |
 
-**Harness keys:** P=state · [=world · ]=loop · ;=key cue · L=lock C · U=unlock · B/V=binaural · R=director repro · 1=15:00 cd · 2=60s cd
+**Harness keys:** P=state · **E=end stage** · [=world · ]=loop · ;=key cue · … (Shift+E in InputReferences; avoid Shift+Q — Unity steals Q in Scene view)
 
 ---
 
@@ -122,11 +122,18 @@ Editor/dev-only; **no production behavior change**, so it can land first and de-
 
 **Goal / acceptance:** Binaural silent on `MusicPlaylist` + `LinearAudio` stage types; present in `Tutorial` + `Playground`.
 
-**Approach:** small `BinauralStagePolicy` (stage type → binaural on/off) wired through [`MusicSystem1.SetMusicModeFlags`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs); [`MusicPlaylistStageHandler`](../Assets/Scripts/Sequencing/Handlers/MusicPlaylistStageHandler.cs) mutes binaural on Enter (today it doesn't touch it); [`LinearAudioStageHandler`](../Assets/Scripts/Sequencing/Handlers/LinearAudioStageHandler.cs) already mutes for `Linear_Nature` — generalize it.
+**Approach (Robin: stage `Enter()`, not `SetMusicModeFlags`):**
 
-**Test Runner tests (EditMode):** `Block5BinauralPolicyEditModeTests` — playlist / linear → off; tutorial / playground → on.
+- Small **`BinauralStagePolicy`** — pure rule: which `StageType`s should have audible binaural (e.g. target volume **70** vs **0**). Handlers and tests call the policy; **do not** add stage-type branching inside [`MusicSystem1.SetMusicModeFlags`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs) (that method stays mode-driven only: tutorial/freeplay/frozen/environment/MusicLoopSilent).
+- Apply in **`Enter()`** on the relevant handlers via a shared helper (e.g. `BinauralStagePolicy.ApplyBinauralVolumeForStage(StageType)` → `MusicBinauralBeats.instance.SetVolume(...)`):
+  - **Mute:** [`MusicPlaylistStageHandler`](../Assets/Scripts/Sequencing/Handlers/MusicPlaylistStageHandler.cs) — today never touches binaural; playlist can inherit **70** from a prior playground.
+  - **Mute:** [`LinearAudioStageHandler`](../Assets/Scripts/Sequencing/Handlers/LinearAudioStageHandler.cs) — generalize beyond `Linear_Nature` only (all linear variants).
+  - **On:** [`TutorialStageHandler`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs) and [`PlaygroundStageHandler`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs) — explicit **Enter** apply so binaural is on even if mode flags run in a different order.
+- **`Exit` / `LocalCleanup`:** only if a stage can leave binaural in a wrong state for the *next* stage without that stage’s `Enter` fixing it; default is “next stage `Enter` owns volume.”
 
-**Playtests:** harness: enter playlist / linear sim → state line shows binaural muted; tutorial / playground → audible.
+**Test Runner tests (EditMode):** `Block5BinauralPolicyEditModeTests` — policy maps playlist/linear → off, tutorial/playground → on (no play mode / Wwise).
+
+**Playtests:** harness **P** on debug playground → `binauralVol` trends to **70** (30s lerp on Enter). **Shift+Q** to **Linear_Nature** → after lerp completes, `binauralVol=0` (or watch Console: `Binaural Beats: New Volume is 0`). Optional: **MusicPlaylist** stage — same mute target.
 
 **Commit:** `Block 5: gate binaural off on MusicPlaylist/LinearAudio stages.`
 

@@ -89,7 +89,26 @@ public class MusicDebugHarness : MonoBehaviour
             case MusicDebugHarnessAction.JumpCountdownToSavasanaLockWindow:
                 JumpCountdown(60f, "savasana-lock-60s");
                 break;
+            case MusicDebugHarnessAction.EndThisSequenceStage:
+                EndThisSequenceStage();
+                break;
         }
+    }
+
+    void EndThisSequenceStage()
+    {
+        if (sequencer == null)
+            sequencer = FindObjectOfType<Sequencer>();
+        if (sequencer == null)
+        {
+            Debug.LogWarning(LogPrefix + " E: No Sequencer in scene.");
+            return;
+        }
+
+        bool handled = sequencer.HandleSequenceCommand(SequenceCommand.EndThisSequenceStage);
+        Debug.Log(handled
+            ? LogPrefix + " E: EndThisSequenceStage handled — stage should complete / advance."
+            : LogPrefix + " E: EndThisSequenceStage not handled (no watcher or no active stage).");
     }
 
     public static string FormatStateLine(
@@ -99,17 +118,20 @@ public class MusicDebugHarness : MonoBehaviour
         MusicSystem1.InteractionType? interaction,
         string soundscapeLabel,
         float binauralCenterHz,
+        float? binauralBusVolume,
         bool? gameOn)
     {
         string modeStr = mode.HasValue ? mode.Value.ToString() : "n/a";
         string interactionStr = interaction.HasValue ? interaction.Value.ToString() : "n/a";
         string gameOnStr = gameOn.HasValue ? (gameOn.Value ? "on" : "off") : "n/a";
+        string binauralVolStr = binauralBusVolume.HasValue ? binauralBusVolume.Value.ToString("F0") : "n/a";
         return "mode=" + modeStr
             + " | fundamental=" + fundamental
             + " | harmony=" + harmony
             + " | interaction=" + interactionStr
             + " | soundscape=" + soundscapeLabel
             + " | binauralHz=" + binauralCenterHz.ToString("F1")
+            + " | binauralVol=" + binauralVolStr
             + " | gameOn=" + gameOnStr;
     }
 
@@ -126,6 +148,9 @@ public class MusicDebugHarness : MonoBehaviour
         float binauralHz = ms != null
             ? NoteUtils.NoteToFrequencyA440(ms.fundamentalNoteName)
             : 0f;
+        float? binauralVol = MusicBinauralBeats.instance != null
+            ? MusicBinauralBeats.instance._volume
+            : (float?)null;
 
         string line = FormatStateLine(
             ms != null ? ms.currentMusicMode : (MusicSystem1.MusicMode?)null,
@@ -134,6 +159,7 @@ public class MusicDebugHarness : MonoBehaviour
             ms != null ? ms.currentInteractionType : (MusicSystem1.InteractionType?)null,
             soundscape,
             binauralHz,
+            binauralVol,
             imitone != null ? imitone.gameOn : (bool?)null);
 
         Debug.Log(LogPrefix + " STATE " + line);
@@ -293,7 +319,7 @@ public class MusicDebugHarness : MonoBehaviour
 
     void LogKeyLegend()
     {
-        Debug.Log(LogPrefix + " Keys: P=state | [=world ]=loop | ;=key cue | L=lock C | U=unlock | B=binaural play | V=binaural vol | R=director repro | 1=15:00 cd | 2=60s cd");
+        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | [=world ]=loop | ;=key cue | L=lock C | U=unlock | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
     }
 }
 #endif

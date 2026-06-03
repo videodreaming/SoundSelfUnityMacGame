@@ -14,6 +14,8 @@ public enum MusicDebugHarnessAction
     DirectorQueueRepro,
     JumpCountdownTo15Minutes,
     JumpCountdownToSavasanaLockWindow,
+    /// <summary>End current sequence stage (same as UI / Shift+E editor cheat).</summary>
+    EndThisSequenceStage,
 }
 
 public static class MusicDebugHarnessKeyPolicy
@@ -54,6 +56,9 @@ public static class MusicDebugHarnessKeyPolicy
                 return true;
             case KeyCode.Alpha2:
                 action = MusicDebugHarnessAction.JumpCountdownToSavasanaLockWindow;
+                return true;
+            case KeyCode.E:
+                action = MusicDebugHarnessAction.EndThisSequenceStage;
                 return true;
             default:
                 action = default;
