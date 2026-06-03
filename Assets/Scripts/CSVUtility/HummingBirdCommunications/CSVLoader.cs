@@ -241,10 +241,11 @@ public class CSVLoader : MonoBehaviour
 
                 gameMode = NormalizeGameMode(decryptedGameMode);
                 contentPack = NormalizeContentPack(decryptedContentPack, gameMode);
+                WarnIfUnrecognizedSessionKeysFromCsv(decryptedGameMode, decryptedContentPack);
 
-                IsFirstTimeUser = decryptedFirstTimeUser == "1";
-                IsLayingDown = decryptedLayingDown == "1";
-                IsVibroacoustic = decryptedVibroacoustic == "1";
+                IsFirstTimeUser = HummingbirdSessionCsvPolicy.ParseSessionFlag(decryptedFirstTimeUser);
+                IsLayingDown = HummingbirdSessionCsvPolicy.ParseSessionFlag(decryptedLayingDown);
+                IsVibroacoustic = HummingbirdSessionCsvPolicy.ParseSessionFlag(decryptedVibroacoustic);
             }
             else
             {
@@ -286,6 +287,16 @@ public class CSVLoader : MonoBehaviour
             + " (ignoring session_params.csv).");
     }
 #endif
+
+    /// <summary>Early warning right after normalization — before registry lookup.</summary>
+    private void WarnIfUnrecognizedSessionKeysFromCsv(string decryptedGameMode, string decryptedContentPack)
+    {
+        if (!HummingbirdSessionCsvPolicy.IsKnownGameMode(gameMode))
+            Debug.LogWarning(HummingbirdSessionCsvPolicy.BuildUnknownGameModeWarning(gameMode, decryptedGameMode));
+
+        if (!HummingbirdSessionCsvPolicy.IsKnownContentPack(gameMode, contentPack))
+            Debug.LogWarning(HummingbirdSessionCsvPolicy.BuildUnknownContentPackWarning(gameMode, contentPack, decryptedContentPack));
+    }
 
     private void ResolveSessionPackDefinition()
     {
@@ -364,32 +375,24 @@ public class CSVLoader : MonoBehaviour
         ApplyContentPackVoKind(pack.VoKind, wwiseVOManager);
         if (gameMode == GameModeSonoflore)
         {
-
-            if (!IsFirstTimeUser)
-            {
+            if (HummingbirdSessionCsvPolicy.UsesReturningSessionVoPath(gameMode, IsFirstTimeUser))
                 wwiseVOManager.notFirstTimeUser();
-                return -ClosingGoodbyeShortVersusLongDeltaSeconds;
-            }
             else
-            {
                 wwiseVOManager.firstTimeUser();
-                return 0f;
-            }
+            return HummingbirdSessionCsvPolicy.GetPostUnguidedVoTimingAdjustmentSeconds(gameMode, IsFirstTimeUser);
         }
-        else if (gameMode == GameModeActivation)
+        if (gameMode == GameModeActivation)
         {
             wwiseVOManager.notFirstTimeUser();
-            return -ClosingGoodbyeShortVersusLongDeltaSeconds;
+            return HummingbirdSessionCsvPolicy.GetPostUnguidedVoTimingAdjustmentSeconds(gameMode, IsFirstTimeUser);
         }
-        else if (gameMode == GameModeAdjunctive)
+        if (gameMode == GameModeAdjunctive)
         {
             wwiseVOManager.notFirstTimeUser(); //Do we even need this? Ask Lorna.
-            return 0f;
+            return HummingbirdSessionCsvPolicy.GetPostUnguidedVoTimingAdjustmentSeconds(gameMode, IsFirstTimeUser);
         }
-        else if (gameMode == GameModeAlbums)
-        {
-            return 0f;
-        }
+        if (gameMode == GameModeAlbums)
+            return HummingbirdSessionCsvPolicy.GetPostUnguidedVoTimingAdjustmentSeconds(gameMode, IsFirstTimeUser);
         return 0f;
 
     }

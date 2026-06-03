@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using ConversionUtilities;
 using UnityEngine;
 using AK.Wwise;
 using Unity.VisualScripting;
@@ -29,6 +30,9 @@ public class WwiseVOManager : MonoBehaviour
     private bool debugAllowLogs;
     private bool developmentModeWarningFlag = false;
     private int tutorialGuidanceCount = 0;
+
+    /// <summary>Guidance lines posted this tutorial (incremented when Unity posts tutorial VO).</summary>
+    public int TutorialGuidanceCount => tutorialGuidanceCount;
 
     /// <summary>Last value passed to <see cref="SetTestRepairSwitch"/> (A or C). Used so Ahh/Advanced repair lines can verify Wwise <c>VO_testRepair</c> is on A.</summary>
     private string _lastTestRepairSwitch;
@@ -597,14 +601,14 @@ public class WwiseVOManager : MonoBehaviour
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Hum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
                 break;
             case "Ahh":
-                EnsureVoTestRepairSwitchAForAhhOrAdvancedCorrection(guidanceType);
+                SyncTestRepairSwitchToMusicFundamental();
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Ahh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
                 break;
             case "Ohh":
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Ohh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
                 break;
             case "Advanced":
-                EnsureVoTestRepairSwitchAForAhhOrAdvancedCorrection(guidanceType);
+                SyncTestRepairSwitchToMusicFundamental();
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
                 break;
             default:
@@ -672,17 +676,16 @@ public class WwiseVOManager : MonoBehaviour
         }
     }
 
-    /// <summary>Wwise repair lines for Ahh/Extended require <c>VO_testRepair</c> switch A (e.g. after Ascending opening sets C).</summary>
-    private void EnsureVoTestRepairSwitchAForAhhOrAdvancedCorrection(string guidanceType)
+    /// <summary>Block 9: Ahh/Extended repair beds must match the live music fundamental (Wwise A vs C switch).</summary>
+    private void SyncTestRepairSwitchToMusicFundamental()
     {
-        if (guidanceType != "Ahh" && guidanceType != "Advanced")
+        NoteName fundamental = musicSystem1 != null ? musicSystem1.fundamentalNoteName : NoteName.A;
+        string target = fundamental == NoteName.C ? "C" : "A";
+        if (_lastTestRepairSwitch == target)
             return;
-        if (_lastTestRepairSwitch == "A")
-            return;
-        Debug.LogWarning(
-            "WwiseVOManager: Ahh/Advanced correction expects VO_testRepair switch A; last SetTestRepairSwitch was '" +
-            (_lastTestRepairSwitch ?? "unset") + "'. Setting to A.");
-        SetTestRepairSwitch("A");
+        if (debugAllowLogs)
+            Debug.Log("WwiseVOManager: Sync VO_testRepair switch to " + target + " for fundamental " + fundamental + ".");
+        SetTestRepairSwitch(target);
     }
 
 }

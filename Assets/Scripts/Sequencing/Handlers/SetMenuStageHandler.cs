@@ -6,8 +6,8 @@ namespace SoundSelf.Sequence
     public class SetMenuStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
-        /// <summary>True after <see cref="Enter"/> successfully started the welcome linear bed; cleared when we <see cref="StopWelcomeLinearBedIfWeStartedIt"/>.</summary>
-        private bool _startedWelcomeLinearBed;
+        /// <summary>True after <see cref="Enter"/> started the menu linear bed (Welcome or Album Choice); cleared when we <see cref="StopMenuLinearBedIfWeStartedIt"/>.</summary>
+        private bool _startedMenuLinearBed;
 
         public SetMenuStageHandler(Sequencer sequencer)
         {
@@ -59,29 +59,23 @@ namespace SoundSelf.Sequence
                     UIManager.Instance.SetChoiceScreen(ChoiceScreen.Album, clearNavigationStack: true);
                 else
                     Debug.LogError("SetMenuStageHandler: UIManager.Instance is null; cannot show Choice Album screen.");
+                TryStartMenuLinearAmbientBedIfPolicySaysSo(variant, "Album Choice");
                 return;
             }
             else if (variant == StageVariant.Menu_Welcome_PreCalibration)
             {
                 Debug.Log("SetMenuStageHandler: Enter Menu_Welcome_PreCalibration.");
-                UIManager.Instance.SetWelcomeScreen();
-                // Linear ambient bed: this stage starts it; we stop it on BeginTransitionOut / Exit (same owner — no blanket Stop in other handlers).
-                if (MusicSystemLinear.instance != null)
-                {
-                    MusicSystemLinear.instance.Play();
-                    _startedWelcomeLinearBed = true;
-                }
+                if (UIManager.Instance != null)
+                    UIManager.Instance.SetWelcomeScreen();
                 else
-                {
-                    Debug.LogWarning("SetMenuStageHandler: MusicSystemLinear.instance is null — ambient bed will not start at Welcome.");
-                    _startedWelcomeLinearBed = false;
-                }
+                    Debug.LogError("SetMenuStageHandler: UIManager.Instance is null; cannot show Welcome screen.");
+                TryStartMenuLinearAmbientBedIfPolicySaysSo(variant, "Welcome");
                 return;
             }
             else
             {
                 Debug.Log("SetMenuStageHandler: UNDEFINED VARIANT (stub - skipping until implementation added)");
-                MarkComplete(); // Stub: complete immediately; cue-watching in place for when implementation is added
+                MarkComplete();
                 return;
             }
         }
@@ -108,21 +102,41 @@ namespace SoundSelf.Sequence
         public void BeginTransitionOut()
         {
             // Runner calls this on the outgoing stage before the next stage's Enter — right place to tear down welcome-only audio.
-            StopWelcomeLinearBedIfWeStartedIt();
+            StopMenuLinearBedIfWeStartedIt();
         }
 
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
             // Safety net: force-exit / sequence reset may call Exit without a prior BeginTransitionOut for this visit.
-            StopWelcomeLinearBedIfWeStartedIt();
+            StopMenuLinearBedIfWeStartedIt();
         }
 
-        private void StopWelcomeLinearBedIfWeStartedIt()
+        /// <summary>Idempotent ambient bed start when <see cref="SetMenuStagePolicy"/> expects it for this variant.</summary>
+        private void TryStartMenuLinearAmbientBedIfPolicySaysSo(StageVariant variant, string menuLabel)
         {
-            if (!_startedWelcomeLinearBed)
+            if (!SetMenuStagePolicy.TryGetEnterExpectation(variant, out var exp) || !exp.StartsLinearAmbientBed)
                 return;
-            _startedWelcomeLinearBed = false;
+
+            // Linear ambient bed: this stage starts it; we stop it on BeginTransitionOut / Exit (same owner).
+            // MusicPlaylistStageHandler.Enter always Stop()s as well before playlist VO/music.
+            if (MusicSystemLinear.instance != null)
+            {
+                MusicSystemLinear.instance.Play();
+                _startedMenuLinearBed = true;
+            }
+            else
+            {
+                Debug.LogWarning("SetMenuStageHandler: MusicSystemLinear.instance is null — ambient bed will not start at " + menuLabel + ".");
+                _startedMenuLinearBed = false;
+            }
+        }
+
+        private void StopMenuLinearBedIfWeStartedIt()
+        {
+            if (!_startedMenuLinearBed)
+                return;
+            _startedMenuLinearBed = false;
             if (MusicSystemLinear.instance != null)
                 MusicSystemLinear.instance.Stop();
         }

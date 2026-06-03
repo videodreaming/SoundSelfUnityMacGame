@@ -358,13 +358,15 @@ Tests: [`Block3PolicyEditModeTests.cs`](../Assets/Editor/SoundSelf/Tests/EditMod
 
 ## Block 6 — Lights: reference signal refactor
 
+**Status:** **Closed** — playtest-verified (Robin). Reference follows color in [`LightControl.cs`](../Assets/Scripts/MusicAndLight/LightControl.cs) (`SetWaveColor` on, `GoDark` off after fade); stage handlers use `LightSettingsInitialization` / `SetPreferredColor` only.
+
 **Robin:** Lights on when they should be dark — likely reference signal. Refactor **internal to** `LightControl`: reference **off** when color is Dark (after fade delay); **on** when light is any non-Dark color. Audit opening/tutorial init if they touch reference.
 
 **Test focus:** Dark → no reference bleed; color change → reference on; back to Dark → reference off after fade.
 
 ### Test Runner tests (EditMode)
 
-**None yet.** *Candidates:* reference RTPC off when `currentColorWorld` is Dark (after fade gate); on for non-Dark worlds.
+**None yet** (block playtest-verified before Test Runner suite). *Candidates:* reference RTPC off when `currentColorWorld` is Dark (after fade gate); on for non-Dark worlds.
 
 **Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
 
@@ -374,14 +376,14 @@ Tests: [`Block3PolicyEditModeTests.cs`](../Assets/Editor/SoundSelf/Tests/EditMod
 
 | Done | Step | Pass criteria |
 |------|------|----------------|
-| - [ ] | **Dark state** | After `GoDark` / dark color world: no reference bleed on glasses (subjective + inspector `playReference` if exposed) |
-| - [ ] | **Non-dark color** | Red/White/etc.: reference on when color active |
-| - [ ] | **Opening / tutorial** | Stage init does not leave reference stuck on in dark breathwork moments |
+| - [x] | **Dark state** | After `GoDark` / dark color world: no reference bleed on glasses (subjective + inspector `playReference` if exposed) |
+| - [x] | **Non-dark color** | Red/White/etc.: reference on when color active |
+| - [x] | **Opening / tutorial** | Stage init does not leave reference stuck on in dark breathwork moments |
 
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
-| - [ ] | Reference tied to color | Refactor reference signal to follow light color state | [`LightControl.cs`](../Assets/Scripts/MusicAndLight/LightControl.cs) — `playReference`, `GoDark`, `SetWaveColor` |
-| - [ ] | Stage init audit | Opening / tutorial paths that set lights or reference must use new behavior | [`OpeningStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/OpeningStageHandler.cs), [`TutorialStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs) |
+| - [x] | Reference tied to color | Refactor reference signal to follow light color state | [`LightControl.cs`](../Assets/Scripts/MusicAndLight/LightControl.cs) — `playReference`, `GoDark`, `SetWaveColor` |
+| - [x] | Stage init audit | Opening / tutorial paths that set lights or reference must use new behavior | [`OpeningStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/OpeningStageHandler.cs), [`TutorialStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`CalibrationStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs) |
 
 **Lorna (context):** Opening breathwork lights dark / non-interactive — also tied to `gameOn` ([Block 3](#block-3--gameon-fixes-mic-audible--lights-reactive)).
 
@@ -566,13 +568,30 @@ When **`dynamicVolumeEnabled`** is on:
 
 ### Test Runner tests (EditMode)
 
-**None yet.** *Candidates:* not-first-time Sonoflore → short tutorial variant; `ProvideCorrection` targets failed vocalization not next cue.
+Policy: [`TutorialStagePolicy.cs`](../Assets/Scripts/Sequencing/TutorialStagePolicy.cs).  
+Tests: [`TutorialStagePolicyEditModeTests.cs`](../Assets/Editor/SoundSelf/Tests/EditMode/TutorialStagePolicyEditModeTests.cs).
 
-**Run (when added):** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+**Run:** **Window → General → Test Runner → EditMode** (Unity open), or `.\Tools\run-editmode-tests.ps1` (Unity closed).
+
+| Covered by Test Runner / EditMode tests |
+|----------------------------------------|
+| Sonoflore + `!IsFirstTimeUser` + asset `Tutorial_Long` → effective `Tutorial_Short` |
+| Sonoflore first-time keeps `Tutorial_Long`; Activation repeat unchanged |
+| Long guidance count 10 → correction type **Ahh** (not Ohh) |
+| Fundamental **C** → `VO_testRepair` switch **C**; non-C → **A** |
 
 ### Playtests
 
-**Session entry:** Sonoflore pack + sequence with repeat-user flag (or CSV path that skips long tutorial); complete tutorial fail paths deliberately.
+**Session entry:**
+
+| Inspector | Value |
+|-----------|--------|
+| `CSVLoader` → Content Pack Override | Sonoflore thematic pack (e.g. `HB_Sonoflore_MindfulnessAndJoy`) |
+| `CSVLoader` → **firstTimeUserWhenContentPackOverride** | **off** (repeat user) for short tutorial; **on** for long first-time |
+| `SequenceRunner` → Definition Override | `Sonoflore` (asset still lists `Tutorial_Long`; runtime resolves to Short when repeat) |
+| Console | `TutorialStageHandler: Resolved tutorial variant Tutorial_Long → Tutorial_Short` (repeat) |
+
+Deliberately fail tutorial prompts (stay silent through fail threshold) on Long first-time path for correction checks.
 
 | Done | Step | Pass criteria |
 |------|------|----------------|
@@ -582,9 +601,9 @@ When **`dynamicVolumeEnabled`** is on:
 
 | Done | Item | Action | Primary files |
 |------|------|--------|---------------|
-| - [ ] | Short tutorial (Sonoflore) | **Not-first-time Sonoflore should use short tutorial, not long** | [`Sonoflore.asset`](../Assets/Definitions/Sequences/Sonoflore.asset) (currently `Tutorial_Long`), [`TutorialStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`CSVLoader.cs`](../Assets/Scripts/CSVUtility/HummingBirdCommunications/CSVLoader.cs) |
-| - [ ] | A/C hum mismatch | Tutorial correction: use tone matching **music**, not favor wrong hum VO. If no correct Ahh/Ohh asset, use **Tone (Advanced)** at correct pitch — harmony > label | [`Tutorial.cs`](../Assets/Scripts/Sequencing/Tutorial.cs), [`WwiseVOManager.cs`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) |
-| - [ ] | Correction timing | Correction for Hum/Ahh/Ohh/Tone should apply to **the instruction being tested**, not the *next* cue. Example: fail at end of last “Ahh” VO before “Ohh” cue → still give **Ahh** correction, not Ohh yet | `Tutorial.cs` — `ProvideCorrection`, `GetLongVocalizationTypeForGuidanceCount` |
+| - [x] | Short tutorial (Sonoflore) | **Not-first-time Sonoflore** → `Tutorial_Short` via `TutorialStagePolicy.ResolveEffectiveVariant` in `TutorialStageHandler.Enter` | [`TutorialStagePolicy.cs`](../Assets/Scripts/Sequencing/TutorialStagePolicy.cs), [`TutorialStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`Sonoflore.asset`](../Assets/Definitions/Sequences/Sonoflore.asset) (still `Tutorial_Long` in asset) |
+| - [x] | A/C hum mismatch | Ahh/Advanced correction syncs `VO_testRepair` switch from `musicSystem1.fundamentalNoteName` (C → C, else A) | [`WwiseVOManager.cs`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) |
+| - [x] | Correction timing | `_vocalizationTypeUnderTest` from guidance count at test/correction start; `ProvideCorrection` uses it, not next-segment type | [`Tutorial.cs`](../Assets/Scripts/Sequencing/Tutorial.cs), [`TutorialStagePolicy.cs`](../Assets/Scripts/Sequencing/TutorialStagePolicy.cs) |
 
 ---
 

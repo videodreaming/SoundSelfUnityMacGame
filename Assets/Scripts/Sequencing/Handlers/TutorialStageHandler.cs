@@ -80,7 +80,15 @@ namespace SoundSelf.Sequence
             
             _hasEntered = true;
             IsComplete = false;
+
+            string gameMode = _sequencer.csvLoader != null ? _sequencer.csvLoader.gameMode : null;
+            bool isFirstTimeUser = _sequencer.csvLoader != null && _sequencer.csvLoader.IsFirstTimeUser;
+            StageVariant assetVariant = variant;
+            variant = TutorialStagePolicy.ResolveEffectiveVariant(variant, gameMode, isFirstTimeUser);
+            if (variant != assetVariant)
+                Debug.Log("TutorialStageHandler: Resolved tutorial variant " + assetVariant + " → " + variant + ".");
             _activeVariant = variant;
+
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             Debug.Log("TutorialStageHandler: Enter");
 

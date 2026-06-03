@@ -35,6 +35,9 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             _playlistStopped = false;
 
+            // Always stop menu/environment bed when entering playlist, even if Wwise setup fails below.
+            StopLinearAmbientBedFromStageEnter();
+
             if (_sequencer == null || _sequencer.wwiseVOManager == null)
             {
                 Debug.LogError("MusicPlaylistStageHandler: Sequencer or WwiseVOManager is null. Cannot start music playlist.");
@@ -73,6 +76,17 @@ namespace SoundSelf.Sequence
                 UIManager.Instance.RefreshSkipStageButtonFromSequencer(_sequencer);
                 UIManager.Instance.EnableSkipButton(false);
             }
+        }
+
+        /// <summary>Always silences the menu/environment linear bed before playlist music (idempotent <see cref="MusicSystemLinear.Stop"/>).</summary>
+        private static void StopLinearAmbientBedFromStageEnter()
+        {
+            if (MusicSystemLinear.instance == null)
+            {
+                Debug.LogWarning("MusicPlaylistStageHandler: MusicSystemLinear.instance is null — cannot stop linear ambient bed on Enter.");
+                return;
+            }
+            MusicSystemLinear.instance.Stop();
         }
 
         private static bool TryResolvePlaylistVariant(StageVariant variant, out string playlistSwitch)
