@@ -51,7 +51,7 @@ public class Director : MonoBehaviour
     private bool debugAllowLogs = true;
     private bool debugAllowWarnings = true; // Warnings show if this OR the category flag is true
     
-    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, DirectorActivationBehavior activationBehavior)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, DirectorActivationBehavior activationBehavior)>();
+    public Dictionary<int, DirectorQueueItem> queue = new Dictionary<int, DirectorQueueItem>();
     /// <summary>Stored in <see cref="queue"/> when <see cref="AddActionToQueue"/> receives <c>null</c> for time limit — timer never expires (see <c>QueueUpdate</c>).</summary>
     public const float UnboundedQueueTimeSeconds = float.MaxValue;
     public int queueIndex = 0;
@@ -65,6 +65,7 @@ public class Director : MonoBehaviour
     
     // Track if ActivateQueueOnTone coroutine is already running to prevent multiple simultaneous activations
     private bool activateQueueOnToneRunning = false;
+    private Coroutine _activateQueueOnToneCoroutine = null;
     private float timeSinceLastActivation = 0.0f;
     private float activateWhenEmptyThreshold = 25.0f;
 
@@ -102,6 +103,7 @@ public class Director : MonoBehaviour
     public void Disable()
     {
         disable = true;
+        CancelPendingWholeQueueActivation();
     }
 
     public void Enable()
@@ -126,43 +128,56 @@ public class Director : MonoBehaviour
                 if (value.timeLeft < UnboundedQueueTimeSeconds - 1e30f)
                     value.timeLeft -= Time.deltaTime;
                 queue[key] = value; // Update the dictionary with the modified value
+                continue;
             }
-            else
+
+            // Timer expired — disposition is decided by DirectorQueuePolicy (see Stage 1 fix).
+            switch (DirectorQueuePolicy.GetExpiryDisposition(value.activationBehavior))
             {
-                switch (value.activationBehavior)
-                {
-                    case DirectorActivationBehavior.ActivateThisActionOnNextTone:
+                case DirectorQueueExpiryDisposition.CaptureActionThenRemove:
+                    if(debugAllowLogs)
+                    {
+                        Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate on next tone...");
+                    }
+                    StartCoroutine(ActivateOnTone(value.action, key, value.type));
+                    keysToRemove.Add(key);
+                    break;
+
+                case DirectorQueueExpiryDisposition.RetainForWholeQueueActivation:
+                    // Fix: do NOT remove this item. It must remain in the queue so the whole-queue
+                    // activation (on the next tone) includes it. Mark pending so we don't re-log /
+                    // re-arm every frame while its timer sits at <= 0.
+                    if (!value.pendingActivation)
+                    {
+                        value.pendingActivation = true;
+                        queue[key] = value;
                         if(debugAllowLogs)
                         {
-                            Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate on next tone...");
+                            Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate entire queue on next tone (retained)...");
                         }
-                        StartCoroutine(ActivateOnTone(value.action, key, value.type));
-                        break;
-                    case DirectorActivationBehavior.ActivateEntireQueueOnNextTone:
-                        if(debugAllowLogs)
-                        {
-                            Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate entire queue on next tone...");
-                        }
-                        if(!activateQueueOnToneRunning)
-                        {
-                            activateQueueOnToneRunning = true;
-                            StartCoroutine(ActivateQueueOnTone());
-                        }
-                        break;
-                    case DirectorActivationBehavior.ExpireWithoutExecuting:
+                    }
+                    if(!activateQueueOnToneRunning)
+                    {
+                        activateQueueOnToneRunning = true;
+                        _activateQueueOnToneCoroutine = StartCoroutine(ActivateQueueOnTone());
+                    }
+                    break;
+
+                case DirectorQueueExpiryDisposition.RemoveWithoutExecuting:
+                default:
+                    if(value.activationBehavior == DirectorActivationBehavior.ExpireWithoutExecuting)
+                    {
                         if(debugAllowLogs)
                         {
                             Debug.Log("Director Queue: Action " + key + " " + value.type + " expired without executing");
                         }
-                        break;
-                    default:
-                        if(debugAllowWarnings || debugAllowLogs)
-                        {
-                            Debug.LogWarning("Director Queue: Action " + key + " " + value.type + " has invalid activationBehavior value: " + value.activationBehavior + ". Treating as ExpireWithoutExecuting.");
-                        }
-                        break;
-                }
-                keysToRemove.Add(key);
+                    }
+                    else if(debugAllowWarnings || debugAllowLogs)
+                    {
+                        Debug.LogWarning("Director Queue: Action " + key + " " + value.type + " has invalid activationBehavior value: " + value.activationBehavior + ". Treating as ExpireWithoutExecuting.");
+                    }
+                    keysToRemove.Add(key);
+                    break;
             }
         }
         foreach (int key in keysToRemove)
@@ -266,6 +281,7 @@ public class Director : MonoBehaviour
         {
             // Always reset flag, even if coroutine is stopped or exception occurs
             activateQueueOnToneRunning = false;
+            _activateQueueOnToneCoroutine = null;
         }
     }
 
@@ -330,7 +346,7 @@ public class Director : MonoBehaviour
         {
             ClearQueueOfType(type);
         }
-        queue.Add(queueIndex++, (action, type, isAudioAction, isVisualAction, storedTimeLeft, activationBehavior));
+        queue.Add(queueIndex++, new DirectorQueueItem(action, type, isAudioAction, isVisualAction, storedTimeLeft, activationBehavior));
 
         if(debugAllowLogs)
         {
@@ -376,7 +392,7 @@ public class Director : MonoBehaviour
         // LogQueue();
 
         // Copy out the queue's items first
-        var queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, DirectorActivationBehavior activationBehavior)>(queue.Values);
+        var queuedItems = new List<DirectorQueueItem>(queue.Values);
 
         // The order of execution matters. 
         // By default, the queue is executed in the order it was added.
@@ -387,7 +403,7 @@ public class Director : MonoBehaviour
         var soundscapeShuffleItems = queuedItems.Where(item => item.type == "SoundscapeShuffle").ToList(); //prioritized so this comes ahead of any specific soundscape change
         var colorWorldShuffleItems = queuedItems.Where(item => item.type == "ColorWorldShuffle").ToList();
         var otherItems = queuedItems.Where(item => item.type != "fundamentalChange" && item.type != "SoundscapeShuffle" && item.type != "ColorWorldShuffle").ToList();
-        queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, DirectorActivationBehavior activationBehavior)>();
+        queuedItems = new List<DirectorQueueItem>();
         queuedItems.AddRange(fundamentalChangeItems);
         queuedItems.AddRange(soundscapeShuffleItems);
         queuedItems.AddRange(colorWorldShuffleItems);
@@ -475,6 +491,50 @@ public class Director : MonoBehaviour
         return false;
     }
 
+    /// <summary>True if any queued item has expired and is awaiting whole-queue activation on the next tone.</summary>
+    private bool AnyPendingActivation()
+    {
+        foreach (var item in queue)
+        {
+            if (item.Value.pendingActivation)
+                return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Cancels a pending whole-queue activation: stops the waiting coroutine, resets its guard, and clears
+    /// the <see cref="DirectorQueueItem.pendingActivation"/> flags. Called on <see cref="Disable"/> and when a
+    /// clear removes the last pending item. Retained items left in the queue re-arm on their next expiry.
+    /// </summary>
+    public void CancelPendingWholeQueueActivation()
+    {
+        bool hadPending = activateQueueOnToneRunning;
+
+        var keys = new List<int>(queue.Keys);
+        foreach (int key in keys)
+        {
+            var value = queue[key];
+            if (value.pendingActivation)
+            {
+                value.pendingActivation = false;
+                queue[key] = value;
+            }
+        }
+
+        if (_activateQueueOnToneCoroutine != null)
+        {
+            StopCoroutine(_activateQueueOnToneCoroutine);
+            _activateQueueOnToneCoroutine = null;
+        }
+        activateQueueOnToneRunning = false;
+
+        if (hadPending && debugAllowLogs)
+        {
+            Debug.Log("Director Queue: Pending whole-queue activation cancelled.");
+        }
+    }
+
     public float ClearQueueOfType(string type) //returns the shortest time left of the cleared items, or -1 if nothing was cleared
     {
         float shortestTimeLeft = float.MaxValue;
@@ -501,7 +561,11 @@ public class Director : MonoBehaviour
             Debug.Log("Director Queue: Removed all " + type + " items from director queue.");
         }
         // LogQueue();
-        
+
+        // If clearing removed the last item awaiting whole-queue activation, cancel the now-pointless coroutine.
+        if (activateQueueOnToneRunning && !AnyPendingActivation())
+            CancelPendingWholeQueueActivation();
+
         // Return shortest time (or -1 if nothing was cleared)
         return shortestTimeLeft == float.MaxValue ? -1f : shortestTimeLeft;
     }

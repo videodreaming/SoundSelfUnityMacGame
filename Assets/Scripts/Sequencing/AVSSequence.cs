@@ -485,7 +485,7 @@ public class AVSSequence : MonoBehaviour
         {
             if (director.queue.ContainsKey(index))
             {
-                DbgLogAvs("Sequencer  Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
+                DbgLogAvs("Sequencer  Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].type);
                 director.queue.Remove(index);
             }
             else
