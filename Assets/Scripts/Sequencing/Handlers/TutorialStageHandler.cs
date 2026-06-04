@@ -138,7 +138,6 @@ namespace SoundSelf.Sequence
             _sequencer.imitoneVoiceInterpreter.gameOn = true;
             MicNormalizationStagePolicy.ApplyRaiseFrozenOnStageEnter(
                 _sequencer.imitoneVoiceInterpreter, StageType.Tutorial);
-            BinauralStagePolicy.ApplyBinauralVolumeForStage(StageType.Tutorial);
 
             // Music intent for the tutorial variant. If opening music is still playing (PS_Ascending today), wait for
             // Sequencer.OnOpeningMusicEnded so we don't trample the still-playing opening bed. Otherwise start now.
@@ -165,7 +164,6 @@ namespace SoundSelf.Sequence
             {
                 case StageVariant.Tutorial_Long:
                     MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.InteractiveTutorial);
-                    BinauralStagePolicy.ApplyBinauralVolumeForStage(StageType.Tutorial);
                     break;
 
                 case StageVariant.Tutorial_Short:
@@ -174,7 +172,6 @@ namespace SoundSelf.Sequence
                     // tracked as a follow-up cleanup in Docs/TUTORIAL_OPENING_MUSIC_HANDOFF_PLAN.md §6 (Q2).
                     _sequencer.StartPlayground(false, false, true, 30.0f, false, false);
                     MusicSystem1.instance.SetSoundscape("ShiftingEarth");
-                    BinauralStagePolicy.ApplyBinauralVolumeForStage(StageType.Tutorial);
                     break;
 
                 default:

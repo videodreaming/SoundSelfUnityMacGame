@@ -119,19 +119,25 @@ public class MusicDebugHarness : MonoBehaviour
         string soundscapeLabel,
         float binauralCenterHz,
         float? binauralBusVolume,
+        bool? binauralAttenuated,
+        float? binauralOutVolume,
         bool? gameOn)
     {
         string modeStr = mode.HasValue ? mode.Value.ToString() : "n/a";
         string interactionStr = interaction.HasValue ? interaction.Value.ToString() : "n/a";
         string gameOnStr = gameOn.HasValue ? (gameOn.Value ? "on" : "off") : "n/a";
         string binauralVolStr = binauralBusVolume.HasValue ? binauralBusVolume.Value.ToString("F0") : "n/a";
+        string binauralOutStr = binauralOutVolume.HasValue ? binauralOutVolume.Value.ToString("F0") : "n/a";
+        string attStr = binauralAttenuated.HasValue ? (binauralAttenuated.Value ? "on" : "off") : "n/a";
         return "mode=" + modeStr
             + " | fundamental=" + fundamental
             + " | harmony=" + harmony
             + " | interaction=" + interactionStr
             + " | soundscape=" + soundscapeLabel
             + " | binauralHz=" + binauralCenterHz.ToString("F1")
-            + " | binauralVol=" + binauralVolStr
+            + " | binauralBase=" + binauralVolStr
+            + " | binauralAtt=" + attStr
+            + " | binauralOut=" + binauralOutStr
             + " | gameOn=" + gameOnStr;
     }
 
@@ -148,9 +154,10 @@ public class MusicDebugHarness : MonoBehaviour
         float binauralHz = ms != null
             ? NoteUtils.NoteToFrequencyA440(ms.fundamentalNoteName)
             : 0f;
-        float? binauralVol = MusicBinauralBeats.instance != null
-            ? MusicBinauralBeats.instance._volume
-            : (float?)null;
+        var beats = MusicBinauralBeats.instance;
+        float? binauralVol = beats != null ? beats._volume : (float?)null;
+        bool? binauralAtt = beats != null ? beats.IsAttenuated : (bool?)null;
+        float? binauralOut = beats != null ? beats.EffectiveBusVolume : (float?)null;
 
         string line = FormatStateLine(
             ms != null ? ms.currentMusicMode : (MusicSystem1.MusicMode?)null,
@@ -160,6 +167,8 @@ public class MusicDebugHarness : MonoBehaviour
             soundscape,
             binauralHz,
             binauralVol,
+            binauralAtt,
+            binauralOut,
             imitone != null ? imitone.gameOn : (bool?)null);
 
         Debug.Log(LogPrefix + " STATE " + line);
@@ -299,7 +308,7 @@ public class MusicDebugHarness : MonoBehaviour
 
         Debug.Log(LogPrefix + " Queued repro id=" + id
             + " (0.05s, ActivateEntireQueueOnNextTone). Tone after expiry — watch for empty-queue log vs action executed. "
-            + director.EditorFormatQueueContents());
+            + director.FormatQueueContents());
     }
 
     void JumpCountdown(float thisSectionSeconds, string label)

@@ -463,12 +463,11 @@ public class Director : MonoBehaviour
     public void LogQueue()
     {
         if(debugAllowLogs)
-            Debug.Log(EditorFormatQueueContents());
+            Debug.Log(FormatQueueContents());
     }
 
-#if UNITY_EDITOR
-    /// <summary>Single-line queue snapshot for <see cref="MusicDebugHarness"/> and playtests.</summary>
-    public string EditorFormatQueueContents()
+    /// <summary>Single-line queue snapshot for logging and editor playtests.</summary>
+    public string FormatQueueContents()
     {
         if (queue.Count == 0)
             return "Director Queue Contents: (empty)";
@@ -477,7 +476,6 @@ public class Director : MonoBehaviour
             logString += "<" + item.Key + " " + item.Value.type + ", " + item.Value.timeLeft.ToString("F2") + "s, " + item.Value.activationBehavior + "> ";
         return logString;
     }
-#endif
 
     public bool SearchQueueForType(string type)
     {

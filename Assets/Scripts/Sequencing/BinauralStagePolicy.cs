@@ -1,16 +1,21 @@
 using SoundSelf.Sequence;
 using UnityEngine;
 
-/// <summary>Block 5 — which <see cref="StageType"/>s should have audible binaural (applied in stage handler <c>Enter()</c>).</summary>
+/// <summary>
+/// Block 5 — single authority for binaural BASE bus volume, keyed by <see cref="StageType"/>. Applied once per stage
+/// in <see cref="SoundSelf.Sequence.SequenceRunner.AdvanceToStage"/>. Mode no longer sets binaural volume; it only
+/// toggles attenuation on top of this base (see <see cref="MusicSystem1.SetMusicModeFlags"/> / <see cref="BinauralAttenuationPolicy"/>).
+/// </summary>
 public static class BinauralStagePolicy
 {
-    /// <summary>Matches tutorial / freeplay level in <see cref="MusicSystem1.SetMusicModeFlags"/>.</summary>
+    /// <summary>Audible base for the interactive meditation stages (Tutorial / Playground).</summary>
     public const float AudibleVolume = 70f;
 
     public const float MutedVolume = 0f;
 
-    /// <summary>Default fade when handlers call <see cref="ApplyBinauralVolumeForStage"/> on Enter (avoids abrupt binaural on/off at stage boundaries).</summary>
-    public const float DefaultLerpDurationSeconds = 30f;
+    /// <summary>Default fade applied at stage entry (avoids abrupt binaural on/off at stage boundaries). Single source
+    /// of truth lives on <see cref="MusicBinauralBeats.DefaultLerpDurationSeconds"/> so base + attenuation fades match.</summary>
+    public const float DefaultLerpDurationSeconds = MusicBinauralBeats.DefaultLerpDurationSeconds;
 
     public static bool ShouldBinauralBeAudible(StageType stageType) =>
         stageType == StageType.Tutorial || stageType == StageType.Playground;
@@ -18,7 +23,7 @@ public static class BinauralStagePolicy
     public static float GetTargetVolume(StageType stageType) =>
         ShouldBinauralBeAudible(stageType) ? AudibleVolume : MutedVolume;
 
-    /// <summary>Sets binaural bus volume for this stage. Call from handler <c>Enter()</c> (and deferred music start if needed).</summary>
+    /// <summary>Sets the binaural base bus volume for this stage. Called centrally from <see cref="SoundSelf.Sequence.SequenceRunner.AdvanceToStage"/>.</summary>
     public static void ApplyBinauralVolumeForStage(StageType stageType, float lerpDurationSeconds = DefaultLerpDurationSeconds)
     {
         var beats = MusicBinauralBeats.instance;

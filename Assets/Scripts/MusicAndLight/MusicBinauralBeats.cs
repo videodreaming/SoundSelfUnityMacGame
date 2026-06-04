@@ -28,7 +28,25 @@ public class MusicBinauralBeats : MonoBehaviour
     private float _centerFrequency = 261f; // Default center frequency (C4)
     private float _beatRate = 4f; // Last frame's binaural beat rate
     private bool instantUpdate = false;
-    public float _volume = 0f;
+
+    // Bus output = _volume (stage-owned BASE, lerped by lerpVolume) × _attenuationFactor (mode-owned, lerped by
+    // lerpAttenuation). Both feed the single writer ApplyBusVolume(); see BinauralAttenuationPolicy.
+    /// <summary>Shared default fade for both base-volume (<see cref="SetVolume"/>) and attenuation
+    /// (<see cref="SetBinauralAttenuated"/>) transitions. Single source of truth (also referenced by
+    /// <see cref="BinauralStagePolicy.DefaultLerpDurationSeconds"/>).</summary>
+    public const float DefaultLerpDurationSeconds = 30f;
+
+    public float _volume = 0f;                                                     // base volume (0–100)
+    private bool _attenuated = false;                                              // mode-driven attenuation state
+    private float _attenuationFactor = BinauralAttenuationPolicy.UnattenuatedFactor; // live factor (1.0 → 0.7)
+    private Coroutine _volumeLerp;                                                  // active base-volume lerp (stop by handle)
+    private Coroutine _attenuationLerp;                                            // active attenuation lerp (stop by handle)
+
+    /// <summary>Live binaural bus output actually pushed to Wwise (base × attenuation). For debug/inspection.</summary>
+    public float EffectiveBusVolume => BinauralAttenuationPolicy.Apply(_volume, _attenuationFactor);
+
+    /// <summary>True when mode-driven attenuation is currently engaged.</summary>
+    public bool IsAttenuated => _attenuated;
     // Start is called before the first frame update
 
     private void Awake()
@@ -68,11 +86,14 @@ public class MusicBinauralBeats : MonoBehaviour
     //A Function for changing the center frequency (half way between left and right)
     //We need to transform the inRate to be within the acceptable range, which should be one octave centered around 261hz
 
-    public void SetVolume(float _inVolume, float _lerpDuration = 5.0f)
+    /// <summary>Sets the BASE binaural bus volume (0–100). Owned by the stage layer via
+    /// <see cref="BinauralStagePolicy.ApplyBinauralVolumeForStage"/>; the live output is this scaled by attenuation.</summary>
+    public void SetVolume(float _inVolume, float _lerpDuration = DefaultLerpDurationSeconds)
     {
-
-        StopCoroutine("lerpVolume");
-        StartCoroutine(lerpVolume(_volume, _inVolume, _lerpDuration));
+        // Stop by handle: StopCoroutine("lerpVolume") would be a no-op because the coroutine is started with an
+        // IEnumerator, not a string — without this a rapid second SetVolume would stack a second lerp on _volume.
+        if (_volumeLerp != null) StopCoroutine(_volumeLerp);
+        _volumeLerp = StartCoroutine(lerpVolume(_volume, _inVolume, _lerpDuration));
     }
 
     private IEnumerator lerpVolume(float _startVolume, float _targetVolume, float _lerpDuration = 5.0f)
@@ -82,15 +103,52 @@ public class MusicBinauralBeats : MonoBehaviour
         while (_elapsedTime < _lerpDuration)
         {
             _volume = Mathf.Lerp(_startVolume, _targetVolume, _elapsedTime / _lerpDuration);
-            
-            AkSoundEngine.SetRTPCValue("BinauralGenerator_Bus_Volume", _volume);
+            ApplyBusVolume();
             _elapsedTime += Time.deltaTime;
             yield return null;
         }
         //snap at end
         _volume = _targetVolume;
         Debug.Log("Binaural Beats: New Volume is " + _targetVolume);
-        AkSoundEngine.SetRTPCValue("BinauralGenerator_Bus_Volume", _volume);   
+        ApplyBusVolume();
+    }
+
+    /// <summary>
+    /// Mode-driven attenuation toggle (called from <see cref="MusicSystem1.SetMusicModeFlags"/>). Leaves the stage
+    /// base volume untouched and lerps the output down/up by <see cref="BinauralAttenuationPolicy.AttenuationFraction"/>.
+    /// </summary>
+    public void SetBinauralAttenuated(bool attenuated, float _lerpDuration = DefaultLerpDurationSeconds)
+    {
+        if (_attenuated == attenuated)
+            return;
+        _attenuated = attenuated;
+        float targetFactor = BinauralAttenuationPolicy.GetFactor(attenuated);
+        Debug.Log("Binaural Beats: Attenuation " + (attenuated ? "ON" : "OFF") + " (factor " + targetFactor + ")");
+        // Stop by handle (see SetVolume) so a quick toggle doesn't stack a second lerp on _attenuationFactor.
+        if (_attenuationLerp != null) StopCoroutine(_attenuationLerp);
+        _attenuationLerp = StartCoroutine(lerpAttenuation(_attenuationFactor, targetFactor, _lerpDuration));
+    }
+
+    private IEnumerator lerpAttenuation(float _startFactor, float _targetFactor, float _lerpDuration)
+    {
+        float _elapsedTime = 0f;
+        while (_elapsedTime < _lerpDuration)
+        {
+            _attenuationFactor = Mathf.Lerp(_startFactor, _targetFactor, _elapsedTime / _lerpDuration);
+            ApplyBusVolume();
+            _elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        //snap at end
+        _attenuationFactor = _targetFactor;
+        ApplyBusVolume();
+    }
+
+    /// <summary>Single writer of the binaural bus volume RTPC: base volume scaled by the current attenuation factor.</summary>
+    private void ApplyBusVolume()
+    {
+        AkSoundEngine.SetRTPCValue("BinauralGenerator_Bus_Volume",
+            BinauralAttenuationPolicy.Apply(_volume, _attenuationFactor));
     }
    
 

@@ -235,6 +235,11 @@ namespace SoundSelf.Sequence
                 return;
             }
 
+            // Single authority for binaural BUS VOLUME: stage type → base volume (mode only attenuates, see
+            // MusicSystem1.SetMusicModeFlags). Placed after the re-entrancy guard so a re-entered inner stage's
+            // own apply wins and we never set volume for a now-stale outer stage.
+            BinauralStagePolicy.ApplyBinauralVolumeForStage(stage.type);
+
             ApplyMenuScreenForSequenceStage(stage.type);
             ApplyDuskBackgroundForSequenceStage(stage.type);
 

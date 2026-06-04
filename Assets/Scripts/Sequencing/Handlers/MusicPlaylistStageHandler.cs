@@ -35,8 +35,6 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             _playlistStopped = false;
 
-            BinauralStagePolicy.ApplyBinauralVolumeForStage(StageType.MusicPlaylist);
-
             // Always stop menu/environment bed when entering playlist, even if Wwise setup fails below.
             StopLinearAmbientBedFromStageEnter();
 

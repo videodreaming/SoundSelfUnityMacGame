@@ -1037,25 +1037,45 @@ public class MusicSystem1 : MonoBehaviour
 
     private void RecoverInteractiveMusicModeFromInteractionType()
     {
+        // Switch order is owned by InteractiveMusicSwitchPolicy (Block 4): for a SoundWorld entry it silences the
+        // music-loop bed BEFORE routing to the interactive system, so Play_MusicLoops cannot bleed through.
         RunWithToningRestoredAfterInteractiveSwitch(() =>
         {
-            if(currentInteractionType == InteractionType.SoundWorld)
+            foreach (var op in InteractiveMusicSwitchPolicy.RecoverInteractiveModeSteps(currentInteractionType))
             {
+                ApplyInteractiveMusicSwitchOp(op);
+            }
+        });
+    }
+
+    private void ApplyInteractiveMusicSwitchOp(InteractiveMusicSwitchOp op)
+    {
+        switch (op)
+        {
+            case InteractiveMusicSwitchOp.MusicLoopsSwitchToSilence:
+                AkSoundEngine.SetSwitch("MusicLoops_Switch", "Silence", gameObject);
+                if(debugAllowSoundscapeLogs)
+                {
+                    Debug.Log("MUSIC: MusicLoops_Switch -> Silence before InteractiveMusicSystem (Block 4 switch hygiene)");
+                }
+                break;
+
+            case InteractiveMusicSwitchOp.InteractiveMusicModeToInteractiveMusicSystem:
                 AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "InteractiveMusicSystem", gameObject);
                 if(debugAllowSoundscapeLogs)
                 {
                     Debug.Log("MUSIC: Interactive Music Mode Recovered to InteractiveMusicSystem because Interaction Type is SoundWorld");
                 }
-            }
-            else if(currentInteractionType == InteractionType.MusicLoop)
-            {
+                break;
+
+            case InteractiveMusicSwitchOp.InteractiveMusicModeToMusicLoops:
                 AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
                 if(debugAllowSoundscapeLogs)
                 {
                     Debug.Log("MUSIC: Interactive Music Mode Recovered to MusicLoops because Interaction Type is MusicLoop");
                 }
-            }
-        });
+                break;
+        }
     }
 
     //A method for easily setting the flags, to replace the code in each of the case statements above.
@@ -1068,21 +1088,13 @@ public class MusicSystem1 : MonoBehaviour
         modeEnvironmentFlag = environment;
         modeMusicLoopSilentFlag = musicLoopSilent; //this is a temporary flag for a musicloop version of silent mode, before we merge the two silent modes.
 
-        if(modeTutorialFlag || modeFreeplayFlag || modeFrozenFreeplayFlag)
+        // Binaural BUS VOLUME (base) is owned by the stage layer: BinauralStagePolicy.GetTargetVolume, applied once in
+        // SequenceRunner.AdvanceToStage. Mode no longer sets the base; it only toggles mid-session ATTENUATION.
+        // MusicLoopSilent attenuates by ~30% (reproduces the old "50 during MusicLoopSilent" as 70 × 0.7 ≈ 49, but now
+        // layered on whatever base the current stage set). All other modes are un-attenuated.
+        if (MusicBinauralBeats.instance != null)
         {
-            MusicBinauralBeats.instance.SetVolume(70.0f);
-        }
-        else if(modeMusicLoopSilentFlag)
-        {
-            if(debugAllowMusicModeLogs)
-            {
-                Debug.Log("MUSIC: Setting Music Binaural Beats volume to 50.0f for MusicLoopSilent mode");
-            }
-            MusicBinauralBeats.instance.SetVolume(50.0f);
-        }
-        else
-        {
-            MusicBinauralBeats.instance.SetVolume(0f);
+            MusicBinauralBeats.instance.SetBinauralAttenuated(modeMusicLoopSilentFlag);
         }
     }
     
