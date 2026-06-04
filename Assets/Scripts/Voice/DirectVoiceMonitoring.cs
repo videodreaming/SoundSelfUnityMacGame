@@ -82,6 +82,12 @@ public class DirectVoiceMonitoring : MonoBehaviour
     //   future modes) should probably move to mixer stages before MicProcessing, not only
     //   MicProcessingVolume + per-frame monitoringSource scaling — so live mic, replay beds,
     //   and shared buses use one clear gain structure.
+    // - **Recording voice gate (separate from headphone monitoring ADSR, Block 8 / Stage 3b.1):**
+    //   A distinct pre-record filter will drop non-voice before write — likely gated on
+    //   ImitoneVoiceIntepreter.toneActiveConfident and toneActiveBiasTrue, with a ring buffer
+    //   so capture includes the attack before confident locks on. **No decay:** record path is
+    //   hard on/off only (unlike monitoring’s summed ADSR envelopes). Pick up when implementing
+    //   record/replay; do not conflate with chantPresence / ApplyMonitoringVolume.
     // - Initialization may stay the global startup offset on MicProcessing (or move earlier
     //   on the bus — decide in design).
     // - Retire or slim AttenuateMonitoring + MusicSystem1 monitoringAttenuationApplied cache

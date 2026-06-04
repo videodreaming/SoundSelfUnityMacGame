@@ -1,6 +1,6 @@
-# Blocks 4 / 5 / 7 — Music System Hardening Plan
+# Blocks 4 / 5 / 7 (+ 8) — Music & Voice Hardening Plan
 
-**Scope:** [Block 4 (Wwise switch hygiene)](PLAYTEST_NOTES_ORGANIZED.md#block-4--wwise-switch-hygiene-safety-fixes), [Block 5 (binaural + stage gating)](PLAYTEST_NOTES_ORGANIZED.md#block-5--binaural--stage-gating-medium-scoped), and [Block 7 (music system: fundamental, pitch, silent loops)](PLAYTEST_NOTES_ORGANIZED.md#block-7--music-system-fundamental-pitch-silent-loops-large), worked as **one** staged plan.
+**Scope:** [Block 4 (Wwise switch hygiene)](PLAYTEST_NOTES_ORGANIZED.md#block-4--wwise-switch-hygiene-safety-fixes), [Block 5 (binaural + stage gating)](PLAYTEST_NOTES_ORGANIZED.md#block-5--binaural--stage-gating-medium-scoped), [Block 7 (music system: fundamental, pitch, silent loops)](PLAYTEST_NOTES_ORGANIZED.md#block-7--music-system-fundamental-pitch-silent-loops-large), and [Block 8 (microphone volume envelope)](PLAYTEST_NOTES_ORGANIZED.md#block-8--microphone-volume-envelope-large-unity-side) — worked as **one** staged plan below. *(Playtest “Block 8” = mic envelope; plan “Stage 8” later = Block 7 lock-C / 15:00 — different numbering.)*
 
 **Companion doc:** [`PLAYTEST_NOTES_ORGANIZED.md`](PLAYTEST_NOTES_ORGANIZED.md). **Workflow:** [`soundself-director-mode.mdc`](../.cursor/rules/soundself-director-mode.mdc).
 
@@ -17,8 +17,9 @@
 7. **Do NOT touch `Assets/Scenes/MainGame.unity`.** Another developer is actively working on it in git; editing or committing it risks merge conflicts. Do not edit, stage, or commit this scene as part of any stage. If a change *seems* to require it, stop and flag it to Robin instead.
 8. **Add Test Runner (EditMode) tests as we move through the system — for regression coverage, not just the current task.** Whenever we touch a behavior with a stable rule (thresholds, switch order/values, stage→flag maps, queue mechanics, cue→note maps), add or extend an EditMode test that pins it, so future changes that break it fail a test rather than a playtest. Prefer a small pure **policy** class wired through production so the rule is unit-testable. Goal: a growing regression net that runs without Robin's ears.
 9. **Record commit hashes in this plan (and the relevant doc) for each committed change.** Add the short hash next to the stage/fix it implements in the **Commit log** below. Per the repo rule, **never make a commit whose only purpose is writing a hash into a markdown file** — embed the hash in the same commit as the work it describes, or add it in the *next* commit that carries real work (or when Robin pastes it).
+10. **Single Console filter tag: `B457`.** During any playtest in this series, Robin filters the Unity Console by the one string **`B457`** to see only what matters and hide noise. Every log we want Robin to read during a playtest **must contain `B457`**; incidental/distracting logs **must not**. When instrumenting a block's playtest, prefix the needed logs with `B457` (the `MusicDebugHarness` state line / `GUIDED` prompts already do; tagged production signals so far: Director queue activation/empty in [`Director.cs`](../Assets/Scripts/Sequencing/Director.cs), binaural target volume in [`MusicBinauralBeats.cs`](../Assets/Scripts/MusicAndLight/MusicBinauralBeats.cs)) and leave distractions untagged. A short-lived per-investigation tag may be layered on top (e.g. `SWAUDIT`) and removed at that investigation's commit; `B457` is the durable series filter.
 
-**Ordering rationale:** Director / shuffle queue mechanics are foundational and come first (after the harness). Then easy knock-outs (binaural gating), then switch hygiene, then the careful fundamental-system split, then the musically sensitive items in order of how fundamental they are to the music sounding good.
+**Ordering rationale:** Director / shuffle queue mechanics are foundational and come first (after the harness). Then easy knock-outs (binaural gating), then switch hygiene, then **Block 8 mic monitoring** (including the guided-playtest MusicLoop headroom fix) **before** the fundamental-system split, then the musically sensitive Block 7 items in order of how fundamental they are to the music sounding good.
 
 ---
 
@@ -33,7 +34,7 @@ Short hashes for each committed stage/fix (standing rule 9). Newest at the botto
 | `da074617` | Stage 2 — Block 5: gate binaural off on MusicPlaylist/LinearAudio stages |
 | `dd1b7c0a` | Stage 2b + Stage 3 first fix — single-authority binaural + Block 4 first switch fix (marked UNTESTED) |
 | `daca6470` | Investigation start — `SOUNDWORLD_SWITCH_NOT_AUDIBLE.md` + guided playtest / binaural WIP checkpoint |
-| _(pending — this commit)_ | **SOUNDWORLD_SWITCH_NOT_AUDIBLE resolved** — `SetSoundWorld` now posts `SoundWorldMode_Switch` (was gated out by the `!ToningV3WasAlreadyRestored` guard); via `InteractiveMusicSwitchPolicy.SetSoundWorldPosts` + EditMode test; plan standing rules 8/9 + commit log added |
+| `816218e3` | **SOUNDWORLD_SWITCH_NOT_AUDIBLE resolved** — `SetSoundWorld` now posts `SoundWorldMode_Switch` (was gated out by the `!ToningV3WasAlreadyRestored` guard); via `InteractiveMusicSwitchPolicy.SetSoundWorldPosts` + EditMode test; plan standing rules 8/9 + commit log added |
 
 ---
 
@@ -99,26 +100,46 @@ Editor/dev-only; **no production behavior change**, so it can land first and de-
 | **;** | Steps Lorna `Cue_Key_*` timeline; fundamental updates in state line |
 | **R** | Director repro queued; after tone, either repro action log **or** (pre–Stage 1) empty-queue bug log |
 
-**Harness keys:** P=state · **E=end stage** · **G=guided Stage 1+2 subjective playtest** · [=world · ]=loop · ;=key cue · … (Shift+E in InputReferences; avoid Shift+Q — Unity steals Q in Scene view)
+**Harness keys:** P=state · **E=end stage** · **G=guided audio audit (worlds/loops + Stage 1+2)** · [=world · ]=loop · ;=key cue · … (Shift+E in InputReferences; avoid Shift+Q — Unity steals Q in Scene view)
 
-### Guided subjective playtest (Stage 1 + 2) — **G** key
+### Guided subjective playtest (Parts A/B/C) — **G** key
 
-Editor-only coroutine [`MusicDebugGuidedPlaytest`](../Assets/Scripts/Debug/MusicDebugGuidedPlaytest.cs). **G** starts; **G** again aborts.
+Editor-only coroutine [`MusicDebugGuidedPlaytest`](../Assets/Scripts/Debug/MusicDebugGuidedPlaytest.cs). **G** starts; **G** again aborts. **Single Console filter: `B457`** (standing rule 10).
 
 **Session entry:** Play Mode → `DebugSequence` → land on **Playground_Debug** (first stage if DebugSequence starts there). **Headphones required.**
 
 | Step | What happens |
 |------|----------------|
-| **G** | Coroutine starts; ALL CAPS `>>> … <<<` logs in Console tell you what to listen for / when to tone |
-| Auto | Stage 2 baseline: ~30s binaural fade-in on Playground; periodic **P** state dumps |
-| Auto + **tone** | Stage 1: Director repro → Shadow soundscape → transition sound → shuffle (each waits for timer, then **NOW TONE**) |
-| Optional **]** / **[** | Stage 2 attenuation dip (~49) then recovery on Playground |
-| **E** (when prompted) | Leave Playground → `Linear_Nature`; listen for binaural fade-out (~30s) |
-| End | Paste Console (filter `MusicDebugHarness \| Director Queue \| Binaural`) + subjective notes |
+| **G** | Coroutine starts; `B457` `>>> … <<<` prompts — **you advance each step** (no auto timers) |
+| **Sections** | **ENTERING PART A/B/C** banners state what we are testing + pass criteria; **MOVING ON TO PART …** between sections (Space/Return to acknowledge) |
+| **Advance** | **Space** or **Return** between listening steps (toning while listening does **not** advance). Director on-tone steps: **sustained tone**, then release, then Space. Named keys (**E**, **]**, **[**) where prompted |
+| Part A | Four sound worlds — distinct + clean switches (`SetSoundWorld` / Block 4) |
+| Part B | Loop bed then world — loop must go **silent** under world (MusicLoops→Silence hygiene) |
+| Part C | Director on tone (no empty queue) + binaural in on Playground / out on Linear |
+| Attenuation (optional) | Harness sets **MusicLoopSilent** then **Freeplay** (not `]`/`[` cycle) — expect `binauralAtt=on`, `binauralOut≈70` while silent |
+| **E** (when prompted) | Leave Playground → `Linear_Nature`; advance after fade-out judged |
+| End | Paste Console (single filter `B457`) + subjective notes |
 
-**Pass (Stage 1):** repro action executes; no *"queue is empty"* on whole-queue activation; soundscape/shuffle/transition fire on tone.
+**Pass (Stage 1):** repro action executes; no *"queue is empty"* on whole-queue activation; soundscape/shuffle/transition fire on tone. Part C clears playground **SoundscapeShuffle** / **ColorWorldShuffle** first; repro step: **release tone** → timer auto-expires → Space → **then** tone.
 
-**Pass (Stage 2):** Playground `binauralOut≈70`; after **E** to Linear `binauralOut≈0`; optional `]` dip to `≈49` with `binauralAtt=on`.
+**Pass (Stage 2):** Playground `binauralOut≈70–100`; after **E** binaural fades out; optional MusicLoopSilent → `binauralAtt=on`.
+
+### Guided playtest results (2026-06-04, Robin)
+
+| Part | Result | Notes |
+|------|--------|--------|
+| **A** | **PASS** | All four worlds distinct + clean (Space-paced) |
+| **B** | **PASS** | Loop bed audible; no bleed under Shadow; Gentle mid-wait = playground auto-shuffle (OK) |
+| **C Director** | **PASS** | Repro + Shadow + transition + shuffle; `Activating entire queue with tone`; no empty-queue |
+| **C Binaural in** | **PASS (weak)** | Already at 100 on enter — target met, fade-in not observable |
+| **C Binaural out** | **PASS** | Fade-out heard after **E** (double-**E** skipped ahead in sequence) |
+| **C Attenuation** | **Not validated** (harness) | Prior prompt used `]` = cycle loop, not MusicLoopSilent — **fixed in harness**; re-run optional step only |
+
+**Deferred → Stage 3b.0:** MusicLoops monitoring too quiet — fix via **MicMixer `MusicLoopMonitoring` +8 dB** (10 s lerp); see [3b.0](#3b0--musicloop-gain-on-micmixer-bus-agreed-2026-06-04--do-first).
+
+**Harness follow-ups in working tree (uncommitted):** Space-only advance + section banners; repro tone-release + shuffle queue clear; MusicLoopSilent via `ApplyMusicLoopSilentMode` / `ApplyFreeplayMode`.
+
+**Stages 0–3 product sign-off (guided + EditMode):** OK to proceed plan-wise; optional: one short re-run of Part C attenuation + repro “stop toning” prompts after harness pull.
 
 ---
 
@@ -234,9 +255,126 @@ Editor-only coroutine [`MusicDebugGuidedPlaytest`](../Assets/Scripts/Debug/Music
 
 **Test Runner tests (EditMode):** `Block4SwitchOrderEditModeTests` — SoundWorld silences MusicLoops *before* InteractiveMusicSystem; SoundWorld never routes to MusicLoops; MusicLoop routes to MusicLoops and does **not** force Silence.
 
-**Still open in Stage 3 (next candidates):** sound-world switch one frame before mode switch (same-frame robustness); apply the same policy/Silence at the other InteractiveMusicSystem entry ([`SetSoundWorld`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs)); duplicate-post-in-one-frame guard.
+**Still open in Stage 3 (next candidates):** sound-world switch one frame before mode switch (same-frame robustness); ~~apply the same policy/Silence at the other InteractiveMusicSystem entry ([`SetSoundWorld`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs))~~ **done in `816218e3`** — `SetSoundWorld` now routes through `InteractiveMusicSwitchPolicy.SetSoundWorldPosts`, which posts `MusicLoops_Switch → Silence` before `InteractiveMusicMode_Switch → InteractiveMusicSystem`; duplicate-post-in-one-frame guard.
 
 **Commit:** `Block 4 (first fix): MusicLoops→Silence before InteractiveMusicSystem via switch-order policy + EditMode tests.`
+
+**Next implementation step (Robin confirmed 2026-06-04):** **[Stage 3b — Block 8](#stage-3b--block-8-microphone-volume-envelope-next-before-stage-4)** (MusicLoop monitoring headroom first, then full mic envelope). **Stage 4** follows after 3b is confirmed/done. Stage 3 one-frame switch ordering can run in parallel if desired.
+
+---
+
+## Stage 3b — Block 8: Microphone volume envelope (next, before Stage 4)
+
+- **Implement with: Opus 4.8** (envelope) · **3b.0 spike may be Composer 2.5 fast** · **Regression pass: Opus 4.8 (required)**
+- **Listening load:** Real ear check — headphones required for all playtests in this stage.
+- **Source:** [`PLAYTEST_NOTES_ORGANIZED.md` — Block 8](PLAYTEST_NOTES_ORGANIZED.md#block-8--microphone-volume-envelope-large-unity-side). Unity-side only (no bypass of custom Unity audio this pass).
+
+**Goal / acceptance (full Block 8):** Headphone mic monitoring loud enough to guide breath across **calibration → opening → playground → savasana** without harsh jumps or endless slow creep; ADSR-style rise/decay/release replaces sluggish simple multiply where specified in playtest notes.
+
+### 3b.0 — MusicLoop gain on MicMixer bus (**agreed 2026-06-04 — do first**)
+
+**Problem (guided Part B):** On a **MusicLoops** bed, headphone monitoring is too quiet vs **SoundWorld** — user must push harder to hear themselves.
+
+**Architecture (agreed):** [`DirectVoiceMonitoring`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) **`micMixerVolumeContributionsDb`** → summed → Wwise **`MicProcessingVolume`** is the **whole voice-channel output** (direct monitoring today; **future recordings** on the same bus too). Code comments must state that clearly. Session/interaction offsets that should affect “the voice” holistically belong here — **not** per-frame `monitoringSource` scaling alone.
+
+**Remove dead path:** `AttenuateMonitoring` / `monitoringAttenuationDb` / `MusicSystem1.SetMonitoringAttenuationOnce` — **delete** (today `monitoringAttenuationDb` is **0 dB**, so on/off is a no-op). Clean up call sites: [`MusicSystem1`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs), [`TutorialStageHandler`](../Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs), [`CalibrationStageHandler`](../Assets/Scripts/Sequencing/Handlers/CalibrationStageHandler.cs), `NotifyMonitoringAttenuationChangedExternally` cache if unused.
+
+**MusicLoop fix (replaces attenuation toggle):** When [`MusicSystem1`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs) `InteractionType` becomes **`MusicLoop`**, lerp in a named MicMixer contribution (e.g. `MusicLoopMonitoring`) to **`+8 dB`** over **10 s**; when leaving MusicLoop (→ SoundWorld or other), lerp contribution back to **0 dB** (remove or zero) over **10 s**. Use existing `LerpMicMixerVolumeContributionTo`. **Tuning:** contribution dB exposed in **Inspector during playtest**; once chosen, **bake default in code and remove Inspector tuning**.
+
+**Do not** use Wwise `TONING_Volume` for this (music bed RTPC, not voice bus).
+
+**Guided harness — MicMixer A/B coroutine (part of G playtest or 3b.0 extension):** On `Playground_Debug`, cycle so Robin can tune the dB value by ear:
+
+1. Sound world (e.g. SonoFlore)  
+2. Music loop  
+3. Sound world (e.g. Shruti)  
+4. Another music loop  
+5. Sound world (e.g. Shadow)  
+6. Another music loop  
+
+Space/Return between steps; log `debugMicMixerVolumeSumDb` + interaction. Pass: loop steps feel comparably usable to world steps after tuning.
+
+**3b.0 acceptance:** Part B loop step comfortable; MicMixer sum shows `MusicLoopMonitoring` ≈ +8 dB (or tuned value) during loops; smooth 10 s crossfades, no clicks.
+
+**3b.0 Test Runner (EditMode):** policy tests — `MusicLoop` → target +8 dB contribution; `SoundWorld` → 0; lerp duration **10 s** constant (no Wwise).
+
+**3b.0 files:** `DirectVoiceMonitoring.cs`, `MusicSystem1.cs`, handlers that called `AttenuateMonitoring`, [`MusicDebugGuidedPlaytest.cs`](../Assets/Scripts/Debug/MusicDebugGuidedPlaytest.cs) (A/B cycle), optional small `MusicLoopMicMixerPolicy.cs`.
+
+**3b.1 — Stacked mic monitoring ADSR (after 3b.0 signed off; design agreed 2026-06-04)**
+
+**Problem:** Today `chantPresence` ≈ `BoardFader(_chantLerpSlow)` in [`ApplyMonitoringVolume`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) — one slow lerp tracks `toneActive`, so monitoring creeps and feels sluggish.
+
+**Replacement (agreed 2026-06-04):** **Retire `chantPresence` on the monitoring path entirely.** `ApplyMonitoringVolume` uses **only** summed ADSR (clamp → `BoardFader`) for voice presence — **no** multiply with `_chantLerpSlow` / legacy `chantPresence`. `_chantLerpFast` / `_chantLerpSlow` in [`GameValues.handlecChanting`](../Assets/Scripts/Voice/GameValues.cs) may remain for **lights / gameplay** if still referenced; they must **not** drive headphone monitoring after 3b.1.
+
+**Imitone gates (same stream, different debounce in `ImitoneVoiceIntepreter.CheckToning`):**
+
+| Signal | Lock on | Lock off | Role in 3b.1 |
+|--------|---------|----------|----------------|
+| `toneActive` | 0.05 s | 0.20 s | Legacy chant lerps; **not** ADSR attack trigger |
+| `toneActiveConfident` | 0.20 s | 0.40 s | **Attack** trigger (0→1); **no new burst** until this has gone **false** again (“finger off the piano key”) |
+| `toneActiveBiasTrue` | Set with `toneActive` on | Cleared with confident off (~0.4 s) | Part of **release** trigger |
+
+**Per-instance state machine (one instance per confident onset):**
+
+1. **Attack (A):** Spawn on rising edge of **`toneActiveConfident`** only if confident was **false** since the previous instance on this burst (blocks re-attack while still “on”).
+2. **Decay (D):** After attack peak (~**0.9** target — see rise, below), lerp instance level down to **sustain** over time derived from **`chantCharge` runway** (“how much time until charge hits 0?”), with a **minimum 3 s**. Sustain level default **0.5** (the **S** of ADSR — hold at decay floor, not “infinite full level”).
+3. **Sustain (S):** Hold at decay floor until release trigger.
+4. **Release (R):** On the **first frame** where **`!toneActiveConfident && !toneActiveBiasTrue`** (Robin: **option C**), **immediately** leave decay/sustain and run release to **0** — do not wait for decay to finish first. Release **curve family** should match the *feel* of slow chant down in [`GameValues.handlecChanting`](../Assets/Scripts/Voice/GameValues.cs) (`_chantLerpSlow` behavior), **not** a literal sample-by-sample follow of `_chantLerpSlow`.
+
+**Stacking (monitoring only):** All non-finished instances **sum** each frame → **clamp to 1.0** → [`AudioLevelUtilities.BoardFader`](../Assets/Scripts/Utilities/AudioLevelUtilities.cs) (high **0 dB**, low tunable) → existing `ApplyMonitoringVolume` chain (`gameOn`, `chargeDuck`, etc.). ADSRs are **additive layers over time**, not a single shared `_chantLerpSlow` multiply.
+
+**Inspector tuning (one box — playtest together, then bake):** On [`DirectVoiceMonitoring`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs) (or a single adjacent component), one **`[Header]`** group for all Block 8 envelope knobs Robin tunes by ear:
+
+| Field (playtest) | Starting default | When to tune | After sign-off |
+|------------------|------------------|--------------|----------------|
+| ADSR sustain level after decay (**S**) | **0.5** | **InteractiveSoundSystem** playtest (opening / tutorial toning) | Bake into code; **remove** Inspector field |
+| `BoardFader` low (dB) | **−18** | Same session | Bake; **remove** Inspector field |
+| `BoardFader` high | **0 dB** | Fixed unless playtest says otherwise | Code constant |
+
+Playtest instructions must tell Robin to adjust **both** sustain level and BoardFader low in that **same** Inspector box during InteractiveSoundSystem before sign-off.
+
+**Rise (A) shape (agreed 2026-06-04):**
+
+- **Mode gate:** [`RespirationTracker`](../Assets/Scripts/Voice/RespirationTracker.cs) `modeMeditative` / `modePlayful` (hysteresis on `_absorption`: meditative when **> 0.25**, playful when **< 0.1**; posts Wwise `AbsorptionMode` state on the **instant** bool flip).
+- **Init:** `modeMeditative` = **`false`** at startup (already true in code); **`modeMeditativeLerp`** = **0** at startup.
+- **Attack driver (per instance):** Lerp from 0 → **~0.9** using a **blended chant reference** each frame:
+  - **Snappy (playful):** `chantLerpFast` only.
+  - **Meditative:** `0.5 * (chantLerpFast + chantLerpSlow)`.
+  - **Blend weight:** **`modeMeditativeLerp`** ∈ [0, 1] — **not** the raw bool (no audible jump when mode flips).
+- **`modeMeditativeLerp` (add in `RespirationTracker.cs`):** There is **no** existing smoothed value today. Add a public field in the **same file** as the bool; each frame move toward target **1** when `modeMeditative`, **0** when `modePlayful`, over **60 s** wall-clock (full 0↔1 traverse ≈ **60 s**). Monitoring ADSR and any future “meditative vs playful” Unity audio math read **`modeMeditativeLerp`**, not `modeMeditative`.
+- **Implementation TODO (in the lerp update block):** *Talk to Lorna — Unity `modeMeditativeLerp` is 60 s but Wwise `AbsorptionMode` still flips on the instant bool; align or document intentional split.*
+- **Attack spawn** still gated on **`toneActiveConfident`** rising edge (see state machine above); chant lerps supply the curve shape during the attack phase.
+
+**Future recording (not 3b.1):** Pre-record voice gate is a **separate** path — likely `toneActiveConfident` + `toneActiveBiasTrue` with a **ring buffer** to catch attack; **hard on/off, no decay**. Documented in the record/replay TODO at top of [`DirectVoiceMonitoring.cs`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs).
+
+**Primary files:** [`RespirationTracker.cs`](../Assets/Scripts/Voice/RespirationTracker.cs) (`modeMeditativeLerp`), [`GameValues.handlecChanting`](../Assets/Scripts/Voice/GameValues.cs) (chant lerps), [`DirectVoiceMonitoring.ApplyMonitoringVolume`](../Assets/Scripts/Voice/DirectVoiceMonitoring.cs), optional small `MicMonitoringAdsrPolicy.cs` for EditMode tests.
+
+**Telemetry (when debugging):** **Voice bus:** `debugMicMixerVolumeSumDb` / MicMixer contributions (includes `MusicLoopMonitoring`). **Headphone tap:** `telemetryEffectiveMonitoringGain` ≈ `monitoringVolume` × `dynamicScale` × `monitoringSource.volume` (**ADSR sum** × `chargeDuck` × `gameOn` after 3b.1 — **not** legacy `chantPresence`) — **no** `attenuationScale` after 3b.0 removal. Not in either formula: imitone `normalizationGainDb`.
+
+**Test Runner tests (EditMode):**
+
+- **3b.0:** `MusicLoopMicMixerPolicyEditModeTests` — MusicLoop → +8 dB target; SoundWorld → 0; 10 s lerp constant.
+- **3b.1:** `MicMonitoringAdsrPolicyEditModeTests` (name TBD) — confident edge gating (no re-attack until confident false); decay duration `max(3s, charge runway)` to sustain **0.5**; release starts on first `!confident && !bias`; sum + clamp; rise blend `Lerp(fast, mean(fast,slow), modeMeditativeLerp)`; `BoardFader` high **0 dB** / low **−18 dB** defaults.
+
+**Run:** Test Runner → EditMode, or `.\Tools\run-editmode-tests.ps1`.
+
+**Playtests:**
+
+| Step | Pass criteria |
+|------|----------------|
+| **3b.0 — MicMixer A/B cycle** | Guided/harness sequence: SonoFlore → loop → Shruti → loop → Shadow → loop; tune **+8 dB** (Inspector) until loop ≈ world usability |
+| **3b.0 — Part B re-check** | Guided Part B loop step: comfortable monitoring under world after bake |
+| **Calibration → opening → tutorial** | Per [Block 8 playtest table](PLAYTEST_NOTES_ORGANIZED.md#block-8--microphone-volume-envelope-large-unity-side): level across stages; `debugMicMixerVolumeSumDb` + `telemetry Effective Monitoring Gain` |
+| **3b.1 — InteractiveSoundSystem tune** | Headphones; in **one Inspector box**: tune **ADSR sustain after decay** (start 0.5) and **BoardFader low** (start −18 dB) until attack/decay/release feel right; paste `B457` telemetry |
+| **Opening / playground / savasana** | After bake: attack not sluggish; decay to sustain not endless creep; release on finger-off (both gates false) not harsh |
+| **Meditative vs playful** | Cross absorption **0.25 / 0.1** thresholds: no click when `AbsorptionMode` flips; `modeMeditativeLerp` smooths rise blend (fast-only ↔ mean fast/slow) |
+
+**Must not break:** Calibration `SetChantBasedAttenuationOverride` (chant duck on **monitoringSource** path, separate from MicMixer); `CalibrationMicrophone` MicMixer contribution; `Cue_Microphone_ON` / `OFF` gating; Block 3 noise-floor work ([`PLAYTEST_NOTES` Block 3](PLAYTEST_NOTES_ORGANIZED.md#block-3--calibration--lights-medium)).
+
+**Commits (suggested, two if needed):**
+
+1. `Block 8: MusicLoop +8 dB on MicMixer bus (10s lerp); remove dead AttenuateMonitoring; guided A/B tune.`
+2. `Block 8: mic monitoring ADSR envelope + BoardFader endpoints.`
 
 ---
 
@@ -317,7 +455,7 @@ Editor-only coroutine [`MusicDebugGuidedPlaytest`](../Assets/Scripts/Debug/Music
 
 ---
 
-## Stage 8 — Block 7: lock C before savasana + 15:00 transition
+## Stage 8 — Block 7: lock C before savasana + 15:00 transition *(plan stage 8 — not playtest Block 8)*
 
 - **Implement with: Opus 4.8** · **Regression pass: Opus 4.8 (required)**
 - **Listening load:** Real ear check — lock timing / gate are tested, but crossfade smoothness at 15:00 and into savasana requires headphones.
@@ -364,12 +502,13 @@ flowchart TD
   S1[Stage 1 Director queue + shuffle + worlds]
   S2[Stage 2 Binaural gating]
   S3[Stage 3 Switch hygiene]
+  S3b[Stage 3b Block 8 Mic envelope]
   S4[Stage 4 Fundamental split]
   S5[Stage 5 Cue_Key_* + binaural tracks key]
   S6[Stage 6 Pitch / 5ths / harmony]
   S7[Stage 7 Interactive fade / silent loops / Stop_Toning]
   S8[Stage 8 Lock C / 15:00]
-  S0 --> S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8
+  S0 --> S1 --> S2 --> S3 --> S3b --> S4 --> S5 --> S6 --> S7 --> S8
 ```
 
-*Plan created for Blocks 4 / 5 / 7. No code until confirmed; each stage: Composer or Opus implement → required Opus regression pass → commit.*
+*Plan: Blocks 4 / 5 / 7 / 8. No code until confirmed; each stage: Composer or Opus implement → required Opus regression pass → commit.*

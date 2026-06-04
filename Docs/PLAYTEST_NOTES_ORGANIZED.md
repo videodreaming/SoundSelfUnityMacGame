@@ -19,6 +19,8 @@
 
 **Director mode:** Say **director mode** + block number to work a block end-to-end. Each block lists **Test Runner tests (EditMode)** then **Playtests**, then work items (implementation reference subsections may follow, as in Block 2 and Block 7).
 
+**Console filter tag — `B457`:** During these playtests, filter the Unity Console by the single string **`B457`** to see only the logs that matter and hide noise. Every log we want you to read during a playtest is tagged with `B457`; distracting logs are deliberately left untagged. As each block's playtest is instrumented, the needed logs get the tag (harness/guided state lines + prompts, and key production signals like Director queue activation and binaural volume are already tagged). See [`BLOCKS_4_5_7_PLAN.md`](BLOCKS_4_5_7_PLAN.md) standing rule 10.
+
 **Block template (in order):**
 
 1. Test focus / goal  
@@ -513,6 +515,8 @@ Cue_Key_C → Cue_Key_B → Cue_Key_G → Cue_Key_F → Cue_Key_A → Cue_Key_E
 ---
 
 ## Block 8 — Microphone volume envelope (large, Unity-side)
+
+**Staged in:** [`BLOCKS_4_5_7_PLAN.md` — Stage 3b.0](BLOCKS_4_5_7_PLAN.md#3b0--musicloop-gain-on-micmixer-bus-agreed-2026-06-04--do-first) (**next before Stage 4**). **Agreed:** `MusicLoopMonitoring` **+8 dB** on MicMixer bus (`micMixerVolumeContributionsDb`), **10 s** lerp in/out; remove dead `AttenuateMonitoring` (0 dB no-op); guided world↔loop A/B tune in harness; bake dB then drop Inspector tuning.
 
 **Lorna:** Microphone very very quiet — significantly changed since last build. **Robin:** Changes on our side only (no bypass of custom Unity audio for this pass). Possibly coming in too slow (`chantLerpSlow`); combine fast + slow; ADSR-style coroutine vs simple multiply.
 
