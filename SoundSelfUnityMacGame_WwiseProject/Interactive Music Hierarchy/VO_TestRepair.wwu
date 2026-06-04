@@ -344,7 +344,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-5</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -456,7 +456,7 @@
 									<MusicCue Name="Cue_VO_GuidedVocalization_End" ID="{11509258-5CB2-4C96-BF55-04D87707D687}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
-											<Property Name="TimeMs" Type="Real64" Value="3013.28647268852"/>
+											<Property Name="TimeMs" Type="Real64" Value="1875"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>
@@ -512,11 +512,6 @@
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
-											</ValueList>
-										</Property>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -643,7 +638,7 @@
 											<MusicCue Name="Cue_VO_GuidedVocalization_End" ID="{5BEF24B2-AF72-4042-9E06-380E654F9BC0}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="12500"/>
+													<Property Name="TimeMs" Type="Real64" Value="12726.0104417338"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -744,7 +739,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{90C066A6-16FC-41BD-91AF-A0DA15A22F66}" ShortID="421542793">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="9169.97437856108"/>
+																				<Property Name="PlayAt" Type="Real64" Value="8500"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -785,7 +780,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>6</Value>
+												<Value>3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -979,6 +974,25 @@
 											</MusicCue>
 										</Local>
 									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_VO_GuidedVocalization_Start" ID="{4B3DF802-ECB2-43C0-A5CF-46E5CBE1F2CE}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_VO_GuidedVocalization_End" ID="{BCBD1AE4-2632-4E74-8F96-2CD00258DF83}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="13375"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
 								</ObjectList>
 							</ObjectLists>
 						</MusicSegment>
@@ -1088,7 +1102,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1244,7 +1258,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
