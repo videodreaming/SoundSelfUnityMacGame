@@ -16,6 +16,8 @@ public enum MusicDebugHarnessAction
     JumpCountdownToSavasanaLockWindow,
     /// <summary>End current sequence stage (same as UI / Shift+E editor cheat).</summary>
     EndThisSequenceStage,
+    /// <summary>Start/stop guided Stage 1+2 subjective playtest coroutine (G key).</summary>
+    GuidedStage1And2Playtest,
 }
 
 public static class MusicDebugHarnessKeyPolicy
@@ -59,6 +61,9 @@ public static class MusicDebugHarnessKeyPolicy
                 return true;
             case KeyCode.E:
                 action = MusicDebugHarnessAction.EndThisSequenceStage;
+                return true;
+            case KeyCode.G:
+                action = MusicDebugHarnessAction.GuidedStage1And2Playtest;
                 return true;
             default:
                 action = default;

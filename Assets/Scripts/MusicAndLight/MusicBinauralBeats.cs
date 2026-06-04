@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ConversionUtilities;
 using UnityEngine;
 using AK.Wwise;
 
@@ -41,6 +42,11 @@ public class MusicBinauralBeats : MonoBehaviour
     private float _attenuationFactor = BinauralAttenuationPolicy.UnattenuatedFactor; // live factor (1.0 → 0.7)
     private Coroutine _volumeLerp;                                                  // active base-volume lerp (stop by handle)
     private Coroutine _attenuationLerp;                                            // active attenuation lerp (stop by handle)
+    private Coroutine _stopAfterMuteLerp;                                          // posts Stop after volume fade to 0
+    private bool _generatorPlaying;                                                // Play_BinauralGenerator posted and not stopped
+
+    /// <summary>True when <see cref="PlayBinauralBeats"/> has been posted and <see cref="StopBinauralBeats"/> has not.</summary>
+    public bool IsGeneratorRunning => _generatorPlaying;
 
     /// <summary>Live binaural bus output actually pushed to Wwise (base × attenuation). For debug/inspection.</summary>
     public float EffectiveBusVolume => BinauralAttenuationPolicy.Apply(_volume, _attenuationFactor);
@@ -74,13 +80,99 @@ public class MusicBinauralBeats : MonoBehaviour
     }
        
     //FUNCTION CALLS
+    /// <summary>Posts Play_BinauralGenerator. Prefer <see cref="EnsureGeneratorRunning"/> from stage policy when entering audible stages.</summary>
     public void PlayBinauralBeats()
     {
+        SetBinauralFrequencies();
         AkSoundEngine.PostEvent("Play_BinauralGenerator", gameObject);
+        _generatorPlaying = true;
+        Debug.Log("Binaural Beats: Play_BinauralGenerator posted.");
     }
+
     public void StopBinauralBeats()
     {
+        CancelPendingStopAfterMute();
         AkSoundEngine.PostEvent("Stop_BinauralGenerator", gameObject);
+        _generatorPlaying = false;
+        Debug.Log("Binaural Beats: Stop_BinauralGenerator posted.");
+    }
+
+    /// <summary>
+    /// Stage entry point: audible target (&gt;0) starts the generator and lerps volume up; muted target (0) lerps volume
+    /// down then posts Stop_BinauralGenerator and clears <see cref="_generatorPlaying"/>.
+    /// </summary>
+    public void ApplyStageTargetVolume(float targetVolume, float lerpDurationSeconds = DefaultLerpDurationSeconds)
+    {
+        CancelPendingStopAfterMute();
+
+        if (targetVolume > 0f)
+        {
+            EnsureGeneratorRunning();
+            SetVolume(targetVolume, lerpDurationSeconds);
+            return;
+        }
+
+        SetVolume(0f, lerpDurationSeconds);
+        if (_generatorPlaying)
+            _stopAfterMuteLerp = StartCoroutine(StopGeneratorAfterVolumeLerp(lerpDurationSeconds));
+    }
+
+    void CancelPendingStopAfterMute()
+    {
+        if (_stopAfterMuteLerp == null)
+            return;
+        StopCoroutine(_stopAfterMuteLerp);
+        _stopAfterMuteLerp = null;
+    }
+
+    IEnumerator StopGeneratorAfterVolumeLerp(float waitSeconds)
+    {
+        float elapsed = 0f;
+        while (elapsed < waitSeconds)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        _stopAfterMuteLerp = null;
+        if (!_generatorPlaying)
+            yield break;
+        StopBinauralBeats();
+    }
+
+    /// <summary>
+    /// Idempotent start for audible stages: sync RTPC frequencies from the live fundamental (if available), then post
+    /// Play_BinauralGenerator once. SetVolume alone does not start the generator — this was missing before Stage 2b.
+    /// </summary>
+    public void EnsureGeneratorRunning()
+    {
+        CancelPendingStopAfterMute();
+        if (_generatorPlaying)
+            return;
+
+        SyncCenterFrequencyFromMusicSystem();
+        SetBinauralFrequencies();
+        AkSoundEngine.PostEvent("Play_BinauralGenerator", gameObject);
+        _generatorPlaying = true;
+        Debug.Log("Binaural Beats: EnsureGeneratorRunning — Play_BinauralGenerator posted (fundamental-synced).");
+    }
+
+    void SyncCenterFrequencyFromMusicSystem()
+    {
+        var ms = MusicSystem1.instance;
+        if (ms == null || ms.fundamentalNoteName == NoteName.None)
+            return;
+
+        float hz = NoteUtils.NoteToFrequencyA440(ms.fundamentalNoteName);
+        _centerFrequency = NormalizeCenterFrequency(hz);
+    }
+
+    /// <summary>Same octave fold as <see cref="ChangeCenterFrequency"/> — keeps RTPC in the viable band without stop/play.</summary>
+    static float NormalizeCenterFrequency(float hz)
+    {
+        float f = hz;
+        while (f < 185f) f *= 2f;
+        while (f > 370f) f /= 2f;
+        return f;
     }
 
     //A Function for changing the center frequency (half way between left and right)
@@ -187,6 +279,7 @@ public class MusicBinauralBeats : MonoBehaviour
         //stop generator
         Debug.Log("Binaural Beats: Fading Out Binaural Beats with Stop event for frequency change to " + _newCenterFrequency + " Hz");
         AkSoundEngine.PostEvent("Stop_BinauralGenerator", gameObject);
+        _generatorPlaying = false;
         //wait 4 seconds
         yield return new WaitForSeconds(4.0f);
         instantUpdate = true;
@@ -198,6 +291,7 @@ public class MusicBinauralBeats : MonoBehaviour
         SetBinauralFrequencies();
         //start generator
         AkSoundEngine.PostEvent("Play_BinauralGenerator", gameObject);
+        _generatorPlaying = true;
         
     }
 

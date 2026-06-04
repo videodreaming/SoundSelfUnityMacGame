@@ -11,6 +11,7 @@ public class MusicDebugHarnessKeyPolicyEditModeTests
     [TestCase(KeyCode.R, MusicDebugHarnessAction.DirectorQueueRepro)]
     [TestCase(KeyCode.Alpha1, MusicDebugHarnessAction.JumpCountdownTo15Minutes)]
     [TestCase(KeyCode.E, MusicDebugHarnessAction.EndThisSequenceStage)]
+    [TestCase(KeyCode.G, MusicDebugHarnessAction.GuidedStage1And2Playtest)]
     public void TryGetActionForKey_MapsHarnessKeys(KeyCode key, MusicDebugHarnessAction expected)
     {
         Assert.That(MusicDebugHarnessKeyPolicy.TryGetActionForKey(key, out MusicDebugHarnessAction action), Is.True);

@@ -52,6 +52,8 @@ public class InputReferences : MonoBehaviour
 #if UNITY_EDITOR
         if (GetComponent<MusicDebugHarness>() == null)
             gameObject.AddComponent<MusicDebugHarness>();
+        if (GetComponent<MusicDebugGuidedPlaytest>() == null)
+            gameObject.AddComponent<MusicDebugGuidedPlaytest>();
 #endif
     }
 

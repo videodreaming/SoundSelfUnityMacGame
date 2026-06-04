@@ -9,7 +9,7 @@ using UnityEngine;
 public static class BinauralStagePolicy
 {
     /// <summary>Audible base for the interactive meditation stages (Tutorial / Playground).</summary>
-    public const float AudibleVolume = 70f;
+    public const float AudibleVolume = 100f;
 
     public const float MutedVolume = 0f;
 
@@ -23,7 +23,7 @@ public static class BinauralStagePolicy
     public static float GetTargetVolume(StageType stageType) =>
         ShouldBinauralBeAudible(stageType) ? AudibleVolume : MutedVolume;
 
-    /// <summary>Sets the binaural base bus volume for this stage. Called centrally from <see cref="SoundSelf.Sequence.SequenceRunner.AdvanceToStage"/>.</summary>
+    /// <summary>Sets binaural for this stage: Play + volume when audible; volume fade then Stop when muted. Called from <see cref="SoundSelf.Sequence.SequenceRunner.AdvanceToStage"/>.</summary>
     public static void ApplyBinauralVolumeForStage(StageType stageType, float lerpDurationSeconds = DefaultLerpDurationSeconds)
     {
         var beats = MusicBinauralBeats.instance;
@@ -34,6 +34,6 @@ public static class BinauralStagePolicy
         }
 
         float target = GetTargetVolume(stageType);
-        beats.SetVolume(target, lerpDurationSeconds);
+        beats.ApplyStageTargetVolume(target, lerpDurationSeconds);
     }
 }

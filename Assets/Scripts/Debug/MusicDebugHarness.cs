@@ -16,18 +16,19 @@ public class MusicDebugHarness : MonoBehaviour
 
     [SerializeField] private Sequencer sequencer;
     [SerializeField] private Director director;
+    [SerializeField] private MusicDebugGuidedPlaytest guidedPlaytest;
     [SerializeField] private bool logKeyLegendOnStart = true;
 
     int _soundWorldIndex;
     int _musicLoopIndex;
     int _lornaTimelineIndex;
-    bool _binauralPlaying;
     bool _binauralAudibleVolume = true;
 
     void Awake()
     {
         if (sequencer == null) sequencer = FindObjectOfType<Sequencer>();
         if (director == null) director = FindObjectOfType<Director>();
+        if (guidedPlaytest == null) guidedPlaytest = GetComponent<MusicDebugGuidedPlaytest>();
     }
 
     void Start()
@@ -92,7 +93,17 @@ public class MusicDebugHarness : MonoBehaviour
             case MusicDebugHarnessAction.EndThisSequenceStage:
                 EndThisSequenceStage();
                 break;
+            case MusicDebugHarnessAction.GuidedStage1And2Playtest:
+                ToggleGuidedPlaytest();
+                break;
         }
+    }
+
+    void ToggleGuidedPlaytest()
+    {
+        if (guidedPlaytest == null)
+            guidedPlaytest = gameObject.AddComponent<MusicDebugGuidedPlaytest>();
+        guidedPlaytest.ToggleRun();
     }
 
     void EndThisSequenceStage()
@@ -264,16 +275,14 @@ public class MusicDebugHarness : MonoBehaviour
             return;
         }
 
-        if (_binauralPlaying)
+        if (beats.IsGeneratorRunning)
         {
             beats.StopBinauralBeats();
-            _binauralPlaying = false;
             Debug.Log(LogPrefix + " StopBinauralBeats");
         }
         else
         {
             beats.PlayBinauralBeats();
-            _binauralPlaying = true;
             Debug.Log(LogPrefix + " PlayBinauralBeats");
         }
     }
@@ -285,8 +294,8 @@ public class MusicDebugHarness : MonoBehaviour
             return;
 
         _binauralAudibleVolume = !_binauralAudibleVolume;
-        beats.SetVolume(_binauralAudibleVolume ? 70f : 0f, 0f);
-        Debug.Log(LogPrefix + " Binaural volume " + (_binauralAudibleVolume ? "70" : "0"));
+        beats.SetVolume(_binauralAudibleVolume ? BinauralStagePolicy.AudibleVolume : 0f, 0f);
+        Debug.Log(LogPrefix + " Binaural volume " + (_binauralAudibleVolume ? BinauralStagePolicy.AudibleVolume.ToString("F0") : "0"));
     }
 
     void DirectorQueueRepro()
@@ -328,7 +337,7 @@ public class MusicDebugHarness : MonoBehaviour
 
     void LogKeyLegend()
     {
-        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | [=world ]=loop | ;=key cue | L=lock C | U=unlock | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
+        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | G=guided Stage1+2 playtest | [=world ]=loop | ;=key cue | L=lock C | U=unlock | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
     }
 }
 #endif

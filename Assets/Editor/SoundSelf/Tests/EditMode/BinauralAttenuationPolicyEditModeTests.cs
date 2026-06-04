@@ -18,8 +18,8 @@ public class BinauralAttenuationPolicyEditModeTests
         Assert.That(BinauralAttenuationPolicy.GetFactor(false), Is.EqualTo(1.0f).Within(0.0001f));
     }
 
-    [TestCase(70f, true, 49f)]   // reproduces the old "MusicLoopSilent → ~50" as 70 × 0.7
-    [TestCase(70f, false, 70f)]
+    [TestCase(100f, true, 70f)]   // AudibleVolume × 0.7 when MusicLoopSilent attenuates
+    [TestCase(100f, false, 100f)]
     [TestCase(0f, true, 0f)]     // muted stages stay muted regardless of attenuation
     [TestCase(0f, false, 0f)]
     public void Apply_BaseTimesFactor(float baseVolume, bool attenuated, float expected)

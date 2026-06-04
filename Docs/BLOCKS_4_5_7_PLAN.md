@@ -14,6 +14,7 @@
 4. **Each stage ends with a commit** — agent proposes message + files; Robin approves per the git rule.
 5. **Tests favor minimal listening + minimal moving around.** Drive everything from the keyboard in a `Playground_Debug` harness; paste one-line state logs into chat.
 6. **Block order inside each stage:** Test Runner tests (EditMode) first, then Playtests.
+7. **Do NOT touch `Assets/Scenes/MainGame.unity`.** Another developer is actively working on it in git; editing or committing it risks merge conflicts. Do not edit, stage, or commit this scene as part of any stage. If a change *seems* to require it, stop and flag it to Robin instead.
 
 **Ordering rationale:** Director / shuffle queue mechanics are foundational and come first (after the harness). Then easy knock-outs (binaural gating), then switch hygiene, then the careful fundamental-system split, then the musically sensitive items in order of how fundamental they are to the music sounding good.
 
@@ -81,7 +82,26 @@ Editor/dev-only; **no production behavior change**, so it can land first and de-
 | **;** | Steps Lorna `Cue_Key_*` timeline; fundamental updates in state line |
 | **R** | Director repro queued; after tone, either repro action log **or** (pre–Stage 1) empty-queue bug log |
 
-**Harness keys:** P=state · **E=end stage** · [=world · ]=loop · ;=key cue · … (Shift+E in InputReferences; avoid Shift+Q — Unity steals Q in Scene view)
+**Harness keys:** P=state · **E=end stage** · **G=guided Stage 1+2 subjective playtest** · [=world · ]=loop · ;=key cue · … (Shift+E in InputReferences; avoid Shift+Q — Unity steals Q in Scene view)
+
+### Guided subjective playtest (Stage 1 + 2) — **G** key
+
+Editor-only coroutine [`MusicDebugGuidedPlaytest`](../Assets/Scripts/Debug/MusicDebugGuidedPlaytest.cs). **G** starts; **G** again aborts.
+
+**Session entry:** Play Mode → `DebugSequence` → land on **Playground_Debug** (first stage if DebugSequence starts there). **Headphones required.**
+
+| Step | What happens |
+|------|----------------|
+| **G** | Coroutine starts; ALL CAPS `>>> … <<<` logs in Console tell you what to listen for / when to tone |
+| Auto | Stage 2 baseline: ~30s binaural fade-in on Playground; periodic **P** state dumps |
+| Auto + **tone** | Stage 1: Director repro → Shadow soundscape → transition sound → shuffle (each waits for timer, then **NOW TONE**) |
+| Optional **]** / **[** | Stage 2 attenuation dip (~49) then recovery on Playground |
+| **E** (when prompted) | Leave Playground → `Linear_Nature`; listen for binaural fade-out (~30s) |
+| End | Paste Console (filter `MusicDebugHarness \| Director Queue \| Binaural`) + subjective notes |
+
+**Pass (Stage 1):** repro action executes; no *"queue is empty"* on whole-queue activation; soundscape/shuffle/transition fire on tone.
+
+**Pass (Stage 2):** Playground `binauralOut≈70`; after **E** to Linear `binauralOut≈0`; optional `]` dip to `≈49` with `binauralAtt=on`.
 
 ---
 
@@ -110,6 +130,8 @@ Editor/dev-only; **no production behavior change**, so it can land first and de-
 **Must not break:** `ActivateThisActionOnNextTone` capture behavior; `fundamentalChange` short-path (`ExpireWithoutExecuting`); `activateQueueOnToneRunning` guard against duplicate coroutines.
 
 **Note (cross-stage):** sound-world transitions touch fundamental content locks (`SetSoundWorld` clears content lock; `SetMusicLoop` sets it). Keep the transition audit light here; deep content-lock interaction is revisited in Stage 4.
+
+**Open investigation (spun out):** During the Stage 1+2 guided playtest, the Director queue fix verified working, but the **sound-world change is not audible** (Wwise Monitor confirms no switch to the new world) even though Unity reports `soundscape=Shadow | interaction=SoundWorld`. This is a downstream Wwise switch/routing issue, tracked separately in [`SOUNDWORLD_SWITCH_NOT_AUDIBLE.md`](SOUNDWORLD_SWITCH_NOT_AUDIBLE.md).
 
 **Commit:** `Block 7: fix Director queue self-removal on whole-queue activation; shuffle + sound-world transition audit.`
 
