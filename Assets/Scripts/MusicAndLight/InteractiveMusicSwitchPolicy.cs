@@ -12,6 +12,21 @@ public enum InteractiveMusicSwitchOp
     InteractiveMusicModeToMusicLoops,
 }
 
+/// <summary>A concrete ordered Wwise switch post (group + value) — used where the value is dynamic (e.g. the sound-world name).</summary>
+public readonly struct InteractiveMusicSwitchPost
+{
+    public readonly string Group;
+    public readonly string Value;
+
+    public InteractiveMusicSwitchPost(string group, string value)
+    {
+        Group = group;
+        Value = value;
+    }
+
+    public override string ToString() => Group + " = " + Value;
+}
+
 /// <summary>
 /// Block 4 — switch-order policy for recovering interactive music mode when entering Tutorial / Freeplay / FrozenFreeplay.
 /// Lorna: <i>"when switching to InteractiveMusicSystem (not MusicLoops), set Music Loop switch to Silence first."</i>
@@ -22,6 +37,39 @@ public enum InteractiveMusicSwitchOp
 /// </summary>
 public static class InteractiveMusicSwitchPolicy
 {
+    public const string SoundWorldModeSwitchGroup = "SoundWorldMode_Switch";
+    public const string InteractiveMusicModeSwitchGroup = "InteractiveMusicMode_Switch";
+    public const string MusicLoopsSwitchGroup = "MusicLoops_Switch";
+    public const string InteractiveMusicSystemValue = "InteractiveMusicSystem";
+    public const string SilenceValue = "Silence";
+
+    /// <summary>
+    /// Ordered Wwise switch posts for <see cref="MusicSystem1.SetSoundWorld"/>.
+    /// Fixes SOUNDWORLD_SWITCH_NOT_AUDIBLE: the audible path previously posted only <c>InteractiveMusicMode_Switch</c>
+    /// and never <c>SoundWorldMode_Switch</c>, so the world never changed in Wwise.
+    /// <para>Non-Environment (audible): post the <b>world switch first</b>, then silence the music-loop bed (Block 4
+    /// hygiene, so <c>Play_MusicLoops</c> cannot bleed), then route to the interactive system.</para>
+    /// <para>Environment: set the world value only — the mode is not routed (the change is inaudible until the mode
+    /// becomes interactive), preserving prior behavior.</para>
+    /// </summary>
+    public static IReadOnlyList<InteractiveMusicSwitchPost> SetSoundWorldPosts(string soundWorld, bool isEnvironmentMode)
+    {
+        if (isEnvironmentMode)
+        {
+            return new[]
+            {
+                new InteractiveMusicSwitchPost(SoundWorldModeSwitchGroup, soundWorld),
+            };
+        }
+
+        return new[]
+        {
+            new InteractiveMusicSwitchPost(SoundWorldModeSwitchGroup, soundWorld),
+            new InteractiveMusicSwitchPost(MusicLoopsSwitchGroup, SilenceValue),
+            new InteractiveMusicSwitchPost(InteractiveMusicModeSwitchGroup, InteractiveMusicSystemValue),
+        };
+    }
+
     public static IReadOnlyList<InteractiveMusicSwitchOp> RecoverInteractiveModeSteps(MusicSystem1.InteractionType interactionType)
     {
         switch (interactionType)

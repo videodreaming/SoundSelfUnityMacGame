@@ -1,6 +1,6 @@
 # Troubleshooting: Sound-world change is not audible
 
-**Status:** Open investigation.
+**Status:** **RESOLVED.** Root cause = layer C guard in `SetSoundWorld`. Fixed via `InteractiveMusicSwitchPolicy.SetSoundWorldPosts` + rewire; EditMode tests pass; playtest verified audible world change + Wwise switch confirmation (2026-06-04).
 **Parent plan:** [`BLOCKS_4_5_7_PLAN.md`](BLOCKS_4_5_7_PLAN.md) — surfaced during the Stage 1 + Stage 2 guided playtest (`MusicDebugGuidedPlaytest`, **G** key).
 **Related:** Block 4 (Wwise switch hygiene), Block 7 (sound-world transitions / `WorldShuffler`).
 
@@ -58,9 +58,13 @@ The chain A→F can be split 50/50. Midpoint = **"did the correct `SoundWorldMod
 
 Tools:
 - **Wwise Monitor / Profiler:** Switches view (what `SoundWorldMode_Switch` is set to and when), Voices Graph (what's actually playing), Events.
-- **Unity logs:** add a one-line log at the literal `AkSoundEngine.SetSwitch` call sites (group, value, frame) — confirm value + cardinality.
+- **Unity logs — single filter tag `SWAUDIT`** (temporary, since removed — see *Debug logging convention* below): confirmed which soundscape *should* be audible and which Wwise switches were *actually* posted.
 - **Harness `[`** (CycleSoundWorld) for a clean, repeatable single switch with `P` state dumps.
 - **EditMode:** only the Unity-side decision (B/C) is unit-testable (which switch ops, in what order, for a given world). E/F are perceptual + Monitor.
+
+### Debug logging convention (single Console filter) — *removed after verification*
+
+During the investigation a single greppable tag **`SWAUDIT`** was added to `MusicSystem1` (`LogSoundscapeAudit`, gated by `debugAllowSoundscapeAudit`) so the Unity Console could be filtered by ONE string to see which soundscape *should* be audible and which Wwise switches were actually posted (`SHOULD HEAR …`, `POSTED Wwise switch  <group> = <value>`, and a `NOT posted (skipped …)` line on the bug path). This was **temporary instrumentation and was removed at the fix commit** per the director-mode rule (keep policy + tests, drop temporary logging). The historical `SWAUDIT` lines quoted in *Observations* / *Bisection log* are the evidence captured before removal. The permanent regression net is the EditMode test, not the logs.
 
 ---
 
@@ -83,6 +87,8 @@ Tools:
 - **2026-06-04 (fix):** `MusicDebugGuidedPlaytest` now calls `EnsureBaselineBeforeSoundWorldTest` before the Shadow director step — if already on Shadow, it forces `SonoFlore` first so the Shadow queue is a real change.
 - _(add Wwise Monitor findings: what value `SoundWorldMode_Switch` shows, and what's in the Voices graph, at each step)_
 - **2026-06-04 (code read, Opus 4.8 — NOT yet Monitor-confirmed):** Static analysis of [`MusicSystem1.SetSoundWorld`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs) (lines ~1142–1171) found the `SoundWorldMode_Switch` post is gated behind `if(!ToningV3WasAlreadyRestored)`, but `ToningV3WasAlreadyRestored` is set `true` in exactly the audible branch (`currentMusicMode != Environment`). So in the normal Playground path the method posts **only** `InteractiveMusicMode_Switch → InteractiveMusicSystem` and **never** `SoundWorldMode_Switch → <world>`. The only branch that posts the world value is the `Environment` branch, which the code itself logs as inaudible. This exactly predicts the symptom (Unity reports new world via `worldShuffler.SetCurrentSoundscape` / `OnInteractionTypeChanged`, but Wwise never switches). The `ToningV3WasAlreadyRestored` flag appears intended to dedupe the **toning-layer restart**, not to gate the world switch. **Prime suspect: layer C (guard), supersedes H3.** Confirm via Step 1 Monitor reading below before any code change.
+- **2026-06-04 (FIX VERIFIED, Robin playtest + `SWAUDIT` logs + Wwise):** After rewiring `SetSoundWorld` through `InteractiveMusicSwitchPolicy.SetSoundWorldPosts`, the audible `[` path now posts `SoundWorldMode_Switch = <world>` (Shadow→Gentle), Wwise confirms the world change, and the bed is audibly different. EditMode tests (`InteractiveMusicSetSoundWorldPolicyEditModeTests`, `Block4SwitchOrderEditModeTests`) pass. Investigation resolved.
+- **2026-06-04 (Step 1 CONFIRMED, Robin playtest + `SWAUDIT` logs):** Parked `Playground_Debug`, mode `Freeplay`, started on `soundscape=Gentle` (Wwise + ear confirm Gentle). One `[` press (Gentle → Shadow) produced, filtered by `SWAUDIT`: `POSTED Wwise switch InteractiveMusicMode_Switch = InteractiveMusicSystem`, `SetSoundWorld('Shadow') … SHOULD HEAR sound world: Shadow`, and `SoundWorldMode_Switch 'Shadow' NOT posted (skipped by !ToningV3WasAlreadyRestored guard)`. **No** `POSTED … SoundWorldMode_Switch = Shadow` line. **Subjective: no audible change.** State line still reports `soundscape=Shadow` (Unity-side label only). **→ Layer C confirmed: the world switch never reaches Wwise in the audible path.** Kills H1, H2, H4, H5 (all downstream of a post that never happens); H3 (value mismatch) moot — the post is absent, not wrong-valued.
 
 ---
 
@@ -90,20 +96,21 @@ Tools:
 
 Goal: localize the break to a single layer (A–F) by halving the surface each step, using Wwise Monitor as ground truth for "did Wwise get the right switch and play the right content".
 
-- [ ] **Step 0 — Remove test noise (H4).** From a known world, press `[` to a clearly different world (e.g. SonoFlore → Shruti). Record: was it audible? Monitor switch value? This makes the signal trustworthy before bisecting.
-- [ ] **Step 1 — Split Unity vs Wwise (midpoint C/E).** With Wwise Monitor open, do one `[` switch. 
-  - If Monitor shows the **correct** `SoundWorldMode_Switch` value → the Unity half (A–C) is good; **descend into the Wwise half (D–F)**.
-  - If Monitor shows **wrong/None/no** switch → **descend into the Unity half (A–C)**.
-- [ ] **Step 2a — Wwise half (if Step 1 = switch correct).** In Monitor Voices/Soundcaster, is the new world's content playing or is the old world still sounding? Check the switch container's transition/sync settings (immediate vs next bar/cue vs exit). → isolates **H1** vs **H2/H5**.
+- [x] **Step 0 — Remove test noise (H4).** Superseded: the `SWAUDIT` logs make the signal trustworthy directly (known start world Gentle, explicit `[` to Shadow = a real change), so the H4 no-op concern is moot.
+- [x] **Step 1 — Split Unity vs Wwise (midpoint C/E).** One `[` switch + `SWAUDIT` logs (and ear/Wwise) → **switch absent** → Unity half (A–C). See bisection log.
+- [ ] ~~**Step 2a — Wwise half.**~~ N/A — Step 1 landed in the Unity half.
 - [ ] **Step 2b — Unity half (if Step 1 = switch wrong).** Log the literal `AkSoundEngine.SetSwitch("SoundWorldMode_Switch", value)` call (value + frame + count). Compare value string to Wwise switch names; check call order vs `InteractiveMusicMode_Switch` and `haveSetSoundWorldFlag`. → isolates **H3** vs **C ordering**.
-- [ ] **Step 3 — Halve again** within whichever half Step 2 implicated, until a single cause remains.
-- [ ] **Step 4 — Fix** at the identified layer:
-  - Unity-side → extract a small **switch-order/value policy** (extends Block 4 `InteractiveMusicSwitchPolicy`) + EditMode test asserting the exact ops/values for a world change; wire production through it.
-  - Wwise-side → adjust the switch container transition/sync (Lorna) and/or add a Unity retrigger of the world content after the switch; document the required Wwise setup.
-- [ ] **Step 5 — Re-verify** with `[` and the guided shuffle step: audible change + Monitor confirmation; add a regression note here and in the parent plan.
+- [x] **Step 2b — Unity half (Step 1 = switch wrong/absent).** `SWAUDIT` logs proved the `SoundWorldMode_Switch` post is *absent* (not wrong-valued) in the audible path → isolates the `!ToningV3WasAlreadyRestored` guard (C). H3 moot.
+- [x] **Step 3 — Halve again.** Not needed — Step 1+2b already localized to a single cause (the guard).
+- [x] **Step 4 — Fix (Unity-side, applied 2026-06-04, awaiting verification):**
+  - New testable policy method [`InteractiveMusicSwitchPolicy.SetSoundWorldPosts(world, isEnvironmentMode)`](../Assets/Scripts/MusicAndLight/InteractiveMusicSwitchPolicy.cs) returns the ordered `(group, value)` posts: non-Environment → `SoundWorldMode_Switch=<world>` **then** `MusicLoops_Switch=Silence` **then** `InteractiveMusicMode_Switch=InteractiveMusicSystem`; Environment → world only.
+  - [`MusicSystem1.SetSoundWorld`](../Assets/Scripts/MusicAndLight/MusicSystem1.cs) rewired to validate first, then post the policy list inside a single `RunWithToningRestoredAfterInteractiveSwitch` (restart toning once). The buggy `ToningV3WasAlreadyRestored` guard is removed; the world switch is now always posted in the audible path. (Robin chose: world-switch first + include MusicLoops→Silence here.)
+  - EditMode test [`InteractiveMusicSetSoundWorldPolicyEditModeTests`](../Assets/Editor/SoundSelf/Tests/EditMode/InteractiveMusicSetSoundWorldPolicyEditModeTests.cs): world switch always present; order world→silence→interactive; Environment posts world only; exact world-value passthrough.
+- [x] **Step 5 — Re-verified (2026-06-04, Robin).** EditMode tests pass. Playtest in `Playground_Debug`: stage entry posts `SoundWorldMode_Switch = Shadow` (now present) and Wwise confirms Shadow. `[` Shadow→Shadow = correct same-value no-op (harness cycle next entry is also Shadow). `[` again Shadow→**Gentle**: `SWAUDIT | POSTED Wwise switch SoundWorldMode_Switch = Gentle`, **audible change confirmed**, Wwise confirms Gentle. Switch order world→Silence→InteractiveMusicSystem as designed.
 
 **Bisection log:**
-- **Step 1 (predicted from code read, awaiting Monitor):** Expect Wwise Monitor on one harness `[` switch to show `InteractiveMusicMode_Switch → InteractiveMusicSystem` change **but no `SoundWorldMode_Switch` change** (group stays at its prior/default `Gentle`). If confirmed → descend Unity half, cause = the `!ToningV3WasAlreadyRestored` guard in `SetSoundWorld` (layer C). If Monitor *does* show the correct `SoundWorldMode_Switch` value → my read is wrong, descend Wwise half (D–F).
+- **Step 1 (predicted from code read):** Expect one harness `[` switch to post `InteractiveMusicMode_Switch → InteractiveMusicSystem` **but no `SoundWorldMode_Switch`** (group stays at prior/default `Gentle`). If confirmed → Unity half, cause = the `!ToningV3WasAlreadyRestored` guard in `SetSoundWorld` (layer C).
+- **Step 1 (RESULT — CONFIRMED via `SWAUDIT` logs + ear, 2026-06-04):** Gentle → `[` → Shadow: posted `InteractiveMusicMode_Switch = InteractiveMusicSystem`, logged `SHOULD HEAR Shadow` and `SoundWorldMode_Switch NOT posted (skipped by !ToningV3WasAlreadyRestored guard)`, **no** `SoundWorldMode_Switch` post, no audible change. **Localized to layer C — single cause.** Steps 2/3 (further halving) unnecessary; proceed to Step 4 (Unity-side fix: policy + EditMode test).
 
 ---
 

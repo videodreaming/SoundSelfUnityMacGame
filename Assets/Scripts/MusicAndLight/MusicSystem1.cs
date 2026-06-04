@@ -1141,19 +1141,7 @@ public class MusicSystem1 : MonoBehaviour
 
     public void SetSoundWorld(string soundWorld) //NOTE: this will currently break the MusicLoopSilent mode, which is a temporary mode. 
     {
-        bool ToningV3WasAlreadyRestored = false;
-        if(currentMusicMode != MusicMode.Environment)
-        {
-            SetSwitchRestoreToningV3("InteractiveMusicMode_Switch", "InteractiveMusicSystem");
-            ToningV3WasAlreadyRestored = true;
-        }
-        else
-        {
-            if(debugAllowWarnings || debugAllowSoundscapeLogs)
-            {
-                Debug.LogWarning($"MUSIC: Changing SoundWorld to '{soundWorld}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
-            }
-        }
+        // Validate first so an invalid world never flips any interactive switch.
         if (!soundWorlds.Contains(soundWorld))
         {
             if (debugAllowWarnings || debugAllowSoundscapeLogs)
@@ -1162,11 +1150,28 @@ public class MusicSystem1 : MonoBehaviour
             }
             return;
         }
-        OnInteractionTypeChanged(InteractionType.SoundWorld);
-        if(!ToningV3WasAlreadyRestored)
+
+        bool isEnvironment = currentMusicMode == MusicMode.Environment;
+        if (isEnvironment && (debugAllowWarnings || debugAllowSoundscapeLogs))
         {
-            SetSwitchRestoreToningV3("SoundWorldMode_Switch", soundWorld);
+            Debug.LogWarning($"MUSIC: Changing SoundWorld to '{soundWorld}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
         }
+
+        OnInteractionTypeChanged(InteractionType.SoundWorld);
+
+        // Switch group/value + order are owned by InteractiveMusicSwitchPolicy (unit-tested). All posts run inside ONE
+        // toning-restore wrapper so toning layers restart exactly once. The old ToningV3WasAlreadyRestored flag tried to
+        // dedupe that restart but accidentally gated the SoundWorldMode_Switch post out of the audible path entirely, so
+        // the world never changed in Wwise — see Docs/SOUNDWORLD_SWITCH_NOT_AUDIBLE.md.
+        var posts = InteractiveMusicSwitchPolicy.SetSoundWorldPosts(soundWorld, isEnvironment);
+        RunWithToningRestoredAfterInteractiveSwitch(() =>
+        {
+            foreach (var post in posts)
+            {
+                AkSoundEngine.SetSwitch(post.Group, post.Value, gameObject);
+            }
+        });
+
         worldShuffler.SetCurrentSoundscape(soundWorld);
         SetSoundWorldFlag();
         
