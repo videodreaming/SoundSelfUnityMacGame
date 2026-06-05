@@ -75,7 +75,12 @@ public partial class MusicSystem1 : MonoBehaviour
     public NoteName musicNoteActivated {get; private set;} = NoteName.None; // The note that has been activated (while we are toneActiveBiasTrue), None if no note is activated    
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
-    private NoteName? directorStoredFundamental = null;
+    // Block 7 / 9c — "the master's next commit target." There is exactly one (one master); it always holds the
+    // active source's pending target. The Director consults it at the top of each activation (see
+    // DirectorConsultPendingFundamental): if it differs from the master it is applied + counted as one audio event. Durable
+    // per-source memory stays in preferredFundamentalBySource; this slot is the transient hand-off to the Director.
+    // (Chunk 2: the trigger paths now SET it via AnnounceFundamental; it fully subsumes the retired directorStoredFundamental dedupe.)
+    private NoteName? targetNextFundamental = null;
     private NoteName nextNote = NoteName.None; // Next note to activate
     private float highestActivationTimer = 0.0f;
     public bool localToneOn {get; private set;} = false;
@@ -1049,8 +1054,32 @@ public partial class MusicSystem1 : MonoBehaviour
     /// </remarks>
     // Renamed from the old public SetFundamentalDirect (Block 7 / 4d): the single private master-apply mechanism.
     // Clears the fundamentalChange queue → sets fundamentalNoteName → Wwise ...FundamentalOnly switch → binaural retune
-    // → resets fundamental timers (charge) → records directorStoredFundamental. No external bypass.
+    // → resets fundamental timers (charge). No external bypass.
     private void ApplyMasterFundamental(NoteName newFundamental)
+    {
+        // Validate that we're not setting fundamental to None
+        if (newFundamental == NoteName.None)
+        {
+            if(debugAllowWarnings || debugAllowFundamentalChangeLogs)
+            {
+                Debug.LogWarning("MUSIC: Attempted to set fundamental to None - ignoring");
+            }
+            return;
+        }
+
+        // Self-clear any queued fundamentalChange, then retune. The Director-owned activation path uses
+        // ApplyMasterFundamentalRaw directly (it owns the queue during activation, so it must NOT self-clear — 9c).
+        director.ClearQueueOfType("fundamentalChange");
+        ApplyMasterFundamentalRaw(newFundamental);
+    }
+
+    /// <summary>
+    /// Block 7 / 9c — the master-apply primitive WITHOUT the <c>ClearQueueOfType("fundamentalChange")</c> self-clear.
+    /// Used by the Director when it applies the pending-fundamental slot during an activation (the Director owns the
+    /// queue then) and by the disabled-bypass. <see cref="ApplyMasterFundamental"/> = this + the self-clear (legacy path).
+    /// Retunes Wwise + binaural and resets fundamental timers (charge), same as before.
+    /// </summary>
+    private void ApplyMasterFundamentalRaw(NoteName newFundamental)
     {
         // Validate that we're not setting fundamental to None
         if (newFundamental == NoteName.None)
@@ -1064,12 +1093,11 @@ public partial class MusicSystem1 : MonoBehaviour
 
         if(debugAllowFundamentalChangeLogs)
         {
-            // B457-tagged so the master move is visible under the single "B457" console filter (with FUND-ANNOUNCE + DIRECTOR-FLOURISH).
+            // B457-tagged so the master move is visible under the single "B457" console filter (with FUND-SLOT + DIRECTOR-FLOURISH).
             // Logged before the reassignment below, so fundamentalNoteName is still the previous note here.
             Debug.Log("[B457 FUND-COMMIT] " + NoteUtils.NoteToWwiseString(fundamentalNoteName) + "→" + NoteUtils.NoteToWwiseString(newFundamental) + " src=" + activeFundamentalSource);
         }
 
-        director.ClearQueueOfType("fundamentalChange");
         fundamentalNoteName = newFundamental;
 
         SetSwitchRestoreToningV3("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.NoteToWwiseString(fundamentalNoteName));
@@ -1086,7 +1114,42 @@ public partial class MusicSystem1 : MonoBehaviour
         }
 
         ResetFundamentalTimers();
-        directorStoredFundamental = newFundamental;
+    }
+
+    /// <summary>
+    /// Block 7 / 9c — the Director consults this at the top of every activation (a musical beat). If the active
+    /// source has a pending commit target in <see cref="targetNextFundamental"/> that differs from the master, it is
+    /// applied raw (the Director owns the queue during activation) and this returns <c>true</c> so the Director counts
+    /// it as one audio event — pairing exactly one visual flourish. A slot that drifted back to the master (or is
+    /// empty) clears with no move and returns <c>false</c>, so a logic-only change produces 0 audio ⇒ no phantom
+    /// flourish. This is the *structural* realized-effect (no per-item bookkeeping).
+    /// (Chunk 1: the slot is never SET yet, so this always returns false until the Chunk 2 trigger-path rewrite.)
+    /// </summary>
+    public bool DirectorConsultPendingFundamental()
+    {
+        if (!targetNextFundamental.HasValue)
+        {
+            return false;
+        }
+
+        NoteName target = targetNextFundamental.Value;
+        targetNextFundamental = null;
+
+        if (target == fundamentalNoteName)
+        {
+            if (debugAllowFundamentalLogicLogs)
+            {
+                Debug.Log("[B457 FUND-SLOT] cleared (target=" + NoteUtils.NoteToWwiseString(target) + " == master; no move, no flourish)");
+            }
+            return false;
+        }
+
+        if (debugAllowFundamentalLogicLogs)
+        {
+            Debug.Log("[B457 FUND-SLOT] cleared → applying " + NoteUtils.NoteToWwiseString(target) + " (master move, counts as one audio event)");
+        }
+        ApplyMasterFundamentalRaw(target);
+        return true;
     }
 
     // Public shim retained for external callers (MusicKeyCuePolicy 4g) until 4g migrates them onto the active-source
@@ -1094,28 +1157,19 @@ public partial class MusicSystem1 : MonoBehaviour
     public void SetFundamentalDirect(NoteName newFundamental) => ApplyMasterFundamental(newFundamental);
 
     /// <summary>
-    /// Creates an Action delegate that will change the fundamental note when invoked.
-    /// Used for queuing fundamental changes in the Director system.
-    /// </summary>
-    /// <param name="scaleNoteKey">The NoteName to change the fundamental to.</param>
-    /// <returns>An Action delegate that calls ChangeFundamental with the specified note.</returns>
-    private Action Action_ChangeFundamental(NoteName scaleNoteKey)
-    {
-        return () => ChangeFundamental(scaleNoteKey);
-    }
-   
-    /// <summary>
-    /// Changes the fundamental note via the InputDriven voice ladder. Writes the master only when InputDriven
-    /// is the active source (FundamentalSourcePolicy.CanInputDrivenWriteMaster); otherwise logs a guardrail warning.
+    /// Externally-callable active-source-gated master apply: writes the master only when InputDriven is the active
+    /// source (FundamentalSourcePolicy.CanInputDrivenWriteMaster); otherwise logs a guardrail warning.
     /// </summary>
     /// <param name="newFundamental">The NoteName to change the fundamental to. Must not be NoteName.None.</param>
+    /// <remarks>
+    /// Block 7 / 9c: the InputDriven ladder no longer routes through here — it sets the
+    /// <see cref="targetNextFundamental"/> slot via <see cref="AnnounceFundamental"/> and the disabled-bypass applies
+    /// raw. This is retained only as a public gated-apply surface and currently has no internal callers
+    /// (final-commit cleanup candidate; see the build checklist).
+    /// </remarks>
     public void ChangeFundamental(NoteName newFundamental)
     {
-        // Block 7 / 4e: the InputDriven write gate is the active-source rule. ChangeFundamental is only ever
-        // called by the InputDriven ladder (immediate + the director-queued Action_ChangeFundamental), so gating it
-        // on "InputDriven is the active source" is exact. Double-gated with the enqueue gate in
-        // TryApplyFundamentalChangeTriggers, so the else-branch is now a true "shouldn't happen" guardrail
-        // (the main edge that can still hit it: a queued change activating after the active source switched — Stage 9 flush-on-switch).
+        // The InputDriven write gate is the active-source rule; the else-branch is a "shouldn't happen" guardrail.
         if(FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource))
         {
             SetFundamentalDirect(newFundamental);
@@ -1131,54 +1185,50 @@ public partial class MusicSystem1 : MonoBehaviour
     }
 
     /// <summary>
-    /// Block 7 / Stage 9a — the single announce path for an InputDriven fundamental change. Routes the change
-    /// through the Director so an audible change is *counted* (and therefore pairs a visual flourish), fixing the
-    /// legacy long-test bug where the change happened outside the queue and got no reliable pairing.
+    /// Block 7 / Stage 9c — the single announce path for an InputDriven fundamental change. Writes the master's
+    /// next-commit <see cref="targetNextFundamental"/> slot; the Director commits it from
+    /// <see cref="DirectorConsultPendingFundamental"/> at the top of an activation, where a real master move is
+    /// counted as one audio event and therefore pairs a visual flourish (fixing the legacy long-test no-pairing bug).
     ///
-    /// <para><b>immediate</b> (long/longish band): enqueue a counted <c>fundamentalChange</c> then activate now —
-    /// the queued action retunes the master and ActivateQueue pairs a visual.
-    /// <b>deferred</b> (short band): enqueue only; the next external beat activates it.</para>
+    /// <para><b>immediate</b> (long/longish band): set the slot then activate now — the Director consults the slot,
+    /// applies it, and pairs a flourish. <b>deferred</b> (short band): set the slot only; the next external beat's
+    /// activation consults + commits it.</para>
     ///
     /// <para><b>Disabled-bypass (F2):</b> while <c>director.disable</c> (Opening/Savasana/Playground-off) ActivateQueue
-    /// no-ops, so an <i>immediate</i> change applies directly — parity with the legacy long-test direct apply. A
-    /// <i>deferred</i> change relies on AddActionToQueue, which already no-ops while disabled — parity with the legacy
-    /// short-test (queued change dropped when disabled).</para>
-    ///
-    /// The queued action is <see cref="Action_ChangeFundamental"/> (not a raw apply) so it keeps the fire-time
-    /// active-source gate; flush-on-switch + the raw split arrive in 9c.
+    /// no-ops and never consults the slot, so an <i>immediate</i> change applies directly via
+    /// <see cref="ApplyMasterFundamentalRaw"/> (parity with the legacy long-test direct apply, no flourish) and the
+    /// just-set slot is cleared so it can't re-fire when the Director re-enables. A <i>deferred</i> change simply
+    /// leaves the slot armed; if the stage stays disabled it never beats, matching the legacy short-test drop.</para>
     /// </summary>
     private void AnnounceFundamental(NoteName target, bool immediate)
     {
-        if (immediate && director.disable)
+        targetNextFundamental = target;
+
+        if (!immediate)
         {
             if (debugAllowFundamentalLogicLogs)
             {
-                Debug.Log("[B457 FUND-ANNOUNCE] band=immediate target=" + NoteUtils.NoteToWwiseString(target) + " path=raw (director disabled — direct apply, no flourish)");
+                Debug.Log("[B457 FUND-SLOT] set=" + NoteUtils.NoteToWwiseString(target) + " (deferred — awaiting next beat)");
             }
-            ChangeFundamental(target);
             return;
         }
 
-        // ReplaceAllOfType clears any existing fundamentalChange item before adding (no explicit ClearQueueOfType needed).
-        director.AddActionToQueue(
-            Action_ChangeFundamental(target),
-            "fundamentalChange",
-            true,
-            false,
-            9999f,
-            DirectorActivationBehavior.ExpireWithoutExecuting,
-            DirectorExclusivityBehavior.ReplaceAllOfType);
+        if (director.disable)
+        {
+            if (debugAllowFundamentalLogicLogs)
+            {
+                Debug.Log("[B457 FUND-SLOT] set=" + NoteUtils.NoteToWwiseString(target) + " (immediate, director disabled → raw apply, no flourish)");
+            }
+            ApplyMasterFundamentalRaw(target);
+            targetNextFundamental = null; // committed now; nothing left for a later activation to consult
+            return;
+        }
 
         if (debugAllowFundamentalLogicLogs)
         {
-            Debug.Log("[B457 FUND-ANNOUNCE] band=" + (immediate ? "immediate" : "deferred") + " target=" + NoteUtils.NoteToWwiseString(target)
-                + " path=director (" + (immediate ? "enqueue + activate now → pairs a flourish" : "queued, awaiting next beat") + ")");
+            Debug.Log("[B457 FUND-SLOT] set=" + NoteUtils.NoteToWwiseString(target) + " (immediate → activating now, pairs a flourish)");
         }
-
-        if (immediate)
-        {
-            director.ActivateQueue(5.0f);
-        }
+        director.ActivateQueue(5.0f);
     }
 
     // ====================================================================================================

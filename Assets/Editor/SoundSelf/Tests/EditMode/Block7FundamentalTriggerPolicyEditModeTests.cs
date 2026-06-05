@@ -83,4 +83,73 @@ public class Block7FundamentalTriggerPolicyEditModeTests
     [TestCase(TriggerTest.None, false)]
     public void IsImmediate_TrueOnlyForLongAndLongish(TriggerTest test, bool expected)
         => Assert.That(IsImmediate(test), Is.EqualTo(expected));
+
+    // ============================================================================================
+    // RouteTrigger — the active / behind-the-curtain / dedupe routing (Stage 9c, Appendix G §A.2 + §B).
+    // The slot/master dedupe flags only matter for the active Short band; all other rows ignore them.
+    // ============================================================================================
+
+    // ---- None band always routes to None ----
+
+    [Test]
+    public void Route_NoneBand_IsNone()
+        => Assert.That(RouteTrigger(TriggerTest.None, true, false, false), Is.EqualTo(TriggerDisposition.None));
+
+    // ---- Active writer: Long/Longish → ImmediateAudible, Short → DeferredAudible (single-source parity) ----
+
+    [Test]
+    public void Route_Long_Active_IsImmediateAudible()
+        => Assert.That(RouteTrigger(TriggerTest.Long, true, false, false), Is.EqualTo(TriggerDisposition.ImmediateAudible));
+
+    [Test]
+    public void Route_Longish_Active_IsImmediateAudible()
+        => Assert.That(RouteTrigger(TriggerTest.Longish, true, false, false), Is.EqualTo(TriggerDisposition.ImmediateAudible));
+
+    [Test]
+    public void Route_Short_Active_Neither_IsDeferredAudible()
+        => Assert.That(RouteTrigger(TriggerTest.Short, true, false, false), Is.EqualTo(TriggerDisposition.DeferredAudible));
+
+    // ---- Active Short dedupe: target already the master, or already the pending slot → None ----
+
+    [Test]
+    public void Route_Short_Active_TargetEqualsMaster_IsNone()
+        => Assert.That(RouteTrigger(TriggerTest.Short, true, false, true), Is.EqualTo(TriggerDisposition.None));
+
+    [Test]
+    public void Route_Short_Active_SlotEqualsTarget_IsNone()
+        => Assert.That(RouteTrigger(TriggerTest.Short, true, true, false), Is.EqualTo(TriggerDisposition.None));
+
+    // ---- Behind the curtain (not active writer): Long/Longish → SilentCommit, Short → None ----
+
+    [Test]
+    public void Route_Long_Behind_IsSilentCommit() // Case C (Long resolved by WhichTest on any frame)
+        => Assert.That(RouteTrigger(TriggerTest.Long, false, false, false), Is.EqualTo(TriggerDisposition.SilentCommit));
+
+    [Test]
+    public void Route_Longish_Behind_IsSilentCommit() // Case B
+        => Assert.That(RouteTrigger(TriggerTest.Longish, false, false, false), Is.EqualTo(TriggerDisposition.SilentCommit));
+
+    [Test]
+    public void Route_Short_Behind_IsNone() // Case A — a sub-long build is NOT committed behind the curtain
+        => Assert.That(RouteTrigger(TriggerTest.Short, false, false, false), Is.EqualTo(TriggerDisposition.None));
+
+    // ============================================================================================
+    // Effects — the per-disposition side-effect contract (Stage 9c, Appendix G §A.9).
+    // ============================================================================================
+
+    [Test]
+    public void Effects_None_IsAllFalse() // Case-A guard: charge is NOT reset behind the curtain
+        => Assert.That(Effects(TriggerDisposition.None), Is.EqualTo((false, false, false, false, false)));
+
+    [Test]
+    public void Effects_SilentCommit_WritesPreferredAndResetsChargeOnly()
+        => Assert.That(Effects(TriggerDisposition.SilentCommit), Is.EqualTo((true, true, false, false, false)));
+
+    [Test]
+    public void Effects_DeferredAudible_SetsSlotOnly() // preferred deliberately untouched on short detection
+        => Assert.That(Effects(TriggerDisposition.DeferredAudible), Is.EqualTo((false, false, false, true, false)));
+
+    [Test]
+    public void Effects_ImmediateAudible_SetsSlotAndTouchesDirector() // commit effects follow downstream
+        => Assert.That(Effects(TriggerDisposition.ImmediateAudible), Is.EqualTo((false, false, false, true, true)));
 }

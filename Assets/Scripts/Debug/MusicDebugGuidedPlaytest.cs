@@ -141,7 +141,7 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
             "9A",
             "FUNDAMENTAL CHANGE ↔ VISUAL FLOURISH (STAGE 9A GOBLIN)",
             "An InputDriven fundamental change routes through the Director so it is a COUNTED audio event — so it pairs exactly one VISUAL flourish (color-world shift + FX wave). A dedicated 5s window prevents flourish spam. While the Director is disabled the change still applies directly (no flourish). NO SINGING NEEDED — this test DRIVES simulated sung changes (MusicSystem1.DebugSimulateSungFundamentalChange) down the exact same path a real voice change uses, so the key shifts are deterministic + measurable; you just watch the lights and the Console.",
-            "By ear+eye: (1) a simulated key shift is accompanied by a light flourish; (2) a rapid burst of changes does NOT flash a flourish every time (≈5s gate); (3) with the Director disabled the key still shifts, with NO flourish. Console (B457): DEBUG-SIM → FUND-ANNOUNCE band=immediate path=director → FUND-COMMIT → DIRECTOR-FLOURISH add=visual; suppressed lines during the burst; path=raw while disabled.");
+            "By ear+eye: (1) a simulated key shift is accompanied by a light flourish; (2) a rapid burst of changes does NOT flash a flourish every time (≈5s gate); (3) with the Director disabled the key still shifts, with NO flourish. Console (B457): DEBUG-SIM → FUND-SLOT set=… (immediate) → FUND-SLOT cleared → applying → FUND-COMMIT → DIRECTOR-FLOURISH add=visual; suppressed lines during the burst; FUND-SLOT … director disabled → raw apply while disabled.");
 
         // Stop auto-shuffle so soundscape changes don't muddy the fundamental↔flourish read; put us on a voice-tracked world.
         if (shuffler != null && shuffler.shuffling)
@@ -161,7 +161,7 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         LogCaps("▶ FIRING ONE IMMEDIATE CHANGE NOW — WATCH THE LIGHTS.");
         ms.DebugSimulateSungFundamentalChange(SimSemitoneStep, immediate: true);
         harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-        LogCaps("DID IT HAPPEN? EXPECT: KEY SHIFTED + EXACTLY ONE FLOURISH. CONSOLE: DEBUG-SIM → FUND-ANNOUNCE band=immediate path=director → FUND-COMMIT → DIRECTOR-FLOURISH add=visual.");
+        LogCaps("DID IT HAPPEN? EXPECT: KEY SHIFTED + EXACTLY ONE FLOURISH. CONSOLE: DEBUG-SIM → FUND-SLOT set=… (IMMEDIATE → ACTIVATING) → FUND-SLOT CLEARED → APPLYING → FUND-COMMIT → DIRECTOR-FLOURISH add=visual.");
         LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW/HEARD, " + AdvanceHintKeyboard);
         yield return WaitForAdvance(imitone);
 
@@ -195,7 +195,7 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         LogCaps("▶ DIRECTOR DISABLED — FIRING ONE IMMEDIATE CHANGE NOW. WATCH THE LIGHTS (EXPECT NONE).");
         ms.DebugSimulateSungFundamentalChange(SimSemitoneStep, immediate: true);
         harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-        LogCaps("DID IT HAPPEN? EXPECT: KEY SHIFTED, NO FLOURISH. CONSOLE: FUND-ANNOUNCE band=immediate path=raw (DIRECTOR DISABLED) → FUND-COMMIT, AND *NO* DIRECTOR-FLOURISH LINE.");
+        LogCaps("DID IT HAPPEN? EXPECT: KEY SHIFTED, NO FLOURISH. CONSOLE: FUND-SLOT set=… (IMMEDIATE, DIRECTOR DISABLED → RAW APPLY) → FUND-COMMIT, AND *NO* DIRECTOR-FLOURISH LINE.");
         LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW/HEARD, " + AdvanceHintKeyboard);
         yield return WaitForAdvance(imitone);
         director.Enable();

@@ -33,10 +33,10 @@ public partial class MusicSystem1
     }
 
     /// <summary>
-    /// Shared fundamental-change trigger ladder used by both the non-root and sustained-root paths
-    /// in <see cref="FundamentalUpdate"/>. Evaluates lock, retrigger, threshold, and director-match
-    /// gates against the supplied <paramref name="changeTarget"/> and either invokes
-    /// <see cref="ChangeFundamental"/> immediately or queues an Action via the director.
+    /// Shared fundamental-change trigger ladder used by both the non-root and sustained-root paths in
+    /// <see cref="FundamentalUpdate"/>. The threshold band is the pure <see cref="FundamentalTriggerPolicy.WhichTest"/>
+    /// (parity anchor); the active/dedupe routing is the pure <see cref="FundamentalTriggerPolicy.RouteTrigger"/>.
+    /// The resulting disposition drives <see cref="AnnounceFundamental"/> (set the next-commit slot, immediate or deferred).
     /// </summary>
     /// <param name="changeTarget">The note the fundamental should change to (sung pitch for normal path, shifted pitch for sustained root).</param>
     /// <param name="newChangeFundamentalTimer">This note's just-incremented ChangeFundamentalTimer.</param>
@@ -52,9 +52,6 @@ public partial class MusicSystem1
     {
         bool retriggerReady = fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold;
 
-        // Block 7 / 9a: the threshold/precedence math is the pure FundamentalTriggerPolicy.WhichTest (parity anchor).
-        // The two gates the policy deliberately omits are applied here: the active-source write gate (the ladder may
-        // fire/queue only when InputDriven owns the master) and the short-test dedupe (don't re-queue a note already queued).
         var which = FundamentalTriggerPolicy.WhichTest(
             newChangeFundamentalTimer,
             highestFundamentalTimer,
@@ -64,35 +61,41 @@ public partial class MusicSystem1
             5.0f,
             _queueFundamentalChangeThreshold);
 
-        bool canWrite = FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource);
-        if (!canWrite || which == FundamentalTriggerPolicy.TriggerTest.None)
+        // Block 7 / 9c — Chunk 2 wires the ACTIVE-writer rows of RouteTrigger only (InputDriven owns the master):
+        // ImmediateAudible / DeferredAudible / None. The behind-the-curtain SilentCommit rows land in Chunk 3
+        // (shadow-tracker), so for now a non-active source still early-returns here rather than silently committing.
+        bool isActiveWriter = FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource);
+        if (!isActiveWriter)
         {
             return;
         }
 
-        if (FundamentalTriggerPolicy.IsImmediate(which))
+        bool slotEqualsTarget = targetNextFundamental.HasValue && targetNextFundamental.Value == changeTarget;
+        bool targetEqualsMaster = changeTarget == fundamentalNoteName;
+
+        var disposition = FundamentalTriggerPolicy.RouteTrigger(which, isActiveWriter, slotEqualsTarget, targetEqualsMaster);
+
+        switch (disposition)
         {
-            if (debugAllowFundamentalLogicLogs)
-            {
-                Debug.Log("MUSIC: " + which + " Test" + logContext + " Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(changeTarget));
-            }
+            case TriggerDisposition.ImmediateAudible:
+                if (debugAllowFundamentalLogicLogs)
+                {
+                    Debug.Log("MUSIC: " + which + " Test" + logContext + " Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(changeTarget));
+                }
+                AnnounceFundamental(changeTarget, immediate: true);
+                break;
 
-            AnnounceFundamental(changeTarget, immediate: true);
-        }
-        else // Short — deferred, with the queue dedupe
-        {
-            if (directorStoredFundamental == changeTarget)
-            {
-                return;
-            }
+            case TriggerDisposition.DeferredAudible:
+                AnnounceFundamental(changeTarget, immediate: false);
+                if (debugAllowFundamentalLogicLogs)
+                {
+                    Debug.Log("MUSIC: Short Test" + logContext + " New Fundamental Queued: " + NoteUtils.NoteToWwiseString(changeTarget));
+                }
+                break;
 
-            AnnounceFundamental(changeTarget, immediate: false);
-            directorStoredFundamental = changeTarget;
-
-            if (debugAllowFundamentalLogicLogs)
-            {
-                Debug.Log("MUSIC: Short Test" + logContext + " New Fundamental Queued: " + NoteUtils.NoteToWwiseString(changeTarget));
-            }
+            case TriggerDisposition.None:
+            default:
+                break;
         }
     }
 

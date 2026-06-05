@@ -384,9 +384,16 @@ public class Director : MonoBehaviour
             return;
         }
 
-        // Early return if queue is empty
+        // Block 7 / 9c: consult the music system's pending-fundamental slot FIRST (matches the existing
+        // fundamentalChange-to-front prioritization). A real master move counts as one audio event so it pairs a
+        // visual flourish; a drifted-back/empty slot does nothing (structural realized-effect → no phantom flourish).
+        bool slotMoved = MusicSystem1.instance != null && MusicSystem1.instance.DirectorConsultPendingFundamental();
+        if (slotMoved)
+            countAudioEvents++;
+
+        // Early return if queue is empty — slot-aware: a slot move alone is enough to proceed to flourish accounting.
         bool localActivateWhenEmpty = tryActivateWhenEmpty && timeSinceLastActivation > activateWhenEmptyThreshold;
-        if(queue.Count == 0 && !localActivateWhenEmpty)
+        if(queue.Count == 0 && !localActivateWhenEmpty && !slotMoved)
         {
             if(debugAllowLogs)
             {
@@ -435,7 +442,7 @@ public class Director : MonoBehaviour
 
         // Once done, we can safely clear the queue 
         // (which no longer breaks the iteration because we’re not iterating over the original dictionary)
-        if (queuedItems.Count > 0 || localActivateWhenEmpty)
+        if (queuedItems.Count > 0 || localActivateWhenEmpty || slotMoved)
         {
             // Block 7 / 9a: which modality (if any) completes synchresis is the pure FundamentalDirectorPolicy.FlourishDecision
             // (audio-only ⇒ add visual; visual-only ⇒ add audio; 0/0 or both ⇒ none). The *add* is then gated by a dedicated

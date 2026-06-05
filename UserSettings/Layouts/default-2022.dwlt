@@ -8,23 +8,97 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12004, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PixelRect:
+    serializedVersion: 2
+    x: 1133.3334
+    y: 350
+    width: 563.3334
+    height: 642
+  m_ShowMode: 0
+  m_Title: Test Runner
+  m_RootView: {fileID: 4}
+  m_MinSize: {x: 101, y: 123}
+  m_MaxSize: {x: 4001, y: 4023}
+  m_Maximized: 0
+--- !u!114 &2
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12004, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 0
-    y: 42.666668
-    width: 2560
-    height: 1349.3334
+    x: -1280
+    y: 418.66666
+    width: 1280
+    height: 710
   m_ShowMode: 4
-  m_Title: Inspector
-  m_RootView: {fileID: 2}
+  m_Title: Hierarchy
+  m_RootView: {fileID: 5}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
---- !u!114 &2
+--- !u!114 &3
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: TestRunnerWindow
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 563.3334
+    height: 642
+  m_MinSize: {x: 101, y: 123}
+  m_MaxSize: {x: 4001, y: 4023}
+  m_ActualView: {fileID: 16}
+  m_Panes:
+  - {fileID: 16}
+  m_Selected: 0
+  m_LastSelected: 0
+--- !u!114 &4
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 3}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 563.3334
+    height: 642
+  m_MinSize: {x: 101, y: 123}
+  m_MaxSize: {x: 4001, y: 4023}
+  vertical: 0
+  controlID: 4019
+--- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -37,22 +111,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 3}
-  - {fileID: 5}
-  - {fileID: 4}
+  - {fileID: 6}
+  - {fileID: 8}
+  - {fileID: 7}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2560
-    height: 1349.3334
+    width: 1280
+    height: 710
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
   m_TopViewHeight: 30
   m_UseBottomView: 1
   m_BottomViewHeight: 20
---- !u!114 &3
+--- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,12 +143,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2560
+    width: 1280
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
   m_LastLoadedLayoutName: 
---- !u!114 &4
+--- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,12 +164,12 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 1329.3334
-    width: 2560
+    y: 690
+    width: 1280
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
---- !u!114 &5
+--- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,19 +182,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 6}
-  - {fileID: 12}
+  - {fileID: 9}
+  - {fileID: 15}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 2560
-    height: 1299.3334
+    width: 1280
+    height: 660
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 54
---- !u!114 &6
+  controlID: 45
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,19 +207,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 7}
-  - {fileID: 11}
+  - {fileID: 10}
+  - {fileID: 14}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1836.6666
-    height: 1299.3334
+    width: 1157.5
+    height: 660
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 55
---- !u!114 &7
+  controlID: 46
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,20 +232,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 8}
-  - {fileID: 9}
-  - {fileID: 10}
+  - {fileID: 11}
+  - {fileID: 12}
+  - {fileID: 13}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1836.6666
-    height: 963.3333
+    width: 1157.5
+    height: 225.5
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 56
---- !u!114 &8
+  controlID: 47
+--- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,16 +262,16 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 353.33334
-    height: 963.3333
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 16}
+    width: 561.5
+    height: 225.5
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 20}
   m_Panes:
-  - {fileID: 16}
+  - {fileID: 20}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &9
+--- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,18 +286,18 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 353.33334
+    x: 561.5
     y: 0
-    width: 202.66666
-    height: 963.3333
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 17}
+    width: 189.5
+    height: 225.5
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 21}
   m_Panes:
-  - {fileID: 17}
+  - {fileID: 21}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &10
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,18 +312,18 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 556
+    x: 751
     y: 0
-    width: 1280.6666
-    height: 963.3333
+    width: 406.5
+    height: 225.5
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 18}
+  m_ActualView: {fileID: 22}
   m_Panes:
-  - {fileID: 18}
+  - {fileID: 22}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &11
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -259,26 +333,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 963.3333
-    width: 1836.6666
-    height: 336.00006
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 15}
+    y: 225.5
+    width: 1157.5
+    height: 434.5
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 23}
   m_Panes:
-  - {fileID: 15}
   - {fileID: 19}
-  - {fileID: 13}
-  - {fileID: 14}
-  m_Selected: 0
-  m_LastSelected: 1
---- !u!114 &12
+  - {fileID: 23}
+  - {fileID: 17}
+  - {fileID: 18}
+  m_Selected: 1
+  m_LastSelected: 0
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -293,18 +367,3101 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1836.6666
+    x: 1157.5
     y: 0
-    width: 723.3334
-    height: 1299.3334
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 20}
+    width: 122.5
+    height: 660
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 24}
   m_Panes:
-  - {fileID: 20}
+  - {fileID: 24}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &13
+--- !u!114 &16
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13401, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Test Runner
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 1133.3334
+    y: 350
+    width: 563.3334
+    height: 621
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  m_Spl:
+    ID: 4049
+    splitterInitialOffset: 0
+    currentActiveSplitter: -1
+    realSizes:
+    - 412.66666
+    - 138.00003
+    relativeSizes:
+    - 0.75
+    - 0.25
+    minSizes:
+    - 32
+    - 32
+    maxSizes:
+    - 0
+    - 0
+    lastTotalSize: 550.6667
+    splitSize: 6
+    xOffset: 0
+    m_Version: 1
+    oldRealSizes: 
+    oldMinSizes: 
+    oldMaxSizes: 
+    oldSplitSize: 0
+  m_TestTypeToolbarIndex: 1
+  m_PlayModeTestListGUI:
+    m_Window: {fileID: 0}
+    m_NewResultList: []
+    m_ResultText: 
+    m_ResultStacktrace: 
+    m_TestListState:
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 
+      m_RenameOverlay:
+        m_UserAcceptedRename: 0
+        m_Name: 
+        m_OriginalName: 
+        m_EditFieldRect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_UserData: 0
+        m_IsWaitingForDelay: 0
+        m_IsRenaming: 0
+        m_OriginalEventType: 11
+        m_IsRenamingFilename: 0
+        m_ClientGUIView: {fileID: 0}
+      m_SearchString: 
+    m_TestRunnerUIFilter:
+      PassedHidden: 0
+      FailedHidden: 0
+      NotRunHidden: 0
+      m_SearchString: 
+      selectedCategoryMask: 0
+      availableCategories: []
+    m_SelectedOption: 0
+  m_EditModeTestListGUI:
+    m_Window: {fileID: 16}
+    m_NewResultList:
+    - id: 1000
+      uniqueId: '[SoundSelf Live Sequence][suite]'
+      name: SoundSelf Live Sequence
+      fullName: SoundSelf Live Sequence
+      resultStatus: 1
+      duration: 0.4840688
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 
+      parentUniqueId: 
+    - id: 1167
+      uniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+      name: Assembly-CSharp-Editor.dll
+      fullName: C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+      resultStatus: 1
+      duration: 0.3954684
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1000
+      parentUniqueId: '[SoundSelf Live Sequence][suite]'
+    - id: 1001
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests][suite]
+      name: BinauralAttenuationPolicyEditModeTests
+      fullName: BinauralAttenuationPolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0463836
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1008
+      uniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor][suite]
+      name: Apply_BaseTimesFactor
+      fullName: BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor
+      resultStatus: 1
+      duration: 0.0314357
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1001
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests][suite]
+    - id: 1004
+      uniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/Apply_BaseTimesFactor/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor(100.0f,True,70.0f)]
+      name: Apply_BaseTimesFactor(100.0f,True,70.0f)
+      fullName: BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor(100.0f,True,70.0f)
+      resultStatus: 1
+      duration: 0.016055
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1008
+      parentUniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor][suite]
+    - id: 1005
+      uniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/Apply_BaseTimesFactor/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor(100.0f,False,100.0f)]
+      name: Apply_BaseTimesFactor(100.0f,False,100.0f)
+      fullName: BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor(100.0f,False,100.0f)
+      resultStatus: 1
+      duration: 0.0005237
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1008
+      parentUniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor][suite]
+    - id: 1006
+      uniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/Apply_BaseTimesFactor/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor(0.0f,True,0.0f)]
+      name: Apply_BaseTimesFactor(0.0f,True,0.0f)
+      fullName: BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor(0.0f,True,0.0f)
+      resultStatus: 1
+      duration: 0.0000877
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1008
+      parentUniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor][suite]
+    - id: 1007
+      uniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/Apply_BaseTimesFactor/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor(0.0f,False,0.0f)]
+      name: Apply_BaseTimesFactor(0.0f,False,0.0f)
+      fullName: BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor(0.0f,False,0.0f)
+      resultStatus: 1
+      duration: 0.0000654
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1008
+      parentUniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_BaseTimesFactor][suite]
+    - id: 1009
+      uniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.Apply_ClampsToRtpcRange]
+      name: Apply_ClampsToRtpcRange
+      fullName: BinauralAttenuationPolicyEditModeTests.Apply_ClampsToRtpcRange
+      resultStatus: 1
+      duration: 0.0002077
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests][suite]
+    - id: 1002
+      uniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.GetFactor_Attenuated_ReducesBy30Percent]
+      name: GetFactor_Attenuated_ReducesBy30Percent
+      fullName: BinauralAttenuationPolicyEditModeTests.GetFactor_Attenuated_ReducesBy30Percent
+      resultStatus: 1
+      duration: 0.0001186
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests][suite]
+    - id: 1003
+      uniqueId: Assembly-CSharp-Editor.dll/BinauralAttenuationPolicyEditModeTests/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests.GetFactor_NotAttenuated_IsUnity]
+      name: GetFactor_NotAttenuated_IsUnity
+      fullName: BinauralAttenuationPolicyEditModeTests.GetFactor_NotAttenuated_IsUnity
+      resultStatus: 1
+      duration: 0.0000956
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][BinauralAttenuationPolicyEditModeTests][suite]
+    - id: 1010
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+      name: Block3PolicyEditModeTests
+      fullName: Block3PolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0531774
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1019
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining][suite]
+      name: CountdownClock_ParsesToSecondsRemaining
+      fullName: Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining
+      resultStatus: 1
+      duration: 0.0208935
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1016
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/CountdownClock_ParsesToSecondsRemaining/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining("16:15",975)]
+      name: CountdownClock_ParsesToSecondsRemaining("16:15",975)
+      fullName: Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining("16:15",975)
+      resultStatus: 1
+      duration: 0.0007322
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1019
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining][suite]
+    - id: 1017
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/CountdownClock_ParsesToSecondsRemaining/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining("15:37",937)]
+      name: CountdownClock_ParsesToSecondsRemaining("15:37",937)
+      fullName: Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining("15:37",937)
+      resultStatus: 1
+      duration: 0.0000774
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1019
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining][suite]
+    - id: 1018
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/CountdownClock_ParsesToSecondsRemaining/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining("20:00",1200)]
+      name: CountdownClock_ParsesToSecondsRemaining("20:00",1200)
+      fullName: Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining("20:00",1200)
+      resultStatus: 1
+      duration: 0.0000326
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1019
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.CountdownClock_ParsesToSecondsRemaining][suite]
+    - id: 1020
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.DualStacksPlayground_AtLornaReportClocks_ExpectsGameOn]
+      name: DualStacksPlayground_AtLornaReportClocks_ExpectsGameOn
+      fullName: Block3PolicyEditModeTests.DualStacksPlayground_AtLornaReportClocks_ExpectsGameOn
+      resultStatus: 1
+      duration: 0.0001861
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1022
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.DualStacksPlayground_AtStep1Threshold_ExpectsGameOn]
+      name: DualStacksPlayground_AtStep1Threshold_ExpectsGameOn
+      fullName: Block3PolicyEditModeTests.DualStacksPlayground_AtStep1Threshold_ExpectsGameOn
+      resultStatus: 1
+      duration: 0.0000836
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1021
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.DualStacksPlayground_BeforeStep1_DoesNotExpectGameOn]
+      name: DualStacksPlayground_BeforeStep1_DoesNotExpectGameOn
+      fullName: Block3PolicyEditModeTests.DualStacksPlayground_BeforeStep1_DoesNotExpectGameOn
+      resultStatus: 1
+      duration: 0.0002858
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1012
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.FreeplayMode_AssignsGameOnTrue]
+      name: FreeplayMode_AssignsGameOnTrue
+      fullName: Block3PolicyEditModeTests.FreeplayMode_AssignsGameOnTrue
+      resultStatus: 1
+      duration: 0.0004096
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1013
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.FrozenFreeplayMode_AssignsGameOnFalse]
+      name: FrozenFreeplayMode_AssignsGameOnFalse
+      fullName: Block3PolicyEditModeTests.FrozenFreeplayMode_AssignsGameOnFalse
+      resultStatus: 1
+      duration: 0.0001365
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1032
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.GainRidingRaise_WhenFrozen_BlockedEvenIfToneGatesOpen]
+      name: GainRidingRaise_WhenFrozen_BlockedEvenIfToneGatesOpen
+      fullName: Block3PolicyEditModeTests.GainRidingRaise_WhenFrozen_BlockedEvenIfToneGatesOpen
+      resultStatus: 1
+      duration: 0.0001234
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1033
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.GainRidingRaise_WhenUnfrozenAndGatesOpen_Allowed]
+      name: GainRidingRaise_WhenUnfrozenAndGatesOpen_Allowed
+      fullName: Block3PolicyEditModeTests.GainRidingRaise_WhenUnfrozenAndGatesOpen_Allowed
+      resultStatus: 1
+      duration: 0.0000738
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1034
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.GainRidingRaise_WhenUnfrozenButGateClosed_Blocked]
+      name: GainRidingRaise_WhenUnfrozenButGateClosed_Blocked
+      fullName: Block3PolicyEditModeTests.GainRidingRaise_WhenUnfrozenButGateClosed_Blocked
+      resultStatus: 1
+      duration: 0.0000934
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1014
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.MusicLoopSilentMode_DoesNotAssignGameOn]
+      name: MusicLoopSilentMode_DoesNotAssignGameOn
+      fullName: Block3PolicyEditModeTests.MusicLoopSilentMode_DoesNotAssignGameOn
+      resultStatus: 1
+      duration: 0.0001961
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1015
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.OpeningEnter_AlwaysSetsGameOnTrue]
+      name: OpeningEnter_AlwaysSetsGameOnTrue
+      fullName: Block3PolicyEditModeTests.OpeningEnter_AlwaysSetsGameOnTrue
+      resultStatus: 1
+      duration: 0.0001136
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1023
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.SavasanaAscending_DelayedMicOff_Is120Seconds]
+      name: SavasanaAscending_DelayedMicOff_Is120Seconds
+      fullName: Block3PolicyEditModeTests.SavasanaAscending_DelayedMicOff_Is120Seconds
+      resultStatus: 1
+      duration: 0.0000972
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1011
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.SilentMode_AssignsGameOnFalse]
+      name: SilentMode_AssignsGameOnFalse
+      fullName: Block3PolicyEditModeTests.SilentMode_AssignsGameOnFalse
+      resultStatus: 1
+      duration: 0.0000787
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1031
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages][suite]
+      name: StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages
+      fullName: Block3PolicyEditModeTests.StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages
+      resultStatus: 1
+      duration: 0.0097239
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1029
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages(Calibration,False)]
+      name: StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages(Calibration,False)
+      fullName: Block3PolicyEditModeTests.StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages(Calibration,False)
+      resultStatus: 1
+      duration: 0.0004195
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages][suite]
+    - id: 1030
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages(SetMenu,False)]
+      name: StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages(SetMenu,False)
+      fullName: Block3PolicyEditModeTests.StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages(SetMenu,False)
+      resultStatus: 1
+      duration: 0.0001036
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_DoesNotConfigureRaiseFreezeOnOtherStages][suite]
+    - id: 1028
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly][suite]
+      name: StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly
+      fullName: Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly
+      resultStatus: 1
+      duration: 0.0108732
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1010
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block3PolicyEditModeTests][suite]
+    - id: 1024
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Opening,True)]
+      name: StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Opening,True)
+      fullName: Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Opening,True)
+      resultStatus: 1
+      duration: 0.0021605
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly][suite]
+    - id: 1025
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Savasana,True)]
+      name: StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Savasana,True)
+      fullName: Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Savasana,True)
+      resultStatus: 1
+      duration: 0.0001232
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly][suite]
+    - id: 1026
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Tutorial,False)]
+      name: StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Tutorial,False)
+      fullName: Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Tutorial,False)
+      resultStatus: 1
+      duration: 0.0000544
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly][suite]
+    - id: 1027
+      uniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Playground,False)]
+      name: StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Playground,False)
+      fullName: Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly(Playground,False)
+      resultStatus: 1
+      duration: 0.0000809
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block3PolicyEditModeTests/[Assembly-CSharp-Editor][Block3PolicyEditModeTests.StageEnter_FreezeRaisesOnOpeningAndSavasanaOnly][suite]
+    - id: 1035
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block4SwitchOrderEditModeTests][suite]
+      name: Block4SwitchOrderEditModeTests
+      fullName: Block4SwitchOrderEditModeTests
+      resultStatus: 1
+      duration: 0.0128147
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1038
+      uniqueId: Assembly-CSharp-Editor.dll/Block4SwitchOrderEditModeTests/[Assembly-CSharp-Editor][Block4SwitchOrderEditModeTests.MusicLoop_RoutesToMusicLoops_AndDoesNotForceSilence]
+      name: MusicLoop_RoutesToMusicLoops_AndDoesNotForceSilence
+      fullName: Block4SwitchOrderEditModeTests.MusicLoop_RoutesToMusicLoops_AndDoesNotForceSilence
+      resultStatus: 1
+      duration: 0.00197
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1035
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block4SwitchOrderEditModeTests][suite]
+    - id: 1037
+      uniqueId: Assembly-CSharp-Editor.dll/Block4SwitchOrderEditModeTests/[Assembly-CSharp-Editor][Block4SwitchOrderEditModeTests.SoundWorld_DoesNotRouteToMusicLoops]
+      name: SoundWorld_DoesNotRouteToMusicLoops
+      fullName: Block4SwitchOrderEditModeTests.SoundWorld_DoesNotRouteToMusicLoops
+      resultStatus: 1
+      duration: 0.0001616
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1035
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block4SwitchOrderEditModeTests][suite]
+    - id: 1036
+      uniqueId: Assembly-CSharp-Editor.dll/Block4SwitchOrderEditModeTests/[Assembly-CSharp-Editor][Block4SwitchOrderEditModeTests.SoundWorld_SilencesMusicLoopsBeforeInteractiveSystem]
+      name: SoundWorld_SilencesMusicLoopsBeforeInteractiveSystem
+      fullName: Block4SwitchOrderEditModeTests.SoundWorld_SilencesMusicLoopsBeforeInteractiveSystem
+      resultStatus: 1
+      duration: 0.0022847
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1035
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block4SwitchOrderEditModeTests][suite]
+    - id: 1039
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests][suite]
+      name: Block5BinauralPolicyEditModeTests
+      fullName: Block5BinauralPolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0123881
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1044
+      uniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules][suite]
+      name: GetTargetVolume_StageTypes_MatchBlock5Rules
+      fullName: Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules
+      resultStatus: 1
+      duration: 0.0047295
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1039
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests][suite]
+    - id: 1040
+      uniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/GetTargetVolume_StageTypes_MatchBlock5Rules/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules(MusicPlaylist,False,0.0f)]
+      name: GetTargetVolume_StageTypes_MatchBlock5Rules(MusicPlaylist,False,0.0f)
+      fullName: Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules(MusicPlaylist,False,0.0f)
+      resultStatus: 1
+      duration: 0.0004874
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules][suite]
+    - id: 1041
+      uniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/GetTargetVolume_StageTypes_MatchBlock5Rules/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules(LinearAudio,False,0.0f)]
+      name: GetTargetVolume_StageTypes_MatchBlock5Rules(LinearAudio,False,0.0f)
+      fullName: Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules(LinearAudio,False,0.0f)
+      resultStatus: 1
+      duration: 0.0000824
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules][suite]
+    - id: 1042
+      uniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/GetTargetVolume_StageTypes_MatchBlock5Rules/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules(Tutorial,True,100.0f)]
+      name: GetTargetVolume_StageTypes_MatchBlock5Rules(Tutorial,True,100.0f)
+      fullName: Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules(Tutorial,True,100.0f)
+      resultStatus: 1
+      duration: 0.0000406
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules][suite]
+    - id: 1043
+      uniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/GetTargetVolume_StageTypes_MatchBlock5Rules/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules(Playground,True,100.0f)]
+      name: GetTargetVolume_StageTypes_MatchBlock5Rules(Playground,True,100.0f)
+      fullName: Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules(Playground,True,100.0f)
+      resultStatus: 1
+      duration: 0.0000334
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.GetTargetVolume_StageTypes_MatchBlock5Rules][suite]
+    - id: 1045
+      uniqueId: Assembly-CSharp-Editor.dll/Block5BinauralPolicyEditModeTests/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests.OpeningStage_NotInAudibleSet]
+      name: OpeningStage_NotInAudibleSet
+      fullName: Block5BinauralPolicyEditModeTests.OpeningStage_NotInAudibleSet
+      resultStatus: 1
+      duration: 0.0001367
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1039
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block5BinauralPolicyEditModeTests][suite]
+    - id: 1046
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+      name: Block7DirectorQueueEditModeTests
+      fullName: Block7DirectorQueueEditModeTests
+      resultStatus: 1
+      duration: 0.0512745
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1057
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.ActivateQueue_ExecutesAllActions_AndClearsQueue]
+      name: ActivateQueue_ExecutesAllActions_AndClearsQueue
+      fullName: Block7DirectorQueueEditModeTests.ActivateQueue_ExecutesAllActions_AndClearsQueue
+      resultStatus: 1
+      duration: 0.009159
+      messages: 
+      output: 'Director Queue: Added 0 typeA to director queue.
+
+        Director
+        Queue: Added 1 typeB to director queue.
+
+        Director Queue: Action
+        typeA executed from process-all
+
+        Director Queue: Action typeB executed
+        from process-all
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1058
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.ActivateQueue_PrioritizesFundamentalThenSoundscapeThenColorWorldShuffle]
+      name: ActivateQueue_PrioritizesFundamentalThenSoundscapeThenColorWorldShuffle
+      fullName: Block7DirectorQueueEditModeTests.ActivateQueue_PrioritizesFundamentalThenSoundscapeThenColorWorldShuffle
+      resultStatus: 1
+      duration: 0.0045586
+      messages: 
+      output: 'Director Queue: Added 0 other to director queue.
+
+        Director
+        Queue: Added 1 ColorWorldShuffle to director queue.
+
+        Director Queue:
+        Added 2 SoundscapeShuffle to director queue.
+
+        Director Queue: Added
+        3 fundamentalChange to director queue.
+
+        Director Queue: Action fundamentalChange
+        executed from process-all
+
+        Director Queue: Action SoundscapeShuffle
+        executed from process-all
+
+        Director Queue: Action ColorWorldShuffle
+        executed from process-all
+
+        Director Queue: Action other executed
+        from process-all
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1059
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.ActivateQueue_WhenDisabled_DoesNotExecuteOrClear]
+      name: ActivateQueue_WhenDisabled_DoesNotExecuteOrClear
+      fullName: Block7DirectorQueueEditModeTests.ActivateQueue_WhenDisabled_DoesNotExecuteOrClear
+      resultStatus: 1
+      duration: 0.002551
+      messages: 
+      output: 'Director Queue: Added 0 typeA to director queue.
+
+        Director
+        Queue: Director is disabled, not activating queue.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1047
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.AddActionToQueue_AddsItem_AndReturnsIncrementingId]
+      name: AddActionToQueue_AddsItem_AndReturnsIncrementingId
+      fullName: Block7DirectorQueueEditModeTests.AddActionToQueue_AddsItem_AndReturnsIncrementingId
+      resultStatus: 1
+      duration: 0.0026201
+      messages: 
+      output: 'Director Queue: Added 0 typeA to director queue.
+
+        Director
+        Queue: Added 1 typeB to director queue.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1048
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.AddActionToQueue_NullAction_ReturnsMinusOne_AndAddsNothing]
+      name: AddActionToQueue_NullAction_ReturnsMinusOne_AndAddsNothing
+      fullName: Block7DirectorQueueEditModeTests.AddActionToQueue_NullAction_ReturnsMinusOne_AndAddsNothing
+      resultStatus: 1
+      duration: 0.0008371
+      messages: 
+      output: 'Director Queue: Cannot add null action to queue
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1049
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.AddActionToQueue_WhenDisabled_ReturnsMinusOne_AndAddsNothing]
+      name: AddActionToQueue_WhenDisabled_ReturnsMinusOne_AndAddsNothing
+      fullName: Block7DirectorQueueEditModeTests.AddActionToQueue_WhenDisabled_ReturnsMinusOne_AndAddsNothing
+      resultStatus: 1
+      duration: 0.0007293
+      messages: 
+      output: 'Director Queue: Director is disabled, not adding action to queue.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1064
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.CancelPendingWholeQueueActivation_NoPending_LeavesQueueIntact]
+      name: CancelPendingWholeQueueActivation_NoPending_LeavesQueueIntact
+      fullName: Block7DirectorQueueEditModeTests.CancelPendingWholeQueueActivation_NoPending_LeavesQueueIntact
+      resultStatus: 1
+      duration: 0.0006055
+      messages: 
+      output: 'Director Queue: Added 0 Soundscape to director queue.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1055
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.ClearQueueOfType_NothingCleared_ReturnsMinusOne]
+      name: ClearQueueOfType_NothingCleared_ReturnsMinusOne
+      fullName: Block7DirectorQueueEditModeTests.ClearQueueOfType_NothingCleared_ReturnsMinusOne
+      resultStatus: 1
+      duration: 0.0008885
+      messages: 
+      output: 'Director Queue: Removed all missing items from director queue.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1054
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.ClearQueueOfType_ReturnsShortestTimeLeft_AndRemovesThatType]
+      name: ClearQueueOfType_ReturnsShortestTimeLeft_AndRemovesThatType
+      fullName: Block7DirectorQueueEditModeTests.ClearQueueOfType_ReturnsShortestTimeLeft_AndRemovesThatType
+      resultStatus: 1
+      duration: 0.0021169
+      messages: 
+      output: 'Director Queue: Added 0 typeA to director queue.
+
+        Director
+        Queue: Added 1 typeA to director queue.
+
+        Director Queue: Added 2
+        typeB to director queue.
+
+        Director Queue: Removed all typeA items
+        from director queue.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1053
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.None_AllowsMultipleOfSameType]
+      name: None_AllowsMultipleOfSameType
+      fullName: Block7DirectorQueueEditModeTests.None_AllowsMultipleOfSameType
+      resultStatus: 1
+      duration: 0.0008521
+      messages: 
+      output: 'Director Queue: Added 0 typeA to director queue.
+
+        Director
+        Queue: Added 1 typeA to director queue.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1061
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.Policy_ActivateThisAction_CapturesThenRemoves]
+      name: Policy_ActivateThisAction_CapturesThenRemoves
+      fullName: Block7DirectorQueueEditModeTests.Policy_ActivateThisAction_CapturesThenRemoves
+      resultStatus: 1
+      duration: 0.0004771
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1062
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.Policy_ExpireWithoutExecuting_Removes]
+      name: Policy_ExpireWithoutExecuting_Removes
+      fullName: Block7DirectorQueueEditModeTests.Policy_ExpireWithoutExecuting_Removes
+      resultStatus: 1
+      duration: 0.0003866
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1063
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.Policy_InvalidBehavior_TreatedAsRemoveWithoutExecuting]
+      name: Policy_InvalidBehavior_TreatedAsRemoveWithoutExecuting
+      fullName: Block7DirectorQueueEditModeTests.Policy_InvalidBehavior_TreatedAsRemoveWithoutExecuting
+      resultStatus: 1
+      duration: 0.0003469
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1060
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.Policy_WholeQueueActivation_RetainsOnExpiry]
+      name: Policy_WholeQueueActivation_RetainsOnExpiry
+      fullName: Block7DirectorQueueEditModeTests.Policy_WholeQueueActivation_RetainsOnExpiry
+      resultStatus: 1
+      duration: 0.0002697
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1051
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.PreferShorterTimeRemaining_ExistingLonger_ReplacesWithShorter]
+      name: PreferShorterTimeRemaining_ExistingLonger_ReplacesWithShorter
+      fullName: Block7DirectorQueueEditModeTests.PreferShorterTimeRemaining_ExistingLonger_ReplacesWithShorter
+      resultStatus: 1
+      duration: 0.0018219
+      messages: 
+      output: 'Director Queue: Added 0 typeA to director queue.
+
+        Director
+        Queue: Removed all typeA items from director queue.
+
+        Director Queue:
+        Added 1 typeA to director queue.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1050
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.PreferShorterTimeRemaining_ExistingShorter_SkipsNewLongerAdd]
+      name: PreferShorterTimeRemaining_ExistingShorter_SkipsNewLongerAdd
+      fullName: Block7DirectorQueueEditModeTests.PreferShorterTimeRemaining_ExistingShorter_SkipsNewLongerAdd
+      resultStatus: 1
+      duration: 0.0013974
+      messages: 
+      output: 'Director Queue: Added 0 typeA to director queue.
+
+        Director
+        Queue: Action typeA already exists in director queue with shorter timeLeft,
+        not adding new one per exclusivity rules.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1056
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.ReplaceActionInQueue_UsesMinOfOldNewAndMax]
+      name: ReplaceActionInQueue_UsesMinOfOldNewAndMax
+      fullName: Block7DirectorQueueEditModeTests.ReplaceActionInQueue_UsesMinOfOldNewAndMax
+      resultStatus: 1
+      duration: 0.0065737
+      messages: 
+      output: 'Director Queue: Added 0 oldType to director queue.
+
+        Director
+        Queue: Added 1 newType to director queue.
+
+        Director Queue: Removed
+        all oldType items from director queue.
+
+        Director Queue: Removed
+        all newType items from director queue.
+
+        Director Queue: Added 2
+        newType to director queue.
+
+        Director Queue: ReplaceActionInQueue
+        cleared ''oldType'' and ''newType'', added ''newType'' with timeLimit=40s
+        (min of old=40, new=70, max=200)
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1052
+      uniqueId: Assembly-CSharp-Editor.dll/Block7DirectorQueueEditModeTests/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests.ReplaceAllOfType_ClearsExistingOfTypeThenAdds]
+      name: ReplaceAllOfType_ClearsExistingOfTypeThenAdds
+      fullName: Block7DirectorQueueEditModeTests.ReplaceAllOfType_ClearsExistingOfTypeThenAdds
+      resultStatus: 1
+      duration: 0.0014176
+      messages: 
+      output: 'Director Queue: Added 0 typeA to director queue.
+
+        Director
+        Queue: Added 1 typeA to director queue.
+
+        Director Queue: Removed
+        all typeA items from director queue.
+
+        Director Queue: Added 2 typeA
+        to director queue.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][Block7DirectorQueueEditModeTests][suite]
+    - id: 1065
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+      name: HummingbirdSessionCsvEditModeTests
+      fullName: HummingbirdSessionCsvEditModeTests
+      resultStatus: 1
+      duration: 0.1082506
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1111
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.AdjunctiveSingleStage_CaseInsensitiveCsvKeys_ResolveSamePack]
+      name: AdjunctiveSingleStage_CaseInsensitiveCsvKeys_ResolveSamePack
+      fullName: HummingbirdSessionCsvEditModeTests.AdjunctiveSingleStage_CaseInsensitiveCsvKeys_ResolveSamePack
+      resultStatus: 1
+      duration: 0.0013136
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1110
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+      name: CanonicalCsvKeys_ResolvePackSequenceAndFirstStage
+      fullName: HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage
+      resultStatus: 1
+      duration: 0.0135391
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1101
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/CanonicalCsvKeys_ResolvePackSequenceAndFirstStage/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Sonoflore_Mindfulness
+        and Joy]
+      name: Sonoflore_Mindfulness and Joy
+      fullName: HummingbirdSessionCsvEditModeTests.Sonoflore_Mindfulness and Joy
+      resultStatus: 1
+      duration: 0.0011615
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1110
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+    - id: 1102
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/CanonicalCsvKeys_ResolvePackSequenceAndFirstStage/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Sonoflore_Psychological
+        Flexibility]
+      name: Sonoflore_Psychological Flexibility
+      fullName: HummingbirdSessionCsvEditModeTests.Sonoflore_Psychological Flexibility
+      resultStatus: 1
+      duration: 0.0001201
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1110
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+    - id: 1103
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/CanonicalCsvKeys_ResolvePackSequenceAndFirstStage/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Sonoflore_Surrender
+        Response]
+      name: Sonoflore_Surrender Response
+      fullName: HummingbirdSessionCsvEditModeTests.Sonoflore_Surrender Response
+      resultStatus: 1
+      duration: 0.000148
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1110
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+    - id: 1104
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/CanonicalCsvKeys_ResolvePackSequenceAndFirstStage/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Activation_Self
+        Compassion]
+      name: Activation_Self Compassion
+      fullName: HummingbirdSessionCsvEditModeTests.Activation_Self Compassion
+      resultStatus: 1
+      duration: 0.000074
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1110
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+    - id: 1105
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/CanonicalCsvKeys_ResolvePackSequenceAndFirstStage/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Activation_Loving
+        Kindness]
+      name: Activation_Loving Kindness
+      fullName: HummingbirdSessionCsvEditModeTests.Activation_Loving Kindness
+      resultStatus: 1
+      duration: 0.0000666
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1110
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+    - id: 1106
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/CanonicalCsvKeys_ResolvePackSequenceAndFirstStage/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Activation_Transitions
+        (Grief and Appreciation)]
+      name: Activation_Transitions (Grief and Appreciation)
+      fullName: HummingbirdSessionCsvEditModeTests.Activation_Transitions (Grief
+        and Appreciation)
+      resultStatus: 1
+      duration: 0.0000854
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1110
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+    - id: 1107
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/CanonicalCsvKeys_ResolvePackSequenceAndFirstStage/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Adjunctive_Dual
+        Stage]
+      name: Adjunctive_Dual Stage
+      fullName: HummingbirdSessionCsvEditModeTests.Adjunctive_Dual Stage
+      resultStatus: 1
+      duration: 0.0000728
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1110
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+    - id: 1108
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/CanonicalCsvKeys_ResolvePackSequenceAndFirstStage/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Adjunctive_Single
+        Stage]
+      name: Adjunctive_Single Stage
+      fullName: HummingbirdSessionCsvEditModeTests.Adjunctive_Single Stage
+      resultStatus: 1
+      duration: 0.0000589
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1110
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+    - id: 1109
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/CanonicalCsvKeys_ResolvePackSequenceAndFirstStage/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Albums_AlbumSonoflore]
+      name: Albums_AlbumSonoflore
+      fullName: HummingbirdSessionCsvEditModeTests.Albums_AlbumSonoflore
+      resultStatus: 1
+      duration: 0.0001305
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1110
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeys_ResolvePackSequenceAndFirstStage][suite]
+    - id: 1082
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.CanonicalCsvKeySamples_AreKnownAfterNormalization]
+      name: CanonicalCsvKeySamples_AreKnownAfterNormalization
+      fullName: HummingbirdSessionCsvEditModeTests.CanonicalCsvKeySamples_AreKnownAfterNormalization
+      resultStatus: 1
+      duration: 0.0004386
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1113
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.EveryPackSequenceDefinition_IsNonNullAndHasAtLeastOneStage]
+      name: EveryPackSequenceDefinition_IsNonNullAndHasAtLeastOneStage
+      fullName: HummingbirdSessionCsvEditModeTests.EveryPackSequenceDefinition_IsNonNullAndHasAtLeastOneStage
+      resultStatus: 1
+      duration: 0.0003547
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1112
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.EveryRegistryRow_MatchesCanonicalStartupExpectation]
+      name: EveryRegistryRow_MatchesCanonicalStartupExpectation
+      fullName: HummingbirdSessionCsvEditModeTests.EveryRegistryRow_MatchesCanonicalStartupExpectation
+      resultStatus: 1
+      duration: 0.0002123
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1081
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode][suite]
+      name: IsKnownContentPack_RecognizesCanonicalPacksPerMode
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode
+      resultStatus: 1
+      duration: 0.0217058
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1075
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/IsKnownContentPack_RecognizesCanonicalPacksPerMode/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Adjunctive","Single
+        Stage",True)]
+      name: IsKnownContentPack_RecognizesCanonicalPacksPerMode("Adjunctive","Single
+        Stage",True)
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Adjunctive","Single
+        Stage",True)
+      resultStatus: 1
+      duration: 0.0004385
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1081
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode][suite]
+    - id: 1076
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/IsKnownContentPack_RecognizesCanonicalPacksPerMode/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Adjunctive","NotAPack",False)]
+      name: IsKnownContentPack_RecognizesCanonicalPacksPerMode("Adjunctive","NotAPack",False)
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Adjunctive","NotAPack",False)
+      resultStatus: 1
+      duration: 0.0000815
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1081
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode][suite]
+    - id: 1077
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/IsKnownContentPack_RecognizesCanonicalPacksPerMode/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Albums","AlbumSonoflore",True)]
+      name: IsKnownContentPack_RecognizesCanonicalPacksPerMode("Albums","AlbumSonoflore",True)
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Albums","AlbumSonoflore",True)
+      resultStatus: 1
+      duration: 0.0000377
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1081
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode][suite]
+    - id: 1078
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/IsKnownContentPack_RecognizesCanonicalPacksPerMode/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Albums","Dual
+        Stage",False)]
+      name: IsKnownContentPack_RecognizesCanonicalPacksPerMode("Albums","Dual Stage",False)
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Albums","Dual
+        Stage",False)
+      resultStatus: 1
+      duration: 0.0000341
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1081
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode][suite]
+    - id: 1079
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/IsKnownContentPack_RecognizesCanonicalPacksPerMode/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Sonoflore","Mindfulness
+        and Joy",True)]
+      name: IsKnownContentPack_RecognizesCanonicalPacksPerMode("Sonoflore","Mindfulness
+        and Joy",True)
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("Sonoflore","Mindfulness
+        and Joy",True)
+      resultStatus: 1
+      duration: 0.0000316
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1081
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode][suite]
+    - id: 1080
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/IsKnownContentPack_RecognizesCanonicalPacksPerMode/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("UnknownMode","anything",False)]
+      name: IsKnownContentPack_RecognizesCanonicalPacksPerMode("UnknownMode","anything",False)
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode("UnknownMode","anything",False)
+      resultStatus: 1
+      duration: 0.0000334
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1081
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownContentPack_RecognizesCanonicalPacksPerMode][suite]
+    - id: 1074
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly][suite]
+      name: IsKnownGameMode_RecognizesCanonicalModesOnly
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly
+      resultStatus: 1
+      duration: 0.0088603
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1071
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/IsKnownGameMode_RecognizesCanonicalModesOnly/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly("NotAMode",False)]
+      name: IsKnownGameMode_RecognizesCanonicalModesOnly("NotAMode",False)
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly("NotAMode",False)
+      resultStatus: 1
+      duration: 0.000573
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1074
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly][suite]
+    - id: 1072
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/IsKnownGameMode_RecognizesCanonicalModesOnly/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly("",False)]
+      name: IsKnownGameMode_RecognizesCanonicalModesOnly("",False)
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly("",False)
+      resultStatus: 1
+      duration: 0.0000813
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1074
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly][suite]
+    - id: 1073
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/IsKnownGameMode_RecognizesCanonicalModesOnly/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly("Adjunctive",True)]
+      name: IsKnownGameMode_RecognizesCanonicalModesOnly("Adjunctive",True)
+      fullName: HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly("Adjunctive",True)
+      resultStatus: 1
+      duration: 0.0000399
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1074
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.IsKnownGameMode_RecognizesCanonicalModesOnly][suite]
+    - id: 1070
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue][suite]
+      name: ParseSessionFlag_OnlyOneIsTrue
+      fullName: HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue
+      resultStatus: 1
+      duration: 0.0104286
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1066
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/ParseSessionFlag_OnlyOneIsTrue/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue("1",True)]
+      name: ParseSessionFlag_OnlyOneIsTrue("1",True)
+      fullName: HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue("1",True)
+      resultStatus: 1
+      duration: 0.000404
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1070
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue][suite]
+    - id: 1067
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/ParseSessionFlag_OnlyOneIsTrue/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue("0",False)]
+      name: ParseSessionFlag_OnlyOneIsTrue("0",False)
+      fullName: HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue("0",False)
+      resultStatus: 1
+      duration: 0.0001113
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1070
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue][suite]
+    - id: 1068
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/ParseSessionFlag_OnlyOneIsTrue/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue("",False)]
+      name: ParseSessionFlag_OnlyOneIsTrue("",False)
+      fullName: HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue("",False)
+      resultStatus: 1
+      duration: 0.0000448
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1070
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue][suite]
+    - id: 1069
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/ParseSessionFlag_OnlyOneIsTrue/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue("true",False)]
+      name: ParseSessionFlag_OnlyOneIsTrue("true",False)
+      fullName: HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue("true",False)
+      resultStatus: 1
+      duration: 0.0000407
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1070
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionFlag_OnlyOneIsTrue][suite]
+    - id: 1083
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.ParseSessionParams_NormalizesGameModeAndContentPack]
+      name: ParseSessionParams_NormalizesGameModeAndContentPack
+      fullName: HummingbirdSessionCsvEditModeTests.ParseSessionParams_NormalizesGameModeAndContentPack
+      resultStatus: 1
+      duration: 0.0003623
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1089
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser][suite]
+      name: PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser
+      fullName: HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser
+      resultStatus: 1
+      duration: 0.0093798
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1084
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Sonoflore",True,0.0f)]
+      name: PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Sonoflore",True,0.0f)
+      fullName: HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Sonoflore",True,0.0f)
+      resultStatus: 1
+      duration: 0.0005509
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1089
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser][suite]
+    - id: 1085
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Sonoflore",False,-53.0f)]
+      name: PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Sonoflore",False,-53.0f)
+      fullName: HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Sonoflore",False,-53.0f)
+      resultStatus: 1
+      duration: 0.0000994
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1089
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser][suite]
+    - id: 1086
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Activation",True,-53.0f)]
+      name: PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Activation",True,-53.0f)
+      fullName: HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Activation",True,-53.0f)
+      resultStatus: 1
+      duration: 0.0000352
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1089
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser][suite]
+    - id: 1087
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Adjunctive",False,0.0f)]
+      name: PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Adjunctive",False,0.0f)
+      fullName: HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Adjunctive",False,0.0f)
+      resultStatus: 1
+      duration: 0.000029
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1089
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser][suite]
+    - id: 1088
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Albums",True,0.0f)]
+      name: PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Albums",True,0.0f)
+      fullName: HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser("Albums",True,0.0f)
+      resultStatus: 1
+      duration: 0.0000621
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1089
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.PostUnguidedVoTimingAdjustment_MatchesGameModeAndFirstTimeUser][suite]
+    - id: 1100
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.Registry_HasExactlyNineCanonicalRows]
+      name: Registry_HasExactlyNineCanonicalRows
+      fullName: HummingbirdSessionCsvEditModeTests.Registry_HasExactlyNineCanonicalRows
+      resultStatus: 1
+      duration: 0.0004364
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1099
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract][suite]
+      name: SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract
+      fullName: HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract
+      resultStatus: 1
+      duration: 0.0095398
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1095
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_Welcome_PreCalibration,WelcomePreCalibration,True,False)]
+      name: SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_Welcome_PreCalibration,WelcomePreCalibration,True,False)
+      fullName: HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_Welcome_PreCalibration,WelcomePreCalibration,True,False)
+      resultStatus: 1
+      duration: 0.0005445
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract][suite]
+    - id: 1096
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_AlbumChoice,AlbumChoice,True,False)]
+      name: SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_AlbumChoice,AlbumChoice,True,False)
+      fullName: HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_AlbumChoice,AlbumChoice,True,False)
+      resultStatus: 1
+      duration: 0.0000965
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract][suite]
+    - id: 1097
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_Ps_InteractiveOrMusic,PsInteractiveOrMusic,False,False)]
+      name: SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_Ps_InteractiveOrMusic,PsInteractiveOrMusic,False,False)
+      fullName: HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_Ps_InteractiveOrMusic,PsInteractiveOrMusic,False,False)
+      resultStatus: 1
+      duration: 0.0000507
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract][suite]
+    - id: 1098
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_Default,UndefinedStubAutoComplete,False,True)]
+      name: SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_Default,UndefinedStubAutoComplete,False,True)
+      fullName: HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract(Menu_Default,UndefinedStubAutoComplete,False,True)
+      resultStatus: 1
+      duration: 0.000046
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.SetMenuStagePolicy_EnterExpectation_MatchesHandlerContract][suite]
+    - id: 1094
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser][suite]
+      name: UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser
+      fullName: HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser
+      resultStatus: 1
+      duration: 0.0138297
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1065
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests][suite]
+    - id: 1090
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Sonoflore",True,False)]
+      name: UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Sonoflore",True,False)
+      fullName: HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Sonoflore",True,False)
+      resultStatus: 1
+      duration: 0.0004691
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1094
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser][suite]
+    - id: 1091
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Sonoflore",False,True)]
+      name: UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Sonoflore",False,True)
+      fullName: HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Sonoflore",False,True)
+      resultStatus: 1
+      duration: 0.0000871
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1094
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser][suite]
+    - id: 1092
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Activation",True,True)]
+      name: UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Activation",True,True)
+      fullName: HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Activation",True,True)
+      resultStatus: 1
+      duration: 0.0000422
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1094
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser][suite]
+    - id: 1093
+      uniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Adjunctive",False,True)]
+      name: UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Adjunctive",False,True)
+      fullName: HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser("Adjunctive",False,True)
+      resultStatus: 1
+      duration: 0.0000348
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1094
+      parentUniqueId: Assembly-CSharp-Editor.dll/HummingbirdSessionCsvEditModeTests/[Assembly-CSharp-Editor][HummingbirdSessionCsvEditModeTests.UsesReturningSessionVoPath_MatchesGameModeAndFirstTimeUser][suite]
+    - id: 1114
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests][suite]
+      name: InteractiveMusicSetSoundWorldPolicyEditModeTests
+      fullName: InteractiveMusicSetSoundWorldPolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0258269
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1115
+      uniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.Audible_PostsWorldSwitch_AlwaysPresent]
+      name: Audible_PostsWorldSwitch_AlwaysPresent
+      fullName: InteractiveMusicSetSoundWorldPolicyEditModeTests.Audible_PostsWorldSwitch_AlwaysPresent
+      resultStatus: 1
+      duration: 0.0011446
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1114
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests][suite]
+    - id: 1116
+      uniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.Audible_WorldSwitchFirst_ThenSilence_ThenInteractiveSystem]
+      name: Audible_WorldSwitchFirst_ThenSilence_ThenInteractiveSystem
+      fullName: InteractiveMusicSetSoundWorldPolicyEditModeTests.Audible_WorldSwitchFirst_ThenSilence_ThenInteractiveSystem
+      resultStatus: 1
+      duration: 0.0005858
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1114
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests][suite]
+    - id: 1117
+      uniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.Environment_PostsWorldOnly_NoModeRoute]
+      name: Environment_PostsWorldOnly_NoModeRoute
+      fullName: InteractiveMusicSetSoundWorldPolicyEditModeTests.Environment_PostsWorldOnly_NoModeRoute
+      resultStatus: 1
+      duration: 0.0005319
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1114
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests][suite]
+    - id: 1122
+      uniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly][suite]
+      name: WorldValue_IsPassedThroughExactly
+      fullName: InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly
+      resultStatus: 1
+      duration: 0.0119827
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1114
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests][suite]
+    - id: 1118
+      uniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/WorldValue_IsPassedThroughExactly/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly("SonoFlore")]
+      name: WorldValue_IsPassedThroughExactly("SonoFlore")
+      fullName: InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly("SonoFlore")
+      resultStatus: 1
+      duration: 0.0006662
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1122
+      parentUniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly][suite]
+    - id: 1119
+      uniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/WorldValue_IsPassedThroughExactly/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly("Shadow")]
+      name: WorldValue_IsPassedThroughExactly("Shadow")
+      fullName: InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly("Shadow")
+      resultStatus: 1
+      duration: 0.0000931
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1122
+      parentUniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly][suite]
+    - id: 1120
+      uniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/WorldValue_IsPassedThroughExactly/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly("Gentle")]
+      name: WorldValue_IsPassedThroughExactly("Gentle")
+      fullName: InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly("Gentle")
+      resultStatus: 1
+      duration: 0.0000343
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1122
+      parentUniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly][suite]
+    - id: 1121
+      uniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/WorldValue_IsPassedThroughExactly/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly("Shruti")]
+      name: WorldValue_IsPassedThroughExactly("Shruti")
+      fullName: InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly("Shruti")
+      resultStatus: 1
+      duration: 0.0000463
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1122
+      parentUniqueId: Assembly-CSharp-Editor.dll/InteractiveMusicSetSoundWorldPolicyEditModeTests/[Assembly-CSharp-Editor][InteractiveMusicSetSoundWorldPolicyEditModeTests.WorldValue_IsPassedThroughExactly][suite]
+    - id: 1123
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests][suite]
+      name: MonitoringAdsrPolicyEditModeTests
+      fullName: MonitoringAdsrPolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0122032
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1131
+      uniqueId: Assembly-CSharp-Editor.dll/MonitoringAdsrPolicyEditModeTests/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests.Constants_MatchAgreedDefaults]
+      name: Constants_MatchAgreedDefaults
+      fullName: MonitoringAdsrPolicyEditModeTests.Constants_MatchAgreedDefaults
+      resultStatus: 1
+      duration: 0.0008704
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests][suite]
+    - id: 1128
+      uniqueId: Assembly-CSharp-Editor.dll/MonitoringAdsrPolicyEditModeTests/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests.DecayDuration_FullCharge_IsRunwaySeconds]
+      name: DecayDuration_FullCharge_IsRunwaySeconds
+      fullName: MonitoringAdsrPolicyEditModeTests.DecayDuration_FullCharge_IsRunwaySeconds
+      resultStatus: 1
+      duration: 0.0002797
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests][suite]
+    - id: 1129
+      uniqueId: Assembly-CSharp-Editor.dll/MonitoringAdsrPolicyEditModeTests/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests.DecayDuration_LowCharge_FlooredAtMinimum]
+      name: DecayDuration_LowCharge_FlooredAtMinimum
+      fullName: MonitoringAdsrPolicyEditModeTests.DecayDuration_LowCharge_FlooredAtMinimum
+      resultStatus: 1
+      duration: 0.0002488
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests][suite]
+    - id: 1130
+      uniqueId: Assembly-CSharp-Editor.dll/MonitoringAdsrPolicyEditModeTests/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests.DecayDuration_MidCharge_ScalesAboveMinimum]
+      name: DecayDuration_MidCharge_ScalesAboveMinimum
+      fullName: MonitoringAdsrPolicyEditModeTests.DecayDuration_MidCharge_ScalesAboveMinimum
+      resultStatus: 1
+      duration: 0.0001366
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests][suite]
+    - id: 1127
+      uniqueId: Assembly-CSharp-Editor.dll/MonitoringAdsrPolicyEditModeTests/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests.RiseReference_ClampsMeditativeLerp]
+      name: RiseReference_ClampsMeditativeLerp
+      fullName: MonitoringAdsrPolicyEditModeTests.RiseReference_ClampsMeditativeLerp
+      resultStatus: 1
+      duration: 0.0002084
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests][suite]
+    - id: 1125
+      uniqueId: Assembly-CSharp-Editor.dll/MonitoringAdsrPolicyEditModeTests/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests.RiseReference_Meditative_IsMeanOfFastAndSlow]
+      name: RiseReference_Meditative_IsMeanOfFastAndSlow
+      fullName: MonitoringAdsrPolicyEditModeTests.RiseReference_Meditative_IsMeanOfFastAndSlow
+      resultStatus: 1
+      duration: 0.0002263
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests][suite]
+    - id: 1126
+      uniqueId: Assembly-CSharp-Editor.dll/MonitoringAdsrPolicyEditModeTests/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests.RiseReference_MidBlend_IsBetween]
+      name: RiseReference_MidBlend_IsBetween
+      fullName: MonitoringAdsrPolicyEditModeTests.RiseReference_MidBlend_IsBetween
+      resultStatus: 1
+      duration: 0.0001977
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests][suite]
+    - id: 1124
+      uniqueId: Assembly-CSharp-Editor.dll/MonitoringAdsrPolicyEditModeTests/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests.RiseReference_Playful_IsFastOnly]
+      name: RiseReference_Playful_IsFastOnly
+      fullName: MonitoringAdsrPolicyEditModeTests.RiseReference_Playful_IsFastOnly
+      resultStatus: 1
+      duration: 0.0001663
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MonitoringAdsrPolicyEditModeTests][suite]
+    - id: 1132
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests][suite]
+      name: MusicDebugHarnessKeyPolicyEditModeTests
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0131783
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1141
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys][suite]
+      name: TryGetActionForKey_MapsHarnessKeys
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys
+      resultStatus: 1
+      duration: 0.0044024
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1132
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests][suite]
+    - id: 1133
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/TryGetActionForKey_MapsHarnessKeys/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(P,DumpState)]
+      name: TryGetActionForKey_MapsHarnessKeys(P,DumpState)
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(P,DumpState)
+      resultStatus: 1
+      duration: 0.0006328
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1141
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys][suite]
+    - id: 1134
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/TryGetActionForKey_MapsHarnessKeys/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(LeftBracket,CycleSoundWorld)]
+      name: TryGetActionForKey_MapsHarnessKeys(LeftBracket,CycleSoundWorld)
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(LeftBracket,CycleSoundWorld)
+      resultStatus: 1
+      duration: 0.0000943
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1141
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys][suite]
+    - id: 1135
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/TryGetActionForKey_MapsHarnessKeys/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(RightBracket,CycleMusicLoop)]
+      name: TryGetActionForKey_MapsHarnessKeys(RightBracket,CycleMusicLoop)
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(RightBracket,CycleMusicLoop)
+      resultStatus: 1
+      duration: 0.0000373
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1141
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys][suite]
+    - id: 1136
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/TryGetActionForKey_MapsHarnessKeys/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(Semicolon,StepLornaKeyCue)]
+      name: TryGetActionForKey_MapsHarnessKeys(Semicolon,StepLornaKeyCue)
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(Semicolon,StepLornaKeyCue)
+      resultStatus: 1
+      duration: 0.0000436
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1141
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys][suite]
+    - id: 1137
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/TryGetActionForKey_MapsHarnessKeys/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(R,DirectorQueueRepro)]
+      name: TryGetActionForKey_MapsHarnessKeys(R,DirectorQueueRepro)
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(R,DirectorQueueRepro)
+      resultStatus: 1
+      duration: 0.0000582
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1141
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys][suite]
+    - id: 1138
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/TryGetActionForKey_MapsHarnessKeys/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(Alpha1,JumpCountdownTo15Minutes)]
+      name: TryGetActionForKey_MapsHarnessKeys(Alpha1,JumpCountdownTo15Minutes)
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(Alpha1,JumpCountdownTo15Minutes)
+      resultStatus: 1
+      duration: 0.0000502
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1141
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys][suite]
+    - id: 1139
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/TryGetActionForKey_MapsHarnessKeys/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(E,EndThisSequenceStage)]
+      name: TryGetActionForKey_MapsHarnessKeys(E,EndThisSequenceStage)
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(E,EndThisSequenceStage)
+      resultStatus: 1
+      duration: 0.0000331
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1141
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys][suite]
+    - id: 1140
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/TryGetActionForKey_MapsHarnessKeys/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(G,GuidedStage1And2Playtest)]
+      name: TryGetActionForKey_MapsHarnessKeys(G,GuidedStage1And2Playtest)
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys(G,GuidedStage1And2Playtest)
+      resultStatus: 1
+      duration: 0.0000282
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1141
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_MapsHarnessKeys][suite]
+    - id: 1142
+      uniqueId: Assembly-CSharp-Editor.dll/MusicDebugHarnessKeyPolicyEditModeTests/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_UnmappedKey_ReturnsFalse]
+      name: TryGetActionForKey_UnmappedKey_ReturnsFalse
+      fullName: MusicDebugHarnessKeyPolicyEditModeTests.TryGetActionForKey_UnmappedKey_ReturnsFalse
+      resultStatus: 1
+      duration: 0.0001545
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1132
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MusicDebugHarnessKeyPolicyEditModeTests][suite]
+    - id: 1143
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests][suite]
+      name: MusicKeyCuePolicyEditModeTests
+      fullName: MusicKeyCuePolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0212748
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1151
+      uniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.LornaExampleTimeline_IsNonEmpty]
+      name: LornaExampleTimeline_IsNonEmpty
+      fullName: MusicKeyCuePolicyEditModeTests.LornaExampleTimeline_IsNonEmpty
+      resultStatus: 1
+      duration: 0.0008429
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1143
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests][suite]
+    - id: 1149
+      uniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected][suite]
+      name: TryGetNoteForCue_KnownLornaSpellings_ReturnExpected
+      fullName: MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected
+      resultStatus: 1
+      duration: 0.0102223
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1143
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests][suite]
+    - id: 1144
+      uniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/TryGetNoteForCue_KnownLornaSpellings_ReturnExpected/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_C",C)]
+      name: TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_C",C)
+      fullName: MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_C",C)
+      resultStatus: 1
+      duration: 0.0009157
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected][suite]
+    - id: 1145
+      uniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/TryGetNoteForCue_KnownLornaSpellings_ReturnExpected/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Gsharp",Gs)]
+      name: TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Gsharp",Gs)
+      fullName: MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Gsharp",Gs)
+      resultStatus: 1
+      duration: 0.0000858
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected][suite]
+    - id: 1146
+      uniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/TryGetNoteForCue_KnownLornaSpellings_ReturnExpected/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Bflat",As)]
+      name: TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Bflat",As)
+      fullName: MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Bflat",As)
+      resultStatus: 1
+      duration: 0.0000347
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected][suite]
+    - id: 1147
+      uniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/TryGetNoteForCue_KnownLornaSpellings_ReturnExpected/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Aflat",Gs)]
+      name: TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Aflat",Gs)
+      fullName: MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Aflat",Gs)
+      resultStatus: 1
+      duration: 0.0000322
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected][suite]
+    - id: 1148
+      uniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/TryGetNoteForCue_KnownLornaSpellings_ReturnExpected/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Eflat",Ds)]
+      name: TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Eflat",Ds)
+      fullName: MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected("Cue_Key_Eflat",Ds)
+      resultStatus: 1
+      duration: 0.0000293
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_KnownLornaSpellings_ReturnExpected][suite]
+    - id: 1150
+      uniqueId: Assembly-CSharp-Editor.dll/MusicKeyCuePolicyEditModeTests/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_UnknownCueKey_ReturnsFalse]
+      name: TryGetNoteForCue_UnknownCueKey_ReturnsFalse
+      fullName: MusicKeyCuePolicyEditModeTests.TryGetNoteForCue_UnknownCueKey_ReturnsFalse
+      resultStatus: 1
+      duration: 0.0001538
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1143
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][MusicKeyCuePolicyEditModeTests][suite]
+    - id: 1152
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][PlaygroundStagePolicyEditModeTests][suite]
+      name: PlaygroundStagePolicyEditModeTests
+      fullName: PlaygroundStagePolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0092255
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1155
+      uniqueId: Assembly-CSharp-Editor.dll/PlaygroundStagePolicyEditModeTests/[Assembly-CSharp-Editor][PlaygroundStagePolicyEditModeTests.Playground_Ascending_UsesTimelineCoroutine]
+      name: Playground_Ascending_UsesTimelineCoroutine
+      fullName: PlaygroundStagePolicyEditModeTests.Playground_Ascending_UsesTimelineCoroutine
+      resultStatus: 1
+      duration: 0.0002174
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1152
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][PlaygroundStagePolicyEditModeTests][suite]
+    - id: 1153
+      uniqueId: Assembly-CSharp-Editor.dll/PlaygroundStagePolicyEditModeTests/[Assembly-CSharp-Editor][PlaygroundStagePolicyEditModeTests.Playground_Debug_IsParkedAndSkipsTimelineCoroutine]
+      name: Playground_Debug_IsParkedAndSkipsTimelineCoroutine
+      fullName: PlaygroundStagePolicyEditModeTests.Playground_Debug_IsParkedAndSkipsTimelineCoroutine
+      resultStatus: 1
+      duration: 0.0001314
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1152
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][PlaygroundStagePolicyEditModeTests][suite]
+    - id: 1154
+      uniqueId: Assembly-CSharp-Editor.dll/PlaygroundStagePolicyEditModeTests/[Assembly-CSharp-Editor][PlaygroundStagePolicyEditModeTests.Playground_Standard_UsesTimelineCoroutine]
+      name: Playground_Standard_UsesTimelineCoroutine
+      fullName: PlaygroundStagePolicyEditModeTests.Playground_Standard_UsesTimelineCoroutine
+      resultStatus: 1
+      duration: 0.0000887
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1152
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][PlaygroundStagePolicyEditModeTests][suite]
+    - id: 1156
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests][suite]
+      name: SoundscapeMonitoringPolicyEditModeTests
+      fullName: SoundscapeMonitoringPolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0100173
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1162
+      uniqueId: Assembly-CSharp-Editor.dll/SoundscapeMonitoringPolicyEditModeTests/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests.ContributionName_MatchesDirectVoiceMonitoringConstant]
+      name: ContributionName_MatchesDirectVoiceMonitoringConstant
+      fullName: SoundscapeMonitoringPolicyEditModeTests.ContributionName_MatchesDirectVoiceMonitoringConstant
+      resultStatus: 1
+      duration: 0.0002123
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1156
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests][suite]
+    - id: 1157
+      uniqueId: Assembly-CSharp-Editor.dll/SoundscapeMonitoringPolicyEditModeTests/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests.KnownSoundscape_ReturnsMappedDb]
+      name: KnownSoundscape_ReturnsMappedDb
+      fullName: SoundscapeMonitoringPolicyEditModeTests.KnownSoundscape_ReturnsMappedDb
+      resultStatus: 1
+      duration: 0.0017336
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1156
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests][suite]
+    - id: 1161
+      uniqueId: Assembly-CSharp-Editor.dll/SoundscapeMonitoringPolicyEditModeTests/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests.LerpDuration_Is10Seconds]
+      name: LerpDuration_Is10Seconds
+      fullName: SoundscapeMonitoringPolicyEditModeTests.LerpDuration_Is10Seconds
+      resultStatus: 1
+      duration: 0.0001962
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1156
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests][suite]
+    - id: 1160
+      uniqueId: Assembly-CSharp-Editor.dll/SoundscapeMonitoringPolicyEditModeTests/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests.NullMap_ReturnsZero]
+      name: NullMap_ReturnsZero
+      fullName: SoundscapeMonitoringPolicyEditModeTests.NullMap_ReturnsZero
+      resultStatus: 1
+      duration: 0.0001014
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1156
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests][suite]
+    - id: 1159
+      uniqueId: Assembly-CSharp-Editor.dll/SoundscapeMonitoringPolicyEditModeTests/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests.NullOrEmptySoundscape_ReturnsZero_ForSilence]
+      name: NullOrEmptySoundscape_ReturnsZero_ForSilence
+      fullName: SoundscapeMonitoringPolicyEditModeTests.NullOrEmptySoundscape_ReturnsZero_ForSilence
+      resultStatus: 1
+      duration: 0.0001386
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1156
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests][suite]
+    - id: 1158
+      uniqueId: Assembly-CSharp-Editor.dll/SoundscapeMonitoringPolicyEditModeTests/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests.UnknownSoundscape_ReturnsZero]
+      name: UnknownSoundscape_ReturnsZero
+      fullName: SoundscapeMonitoringPolicyEditModeTests.UnknownSoundscape_ReturnsZero
+      resultStatus: 1
+      duration: 0.000083
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1156
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][SoundscapeMonitoringPolicyEditModeTests][suite]
+    - id: 1163
+      uniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][TutorialStagePolicyEditModeTests][suite]
+      name: TutorialStagePolicyEditModeTests
+      fullName: TutorialStagePolicyEditModeTests
+      resultStatus: 1
+      duration: 0.0085975
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1167
+      parentUniqueId: '[Assembly-CSharp-Editor][C:/SoundSelf Unity Git/SoundSelfUnityMacGame2/SoundSelfUnityMacGame/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll][suite]'
+    - id: 1166
+      uniqueId: Assembly-CSharp-Editor.dll/TutorialStagePolicyEditModeTests/[Assembly-CSharp-Editor][TutorialStagePolicyEditModeTests.ResolveEffectiveVariant_ActivationLong_Unchanged]
+      name: ResolveEffectiveVariant_ActivationLong_Unchanged
+      fullName: TutorialStagePolicyEditModeTests.ResolveEffectiveVariant_ActivationLong_Unchanged
+      resultStatus: 1
+      duration: 0.0003027
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1163
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][TutorialStagePolicyEditModeTests][suite]
+    - id: 1165
+      uniqueId: Assembly-CSharp-Editor.dll/TutorialStagePolicyEditModeTests/[Assembly-CSharp-Editor][TutorialStagePolicyEditModeTests.ResolveEffectiveVariant_SonofloreFirstTime_KeepsLong]
+      name: ResolveEffectiveVariant_SonofloreFirstTime_KeepsLong
+      fullName: TutorialStagePolicyEditModeTests.ResolveEffectiveVariant_SonofloreFirstTime_KeepsLong
+      resultStatus: 1
+      duration: 0.0001298
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1163
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][TutorialStagePolicyEditModeTests][suite]
+    - id: 1164
+      uniqueId: Assembly-CSharp-Editor.dll/TutorialStagePolicyEditModeTests/[Assembly-CSharp-Editor][TutorialStagePolicyEditModeTests.ResolveEffectiveVariant_SonofloreRepeatUser_MapsLongToShort]
+      name: ResolveEffectiveVariant_SonofloreRepeatUser_MapsLongToShort
+      fullName: TutorialStagePolicyEditModeTests.ResolveEffectiveVariant_SonofloreRepeatUser_MapsLongToShort
+      resultStatus: 1
+      duration: 0.0000875
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1163
+      parentUniqueId: Assembly-CSharp-Editor.dll/[Assembly-CSharp-Editor][TutorialStagePolicyEditModeTests][suite]
+    m_ResultText: 
+    m_ResultStacktrace: 
+    m_TestListState:
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: c129da802628e584f440638b175d1191c3ca8d990deb90b669dfa6b80976e4c6be73e6c9e0191ce7dd2759e8b51210e9e87e97edb87155f535fc45f61e4b14fb4784d710a28b1318fe8f082863887829753e48414b269b429ccdf457d521365acf6620655e61c26bb8d3836f868a8a73883b627c6e7fc67effffff7f
+      m_RenameOverlay:
+        m_UserAcceptedRename: 0
+        m_Name: 
+        m_OriginalName: 
+        m_EditFieldRect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_UserData: 0
+        m_IsWaitingForDelay: 0
+        m_IsRenaming: 0
+        m_OriginalEventType: 11
+        m_IsRenamingFilename: 0
+        m_ClientGUIView: {fileID: 0}
+      m_SearchString: 
+    m_TestRunnerUIFilter:
+      PassedHidden: 0
+      FailedHidden: 0
+      NotRunHidden: 0
+      m_SearchString: 
+      selectedCategoryMask: 0
+      availableCategories:
+      - Uncategorized
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -486,7 +3643,7 @@ MonoBehaviour:
   m_ShowReferencedBuses: 1
   m_ShowBusConnections: 0
   m_ShowBusConnectionsOfSelection: 0
---- !u!114 &14
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -542,7 +3699,7 @@ MonoBehaviour:
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 0}
     m_SearchString: 
---- !u!114 &15
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -602,9 +3759,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 18.5}
-    m_SelectedIDs: e8750000
-    m_LastClickedID: 30184
-    m_ExpandedIDs: 0000000036750000387500003a7500003c7500003e750000407500004275000044750000467500004875000000ca9a3b
+    m_SelectedIDs: 30760000
+    m_LastClickedID: 30256
+    m_ExpandedIDs: 000000007e75000080750000827500008475000086750000887500008a7500008c7500008e7500009075000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -620,7 +3777,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 11}
+      m_ClientGUIView: {fileID: 14}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -632,7 +3789,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000036750000387500003a7500003c7500003e7500004075000042750000447500004675000048750000
+    m_ExpandedIDs: 000000007e75000080750000827500008475000086750000887500008a7500008c7500008e75000090750000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -659,7 +3816,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300004a680000266800007c600000e4630000d2810000147a0000be790000fa8a0000b0d20000961901008062000034790000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -676,7 +3833,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 11}
+      m_ClientGUIView: {fileID: 14}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -688,7 +3845,7 @@ MonoBehaviour:
     m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 339
---- !u!114 &16
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -708,10 +3865,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 72.66667
-    width: 352.33334
-    height: 942.3333
+    x: -1280
+    y: 448.66666
+    width: 560.5
+    height: 204.5
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -727,7 +3884,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 44e6feff0aeffeff0c01ffff6e02ffffde0affffdc82ffffc4c2ffffdac3ffff04d5ffffe2f9ffff1afaffff2efbffffd26300006a70000078f8000056380200124502004a450200
+      m_ExpandedIDs: 8c30fffffe39ffffb843ffffc85effffde6dffff0280ffff3ab0ffff88b0ffff86b9ffff9ac1fffff0c3ffff66ceffff22fbfffff8630000ae700000b4700000ec700000b4770100fa880100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -743,7 +3900,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 8}
+        m_ClientGUIView: {fileID: 11}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -751,7 +3908,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &17
+--- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -771,10 +3928,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 353.33334
-    y: 72.66667
-    width: 200.66666
-    height: 942.3333
+    x: -718.5
+    y: 448.66666
+    width: 187.5
+    height: 204.5
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1173,7 +4330,7 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &18
+--- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1193,10 +4350,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 556
-    y: 72.66667
-    width: 1278.6666
-    height: 942.3333
+    x: -529
+    y: 448.66666
+    width: 404.5
+    height: 204.5
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1228,17 +4385,17 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -732
-    m_HBaseRangeMax: 732
-    m_VBaseRangeMin: -484.6667
-    m_VBaseRangeMax: 484.6667
+    m_HBaseRangeMin: -549
+    m_HBaseRangeMax: 549
+    m_VBaseRangeMin: -363.5
+    m_VBaseRangeMax: 363.5
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
     m_HSlider: 0
-    m_VSlider: 0
+    m_VSlider: 1
     m_IgnoreScrollWheelUntilClicked: 0
     m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
@@ -1249,29 +4406,29 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1278.6666
-      height: 921.3333
-    m_Scale: {x: 0.8734062, y: 0.87340623}
-    m_Translation: {x: 639.3333, y: 460.66666}
+      width: 404.5
+      height: 183.5
+    m_Scale: {x: 0.25240716, y: 0.25240716}
+    m_Translation: {x: 202.25, y: 91.749985}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -732
-      y: -527.4369
-      width: 1464
-      height: 1054.8738
+      x: -801.2847
+      y: -363.49994
+      width: 1602.5695
+      height: 726.99994
     m_MinimalGUI: 1
-  m_defaultScale: 0.8734062
-  m_LastWindowPixelSize: {x: 1918, y: 1413.5}
+  m_defaultScale: 0.25240716
+  m_LastWindowPixelSize: {x: 809, y: 409}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &19
+--- !u!114 &23
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1291,10 +4448,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 1036
-    width: 1835.6666
-    height: 315.00006
+    x: -1280
+    y: 674.1666
+    width: 1156.5
+    height: 413.5
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1305,7 +4462,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
     m_OverlaysVisible: 1
---- !u!114 &20
+--- !u!114 &24
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1325,10 +4482,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1836.6667
-    y: 72.66667
-    width: 722.3334
-    height: 1278.3334
+    x: -122.5
+    y: 448.66666
+    width: 121.5
+    height: 639
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0

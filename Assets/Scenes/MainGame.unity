@@ -3211,7 +3211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &170429290
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13458,7 +13458,7 @@ MonoBehaviour:
   wwiseVOManager: {fileID: 486583134}
   hummingbirdContentPackOverride: {fileID: 11400000, guid: bfb436b45ee21f443a4800a1a029ac5a, type: 2}
   firstTimeUserWhenContentPackOverride: 0
-  definitionOverride: {fileID: 11400000, guid: 18c54947d36ae6f498f9287453fecc31, type: 2}
+  definitionOverride: {fileID: 11400000, guid: 9c9c87c2f944c914ca94a8b7235cc9cb, type: 2}
   timeToPlayClosingGoodbye: 0
   totalTimeOfPostUnguidedVocalizationContent: 0
   encryptedReadyCheck: 
