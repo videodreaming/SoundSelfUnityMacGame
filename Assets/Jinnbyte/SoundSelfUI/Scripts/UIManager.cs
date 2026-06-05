@@ -127,6 +127,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject sessionHeaderStage1;
     [SerializeField] private GameObject sessionHeaderStage2;
 
+    [SerializeField] private AuditMicrophoneFeedbackPanel auditMicrophoneFeedbackPanel;
+
     [Header("Calibration — progress indicators (one dot + one line per step position; line shows for the active step). Slots are indexed by position in the active variant's step list (variant-agnostic), not by CalibrationUI enum value.")]
     [SerializeField] private GameObject[] calibrationProgressDots = new GameObject[6];
     [SerializeField] private GameObject[] calibrationProgressLines = new GameObject[6];
@@ -1569,6 +1571,11 @@ public class UIManager : MonoBehaviour
         if (effectDevicesText == null)
             return;
         SetEffectedDevicesText(string.Join("\n", _disconnectedDevicesOrdered));
+    }
+
+    public void ShowAuditMicrophoneFeedbackButton(bool status)
+    {
+        auditMicrophoneFeedbackPanel.ShowAudiometerFeedbackButton(status);
     }
 
 }
