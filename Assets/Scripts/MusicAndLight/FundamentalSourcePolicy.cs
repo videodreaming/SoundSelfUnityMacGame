@@ -1,3 +1,5 @@
+using ConversionUtilities;
+
 /// <summary>
 /// Pure, testable rules for the active-source fundamental model (Block 7 / Stage 4d).
 ///
@@ -45,4 +47,16 @@ public static class FundamentalSourcePolicy
     /// </summary>
     public static bool CanInputDrivenWriteMaster(FundamentalSource activeSource)
         => ShouldWriteMaster(FundamentalSource.InputDriven, activeSource);
+
+    /// <summary>
+    /// Block 7 / 9c Chunk 3 — the clean-slate-vs-honor rule for a <c>SetFundamentalSource</c> switch (drives whether the
+    /// master-apply resets InputDriven's per-note charge). Only an InputDriven switch carrying a REAL seed note is a
+    /// "clean slate" (wipe charge): the caller is explicitly (re)seeding the sung-pitch loop. The InputDriven adopt path
+    /// (<paramref name="firstFundamental"/> == None) is the "honor, don't wipe" warm-handoff — it preserves any
+    /// behind-the-curtain charge build so a sung pitch resumes live instead of snapping/resetting (the shadow-tracker
+    /// bug fix). A non-InputDriven switch never owns the charge dict, so it is never a clean slate either.
+    /// Pinned by <c>Block7FundamentalPolicyEditModeTests</c>.
+    /// </summary>
+    public static bool ShouldCleanSlate(FundamentalSource source, NoteName firstFundamental)
+        => source == FundamentalSource.InputDriven && firstFundamental != NoteName.None;
 }

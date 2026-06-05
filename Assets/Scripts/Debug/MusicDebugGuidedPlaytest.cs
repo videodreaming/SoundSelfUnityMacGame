@@ -86,7 +86,8 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         _run = StartCoroutine(RunGuidedPlaytest());
     }
 
-    /// <summary>Stage 9a goblin playtest only (F key): fundamental change ↔ visual flourish pairing, anti-clutter, disabled-bypass.</summary>
+    /// <summary>Stage 9 goblin playtest (F key): 9a fundamental change ↔ visual flourish (pairing, anti-clutter, disabled-bypass)
+    /// then 9c shadow-tracker (behind-the-curtain silent commit + warm-handoff re-entry).</summary>
     public void ToggleRunGoblin()
     {
         if (_run != null)
@@ -106,7 +107,7 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
     {
         try
         {
-            LogCaps("STAGE 9A GOBLIN PLAYTEST START — FUNDAMENTAL CHANGE ↔ FLOURISH. CONSOLE FILTER: B457. F AGAIN = ABORT.");
+            LogCaps("STAGE 9 GOBLIN PLAYTEST START — 9A FUNDAMENTAL CHANGE ↔ FLOURISH, THEN 9C SHADOW-TRACKER. CONSOLE FILTER: B457. F AGAIN = ABORT.");
             yield return RunGoblinCore();
         }
         finally
@@ -202,6 +203,60 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         Debug.Log(Prefix + " Director re-enabled after disabled-bypass step.");
 
         LogPartComplete("9A", "Report: (1) did one change pair one flourish? (2) did the burst give " + RapidChangeBurstCount + " key moves but only 1 flourish? (3) did the disabled change shift the key with no flourish? Paste the full B457 console too.");
+
+        yield return RunGoblinShadowSection(ms, imitone);
+    }
+
+    // === Stage 9c: shadow-tracker — behind-the-curtain silent commit + warm-handoff re-entry (NO singing) ===
+    IEnumerator RunGoblinShadowSection(MusicSystem1 ms, ImitoneVoiceIntepreter imitone)
+    {
+        LogPartBegin(
+            "9C",
+            "SHADOW-TRACKER: BEHIND-THE-CURTAIN SILENT COMMIT + WARM HANDOFF (STAGE 9C)",
+            "InputDriven (your sung pitch) keeps a 'preferred' note that must keep tracking EVEN WHILE ANOTHER SOURCE OWNS THE AUDIBLE KEY (behind the curtain), so that when the master is handed back to InputDriven it RESUMES ON THE SUNG PITCH instead of snapping to a stale note. We test this without singing: park the master on the music-bed source (InputDriven goes behind the curtain), simulate one long sustained sung note (silent commit — preferred advances, AUDIBLE MASTER DOES NOT MOVE, no flourish), then hand the master back to InputDriven via the same adopt path the playground/world re-entry uses (warm handoff — master jumps to the shadow-tracked note, charge preserved).",
+            "Console (B457): STEP 4 hands off to MusicBed (FUND-COMMIT to the bed key). STEP 5 FUND-SHADOW preferred=… with NO FUND-COMMIT and NO DIRECTOR-FLOURISH (audible key unchanged). STEP 6 FUND-HANDOFF restored preferred=… then FUND-COMMIT to that same note, with NO 'ChangeFundamentalTimer reset' lines from the handoff (charge preserved).");
+
+        // ============================ STEP 4 of 6 — go behind the curtain ============================
+        LogCaps("──────── STEP 4 OF 6 — HAND THE MASTER TO THE MUSIC-BED SOURCE (INPUTDRIVEN GOES BEHIND THE CURTAIN) ────────");
+        LogCaps("WHAT'S ABOUT TO HAPPEN: I HAND OWNERSHIP TO MUSICBED (AS ENTERING A MUSIC-LOOP WORLD DOES). THE AUDIBLE KEY MAY JUMP TO THE BED'S KEY — THAT'S EXPECTED. INPUTDRIVEN IS NOW TRACKING BEHIND THE CURTAIN.");
+        LogCaps("GET READY. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogCaps("▶ HANDING MASTER TO MUSICBED NOW (current audible key = " + ms.fundamentalNoteName + ").");
+        ms.SetFundamentalSource(FundamentalSource.MusicBed);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("DID IT HAPPEN? EXPECT: ACTIVE SOURCE NOW MUSICBED; AUDIBLE KEY = " + ms.fundamentalNoteName + " (THE BED KEY). CONSOLE: FUND-COMMIT … src=MusicBed.");
+        LogCaps("WHEN READY, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        // ============================ STEP 5 of 6 — behind-the-curtain silent commit ============================
+        var masterBeforeSilent = ms.fundamentalNoteName;
+        LogCaps("──────── STEP 5 OF 6 — A LONG SUNG NOTE BEHIND THE CURTAIN UPDATES 'PREFERRED' BUT NOT THE AUDIBLE KEY ────────");
+        LogCaps("WHAT'S ABOUT TO HAPPEN: I SIMULATE ONE LONG SUSTAINED SUNG NOTE (+" + SimSemitoneStep + " SEMITONES) WHILE INPUTDRIVEN IS BEHIND THE CURTAIN. ITS 'PREFERRED' SHOULD ADVANCE, BUT THE AUDIBLE KEY MUST NOT MOVE AND THERE MUST BE NO FLOURISH.");
+        LogCaps("GET READY TO WATCH THE LIGHTS (EXPECT NONE) AND LISTEN (KEY SHOULD STAY ON " + masterBeforeSilent + "). " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogCaps("▶ SIMULATING ONE BEHIND-THE-CURTAIN LONG SUNG NOTE NOW.");
+        ms.DebugSimulateBehindCurtainSilentCommit(SimSemitoneStep);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("DID IT HAPPEN? EXPECT: AUDIBLE KEY STILL " + masterBeforeSilent + " (UNCHANGED), NO FLOURISH. CONSOLE: FUND-SHADOW preferred=… (master unchanged, behind curtain) — AND *NO* FUND-COMMIT, *NO* DIRECTOR-FLOURISH.");
+        LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW/HEARD, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        // ============================ STEP 6 of 6 — warm-handoff re-entry ============================
+        LogCaps("──────── STEP 6 OF 6 — HAND THE MASTER BACK TO INPUTDRIVEN: IT RESUMES ON THE SHADOW-TRACKED NOTE ────────");
+        LogCaps("WHAT'S ABOUT TO HAPPEN: I HAND OWNERSHIP BACK TO INPUTDRIVEN VIA THE *ADOPT* PATH (THE SAME ONE PLAYGROUND/WORLD RE-ENTRY USES). THE AUDIBLE KEY SHOULD JUMP FROM " + masterBeforeSilent + " TO THE NOTE WE SHADOW-COMMITTED IN STEP 5 (NOT BACK TO A STALE NOTE), AND THE PER-NOTE CHARGE MUST BE PRESERVED (NOT WIPED).");
+        LogCaps("GET READY. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogCaps("▶ HANDING MASTER BACK TO INPUTDRIVEN (ADOPT) NOW — WATCH/LISTEN FOR THE KEY TO LAND ON THE STEP-5 SHADOW NOTE.");
+        ms.SetFundamentalSource(FundamentalSource.InputDriven);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("DID IT HAPPEN? EXPECT: AUDIBLE KEY NOW = " + ms.fundamentalNoteName + " (THE STEP-5 SHADOW NOTE, +" + SimSemitoneStep + " FROM WHERE IT WAS). CONSOLE: FUND-HANDOFF restored preferred=… → FUND-COMMIT … src=InputDriven, WITH *NO* 'ChangeFundamentalTimer reset' LINES FROM THE HANDOFF (CHARGE PRESERVED).");
+        LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW/HEARD, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogPartComplete("9C", "Report: (4) did MusicBed take the audible key? (5) did the behind-curtain note advance 'preferred' with the AUDIBLE KEY UNCHANGED and NO flourish (FUND-SHADOW, no FUND-COMMIT)? (6) did the handoff land the key on the step-5 shadow note (FUND-HANDOFF → FUND-COMMIT) with NO charge-reset lines? Paste the full B457 console.");
     }
 
     IEnumerator RunGuidedPlaytest()

@@ -79,7 +79,7 @@ public partial class MusicSystem1 : MonoBehaviour
     // active source's pending target. The Director consults it at the top of each activation (see
     // DirectorConsultPendingFundamental): if it differs from the master it is applied + counted as one audio event. Durable
     // per-source memory stays in preferredFundamentalBySource; this slot is the transient hand-off to the Director.
-    // (Chunk 2: the trigger paths now SET it via AnnounceFundamental; it fully subsumes the retired directorStoredFundamental dedupe.)
+    // (Chunk 2: the trigger paths now SET it via AnnounceInputDrivenFundamental; it fully subsumes the retired directorStoredFundamental dedupe.)
     private NoteName? targetNextFundamental = null;
     private NoteName nextNote = NoteName.None; // Next note to activate
     private float highestActivationTimer = 0.0f;
@@ -241,7 +241,7 @@ public partial class MusicSystem1 : MonoBehaviour
         // load, pinned to the startup fundamental. Seed InputDriven/MusicBed preferred too so a later handoff always
         // has a real note, then declare the startup source explicitly through the API (instead of relying on the
         // activeFundamentalSource field initializer). Done here in Start, not Awake, because the API's master-write
-        // path (ApplyMasterFundamental → ResetFundamentalTimers) iterates fundamentalChargeByNote, populated just above.
+        // path (ApplyMasterFundamental → ResetInputDrivenFundamentalTimers) iterates fundamentalChargeByNote, populated just above.
         preferredFundamentalBySource[FundamentalSource.InputDriven] = fundamentalNoteName;
         preferredFundamentalBySource[FundamentalSource.MusicBed] = fundamentalNoteName;
         SetFundamentalSource(FundamentalSourcePolicy.StartupSource, fundamentalNoteName);
@@ -1027,7 +1027,7 @@ public partial class MusicSystem1 : MonoBehaviour
     // FUNDAMENTAL CHANGE SYSTEM - Core Fundamental Change Methods
     // ====================================================================================================
 
-    private void ResetFundamentalTimers()
+    private void ResetInputDrivenFundamentalTimers()
     {
         var keys = new List<NoteName>(fundamentalChargeByNote.Keys);
 
@@ -1055,7 +1055,8 @@ public partial class MusicSystem1 : MonoBehaviour
     // Renamed from the old public SetFundamentalDirect (Block 7 / 4d): the single private master-apply mechanism.
     // Supersedes any pending change (clears the fundamentalChange queue + the 9c targetNextFundamental slot) →
     // sets fundamentalNoteName → Wwise ...FundamentalOnly switch → binaural retune → resets fundamental timers (charge).
-    private void ApplyMasterFundamental(NoteName newFundamental)
+    // 9c Chunk 3: resetCharge=false is the InputDriven warm-handoff (honor, don't wipe) — see SetFundamentalSource.
+    private void ApplyMasterFundamental(NoteName newFundamental, bool resetCharge = true)
     {
         // Validate that we're not setting fundamental to None
         if (newFundamental == NoteName.None)
@@ -1075,16 +1076,19 @@ public partial class MusicSystem1 : MonoBehaviour
         // cleared the slot in the consult, so it must NOT self-clear — 9c).
         director.ClearQueueOfType("fundamentalChange");
         targetNextFundamental = null;
-        ApplyMasterFundamentalRaw(newFundamental);
+        ApplyMasterFundamentalRaw(newFundamental, resetCharge);
     }
 
     /// <summary>
     /// Block 7 / 9c — the master-apply primitive WITHOUT the <c>ClearQueueOfType("fundamentalChange")</c> self-clear.
     /// Used by the Director when it applies the pending-fundamental slot during an activation (the Director owns the
     /// queue then) and by the disabled-bypass. <see cref="ApplyMasterFundamental"/> = this + the self-clear (legacy path).
-    /// Retunes Wwise + binaural and resets fundamental timers (charge), same as before.
+    /// Retunes Wwise + binaural and (when <paramref name="resetCharge"/>) resets fundamental timers (charge).
+    /// <para>9c Chunk 3: every commit records <c>preferred[activeFundamentalSource] = newFundamental</c> so each source's
+    /// preferred always reflects its last actually-committed note (the audible-commit-records-preferred half of the
+    /// shadow tracker). <paramref name="resetCharge"/>=false is the InputDriven warm-handoff (honor, don't wipe).</para>
     /// </summary>
-    private void ApplyMasterFundamentalRaw(NoteName newFundamental)
+    private void ApplyMasterFundamentalRaw(NoteName newFundamental, bool resetCharge = true)
     {
         // Validate that we're not setting fundamental to None
         if (newFundamental == NoteName.None)
@@ -1105,6 +1109,10 @@ public partial class MusicSystem1 : MonoBehaviour
 
         fundamentalNoteName = newFundamental;
 
+        // 9c Chunk 3: a commit records the active source's preferred (it just committed this note). Keyed on the ACTIVE
+        // source (never hardcoded InputDriven) so a Sequence/MusicBed commit can't stamp InputDriven's shadow preferred.
+        preferredFundamentalBySource[activeFundamentalSource] = newFundamental;
+
         SetSwitchRestoreToningV3("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.NoteToWwiseString(fundamentalNoteName));
         if (MusicBinauralBeats.instance != null)
         {
@@ -1118,7 +1126,10 @@ public partial class MusicSystem1 : MonoBehaviour
             }
         }
 
-        ResetFundamentalTimers();
+        if (resetCharge)
+        {
+            ResetInputDrivenFundamentalTimers();
+        }
     }
 
     /// <summary>
@@ -1162,7 +1173,7 @@ public partial class MusicSystem1 : MonoBehaviour
     public void SetFundamentalDirect(NoteName newFundamental) => ApplyMasterFundamental(newFundamental);
 
     // Block 7 / 9c: the old public ChangeFundamental (active-source-gated InputDriven apply) was retired here — the
-    // InputDriven ladder now sets the targetNextFundamental slot via AnnounceFundamental and the disabled-bypass
+    // InputDriven ladder now sets the targetNextFundamental slot via AnnounceInputDrivenFundamental and the disabled-bypass
     // applies raw, so it had no remaining callers. The write gate it enforced (CanInputDrivenWriteMaster) lives in
     // TryApplyFundamentalChangeTriggers / RouteTrigger (the active-writer rows).
 
@@ -1182,7 +1193,7 @@ public partial class MusicSystem1 : MonoBehaviour
     /// just-set slot is cleared so it can't re-fire when the Director re-enables. A <i>deferred</i> change simply
     /// leaves the slot armed; if the stage stays disabled it never beats, matching the legacy short-test drop.</para>
     /// </summary>
-    private void AnnounceFundamental(NoteName target, bool immediate)
+    private void AnnounceInputDrivenFundamental(NoteName target, bool immediate)
     {
         targetNextFundamental = target;
 

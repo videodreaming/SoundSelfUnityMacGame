@@ -36,7 +36,7 @@ public partial class MusicSystem1
     /// Shared fundamental-change trigger ladder used by both the non-root and sustained-root paths in
     /// <see cref="FundamentalUpdate"/>. The threshold band is the pure <see cref="FundamentalTriggerPolicy.WhichTest"/>
     /// (parity anchor); the active/dedupe routing is the pure <see cref="FundamentalTriggerPolicy.RouteTrigger"/>.
-    /// The resulting disposition drives <see cref="AnnounceFundamental"/> (set the next-commit slot, immediate or deferred).
+    /// The resulting disposition drives <see cref="AnnounceInputDrivenFundamental"/> (set the next-commit slot, immediate or deferred).
     /// </summary>
     /// <param name="changeTarget">The note the fundamental should change to (sung pitch for normal path, shifted pitch for sustained root).</param>
     /// <param name="newChangeFundamentalTimer">This note's just-incremented ChangeFundamentalTimer.</param>
@@ -61,15 +61,12 @@ public partial class MusicSystem1
             5.0f,
             _queueFundamentalChangeThreshold);
 
-        // Block 7 / 9c — Chunk 2 wires the ACTIVE-writer rows of RouteTrigger only (InputDriven owns the master):
-        // ImmediateAudible / DeferredAudible / None. The behind-the-curtain SilentCommit rows land in Chunk 3
-        // (shadow-tracker), so for now a non-active source still early-returns here rather than silently committing.
+        // Block 7 / 9c — Chunk 3 runs the FULL ladder behind the curtain (shadow tracker): the write gate is no longer a
+        // blanket early-return. RouteTrigger folds in who owns the master (isActiveWriter) + the slot/master dedupe:
+        //   active long/longish → ImmediateAudible · active short (not deduped) → DeferredAudible
+        //   behind-curtain long/longish → SilentCommit (preferred += charge reset, NO master/Director)
+        //   behind-curtain short / deduped / band None → None
         bool isActiveWriter = FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource);
-        if (!isActiveWriter)
-        {
-            return;
-        }
-
         bool slotEqualsTarget = targetNextFundamental.HasValue && targetNextFundamental.Value == changeTarget;
         bool targetEqualsMaster = changeTarget == fundamentalNoteName;
 
@@ -82,20 +79,44 @@ public partial class MusicSystem1
                 {
                     Debug.Log("MUSIC: " + which + " Test" + logContext + " Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(changeTarget));
                 }
-                AnnounceFundamental(changeTarget, immediate: true);
+                AnnounceInputDrivenFundamental(changeTarget, immediate: true);
                 break;
 
             case TriggerDisposition.DeferredAudible:
-                AnnounceFundamental(changeTarget, immediate: false);
+                AnnounceInputDrivenFundamental(changeTarget, immediate: false);
                 if (debugAllowFundamentalLogicLogs)
                 {
                     Debug.Log("MUSIC: Short Test" + logContext + " New Fundamental Queued: " + NoteUtils.NoteToWwiseString(changeTarget));
                 }
                 break;
 
+            case TriggerDisposition.SilentCommit:
+                SilentCommitInputDriven(changeTarget, logContext);
+                break;
+
             case TriggerDisposition.None:
             default:
                 break;
+        }
+    }
+
+    /// <summary>
+    /// Block 7 / 9c Chunk 3 — behind-the-curtain silent commit. The InputDriven ladder is running in a tracking mode
+    /// (Tutorial/Freeplay) but InputDriven is NOT the active source, and a long/longish band fired. Per the shadow-tracker
+    /// design it must NOT move the audible master / Wwise / binaural / Director — it only records InputDriven's preferred
+    /// (so a later adopt re-entry resumes on the sung pitch) and resets charge (mirrors the audible commit's reset; the
+    /// short band is deliberately inert behind the curtain so a sub-long build keeps accumulating instead). RouteTrigger
+    /// only returns SilentCommit when !isActiveWriter; FundamentalTriggerPolicy.Effects pins writesPreferred+resetsCharge.
+    /// </summary>
+    private void SilentCommitInputDriven(NoteName target, string logContext)
+    {
+        preferredFundamentalBySource[FundamentalSource.InputDriven] = target;
+        ResetInputDrivenFundamentalTimers();
+
+        if (debugAllowFundamentalChangeLogs || debugAllowFundamentalLogicLogs)
+        {
+            Debug.Log("[B457 FUND-SHADOW] InputDriven silent-commit preferred=" + NoteUtils.NoteToWwiseString(target)
+                + logContext + " (master unchanged, behind curtain; active=" + activeFundamentalSource + ")");
         }
     }
 

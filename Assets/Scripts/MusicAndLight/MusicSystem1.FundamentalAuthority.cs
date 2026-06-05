@@ -18,7 +18,7 @@ public enum FundamentalSource
 
 // Part of MusicSystem1 (see MusicSystem1.cs). Split out via `partial` to keep that file's size down (Block 7).
 // Holds the active-source fundamental authority: which source is active, each source's preferred note, and the
-// public API. All other state (fundamentalNoteName, the charge dict, ApplyMasterFundamental, ResetFundamentalTimers,
+// public API. All other state (fundamentalNoteName, the charge dict, ApplyMasterFundamental, ResetInputDrivenFundamentalTimers,
 // currentMusicMode) is declared in MusicSystem1.cs. The legacy priority lock stack + debug override it replaced
 // were removed in Stage 4e; the active source is now the sole authority over the master fundamental.
 public partial class MusicSystem1
@@ -37,8 +37,11 @@ public partial class MusicSystem1
 
     /// <summary>
     /// Switch the active source. <paramref name="firstFundamental"/> == None adopts that source's existing
-    /// preferred; a real note sets it (and for InputDriven also wipes per-note charge memory — "clean slate").
-    /// Writes the master if the source has a real preferred.
+    /// preferred; a real note sets it. Writes the master if the source has a real preferred.
+    /// <para>9c Chunk 3 — charge handling is the <see cref="FundamentalSourcePolicy.ShouldCleanSlate"/> rule:
+    /// InputDriven + real seed = clean slate (wipe per-note charge); InputDriven + adopt (None) = the warm-handoff
+    /// "honor, don't wipe" path that preserves any behind-the-curtain charge build so a sung pitch resumes live
+    /// (the shadow-tracker fix). A non-InputDriven switch never owns the charge dict, so it never resets it.</para>
     /// </summary>
     public void SetFundamentalSource(FundamentalSource source, NoteName firstFundamental = NoteName.None)
     {
@@ -57,10 +60,6 @@ public partial class MusicSystem1
         if (firstFundamental != NoteName.None)
         {
             preferredFundamentalBySource[source] = firstFundamental;
-            if (source == FundamentalSource.InputDriven)
-            {
-                ResetFundamentalTimers(); // clean slate: wipe per-note charge memory
-            }
         }
 
         if (debugAllowFundamentalLockLogs)
@@ -71,7 +70,20 @@ public partial class MusicSystem1
         NoteName preferred = preferredFundamentalBySource[source];
         if (preferred != NoteName.None)
         {
-            ApplyMasterFundamental(preferred);
+            // ShouldCleanSlate drives the charge reset: true wipes (explicit InputDriven seed), false preserves
+            // (the InputDriven adopt warm-handoff + every non-InputDriven takeover). The explicit ResetInputDrivenFundamentalTimers
+            // that used to live in the seed block above is now subsumed by resetCharge:true through the apply.
+            bool cleanSlate = FundamentalSourcePolicy.ShouldCleanSlate(source, firstFundamental);
+
+            if (!cleanSlate && source == FundamentalSource.InputDriven && firstFundamental == NoteName.None
+                && (debugAllowFundamentalChangeLogs || debugAllowFundamentalLockLogs))
+            {
+                Debug.Log("[B457 FUND-HANDOFF] InputDriven re-entry adopt preferred=" + NoteUtils.NoteToWwiseString(preferred)
+                    + " (master " + NoteUtils.NoteToWwiseString(fundamentalNoteName) + "→" + NoteUtils.NoteToWwiseString(preferred)
+                    + ", charge preserved)");
+            }
+
+            ApplyMasterFundamental(preferred, resetCharge: cleanSlate);
         }
     }
 
@@ -115,7 +127,7 @@ public partial class MusicSystem1
         preferredFundamentalBySource[source] = note;
         if (source == FundamentalSource.InputDriven)
         {
-            ResetFundamentalTimers(); // clean slate
+            ResetInputDrivenFundamentalTimers(); // clean slate
         }
 
         if (FundamentalSourcePolicy.ShouldWriteMaster(source, activeFundamentalSource))
@@ -131,7 +143,7 @@ public partial class MusicSystem1
 #if UNITY_EDITOR
     // ===== TEMPORARY — Stage 9 playtest scaffolding. REMOVE at the Stage 9 final commit. =====
     // Lets the guided playtest (MusicDebugGuidedPlaytest) exercise the Director ↔ fundamental path WITHOUT singing,
-    // so each behavior is deterministic + measurable. It drives the EXACT same AnnounceFundamental path a real sung
+    // so each behavior is deterministic + measurable. It drives the EXACT same AnnounceInputDrivenFundamental path a real sung
     // change uses — it is NOT a bypass — so every downstream effect is identical to a real voice change: the master
     // move becomes a COUNTED Director audio event (pairs a visual flourish), the 5s anti-clutter gate applies, and
     // while director.disable it routes raw (no flourish). The InputDriven write gate (CanInputDrivenWriteMaster) still
@@ -159,7 +171,37 @@ public partial class MusicSystem1
             + ", band=" + (immediate ? "immediate/long" : "deferred/short")
             + ", activeSource=" + activeFundamentalSource + ", directorDisabled=" + (director != null && director.disable) + ")");
 
-        AnnounceFundamental(target, immediate);
+        AnnounceInputDrivenFundamental(target, immediate);
+    }
+
+    // Stage 9c Chunk 3 (shadow-tracker). Simulates ONE behind-the-curtain long-pass silent commit WITHOUT singing:
+    // it drives the exact SilentCommitInputDriven path the real ladder takes when InputDriven is in a tracking mode but
+    // is NOT the active source. Refuses to run if InputDriven IS active (then it would be a real audible commit, not a
+    // shadow one — park the master on MusicBed/Sequence first via SetFundamentalSource). Target is offset from
+    // InputDriven's current preferred (its last committed/shadowed note) so the later adopt re-entry lands on a known note.
+    public void DebugSimulateBehindCurtainSilentCommit(int semitoneOffset)
+    {
+        if (FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource))
+        {
+            Debug.LogWarning("[B457 DEBUG-SIM] behind-curtain silent-commit requested but InputDriven IS the active source — that would be a real audible commit. Park the master on MusicBed/Sequence first.");
+            return;
+        }
+
+        NoteName basis = preferredFundamentalBySource[FundamentalSource.InputDriven];
+        if (basis == NoteName.None) basis = fundamentalNoteName;
+        NoteName target = NoteUtils.AddInterval(basis, semitoneOffset);
+        if (target == NoteName.None || target == basis)
+        {
+            Debug.LogWarning("[B457 DEBUG-SIM] behind-curtain no-op: offset " + semitoneOffset + " from "
+                + NoteUtils.NoteToWwiseString(basis) + " is invalid or unchanged.");
+            return;
+        }
+
+        Debug.Log("[B457 DEBUG-SIM] simulate behind-curtain long-pass silent commit preferred[InputDriven] "
+            + NoteUtils.NoteToWwiseString(basis) + "→" + NoteUtils.NoteToWwiseString(target)
+            + " (active=" + activeFundamentalSource + ", audible master stays " + NoteUtils.NoteToWwiseString(fundamentalNoteName) + ")");
+
+        SilentCommitInputDriven(target, " (sim behind curtain)");
     }
 #endif
 }

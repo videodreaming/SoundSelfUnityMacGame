@@ -1,3 +1,4 @@
+using ConversionUtilities;
 using NUnit.Framework;
 
 /// <summary>
@@ -79,5 +80,37 @@ public class Block7FundamentalPolicyEditModeTests
     public void CanInputDrivenWriteMaster_OtherSourceActive_False(FundamentalSource active)
     {
         Assert.That(FundamentalSourcePolicy.CanInputDrivenWriteMaster(active), Is.False);
+    }
+
+    // ---- ShouldCleanSlate (Block 7 / 9c Chunk 3: clean-slate vs honor warm-handoff) ----
+
+    [Test]
+    public void ShouldCleanSlate_InputDriven_RealSeed_True()
+    {
+        // Explicit (re)seed of the sung-pitch loop: wipe per-note charge.
+        Assert.That(FundamentalSourcePolicy.ShouldCleanSlate(FundamentalSource.InputDriven, NoteName.E), Is.True);
+    }
+
+    [Test]
+    public void ShouldCleanSlate_InputDriven_Adopt_False()
+    {
+        // The shadow-tracker fix: adopting InputDriven's existing preferred (None) is the "honor, don't wipe" path —
+        // it must preserve any behind-the-curtain charge build so the sung pitch resumes live.
+        Assert.That(FundamentalSourcePolicy.ShouldCleanSlate(FundamentalSource.InputDriven, NoteName.None), Is.False);
+    }
+
+    [TestCase(FundamentalSource.MusicBed)]
+    [TestCase(FundamentalSource.Sequence)]
+    public void ShouldCleanSlate_NonInputDriven_RealSeed_False(FundamentalSource source)
+    {
+        // A non-InputDriven source never owns InputDriven's charge dict, so a takeover never clean-slates it.
+        Assert.That(FundamentalSourcePolicy.ShouldCleanSlate(source, NoteName.C), Is.False);
+    }
+
+    [TestCase(FundamentalSource.MusicBed)]
+    [TestCase(FundamentalSource.Sequence)]
+    public void ShouldCleanSlate_NonInputDriven_Adopt_False(FundamentalSource source)
+    {
+        Assert.That(FundamentalSourcePolicy.ShouldCleanSlate(source, NoteName.None), Is.False);
     }
 }
