@@ -30,24 +30,25 @@
 | 6 — pitch / 5ths / harmony audit | ⬜ | — | consonance + `changeHarmony` guards |
 | 7 — interactive fade / silent loops / Stop_Toning | ⬜ | — | fade feel; silent-loop persistence; Wwise-paced stop |
 | 8 — lock C before savasana + 15:00 | ⬜ | — | pin C ~60s pre-savasana; smooth 15:00 crossfade |
-| 9 — Director ↔ fundamental "goblin" | ⭐ NEXT (design settled) | — | synchresis/timing unification + `targetNextFundamental` slot + **shadow-tracker preferred-sync (deferred from 4e)**; 9a then 9c |
+| 9a — long-test flourish fix + 5s anti-clutter | ✅ code+tests in (`b4fe6020`, pushed); **playtest PASSED 2026-06-05** | `b4fe6020` | `AnnounceFundamental` enqueue-then-activate + disabled-bypass; `FundamentalTriggerPolicy.WhichTest` (parity anchor) + `FundamentalDirectorPolicy.FlourishDecision`/`ShouldAddFlourish`; dedicated `timeSinceLastFlourish`; B457 logs (FUND-ANNOUNCE/COMMIT, DIRECTOR-FLOURISH); F-key `Playground_Debug` playtest. **Playtest pass (B457 log + by ear/eye):** Step 1 one change → one `add=visual`; Step 2 burst 5× `FUND-COMMIT` / 1× `add=visual` / 4× `suppressed`; Step 3 disabled → `path=raw`, no flourish. |
+| 9c — `targetNextFundamental` slot (full spine) | ⭐ NEXT (design settled) | — | slot consulted in `ActivateQueue` (structural realized-effect) + late-binding + retire `directorStoredFundamental` + source-switch flush/adopt/commit + **shadow-tracker preferred-sync & warm-handoff (deferred from 4e)**; reuses `WhichTest` from 9a |
 
 ---
 
 ## Active work — what's left to do
 
-> **Execution order is driven by [`BLOCKS_4_5_7_BUILD_CHECKLIST.md`](BLOCKS_4_5_7_BUILD_CHECKLIST.md)** (adopted 2026-06-05): finish 4e → the **Stage 9 goblin spine (next)** → 4g / 4f → cleanups → musical polish → Lorna external. That checklist has the step-by-step boxes + the "how it works / why" primer; this section is the prose summary.
+> **Execution order is driven by [`BLOCKS_4_5_7_BUILD_CHECKLIST.md`](BLOCKS_4_5_7_BUILD_CHECKLIST.md)** (adopted 2026-06-05): 4e ✅ → the **Stage 9 goblin spine** (9a code in, playtest pending; **9c next**) → 4g / 4f → cleanups → musical polish → Lorna external. That checklist has the step-by-step boxes + the "how it works / why" primer; this section is the prose summary.
 
-**▶ Now — finish Stage 4e** (active-source call-site migration **+ Step 0: retire the legacy lock stack & debug override**). The bundle below is **uncommitted** in `WorkingWwise`, on top of 4d `e80da993`:
+**✅ Stage 4e — committed `38a66816`** (active-source call-site migration **+ Step 0: retire the legacy lock stack & debug override**). Gate flip + zones 1–6 migrated; the entire legacy lock stack + debug override + dev force-note surfaces deleted; policies lost `hasDebugOverride`; Test Runner green + Opus regression passed. *(detail: [Appendix D](#appendix-d--stage-4-block-7-fundamental-active-source-design-spec--4e-status--decision-log); commit note in [Appendix A](#appendix-a--commit-log))*
 
-- **Done in the working tree:** gate flip (both InputDriven gates → `FundamentalSourcePolicy.CanInputDrivenWriteMaster`); zone migrations (startup = Sequence; `SetSoundWorld`→InputDriven / `SetMusicLoop`→MusicBed; `SetMusicModeTo` modes; Tutorial A/C-hum correction; Savasana); `ResolveFundamentalOnUnlock` + `IsFundamentalLocked` deleted; `SourceForInteractionType` EditMode test added. *(detail: [Appendix D](#appendix-d--stage-4-block-7-fundamental-active-source-design-spec--4e-status--decision-log) §"4e IN-PROGRESS STATUS")*
-- **Step 0 done this session (Robin 2026-06-05 — "delete and forever forget the debug override"):** the **entire legacy lock stack** is gone — `debugFundamentalOverride` + `SetDebugFundamentalOverride`, the three lock fields + `SetFundamentalDebugLock`/`ContentLock`/`ModeLock`, `GetLockedFundamental`, and every dev force-note surface (`OnPermanentlySetFundamentalChanged`; the commented `InputReferences` I/O/K/L/N/M keys; the `MusicDebugHarness` `LockFundamentalToC`/`UnlockFundamentalLocks` actions + L/U keys). `FundamentalSourcePolicy.ShouldWriteMaster`/`CanInputDrivenWriteMaster` lost the `hasDebugOverride` param; both gate call sites + Block7/harness EditMode tests updated. No production behavior change (all debug-only after the migration). **Bundled into the single 4e commit.**
-- ⬜ **Shadow-tracker `preferred`-sync fix — DEFERRED to 9c (not standalone).** `preferred[InputDriven]` is never updated by live tracking, so adopt-preferred entries can snap the master to a stale note / wipe charge. A standalone attempt at this fix failed (confusing half-machinery), so it now lands as **Layer 1 of the 9c commit semantics** (silent/audible commit + honor-not-wipe built together). 4e ships with the bounded interim (InputDriven entry continues from current master). Design spec: [`HANDOFF_InputDriven_preferred_shadow_tracker.md`](HANDOFF_InputDriven_preferred_shadow_tracker.md) (consumed by 9c).
-- ⬜ **One bundled 4e commit (migration + Step 0):** Test Runner (EditMode) green → Opus regression pass → Robin's go → commit → record hash in [Appendix A](#appendix-a--commit-log).
+**▶ Now — verify Stage 9a, then build 9c.**
+
+- **✅ 9a — committed `b4fe6020` (pushed); PERCEPTUAL PLAYTEST PASSED 2026-06-05.** Long-test enqueue-then-activate (`AnnounceFundamental`) + disabled-bypass; `FundamentalTriggerPolicy.WhichTest` (parity anchor, production routed through it) + `FundamentalDirectorPolicy.FlourishDecision`/`ShouldAddFlourish`; dedicated `Director.timeSinceLastFlourish` (~5s); B457 logs (`FUND-ANNOUNCE`/`FUND-COMMIT`/`DIRECTOR-FLOURISH`); EditMode tests; `F`-key guided goblin playtest (now driven by the temporary `DebugSimulateSungFundamentalChange` simulator — see [Appendix I](#appendix-i--live-test-playtest-design-conventions)). **Playtest result (B457 log + by ear/eye, all pass):** Step 1 one change pairs one `DIRECTOR-FLOURISH add=visual`; Step 2 burst = 5× `FUND-COMMIT`, 1× `add=visual`, 4× `suppressed` (5s gate); Step 3 disabled Director → `FUND-ANNOUNCE path=raw` + `FUND-COMMIT`, no flourish. **Next action:** build 9c.
+- **⭐ 9c — NEXT (the full spine).** The `targetNextFundamental` slot consulted in `ActivateQueue` (structural realized-effect) + late-binding + retire `directorStoredFundamental` + source-switch flush/adopt/commit + `ApplyMasterFundamentalRaw` + **shadow-tracker `preferred`-sync + warm handoff (Layer 1 of commit semantics — the deferred 4e fix)**. Reuses `WhichTest` from 9a; adds `RouteTrigger`/`Effects`/`ShouldWarnBehindCurtainUpdate`/`ShouldCleanSlate` + their EditMode matrix + full B457 schema. *(Appendix G; design spec [`HANDOFF_InputDriven_preferred_shadow_tracker.md`](HANDOFF_InputDriven_preferred_shadow_tracker.md))*
 
 **⬜ Then — recommended order (adopted 2026-06-05; boxes in the [build checklist](BLOCKS_4_5_7_BUILD_CHECKLIST.md)):** the Stage 9 goblin spine comes **next** — it's the architecture everything else sits on — then the sources, cleanups, polish, and external. One-line goal each (full spec in the linked appendix):
 
-- **⭐ 9 — Director ↔ fundamental "goblin" (NEXT — the spine):** `targetNextFundamental` slot + `ApplyMasterFundamentalRaw`/announce + disabled-bypass + **structural** realized-effect + flush-on-switch + **shadow-tracker preferred-sync + warm handoff** (the deferred 4e fix, Layer 1 of commit semantics). **9a** (long-test enqueue-then-activate + 5s flourish suppression) then **9c** (the slot + commit semantics). *(Appendix G)*
+- **⭐ 9 — Director ↔ fundamental "goblin" (the spine):** **9a** (long-test enqueue-then-activate + 5s flourish suppression) **committed `b4fe6020`, playtest PASSED 2026-06-05**; **9c (NEXT)** = `targetNextFundamental` slot + `ApplyMasterFundamentalRaw`/announce + disabled-bypass + **structural** realized-effect + flush-on-switch + **shadow-tracker preferred-sync + warm handoff** (the deferred 4e fix, Layer 1 of commit semantics). *(Appendix G)*
 - **4g — MusicBed `Cue_Key_*` listener** in `MusicSystem1` (first consumer of the slot/announce path): post `Play_MusicLoops` with the cue callback flag → `TryHandleMusicKeyCue` → MusicBed source; binaural follows the master; cue→`NoteName` map. *(Appendix D + Appendix E Stage 5)*
 - **4f — `HarmonyRunPolicy.ShouldRun(mode, gameOn)`** gating `HarmonyUpdate`: run in Tutorial, Freeplay, and `MusicLoopSilent && gameOn` (Savasana toning tail; Linear off via `gameOn=false`). Independent — can slot in early as a quick win. *(Appendix D)*
 - **4h (optional) — retire `FrozenFreeplay`**: collapse the 4 call sites to `Freeplay` + `SetGameOn(false)` + `Sequence(C)`; gated on a `gameOn` audit. *(Appendix D)*
@@ -98,6 +99,7 @@ Short hashes for each committed stage/fix (standing rule 9). Newest at the botto
 | `d18b002e` | **Stage 4b — split + rename `NoteTracker`** → `voiceActivity` (`VoiceActivity { ActiveSeconds; IsActive; JustActivated }`, activation half) + `fundamentalChargeByNote` (`Dictionary<NoteName,float>`, charge half); pure data-structure split, zero logic change; EditMode parity green |
 | `e80da993` | **Stage 4d — active-source fundamental authority** — `FundamentalSource` enum + per-source preferred + debug override (`MusicSystem1.FundamentalAuthority.cs`); `SetFundamentalDirect` body → private `ApplyMasterFundamental` (public shim kept); legacy lock setters route inner master-write through the source API (DebugLock→override, Content/ModeLock→`Sequence`), production gate still `IsFundamentalLocked()`; `FundamentalSourcePolicy` + `Block7FundamentalPolicyEditModeTests` (9, green). Behavior-preserving (Opus 4d regression pass: shim-equivalent) |
 | `38a66816` | **Stage 4e — migrate call sites to active-source model + retire legacy lock stack** — both InputDriven gates → `CanInputDrivenWriteMaster`; zones 1–6 migrated onto `SetFundamentalSource` (startup=Sequence, SoundWorld→InputDriven, MusicLoop→MusicBed start-note, mode pins, Tutorial correction pin/resume, Savasana); **deleted the entire legacy priority lock stack + debug override** (debug/content/mode lock setters, `GetLockedFundamental`, `IsFundamentalLocked`, `ResolveFundamentalOnUnlock`, `SetDebugFundamentalOverride`) + every dev force-note surface; policies lost `hasDebugOverride`. Test Runner green + Opus regression passed. Shadow-tracker `preferred`-sync **deferred to 9c**. *(includes Step 0 — Robin "delete and forever forget the debug override")* |
+| `b4fe6020` | **Stage 9a — route InputDriven fundamental change through the Director (long-test flourish fix) + 5s flourish anti-clutter** — `AnnounceFundamental(target, immediate)` (enqueue counted `fundamentalChange` + activate iff immediate; raw disabled-bypass); long/longish/short ladder routed through it. `FundamentalTriggerPolicy.WhichTest` (parity-anchor characterization of the ladder, production routed through it) + `FundamentalDirectorPolicy.FlourishDecision`/`ShouldAddFlourish`; dedicated `Director.timeSinceLastFlourish` gates the flourish add. B457 logs (`FUND-ANNOUNCE`/`FUND-COMMIT`/`DIRECTOR-FLOURISH`). EditMode: `Block7FundamentalTriggerPolicy` + `Block7FundamentalDirectorPolicy` + `F`-key case. Editor `F`-key guided goblin playtest in `Playground_Debug`. Opus regression pass: parity confirmed. **Perceptual playtest PASSED 2026-06-05** (B457 log: Step 1 one `add=visual`; Step 2 5× `FUND-COMMIT`/1× `add=visual`/4× `suppressed`; Step 3 disabled → `path=raw`, no flourish). *(also carries the pending plan/checklist edits that recorded 4e)* |
 
 ---
 
@@ -1063,3 +1065,44 @@ flowchart TD
 ```
 
 *Plan: Blocks 4 / 5 / 7 / 8. No code until confirmed; each stage: Composer or Opus implement → required Opus regression pass → commit.*
+
+---
+
+# Appendix I — Live test (playtest) design conventions (Robin 2026-06-05)
+
+How Robin wants **playtests** (Play Mode, guided coroutines) built. These are conventions for the *agent* to follow whenever it writes or extends a guided playtest (e.g. `MusicDebugGuidedPlaytest`); they complement the director-mode rule (EditMode/Test Runner tests **first**, then playtests). Cross-referenced from the build checklist "Temporary playtest scaffolding" section.
+
+## 1. Don't make Robin perform the input — *simulate* it deterministically
+
+Singing a precise pitch/duration on cue is too hard to hit and impossible to measure repeatably. So a behavior that's normally driven by the player (sung pitch, held tone, mic envelope) should be driven by a **debug simulator** instead, with these rules:
+
+- **Drive the real production path, not a bypass.** The simulator calls the same method the real input would (e.g. `DebugSimulateSungFundamentalChange` → `AnnounceFundamental`), so every gate/side-effect/log is identical to the real event. A shortcut that skips gates proves nothing.
+- **Deterministic + measurable.** Fixed offsets, fixed counts, fixed timings — so the expected console output is exact and checkable.
+- **Editor-only + cleanup-tracked.** Wrap simulators in `#if UNITY_EDITOR` (they often re-introduce "force" surfaces we deliberately deleted) and list every piece in the checklist's "Temporary playtest scaffolding" section so they're removed in one pass at the stage's final commit. Keep the harness, the `B457` logs, and EditMode tests; delete the sim drivers.
+
+## 2. Coroutine rhythm: **anticipate → act → confirm**
+
+Every step reads like a guided lesson:
+
+1. **`WHAT'S ABOUT TO HAPPEN:`** — plain-language description of the upcoming action *and the expected result* (perceptual + the exact console lines to expect).
+2. **Press Space/Return** to trigger it (Robin controls when he's watching).
+3. **`▶ FIRING … NOW`** — the action fires; dump state.
+4. **`DID IT HAPPEN? EXPECT: …`** — restate the pass criteria so Robin can judge immediately.
+5. Press Space to continue.
+
+One observable thing per step. Number steps (`STEP n OF N`) and label sub-events (`BURST CHANGE 2 OF 5 (THIS ONE SHOULD BE SUPPRESSED)`).
+
+## 3. Waits are **timer-baked**, not Space-gated
+
+If a step needs time to pass (clearing a cooldown/window, spacing a burst, letting a lerp settle, holding a "long tone"), bake it into the coroutine as a **timer** with a once-per-second countdown log (`WaitWithCountdown`) — **not** a "press Space when ~5s have passed." Space is only for *Robin-paced* gates (read this / observe that / ready for next). Timer-driven progression keeps timing-sensitive results (e.g. the 5s flourish gate) deterministic regardless of how long Robin takes elsewhere, and the countdown shows it isn't hung.
+
+## 4. Logs are the record — structured, single-filter, pasteable
+
+- **One Console filter word for a whole series** (`B457`), on every relevant line, so Robin filters once.
+- **Structured event lines** (`FUND-COMMIT`, `FUND-SLOT`, `DIRECTOR-FLOURISH add=… / suppressed=…`, `DEBUG-SIM`, `⏱`) — "tests with logs": the line sequence is the assertion. Each step's prompt names the exact lines to expect so a paste is self-checking.
+- **Robin pastes the full Console back into chat** afterward; the agent reads it and confirms pass or pinpoints the mismatched line. (Tip Robin uses: Clear Console right before pressing the start key for a clean capture; full unfiltered log is fine — the agent extracts the tagged lines.)
+
+## 5. Perceptual honesty + entry
+
+- When a step needs *feel* (audio quality, light reactivity, in-key-ness), prompt **headphones** and ask for a by-ear/by-eye note — never claim perceptual quality from logs alone.
+- Start the session **where the block needs** (stage variant / CSV pack / sequence override), not always from calibration; state the exact entry in the step. The goblin series parks in `Playground_Debug` and is launched with the **F** key.

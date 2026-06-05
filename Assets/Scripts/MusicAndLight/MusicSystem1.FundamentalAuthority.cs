@@ -127,4 +127,39 @@ public partial class MusicSystem1
             Debug.Log($"MUSIC FUNDAMENTAL-SOURCE: preferred[{source}]={note} stored, but not written (active={activeFundamentalSource}).");
         }
     }
+
+#if UNITY_EDITOR
+    // ===== TEMPORARY — Stage 9 playtest scaffolding. REMOVE at the Stage 9 final commit. =====
+    // Lets the guided playtest (MusicDebugGuidedPlaytest) exercise the Director ↔ fundamental path WITHOUT singing,
+    // so each behavior is deterministic + measurable. It drives the EXACT same AnnounceFundamental path a real sung
+    // change uses — it is NOT a bypass — so every downstream effect is identical to a real voice change: the master
+    // move becomes a COUNTED Director audio event (pairs a visual flourish), the 5s anti-clutter gate applies, and
+    // while director.disable it routes raw (no flourish). The InputDriven write gate (CanInputDrivenWriteMaster) still
+    // applies, so this also behaves correctly under source switches once 9c/4g land.
+    //
+    // NOTE: this deliberately re-introduces a "force the master" surface (the kind 4e deleted), which is why it is
+    // editor-only and tracked for deletion in Docs/BLOCKS_4_5_7_BUILD_CHECKLIST.md "Temporary playtest scaffolding".
+    //
+    // semitoneOffset: how far to move the master from its CURRENT note (kept non-zero so the master actually moves —
+    //   a redundant target would correctly produce no flourish, but that is not what the goblin steps test).
+    // immediate:      true = long/longish band (enqueue + activate now); false = short band (enqueue only — the caller
+    //   then simulates the external beat via director.ActivateQueue()).
+    public void DebugSimulateSungFundamentalChange(int semitoneOffset, bool immediate)
+    {
+        NoteName target = NoteUtils.AddInterval(fundamentalNoteName, semitoneOffset);
+        if (target == NoteName.None || target == fundamentalNoteName)
+        {
+            Debug.LogWarning("[B457 DEBUG-SIM] no-op: offset " + semitoneOffset + " from "
+                + NoteUtils.NoteToWwiseString(fundamentalNoteName) + " is invalid or unchanged.");
+            return;
+        }
+
+        Debug.Log("[B457 DEBUG-SIM] simulate sung change " + NoteUtils.NoteToWwiseString(fundamentalNoteName)
+            + "→" + NoteUtils.NoteToWwiseString(target) + " (offset " + semitoneOffset
+            + ", band=" + (immediate ? "immediate/long" : "deferred/short")
+            + ", activeSource=" + activeFundamentalSource + ", directorDisabled=" + (director != null && director.disable) + ")");
+
+        AnnounceFundamental(target, immediate);
+    }
+#endif
 }

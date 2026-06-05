@@ -127,13 +127,17 @@ flowchart TD
 
 ### Phase B — Stage 9: Director ↔ fundamental architecture (the goblin spine) ⭐ ([Appendix G](BLOCKS_4_5_7_PLAN.md))
 
-**9a — long-test bug + flourish anti-clutter (small, low-risk, InputDriven-only seed):**
+**9a — long-test bug + flourish anti-clutter (small, low-risk, InputDriven-only seed):** — **DONE (committed `b4fe6020`, pushed); perceptual playtest PASSED 2026-06-05.**
 
-- [ ] Fix the **long-test bug**: long/longish currently apply *outside* the queue (`ChangeFundamental` self-clears + retunes), so `ActivateQueue` doesn't count the audio change → no visual pairing / no-op on empty queue. Route it through an **enqueue-then-activate** path so it's counted and pairs a visual.
-- [ ] **Disabled-bypass (required by 9a):** when `director.disable`, apply **raw** (today's direct behavior — InputDriven runs in Freeplay even while Playground toggles the Director off); only enqueue-then-activate when enabled.
-- [ ] Introduce the seed helper `AnnounceFundamental(target, immediate)` (raw-when-disabled; else enqueue counted `fundamentalChange`, `ActivateQueue` iff immediate); route long/longish (immediate) + short (deferred) through it.
-- [ ] Add dedicated **`timeSinceLastFlourish`** + `FundamentalDirectorPolicy.ShouldAddFlourish(t, ~5s)`; gate **both** the audio- and visual-flourish *add* blocks so rapid changes still propagate but flourishes don't spam. (Keep the existing `PlayTransitionSound` 5s cooldown.)
-- [ ] EditMode: `FundamentalDirectorPolicy.ShouldAddFlourish` constant pinned; flourish-decision `0/0→None`.
+- [x] Fix the **long-test bug**: long/longish currently apply *outside* the queue (`ChangeFundamental` self-clears + retunes), so `ActivateQueue` doesn't count the audio change → no visual pairing / no-op on empty queue. Route it through an **enqueue-then-activate** path so it's counted and pairs a visual.
+- [x] **Disabled-bypass (required by 9a):** when `director.disable`, apply **raw** (today's direct behavior — InputDriven runs in Freeplay even while Playground toggles the Director off); only enqueue-then-activate when enabled.
+- [x] Introduce the seed helper `AnnounceFundamental(target, immediate)` (raw-when-disabled; else enqueue counted `fundamentalChange`, `ActivateQueue` iff immediate); route long/longish (immediate) + short (deferred) through it.
+- [x] Add dedicated **`timeSinceLastFlourish`** + `FundamentalDirectorPolicy.ShouldAddFlourish(t, ~5s)`; gate the flourish *add* via `FundamentalDirectorPolicy.FlourishDecision` so rapid changes still propagate but flourishes don't spam. (Keeps the existing `PlayTransitionSound` 5s cooldown.)
+- [x] **`FundamentalTriggerPolicy.WhichTest(...)` written as the parity-anchor characterization of the ladder** and production routed through it (Robin confirmed the table 2026-06-05). (Originally slated for 9c; pulled into 9a so the routing is proven from the start.)
+- [x] EditMode: `Block7FundamentalTriggerPolicyEditModeTests` (`WhichTest` matrix) + `Block7FundamentalDirectorPolicyEditModeTests` (`FlourishDecision` `0/0→None`; `ShouldAddFlourish` constant) + the `F`-key case in `MusicDebugHarnessKeyPolicyEditModeTests`.
+- [x] **B457 verification logs** (single console filter; gated behind already-default-true flags): `[B457 FUND-ANNOUNCE]` (band + `path=director|raw`), `[B457 FUND-COMMIT]` (master `from→to` + src), `[B457 DIRECTOR-FLOURISH]` (`add`/`suppressed dt`).
+- [x] **Editor playtest harness:** `F` key → `MusicDebugGuidedPlaytest.RunGoblinCore` (spacebar-advanced) in `Playground_Debug` — step 1 long-test↔flourish pairing, step 2 anti-clutter, step 3 disabled-bypass.
+- [x] **Playtest (headphones + lights) PASSED 2026-06-05** (`Playground_Debug`, **F**, filter **B457**; driven by the temporary `DebugSimulateSungFundamentalChange` simulator — no singing). Confirmed by B457 log + by ear/eye: (1) one change pairs a visual flourish (`FUND-ANNOUNCE path=director`→`FUND-COMMIT`→`DIRECTOR-FLOURISH add=visual`); (2) burst = 5× `FUND-COMMIT`, 1× `add=visual`, 4× `suppressed` (5s gate); (3) Director-disabled shifts the key with no flourish (`FUND-ANNOUNCE path=raw`→`FUND-COMMIT`, no `DIRECTOR-FLOURISH`). *(Observation for 9c: `SetFundamentalSource` on entry logged a redundant `FUND-COMMIT As→As` self-commit — the 9c benign-switch self-protection eliminates it.)*
 
 **9c — the `targetNextFundamental` slot (the full spine; rides with/before 4g):**
 
@@ -149,7 +153,7 @@ flowchart TD
 - [ ] **Warm-handoff honor-not-wipe** on InputDriven re-entry: `SetFundamentalSource(InputDriven, None)` adopts `preferred` **without** `ResetFundamentalTimers()`; clean-slate (reset) only on the real-note path. (`FUND-HANDOFF` log; EditMode `ShouldCleanSlate(InputDriven,None)==false`, `(InputDriven,realNote)==true`.)
 - [ ] **Behind-the-curtain warning** (soft): `FundamentalSourcePolicy.ShouldWarnBehindCurtainUpdate(source, active)` wired in `SetFundamentalForSource` (warn-and-honor for non-active MusicBed/Sequence; InputDriven never warns).
 - [ ] **Pure policies + EditMode** (the regression backbone — [Appendix G §"Test Runner tests"](BLOCKS_4_5_7_PLAN.md)):
-  - [ ] `FundamentalTriggerPolicy.WhichTest(...)` → `{None|Short|Longish|Long}` — written FIRST as a characterization of the current ladder (parity anchor), then production routed through it.
+  - [x] `FundamentalTriggerPolicy.WhichTest(...)` → `{None|Short|Longish|Long}` — **already landed in 9a** as the parity anchor (production routed through it); 9c reuses it unchanged.
   - [ ] `FundamentalTriggerPolicy.RouteTrigger(which, isActiveWriter, slotEqualsTarget, targetEqualsMaster)` → `{None|SilentCommit|ImmediateAudible|DeferredAudible}`.
   - [ ] `FundamentalTriggerPolicy.Effects(disposition)` → `(writesPreferred, resetsCharge, writesMaster, setsSlot, touchesDirector)`.
   - [ ] `FundamentalDirectorPolicy.FlourishDecision` + `ShouldAddFlourish`; `ShouldWarnBehindCurtainUpdate`; `ShouldCleanSlate`.
@@ -159,6 +163,15 @@ flowchart TD
 - [ ] Commit(s) per [Appendix G §"Commit(s)"](BLOCKS_4_5_7_PLAN.md).
 
 > **Scope (decided 2026-06-05):** land **9a minimal first** (disabled-bypass + 5s flourish + the `AnnounceFundamental` seed) as its own reviewable commit, **then 9c** (the full `targetNextFundamental` slot) on top. 9b is dropped (the slot retires `directorStoredFundamental`).
+
+**Temporary playtest scaffolding — REMOVE at the Stage 9 final commit (Robin 2026-06-05):**
+
+So the goblin/slot behaviors can be verified *without singing* (deterministic + measurable), the guided playtests drive **simulated** sung changes down the real `AnnounceFundamental` path — built per the live-test conventions in [Appendix I](BLOCKS_4_5_7_PLAN.md) (simulate the real path, anticipate→act→confirm, timer-baked waits, single `B457` filter). This is editor-only and re-introduces a "force the master" surface (the kind 4e deleted) **on purpose, temporarily** — it must all be deleted in one pass when Stage 9 is signed off:
+
+- [ ] `MusicSystem1.DebugSimulateSungFundamentalChange(int semitoneOffset, bool immediate)` — the only production-file addition (`MusicSystem1.FundamentalAuthority.cs`, `#if UNITY_EDITOR`). Drives the real path (not a bypass): InputDriven write gate + Director counting/flourish + disabled-raw all still apply.
+- [ ] Its `[B457 DEBUG-SIM]` log line.
+- [ ] `MusicDebugGuidedPlaytest`: the `SimSemitoneStep` / `RapidChangeBurstCount` / `RapidChangeSpacingSeconds` / `FlourishWindowClearSeconds` constants, the `WaitWithCountdown` helper, and the sim calls in `RunGoblinCore` (and any 9c/4g steps that adopt them).
+- [ ] **Add any further temporary debug here as 9c/4g land** (e.g. a behind-the-curtain charge injector for the shadow-tracker steps) so the final commit removes them together. *(Keep: the guided-playtest harness itself, the `B457` verification logs, and the EditMode policy tests — those are the permanent regression net.)*
 
 ### Phase C — Sources + harmony on the spine
 
@@ -232,3 +245,4 @@ flowchart TD
 - [ ] 4s binaural stop / retune under rapid cue changes stays sane.
 - [ ] The "weak changes don't churn the queue" dedupe behavior preserved.
 - [ ] Single Console filter tag **`B457`** for all series playtests; quiet incidental tagged logs.
+- [ ] Playtests follow the live-test conventions in [Appendix I](BLOCKS_4_5_7_PLAN.md): simulate player input down the **real** production path (editor-only, cleanup-tracked), **anticipate→act→confirm** step rhythm, **timer-baked** waits for timing-sensitive gates, structured single-filter logs that make a pasted Console self-checking.

@@ -25,6 +25,18 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
     /// <summary>Used when auto-shuffle already landed on Shadow so the director step is a real world→world change.</summary>
     const string ShadowTestBaselineWorld = "SonoFlore";
 
+    // ===== TEMPORARY — Stage 9 playtest scaffolding (drives simulated sung changes, no microphone). =====
+    // Tuning for the goblin steps that call MusicSystem1.DebugSimulateSungFundamentalChange. REMOVE with that
+    // method at the Stage 9 final commit (see BLOCKS_4_5_7_BUILD_CHECKLIST.md "Temporary playtest scaffolding").
+    /// <summary>Semitones each simulated sung change moves the master (non-zero ⇒ always a real, audible move).</summary>
+    const int SimSemitoneStep = 4;
+    /// <summary>Step 2 anti-clutter burst: how many simulated changes…</summary>
+    const int RapidChangeBurstCount = 5;
+    /// <summary>…and how far apart. 5 changes × 1s spans ~4s &lt; the 5s gate, so after the window is cleared exactly ONE flourish (the first) should fire and the other four are suppressed.</summary>
+    const float RapidChangeSpacingSeconds = 1.0f;
+    /// <summary>Timer-baked wait (just over the 5s flourish gate) before the Step 2 burst so the first burst change is guaranteed to flourish — makes the "1 flourish, rest suppressed" result deterministic regardless of how long Step 1 took.</summary>
+    const float FlourishWindowClearSeconds = 5.5f;
+
     /// <summary>Part A: every sound world, set in turn, listening for a distinct + clean switch.</summary>
     static readonly string[] WorldAuditCycle = { "SonoFlore", "Shadow", "Gentle", "Shruti" };
     /// <summary>Part B: a music loop set first, then a world, to confirm the loop bed is silenced (no bleed).</summary>
@@ -128,8 +140,8 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         LogPartBegin(
             "9A",
             "FUNDAMENTAL CHANGE ↔ VISUAL FLOURISH (STAGE 9A GOBLIN)",
-            "An InputDriven (sung-pitch) fundamental change now routes through the Director so it is a COUNTED audio event — so it pairs exactly one VISUAL flourish (color-world shift + FX wave). A dedicated 5s window prevents flourish spam. While the Director is disabled the change still applies directly (no flourish).",
-            "By ear+eye: (1) a sung key shift is accompanied by a light flourish; (2) rapid key shifts do NOT flash a flourish every time (≈5s gate); (3) with the Director disabled the key still shifts, with NO flourish. Console (B457): FUND-ANNOUNCE band=immediate path=director → DIRECTOR-FLOURISH add=visual; suppressed lines between rapid changes; path=raw while disabled.");
+            "An InputDriven fundamental change routes through the Director so it is a COUNTED audio event — so it pairs exactly one VISUAL flourish (color-world shift + FX wave). A dedicated 5s window prevents flourish spam. While the Director is disabled the change still applies directly (no flourish). NO SINGING NEEDED — this test DRIVES simulated sung changes (MusicSystem1.DebugSimulateSungFundamentalChange) down the exact same path a real voice change uses, so the key shifts are deterministic + measurable; you just watch the lights and the Console.",
+            "By ear+eye: (1) a simulated key shift is accompanied by a light flourish; (2) a rapid burst of changes does NOT flash a flourish every time (≈5s gate); (3) with the Director disabled the key still shifts, with NO flourish. Console (B457): DEBUG-SIM → FUND-ANNOUNCE band=immediate path=director → FUND-COMMIT → DIRECTOR-FLOURISH add=visual; suppressed lines during the burst; path=raw while disabled.");
 
         // Stop auto-shuffle so soundscape changes don't muddy the fundamental↔flourish read; put us on a voice-tracked world.
         if (shuffler != null && shuffler.shuffling)
@@ -137,34 +149,59 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         ms.SetSoundWorld("SonoFlore");
         director.Enable();
         harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-        LogCaps("PUT ON HEADPHONES. SONOFLORE SET (VOICE-TRACKED, INPUTDRIVEN ACTIVE), DIRECTOR ENABLED. " + AdvanceHintKeyboard);
+        LogCaps("PUT ON HEADPHONES. SONOFLORE SET (INPUTDRIVEN ACTIVE), DIRECTOR ENABLED. NO NEED TO SING — STEPS DRIVE SIMULATED KEY CHANGES; JUST WATCH + ADVANCE. " + AdvanceHintKeyboard);
         yield return WaitForAdvance(imitone);
 
-        // --- Step 1: long-test change pairs a visual flourish ---
-        LogCaps("STEP 1 — KEY SHIFT PAIRS A FLOURISH: SING A CLEAR, SUSTAINED PITCH A FEW SEMITONES OFF THE CURRENT KEY AND HOLD IT (~5–10s) UNTIL THE MUSICAL KEY SHIFTS.");
-        LogCaps("WATCH THE LIGHTS AT THE MOMENT THE KEY SHIFTS — EXPECT A VISUAL FLOURISH (COLOR-WORLD SHIFT + FX WAVE). CONSOLE: FUND-ANNOUNCE band=immediate path=director, THEN DIRECTOR-FLOURISH add=visual.");
-        LogCaps("WHEN YOU'VE SEEN A KEY SHIFT PAIR WITH A FLOURISH (OR IF IT DID NOT), " + AdvanceHintKeyboard);
+        // ============================ STEP 1 of 3 — key shift pairs a flourish ============================
+        LogCaps("──────── STEP 1 OF 3 — A KEY SHIFT SHOULD PAIR WITH A VISUAL FLOURISH ────────");
+        LogCaps("WHAT'S ABOUT TO HAPPEN: I WILL SIMULATE *ONE* IMMEDIATE (LONG-TEST) SUNG CHANGE (+" + SimSemitoneStep + " SEMITONES). IT SHOULD MOVE THE KEY *AND* TRIGGER ONE VISUAL FLOURISH (COLOR-WORLD SHIFT + FX WAVE).");
+        LogCaps("GET READY TO WATCH THE LIGHTS. " + AdvanceHintKeyboard);
         yield return WaitForAdvance(imitone);
+
+        LogCaps("▶ FIRING ONE IMMEDIATE CHANGE NOW — WATCH THE LIGHTS.");
+        ms.DebugSimulateSungFundamentalChange(SimSemitoneStep, immediate: true);
         harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-
-        // --- Step 2: anti-clutter (rapid changes don't spam flourishes) ---
-        LogCaps("STEP 2 — NO FLOURISH SPAM: NOW SING SEVERAL DIFFERENT SUSTAINED PITCHES IN QUICK SUCCESSION (FORCE A FEW KEY CHANGES WITHIN ~5s OF EACH OTHER).");
-        LogCaps("EXPECT: THE KEY KEEPS CHANGING, BUT THE LIGHT FLOURISH DOES NOT FIRE ON EVERY CHANGE (≈5s GATE). CONSOLE: SEVERAL FUND-ANNOUNCE LINES, WITH DIRECTOR-FLOURISH suppressed BETWEEN THE CLOSELY-SPACED ONES.");
-        LogCaps("WHEN DONE, " + AdvanceHintKeyboard);
+        LogCaps("DID IT HAPPEN? EXPECT: KEY SHIFTED + EXACTLY ONE FLOURISH. CONSOLE: DEBUG-SIM → FUND-ANNOUNCE band=immediate path=director → FUND-COMMIT → DIRECTOR-FLOURISH add=visual.");
+        LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW/HEARD, " + AdvanceHintKeyboard);
         yield return WaitForAdvance(imitone);
-        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
 
-        // --- Step 3: disabled-bypass (change still applies, no flourish) ---
+        // ============================ STEP 2 of 3 — no flourish spam (timer-driven) ============================
+        LogCaps("──────── STEP 2 OF 3 — RAPID CHANGES MUST NOT SPAM FLOURISHES (5s GATE) ────────");
+        LogCaps("WHAT'S ABOUT TO HAPPEN: FIRST I WAIT ~" + FlourishWindowClearSeconds + "s (BY TIMER) TO CLEAR THE 5s FLOURISH WINDOW, THEN AUTO-FIRE " + RapidChangeBurstCount + " IMMEDIATE CHANGES ONE EVERY " + RapidChangeSpacingSeconds + "s (ALSO BY TIMER — NO KEY PRESSES DURING THE BURST).");
+        LogCaps("EXPECTED RESULT: THE KEY CHANGES ALL " + RapidChangeBurstCount + " TIMES, BUT ONLY THE *FIRST* PAIRS A FLOURISH; THE OTHER " + (RapidChangeBurstCount - 1) + " ARE SUPPRESSED (WITHIN 5s).");
+        LogCaps("GET READY TO WATCH THE LIGHTS THROUGH THE WHOLE BURST. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        yield return WaitWithCountdown(FlourishWindowClearSeconds, "CLEARING 5s FLOURISH WINDOW BEFORE BURST");
+        for (int i = 0; i < RapidChangeBurstCount; i++)
+        {
+            LogCaps("▶ BURST CHANGE " + (i + 1) + " OF " + RapidChangeBurstCount + (i == 0 ? " (THIS ONE SHOULD FLOURISH)" : " (THIS ONE SHOULD BE SUPPRESSED)"));
+            ms.DebugSimulateSungFundamentalChange(SimSemitoneStep, immediate: true);
+            if (i < RapidChangeBurstCount - 1)
+                yield return WaitWithCountdown(RapidChangeSpacingSeconds, "NEXT BURST CHANGE IN");
+        }
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("DID IT HAPPEN? EXPECT: " + RapidChangeBurstCount + "× FUND-COMMIT, BUT ONLY 1× DIRECTOR-FLOURISH add=visual AND " + (RapidChangeBurstCount - 1) + "× DIRECTOR-FLOURISH suppressed. (KEY MOVED EVERY TIME; LIGHTS FLOURISHED ONCE.)");
+        LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW/HEARD, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        // ============================ STEP 3 of 3 — disabled-bypass (no flourish) ============================
+        LogCaps("──────── STEP 3 OF 3 — DISABLED DIRECTOR STILL SHIFTS THE KEY, WITH NO FLOURISH ────────");
+        LogCaps("WHAT'S ABOUT TO HAPPEN: I DISABLE THE DIRECTOR (AS DURING SAVASANA / PLAYGROUND-OFF), THEN SIMULATE ONE IMMEDIATE CHANGE. THE KEY SHOULD STILL SHIFT (APPLIED DIRECTLY) WITH **NO** FLOURISH.");
+        LogCaps("GET READY TO WATCH THE LIGHTS (EXPECT NO FLOURISH). " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
         director.Disable();
-        LogCaps("STEP 3 — DISABLED-BYPASS: DIRECTOR IS NOW DISABLED (AS DURING PLAYGROUND-OFF / SAVASANA). SING A SUSTAINED OFF-KEY PITCH AND HOLD IT UNTIL THE KEY SHIFTS.");
-        LogCaps("EXPECT: THE KEY STILL SHIFTS (APPLIED DIRECTLY), WITH NO FLOURISH. CONSOLE: FUND-ANNOUNCE band=immediate path=raw (DIRECTOR DISABLED), NO DIRECTOR-FLOURISH.");
-        LogCaps("WHEN DONE, " + AdvanceHintKeyboard);
+        LogCaps("▶ DIRECTOR DISABLED — FIRING ONE IMMEDIATE CHANGE NOW. WATCH THE LIGHTS (EXPECT NONE).");
+        ms.DebugSimulateSungFundamentalChange(SimSemitoneStep, immediate: true);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("DID IT HAPPEN? EXPECT: KEY SHIFTED, NO FLOURISH. CONSOLE: FUND-ANNOUNCE band=immediate path=raw (DIRECTOR DISABLED) → FUND-COMMIT, AND *NO* DIRECTOR-FLOURISH LINE.");
+        LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW/HEARD, " + AdvanceHintKeyboard);
         yield return WaitForAdvance(imitone);
         director.Enable();
-        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
         Debug.Log(Prefix + " Director re-enabled after disabled-bypass step.");
 
-        LogPartComplete("9A", "Report: did the key shift pair a flourish (step 1)? Were rapid changes un-spammy (step 2)? Did the key still shift while disabled with no flourish (step 3)?");
+        LogPartComplete("9A", "Report: (1) did one change pair one flourish? (2) did the burst give " + RapidChangeBurstCount + " key moves but only 1 flourish? (3) did the disabled change shift the key with no flourish? Paste the full B457 console too.");
     }
 
     IEnumerator RunGuidedPlaytest()
@@ -581,6 +618,29 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         while (elapsed < seconds)
         {
             elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    // ===== TEMPORARY — Stage 9 playtest scaffolding. REMOVE with DebugSimulateSungFundamentalChange. =====
+    /// <summary>
+    /// Timer-driven wait (NO key press) with a once-per-second countdown log, for the goblin steps that must
+    /// progress by timer (clearing the 5s flourish window, spacing the anti-clutter burst) rather than by Space.
+    /// </summary>
+    static IEnumerator WaitWithCountdown(float seconds, string label)
+    {
+        float remaining = seconds;
+        float tick = 0f;
+        Debug.Log(Prefix + " ⏱ " + label + " — " + Mathf.CeilToInt(remaining) + "s (timer, no key needed)…");
+        while (remaining > 0f)
+        {
+            remaining -= Time.deltaTime;
+            tick += Time.deltaTime;
+            if (tick >= 1f && remaining > 0f)
+            {
+                Debug.Log(Prefix + " ⏱ " + label + " — " + Mathf.CeilToInt(remaining) + "s left");
+                tick = 0f;
+            }
             yield return null;
         }
     }
