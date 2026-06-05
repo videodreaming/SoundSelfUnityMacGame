@@ -330,6 +330,11 @@ public partial class MusicSystem1 : MonoBehaviour
         }
         //Set these so they can be triggered right away
         fundamentalTimeSinceLastTrigger = fundamentalRetriggerThreshold;
+
+        // Seed each fundamental source's preferred to the startup fundamental (Block 7 / 4d active-source authority).
+        preferredFundamentalBySource[FundamentalSource.InputDriven] = fundamentalNoteName;
+        preferredFundamentalBySource[FundamentalSource.MusicBed] = fundamentalNoteName;
+        preferredFundamentalBySource[FundamentalSource.Sequence] = fundamentalNoteName;
         
         //Initialize harmony sequences
         sequences = new List<List<int>>
@@ -1081,7 +1086,10 @@ public partial class MusicSystem1 : MonoBehaviour
     /// Conversion point: NoteName enum is converted to string for Wwise API via NoteUtils.NoteToWwiseString().
     /// Conversion point: NoteName enum is converted to frequency (Hz) for binaural beats via NoteUtils.NoteToFrequencyA440().
     /// </remarks>
-    public void SetFundamentalDirect(NoteName newFundamental)
+    // Renamed from the old public SetFundamentalDirect (Block 7 / 4d): the single private master-apply mechanism.
+    // Clears the fundamentalChange queue → sets fundamentalNoteName → Wwise ...FundamentalOnly switch → binaural retune
+    // → resets fundamental timers (charge) → records directorStoredFundamental. No external bypass.
+    private void ApplyMasterFundamental(NoteName newFundamental)
     {
         // Validate that we're not setting fundamental to None
         if (newFundamental == NoteName.None)
@@ -1117,6 +1125,10 @@ public partial class MusicSystem1 : MonoBehaviour
         ResetFundamentalTimers();
         directorStoredFundamental = newFundamental;
     }
+
+    // Public shim retained for external callers (MusicKeyCuePolicy 4g, InputReferences debug keys) until 4e/4g migrate
+    // them onto the active-source API. New internal code should use SetFundamentalSource / SetFundamentalForSource / SetDebugFundamentalOverride.
+    public void SetFundamentalDirect(NoteName newFundamental) => ApplyMasterFundamental(newFundamental);
 
     /// <summary>
     /// Creates an Action delegate that will change the fundamental note when invoked.
@@ -1172,6 +1184,7 @@ public partial class MusicSystem1 : MonoBehaviour
             if (currentlyLocked)
             {
                 fundamentalDebugLock = null;
+                debugFundamentalOverride = null; // 4d: keep active-source override in sync with the legacy field
                 if(debugAllowFundamentalLockLogs)
                 {
                     Debug.Log("MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock cleared");
@@ -1214,11 +1227,10 @@ public partial class MusicSystem1 : MonoBehaviour
         
         // Set debug lock (highest priority)
         fundamentalDebugLock = lockNote;
-        
-        // Use SetFundamentalDirect instead of ChangeFundamental because we're the lock system
-        // requesting the change - we need to bypass the lock check
-        // Debug lock has highest priority, so it always takes effect
-        SetFundamentalDirect(lockNote);
+
+        // 4d shim: route the master-write through the active-source debug override (records debugFundamentalOverride).
+        // Behavior-identical to the old SetFundamentalDirect(lockNote) here; the legacy field above keeps IsFundamentalLocked() coherent.
+        SetDebugFundamentalOverride(lockNote);
         
         if(debugAllowFundamentalLockLogs)
         {
@@ -1263,9 +1275,10 @@ public partial class MusicSystem1 : MonoBehaviour
             
             if (contentLockIsActive)
             {
-                // Use SetFundamentalDirect instead of ChangeFundamental because we're the lock system
-                // requesting the change - we need to bypass the lock check
-                SetFundamentalDirect(lockNote);
+                // 4d shim: route the master-write through the active-source API (records active=Sequence, preferred).
+                // ContentLock maps to Sequence in 4d — observably identical to MusicBed since loops have no Cue_Key_* yet;
+                // SetMusicLoop splits to MusicBed in 4e/4g. Master write is identical to the old SetFundamentalDirect(lockNote).
+                SetFundamentalSource(FundamentalSource.Sequence, lockNote);
             }
             else if (activeLock.HasValue)
             {
@@ -1344,9 +1357,9 @@ public partial class MusicSystem1 : MonoBehaviour
             
             if (modeLockIsActive)
             {
-                // Use SetFundamentalDirect instead of ChangeFundamental because we're the lock system
-                // requesting the change - we need to bypass the lock check
-                SetFundamentalDirect(note);
+                // 4d shim: route the master-write through the active-source API (records active=Sequence, preferred).
+                // Master write is identical to the old SetFundamentalDirect(note).
+                SetFundamentalSource(FundamentalSource.Sequence, note);
             }
             else if (activeLock.HasValue)
             {
