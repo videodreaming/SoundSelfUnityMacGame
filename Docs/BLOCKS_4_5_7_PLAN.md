@@ -37,7 +37,9 @@ Short hashes for each committed stage/fix (standing rule 9). Newest at the botto
 | `816218e3` | **SOUNDWORLD_SWITCH_NOT_AUDIBLE resolved** — `SetSoundWorld` now posts `SoundWorldMode_Switch` (was gated out by the `!ToningV3WasAlreadyRestored` guard); via `InteractiveMusicSwitchPolicy.SetSoundWorldPosts` + EditMode test; plan standing rules 8/9 + commit log added |
 | `3dc74f22` | **Stage 3b — Block 8 mic envelope** — per-soundscape MicMixer dB (worlds 0 / loops +3); stacked monitoring ADSR; `SoundscapeMonitoringPolicy` + `MonitoringAdsrPolicy` + EditMode tests; guided playtest; inspector cleanup |
 | `18651457` | **Stage 4a — dead-field cleanup** — remove write-only `fundamentalNoteCompare`, `harmonyRetriggerThreshold`, `harmonyTimeSinceLastTrigger`; Stage 4 active-source design folded into plan (incl. former Stage 5 → 4g) |
+| `0fced712` | **Stage 4c — cosmetic partial-class split** of `MusicSystem1.cs`: `FundamentalUpdate`/`TryApplyFundamentalChangeTriggers`/shift helpers → `MusicSystem1.InputDrivenFundamental.cs`; `HarmonyUpdate`/`changeHarmony` → `MusicSystem1.InputDrivenHarmony.cs`; same class via `partial`, zero behavior change; EditMode parity green |
 | `d18b002e` | **Stage 4b — split + rename `NoteTracker`** → `voiceActivity` (`VoiceActivity { ActiveSeconds; IsActive; JustActivated }`, activation half) + `fundamentalChargeByNote` (`Dictionary<NoteName,float>`, charge half); pure data-structure split, zero logic change; EditMode parity green |
+| `e80da993` | **Stage 4d — active-source fundamental authority** — `FundamentalSource` enum + per-source preferred + debug override (`MusicSystem1.FundamentalAuthority.cs`); `SetFundamentalDirect` body → private `ApplyMasterFundamental` (public shim kept); legacy lock setters route inner master-write through the source API (DebugLock→override, Content/ModeLock→`Sequence`), production gate still `IsFundamentalLocked()`; `FundamentalSourcePolicy` + `Block7FundamentalPolicyEditModeTests` (9, green). Behavior-preserving (Opus 4d regression pass: shim-equivalent) |
 
 ---
 
@@ -465,11 +467,15 @@ Each source carries its own `preferredFundamental`. Methods:
 
 `SetFundamentalDirect` becomes the **private** apply mechanism (`ApplyMasterFundamental`): clear `fundamentalChange` queue → set `fundamentalNoteName` → Wwise `...FundamentalOnly` switch → binaural retune → reset activation/charge → `directorStoredFundamental`. No external bypass. `ResolveFundamentalOnUnlock` is **removed** — "unlock" becomes "switch active source," resolving to that source's preferred.
 
+### Director ↔ fundamental "goblin" → moved to [Stage 9](#stage-9--block-7-director--fundamental-unification-the-synchresistiming-goblin)
+
+The Director/fundamental interaction (synchresis flourish accounting, queue timing delegation, `directorStoredFundamental` redesign, flush-on-source-switch, disabled-bypass) is substantial enough to be its own stage. **Full writeup, variables, hypotheses, tangles, and open questions: [Stage 9](#stage-9--block-7-director--fundamental-unification-the-synchresistiming-goblin).** It rides with/after 4g (when MusicBed first competes for the master); a couple of small fixes inside it could land earlier.
+
 ### InputDriven vs `DynamicMusicSystem` gating (Robin, 2026-06-05)
 
 `FundamentalUpdate()` **is** the InputDriven source, and it only lives inside `DynamicMusicSystem()` (runs only in `InteractiveTutorial` + `Freeplay`). So InputDriven is only *alive* in those "tracking modes." Two distinct gates:
 
-- **Tracking gate** = `DynamicMusicSystem` running (mode ∈ {`InteractiveTutorial`, `Freeplay`}). InputDriven keeps accumulating its per-note charge / `preferredFundamental` here **even when it is not the active source** (warm handoff).
+- **Tracking gate** = `DynamicMusicSystem` running (mode ∈ {`InteractiveTutorial`, `Freeplay`}). InputDriven runs its **full ladder** here **even when it is not the active source** — it is a **shadow tracker** (Robin 2026-06-05): per-note charge accumulates, and when the **long test** passes behind the curtain it does a **silent commit** — `preferred[InputDriven] = changeTarget` + `ResetFundamentalTimers()` — but **does not** touch the master / Wwise / binaural / Director. So `preferred` *does* track behind the curtain (via long commits); the master is the only thing silenced. The short test is skipped behind the curtain (it needs the Director, which is silenced). On reactivation, `preferred` already holds the behind-the-curtain result and the master adopts it directly.
 - **Write gate** = active source == InputDriven **and** no Debug override. Only then does `FundamentalUpdate` push to the master via `ApplyMasterFundamental`.
 
 This reframes today's behavior exactly: in Tutorial, `FundamentalUpdate` already *tracks* but the mode-lock C blocks the *write*; in the new model the write is blocked because Sequence (not InputDriven) is the active source. Same observable result.
@@ -508,6 +514,13 @@ Confirm names before coding.
 ### Sequence source (mode lock + savasana content-lock) — careful refactor
 
 Ownership is today *implicit* (priority stack) and set/cleared in scattered places: `SetMusicModeTo` (Tutorial/Frozen pin C, Freeplay unlock), `Tutorial.cs` (A/C-hum correction pins C then releases), a VO unlock cue, and `SavasanaStageHandler` (content-lock C via `MusicLoopSilent`, not the mode lock). The refactor makes ownership **explicit single-writer**: each stage/mode declares the active source on entry. Full refactor expected (Robin 2026-06-04). The safe sequencing is to land the authority + InputDriven/Harmony split first with the lock setters kept as **thin shims** over `SetFundamentalSource` (provably identical), then delete the shims and migrate call sites. **The shim-equivalence is itself baked into EditMode tests** (Robin 2026-06-04): each old call (`SetFundamentalModeLock(true,C)`, `SetFundamentalContentLock(C)`, unlock) must produce the same active-source + master + preferred state as the direct `SetFundamentalSource` call it forwards to — so the migration provably never changes behavior.
+
+**4d implementation — Option A (Robin 2026-06-05, most behavior-preserving):**
+- New partial file `MusicSystem1.FundamentalAuthority.cs` holds the `FundamentalSource` enum, the active-source / per-source-preferred / debug-override state, and `SetFundamentalSource` / `SetFundamentalForSource` / `SetDebugFundamentalOverride`.
+- `SetFundamentalDirect`'s body becomes private **`ApplyMasterFundamental`**; `SetFundamentalDirect` stays a public one-line shim (external callers `MusicKeyCuePolicy` 4g + `InputReferences` debug keys still compile; migrated later).
+- **Lock-SET** paths keep their existing conditional/priority/logging logic; only the inner master-write (`SetFundamentalDirect(x)` *inside the active-lock guard*) routes through the source API: `ModeLock→Sequence`, `ContentLock→Sequence` (interim — observably identical to MusicBed in 4d since loops have no cues yet; `SetMusicLoop` splits to MusicBed in 4e/4g), `DebugLock→SetDebugFundamentalOverride`. Old lock fields stay synced.
+- **Lock-CLEAR** paths are unchanged (still `ResolveFundamentalOnUnlock`), so the **input write-gate stays `IsFundamentalLocked()`** in 4d. The active-source state is *recorded* but the gate flips to active-source as call sites migrate in 4e (and `ResolveFundamentalOnUnlock` is removed at the end of 4e).
+- EditMode `Block7FundamentalPolicyEditModeTests` covers the **pure `FundamentalSourcePolicy`** (`IsTrackingMode`, the source-write rule, mode→source mapping); full shim-equivalence/real-flow end-states ride the playtest + the pure-policy pins (instantiating `MusicSystem1` in EditMode isn't practical — too many Wwise deps).
 
 ### Active-source transitions (startup + regression-proof plan)
 
@@ -673,6 +686,240 @@ The harness lets us finish and verify the Unity side independently of Lorna's bu
 
 ---
 
+## Stage 9 — Block 7: Director ↔ fundamental unification (the synchresis/timing "goblin")
+
+- **Implement with: Opus 4.8** · **Regression pass: Opus 4.8 (required)**
+- **Listening load:** Real ear+eye check — flourish pairing, anti-clutter pacing, and "logic-only changes are silent" all need headphones + watching the lights.
+- **Status: DESIGN SETTLED (2026-06-05).** The `targetNextFundamental` slot + shadow-tracker model is agreed end-to-end (see *Consolidated design*); no code yet. Rides **with/after 4g** (first time a second source — MusicBed — genuinely competes for the master); 9a can land earlier. Only remaining choice is scope sub-question (b). The earlier `F1–F9` + *Proposed design synthesis* are kept as the **reasoning trail**; the *Consolidated design* is the build spec and supersedes their mechanisms where noted.
+- **Depends on:** 4d (active-source authority — DONE, `ApplyMasterFundamental` + `FundamentalSource` + `FundamentalSourcePolicy`), and conceptually on 4e (call sites migrated to sources).
+
+### The situation
+
+The Director does two jobs for the fundamental:
+1. **Timing** — it binds audiovisual change to *player behavior*. `ActivateQueue` is driven mostly by behavior detection ([`GameValues.cs:412`](../Assets/Scripts/Voice/GameValues.cs)) and tone onset ([`ImitoneVoiceIntepreter.cs:545`](../Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs)), **not** by the fundamental logic. Queuing *without* immediate activation means: "Director, commit this **soon** — you choose the moment."
+2. **Synchresis** — every activation tries to make the change both *heard* and *seen*. [`ActivateQueue`](../Assets/Scripts/Sequencing/Director.cs) counts audio vs visual events and **adds the missing modality**: audio-only ⇒ add a visual flourish (`NextPreferredColorWorld` + `FXWave`); visual-only ⇒ add an audio flourish (`TweakAudio` + `PlayTransitionSound`). A queued fundamental change is flagged `isAudioAction=true, isVisualAction=false`, so today it always pulls a **visual** flourish to pair the pitch shift.
+
+**The core mismatch:** those `isAudioAction`/`isVisualAction` flags are **static at enqueue**, but in the active-source model a fundamental change is only **audible** when it actually moves the master — i.e. `source == active && !debugOverride && target != master`. A change "behind a closed curtain" (e.g. InputDriven's queued change firing after a loop bed has become the active source) is a **logic-only** update to that source's `preferred`: it must **not** retune **and must not** pull a synchresis flourish. A static `audio=true` on such an item yields a **phantom flourish** (lights shift with nothing heard).
+
+### Variables / state in play
+
+- **Authority:** active source, each source's `preferred`, the debug override, the current master `fundamentalNoteName`.
+- **InputDriven tracking:** per-note charge (`fundamentalChargeByNote`), `fundamentalTimeSinceLastTrigger`, `fundamentalRetriggerThreshold`, the long/longish/short thresholds; the **tracking gate** (`DynamicMusicSystem` running) vs the **write gate** (active==InputDriven && !debug).
+- **Director:** the `fundamentalChange` queue items + their static audio/visual flags; `timeSinceLastActivation`; the transition-sound 5s cooldown (`canPlayTransitionSound`); `director.disable`.
+- **`directorStoredFundamental`** (the dedupe memo — see below).
+- **Who fires activation:** behavior detection, tone onset, stage transitions — external to the fundamental logic.
+
+### The two key insights (recorded earlier)
+
+- **Synchresis point:** audibility (and thus flourish pairing) is a property of *whether the master actually moved*, not of the action's identity. Silent logic updates must be invisible to the Director's audio/visual accounting.
+- **Timing point (Robin):** for a **deferred** change (queued, not immediately activated), *whether it's audible* and *what note it commits* are **fire-time** properties — the Director owns *when*, and conditions can change before it fires. So the deferred action should be **late-bound** ("commit the active source's *current* preferred to master, if it differs"), evaluated at fire time — which also tracks the player's evolving intent rather than freezing a stale target.
+
+### Hypotheses explored
+
+1. **Per-source Director categories** (different `fundamentalChange` event types per source). *Rejected* — the unified rule (below) makes the Director see only "the master moved (audible)," one category, one pairing. No new categories needed.
+2. **Unified rule (favored):** *the decision to make an audible change* ⇒ enqueue one `fundamentalChange` audio action then activate (immediately, or on next tone). The master changes as the **queued action's effect**, not its trigger. Silent (preferred-only) updates never touch the Director. Audibility gate at the decision point: `source==active && !debug && target!=master`; `target==master` ⇒ no enqueue/activate.
+3. **Late-bound action (favored for deferred):** queued action = "commit active source's current preferred at fire," not a frozen note.
+4. **Realized-effect reporting (favored — upgraded from fallback by the timing point):** the fundamental queue item reports what it *actually did* (did the master move?); `ActivateQueue` counts **realized** audio/visual for flourish accounting. This is the honest fix for the deferred phantom-flourish.
+5. **Flush-pending-on-source-switch (favored — correctness guard):** clear pending `fundamentalChange` items whenever the active source switches, so a stale cross-source change can't fire/stomp after the switch. Complementary to (4).
+6. **Robin's source-owned-enqueue + clear-on-switch + the switch-*back* question:** each source's logic owns enqueuing its own change and clearing it on switch-away. The tangle: *when we switch back to a source, do we restore its previously-queued Director action?*
+   - **Proposed elegant answer: don't restore the queue — regenerate from durable source state.** The Director queue is **ephemeral and timing-bound**; resurrecting a stale item after an arbitrary gap would fire it at a moment unrelated to when it was created (defeating the timing job). What *persists* across the inactive period is the **source state** (`preferred` + per-note charge). For InputDriven the **tracking gate keeps charge accumulating even while inactive** (warm handoff), so on switch-back the normal short/long-test logic **re-queues naturally from the live charge** — correctly timed to *current* behavior. So flush-on-switch is complete on its own; **no restoration mechanism, no "saved previous queue."**
+   - **InputDriven must NOT enqueue to the Director while behind the curtain (Robin 2026-06-05).** Two gates, not one: the **charge-accumulation** gate is the tracking gate (`DynamicMusicSystem` running) — charge keeps building while inactive — but the **enqueue** gate (the short/long-test trigger ladder that adds `fundamentalChange` to the Director) is `active source == InputDriven && !debugOverride`, same as the write gate. So while another source owns the master, InputDriven silently builds charge but **adds nothing to the Director** — no curtain-side queue churn, nothing to flush later. The **only "restore"-like moment** is *entering* InputDriven: at that instant the normal trigger ladder evaluates the **live** charge and may enqueue then (a strongly-built note can even long-test immediately on takeover — a clean warm handoff). That is just normal logic running on current state, not a replayed/saved queue.
+   - This also dovetails with Robin's note that **source switches are usually (not always) Director-tied:** a switch that *moves* the master is itself an audible change ⇒ queue-then-activate (it *is* a Director beat); a switch that does **not** move the master (new source's preferred == master) is silent ⇒ no Director event. The "not always" cases self-handle via the `target!=master` gate.
+7. **Director-disabled ⇒ bypass (required):** the Director is disabled during **Opening** ([`OpeningStageHandler`](../Assets/Scripts/Sequencing/Handlers/OpeningStageHandler.cs)), **Savasana** ([`SavasanaStageHandler`](../Assets/Scripts/Sequencing/Handlers/SavasanaStageHandler.cs)), and toggled around **Playground** ([`PlaygroundStageHandler`](../Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs)). Routing through the queue while disabled would **drop** the change. So when `director.disable`, audible changes **bypass to `ApplyMasterFundamentalRaw` immediately**. (Savasana pins C *and* disables the Director — must keep working.)
+8. **5s flourish anti-clutter (required):** only the **transition sound** has a 5s cooldown today; the **visual flourish** + `TweakAudio` have none. Extend a `timeSinceLastActivation`-gated suppression (~5s) to the *add-an-effect* (flourish) blocks so rapid re-activations still propagate changes through the Director **without** flourish spam.
+9. **Re-entrancy split (required):** `ApplyMasterFundamentalRaw` (retune only — the queued action's effect) vs the "announce" path (enqueue + activate). The queued action uses the raw form so activation never re-enqueues.
+
+### The tangles (why this isn't trivial)
+
+- Static enqueue flags vs dynamic fire-time audibility (the core).
+- Re-entrancy if "apply" both retunes and enqueues.
+- A queued change that goes silent at fire (source switched, or preferred drifted back to master) must produce **no** flourish.
+- The Director can be disabled exactly in stages that still pin the fundamental (Savasana).
+- Rapid changes (esp. once MusicBed cues arrive) risk flourish clutter; only sound is cooled-down today.
+- `directorStoredFundamental` conflates "applied master" and "queued target" (see below).
+- Long-test bug: immediate apply isn't counted, so it gets no pairing (and no-ops if queue empty).
+- MusicBed/Sequence currently bypass the Director entirely ⇒ audible source-driven shifts get **no** visual pairing today.
+- Side effects (`ResetFundamentalTimers`, `ClearQueueOfType`) must **not** fire on a silent preferred-only update.
+
+### `directorStoredFundamental` — redesign + cleanup
+
+Today it's a single `NoteName?` written in three places (`ApplyMasterFundamental` = applied master; short-test + `ResolveFundamentalOnUnlock` = queued target) and **read in exactly one** — the short-test `directorMatchTest` dedupe (don't re-queue a weak change to a note that's already queued/current). The long/longish tests ignore it. **Two issues:**
+1. **It conflates "applied master" with "queued target,"** which diverge once multiple sources exist. Redesign: make the dedupe **master-relative** (the `target!=master` gate already does most of this) and/or **per-source** (each source remembers its own pending target). Decide as part of the late-binding design (what the deferred action commits).
+2. **Cleanup (Robin 2026-06-05):** if its job is purely an **InputDriven** dedupe, the field should **move into `MusicSystem1.InputDrivenFundamental.cs`** (same partial class) and be **renamed descriptively** — e.g. `inputDrivenQueuedFundamental` or `pendingInputDrivenChangeTarget`. (It currently lives in the core field block at `MusicSystem1.cs:78`.)
+
+### Proposed design synthesis (for the new context to refine)
+
+- **Two apply primitives:** `ApplyMasterFundamentalRaw(note)` (retune + side effects, no Director) and an **announce** helper `RequestAudibleFundamental(timing)` that enqueues a late-bound `fundamentalChange` whose action commits the active source's current preferred (if it differs), then activates (immediate) or defers (on-tone).
+- **Sources call the announce helper** only when authoritative and the master would move; otherwise they just update their `preferred` (immediate, logic-only).
+- **Director gains realized-effect accounting** for `fundamentalChange` (count what actually happened), plus the **5s flourish suppression** and **disabled-bypass**.
+- **Flush pending `fundamentalChange` on every active-source switch**; never restore — regenerate from source state.
+- **Retire/relocate `directorStoredFundamental`** per above.
+
+### Design resolution (2026-06-05, Opus 4.8 — grounded in the current code)
+
+Read of the live code (`Director.cs`, `MusicSystem1.InputDrivenFundamental.cs`, `ApplyMasterFundamental`) tightened the plan. Findings + decisions:
+
+**F1 — What the long-test bug actually is.** Today (`InputDrivenFundamental.cs:76-77`) long/longish test does `ChangeFundamental(changeTarget); director.ActivateQueue(5.0f);`. `ChangeFundamental` → `ApplyMasterFundamental`, which **itself** calls `director.ClearQueueOfType("fundamentalChange")` and retunes — the change happens **outside** the queue. So when `ActivateQueue` runs, the fundamental move is **not a queue item** → not counted (`countAudioEvents=0`). If the queue is empty it early-returns (no flourish at all); if some *visual* item is present it would even add a **phantom audio** flourish (`TweakAudio`+`PlayTransitionSound`). Net: the audible long-test change gets no reliable visual pairing. The short-test path is fine today because it enqueues a counted `isAudio=true` item that `ActivateQueue` later executes + counts.
+
+**F2 — 9a fix = enqueue-then-activate, but it REQUIRES the disabled-bypass.** The minimal fix is to make the long-test change a counted `fundamentalChange` item then `ActivateQueue` (so it's counted → pairs a visual). **But** `AddActionToQueue` returns `-1` and `ActivateQueue` early-returns when `director.disable` is true — and `FundamentalUpdate` (InputDriven) can run in **Freeplay while Playground has toggled the Director off** (`PlaygroundStageHandler` enable :82 / disable :383). Naive enqueue-then-activate would **drop** the change there (regression vs today's direct apply). So **9a must branch on `director.disable`: disabled ⇒ apply raw (today's behavior); enabled ⇒ enqueue-then-activate.** This is the disabled-bypass (hypothesis 7) surfacing already in 9a, and it makes 9a the clean **seed of the 9c announce helper**.
+
+**F3 — Re-entrancy is benign for 9a.** `ActivateQueue` iterates a **copy** (`queuedItems`) and `queue.Clear()`s at the end; the executed action's inner `ClearQueueOfType("fundamentalChange")` only touches the live dict (harmless to the in-flight copy). So 9a does **not** strictly need the `Raw`/announce split to be correct — but introducing a tiny `AnnounceFundamental(target, immediate)` helper now (raw-when-disabled; else enqueue, activate iff immediate) is the right seed and lets long + short share one path.
+
+**F4 — 5s flourish suppression = dedicated timer.** Do **not** reuse `timeSinceLastActivation` (it also drives `activateWhenEmptyThreshold = 25s`). Add a dedicated `timeSinceLastFlourish`; gate **both** the audio-flourish and visual-flourish *add* blocks (`ActivateQueue` ~435-454) at ~5s; reset it **only when a flourish is actually added**. Queued actions still execute every activation — only the *flourish add* is suppressed, so rapid changes propagate without flourish spam. Extract the predicate to `FundamentalDirectorPolicy.ShouldAddFlourish(timeSinceLastFlourish, window)`. (The existing `PlayTransitionSound` 5s cooldown stays; it independently protects direct calls.)
+
+**F5 — Realized-effect mechanism (resolves Open Q3): nullable `Func<bool>` on the queue item.** Add `Func<bool> realizedAudioAction` (nullable) to `DirectorQueueItem`. When present, `ActivateQueue` executes **it** in place of `action` and counts realized audio from its **bool return** (visual still from `isVisualAction`); when null, behavior is exactly as today (every existing item unaffected). The `fundamentalChange` announce item supplies this func; it returns whether the master **actually moved**. Chosen over re-reading state after a void action (one execution, no ordering ambiguity) and over per-source event categories (rejected hypothesis 1).
+
+**F6 — Late-bound deferred (resolves Open Q1): late-bound, precisely defined.** The queued action commits **`preferred[activeSource]` → master iff** `target != master && ShouldWriteMaster(active, active, hasDebug) && no debug override`, and **reports realized audio** = "did the master move." Implemented with a `SetSourcePreferredNoApply(source, note)` (records *intent* without writing master) at enqueue + the announce action that applies it at fire. For the **current** InputDriven ladder this is observably equivalent to a frozen target (preferred only moves via a re-queue, which is `firstFrameActive`-gated), so **no regression** — but it (a) fixes the `target==master`-at-fire phantom-flourish + wasteful re-tune, and (b) is correct once MusicBed competes. Frozen-target + a realized-gate is a simpler near-equivalent; late-bound is preferred for future-proofing.
+
+**F7 — `directorStoredFundamental` redesign (resolves Open Q2): per-source pending memo + master-relative gate.** It currently does a **dual** job — written by `ApplyMasterFundamental` (= applied master) **and** by short-test (= queued target), read only by the short-test dedupe (`directorStoredFundamental != changeTarget`). **9b = pure mechanical move + rename** into `MusicSystem1.InputDrivenFundamental.cs`, behavior identical (keep both writes + the one read). **9c** then sharpens it to a pure `NoteName? inputDrivenQueuedFundamental` (null = nothing pending): set on short-test enqueue, **cleared on fire / flush-on-switch / long-apply**; the "already current" half of the dedupe becomes a direct `changeTarget != fundamentalNoteName` check (master-relative). Name: `inputDrivenQueuedFundamental`.
+
+**F8 — Sequence routes RAW, only InputDriven + MusicBed announce (new decision — confirm).** Sequence changes are **stage choreography, not player-behavior beats**: they must not defer-to-tone or pull a synchresis flourish. The Director is even **enabled during Tutorial** (re-enabled after Opening via `WwiseVOManager`/`Sequencer`), where Sequence pins C — routing that through the announce path would flourish on tutorial entry. So **Sequence always applies raw (`ApplyMasterFundamentalRaw`, immediate, no Director)**; only **InputDriven** and **MusicBed** use the announce path (with disabled-bypass). Robin's "a source switch that moves the master is a Director beat" applies to InputDriven/MusicBed; Sequence is the deliberate exception. (Where Sequence pins happen with the Director disabled anyway — Opening/Savasana — raw and announce-bypass coincide, so this only changes the Tutorial-enabled case.)
+
+**F9 — Flush + two-gate confirmed consistent.** InputDriven's **enqueue gate == write gate** (`active==InputDriven && !debug`), so behind the curtain it builds charge but adds nothing to the Director — normally **nothing to flush**. Flush-pending-`fundamentalChange`-on-every-source-switch remains as the correctness guard for any item in flight at the instant of the switch; **never restore** — on re-entry the ladder re-queues from live charge.
+
+### Consolidated design — the `targetNextFundamental` slot (Robin 2026-06-05) ⭐ supersedes F5–F8 mechanism
+
+Robin's reframing collapses the machinery into **one nullable field** and makes realized-effect *structural*. This is the favored 9c shape; F5–F8 above are kept as the reasoning trail but their **mechanisms are superseded** by this.
+
+**The field.** `MusicSystem1` gets `private NoteName? targetNextFundamental` — "the master's next commit target." There is exactly **one** (there is one master); it is always "the active source's pending target." Per-source durable memory stays in `preferredFundamentalBySource`; this slot is the transient hand-off to the Director.
+
+**Director consults the slot (the core change).** At the top of `ActivateQueue`, before iterating:
+- if `targetNextFundamental.HasValue && targetNextFundamental.Value != fundamentalNoteName`: apply it (raw + normal side-effects), `countAudioEvents++`, then `targetNextFundamental = null`. (Applied *first*, matching the existing fundamentalChange-to-front prioritization.)
+- The empty-queue **early-return must become slot-aware**: proceed if the slot is pending even when `queue.Count == 0` (else a slot-only immediate activation early-returns and is lost).
+
+**Realized-effect is structural (supersedes F5).** A counted audio event is injected **only when the slot actually moves the master**. A deferred change that drifted back to the master commits nothing → with no other items, `countAudio==0 && countVisual==0` → **no flourish** (confirmed from `Director.cs:435-454`). No `Func<bool>` needed.
+
+**Late-binding for free (F6).** The deferred change is "whatever the slot holds when the Director fires," read at fire time — inherently late-bound, no per-item closure.
+
+**`directorStoredFundamental` is retired, not relocated (supersedes F7).** The single slot is also the short-test dedupe memo: `directorMatchTest` becomes `changeTarget != targetNextFundamental && changeTarget != fundamentalNoteName`. (So **9b's relocate/rename is dropped** if the slot lands.)
+
+**Two trigger paths (replace today's long/short bodies):**
+- **Immediate** (long/longish test): set `targetNextFundamental = changeTarget`; then **disabled-bypass**: if `director.disable` → `ApplyMasterFundamentalRaw(changeTarget)` (today's behavior when disabled); else `director.ActivateQueue()` (slot applied + counted → visual flourish pairs).
+- **Deferred** (short test): set `targetNextFundamental = changeTarget`; **do not** activate. The next external beat (`GameValues:412` behavior / `ImitoneVoiceIntepreter:545` tone) picks up the slot. **No "BlankAction" placeholder needed** — the slot *is* the pending marker, single-pending and self-deduping (Robin's BlankAction works too; the slot-aware early-return makes it unnecessary).
+
+**Source switch = flush + adopt + commit (F8 revised — uniform, no Sequence carve-out):**
+1. Clear the previous source's in-flight Director items (`ClearQueueOfType("fundamentalChange")`) and `targetNextFundamental = null` (flush — F9).
+2. `activeFundamentalSource = newSource`; adopt intent = `firstFundamental` (real) or `preferred[newSource]`; for InputDriven + real note, clean-slate `ResetFundamentalTimers()`.
+3. `targetNextFundamental = intent`; then **disabled-bypass**: if `director.disable` → `ApplyMasterFundamentalRaw(intent)` (iff differs); else `director.ActivateQueue()`.
+4. Benign switches self-protect: if `intent == master`, the slot isn't pending → nothing fires, no flourish. **So Sequence can use this same path** — a Tutorial C-pin only flourishes if the master wasn't already C (watch in playtest); Savasana's C-pin runs through the disabled-bypass. The F8 "Sequence-always-raw" carve-out is no longer needed.
+
+**Re-enter InputDriven with `None` (warm handoff) — adopt without wiping (Robin 2026-06-05):** the reactivation commit moves master → `preferred[InputDriven]` and syncs, but **does NOT `ResetFundamentalTimers()`** (`None` = the *honor* path; `realNote` = the *clean-slate* path that wipes). This is essential so an in-progress **sub-long (short-level) build** behind the curtain survives and continues live. Because InputDriven is a **shadow tracker**, `preferred` already holds the result of any behind-the-curtain long/longish silent commit (charge already ~0 there), so those cases land **directly on the right note, ladder quiet** — no `master → stale → corrected` flash. A short-only build lands master on the last committed note and continues the build live (commits on the next beat). The `FUND-HANDOFF` log captures the handoff. Restore confirmed (sub-question (a) resolved).
+
+**Behind-the-curtain thresholds → reactivation (per-threshold, Robin 2026-06-05):**
+
+| Threshold crossed behind curtain | Immediate (inactive) | On reactivation (`None`, honor) |
+|---|---|---|
+| **Short** (`_queueFundamentalChangeThreshold`, deferred path) | **No-op** — needs the Director (silenced) + the slot belongs to the active source. `preferred` & master unchanged; **charge NOT reset** (keeps building) | Master adopts `preferred` (last *committed* note, unchanged); **charge preserved** → the short-built note is live and commits on the next beat / when it reaches long. Honored. |
+| **Longish** (`…−5` + just-activated, immediate branch) | **Silent commit** — `preferred = changeTarget` + `ResetFundamentalTimers()`; no master/Director | Master adopts `preferred` = longish target **directly**; charge ~0 → ladder quiet. Clean. |
+| **Long** (`_initiateImminentFundamentalChangeThreshold`, any frame) | **Silent commit** (same as longish) | Master adopts `preferred` = long target directly; ladder quiet. Clean. |
+
+A sustained behind-the-curtain tone progresses **short (inert) → builds → long (silent commit + reset)** — so it ends as the Long row.
+
+**Move out of InputDriven:** the flush in switch-step 1 clears any in-flight InputDriven item + nulls the slot (usually nothing, per the two-gate enqueue rule).
+
+**Apply primitive still needed:** `ApplyMasterFundamentalRaw(note)` = today's `ApplyMasterFundamental` **without** the `ClearQueueOfType("fundamentalChange")` self-clear (the Director owns the queue during activation / the bypass doesn't need it). Keep `ResetFundamentalTimers` (charge reset on commit is current behavior).
+
+**Commit semantics — two commit forms.** A commit always records **`preferred[activeSource] = note`** + `ResetFundamentalTimers()`, *unless* it's a **debug-override** apply (the override sits on top and must not overwrite the source's real preferred). Two forms:
+- **Audible commit** (active source, Director enabled or via the raw-bypass): `ApplyMasterFundamentalRaw(note)` = master + Wwise + binaural + `ResetFundamentalTimers` + `preferred[activeSource]=note`. Covers the **long-test immediate**, the **deferred short-test fire**, and the **disabled raw-bypass** uniformly, so `preferred` is always the last actually-committed note and the warm-handoff restore is correct. Charge reset here is parity with legacy (legacy reset at the long-test apply and when the queued short-test action ran — at fire, not at queue).
+- **Silent commit** (InputDriven shadow-tracker behind the curtain — Robin 2026-06-05): `preferred[InputDriven] = changeTarget` + `ResetFundamentalTimers()` **only** — no master/Wwise/binaural/Director. This is what a behind-the-curtain **long test** does so `preferred` tracks while inactive.
+
+**Why not update `preferred` on the short-test *detection*:** a deferred intent may drift back or be flushed before firing — `preferred` should track what actually committed, not an uncommitted intent. (Behind the curtain the short test is skipped entirely; only the long test silent-commits.)
+
+**Open sub-questions for Robin (when back):**
+- (a) Re-entry restore vs ladder-only (warm-handoff intermediate note) — **resolved: keep the restore** (Robin 2026-06-05), with a B457 log so the handoff is verifiable (see *Verification logs*).
+- (b) Sub-stage recut: land 9a minimal now (long-test bypass + 5s flourish), and do the **whole slot design as 9c with 4e/4g**? Or introduce the slot for InputDriven-only in 9a (cleaner, slightly bigger, low-risk since the slot defaults null)? — lean: slot in 9c, keep 9a minimal; drop 9b if 9c lands.
+- (c) BlankAction vs slot-alone — **resolved: slot alone** (the slot-aware early-return makes the placeholder unnecessary; `FUND-SLOT` gives the debug visibility).
+
+### Behind-the-curtain guard (Robin 2026-06-05 — design principle, soft)
+
+A non-active source updating its `preferred` is **logic-only** and must **never move the master** (the slot is only set/committed for the active source). That part is already enforced by `ShouldWriteMaster`. The new guardrail: in the expected design **a change should always be accompanied by a change in source**, so a *behind-the-curtain* preferred update on **MusicBed or Sequence** (those are cue-/stage-driven and should arrive with their switch) almost certainly indicates a sequencing mistake → **B457 warning, warn-and-honor** (store the preferred, don't move the master, just flag).
+
+- **InputDriven is the exception — it is a *shadow tracker* behind the curtain.** While inactive but in a tracking mode it runs its full ladder: charge accumulates, and a behind-the-curtain **long test** does a **silent commit** (`preferred[InputDriven] = changeTarget` + `ResetFundamentalTimers()`) — updating its own `preferred` **without** touching master / Wwise / binaural / Director. So `preferred` legitimately changes behind the curtain (that's the "tracking changes to honor on reactivation"); only the master + Director are silenced. On reactivation the master adopts `preferred` directly. Because this never routes through `SetFundamentalForSource`, InputDriven **never trips the warning**.
+- **What the warning is actually for:** MusicBed/Sequence preferred updates go through `SetFundamentalForSource`; those sources are cue-/stage-driven and should always arrive *with* their source switch, so a non-active update there is the suspicious case.
+- Pure rule: `FundamentalSourcePolicy.ShouldWarnBehindCurtainUpdate(source, activeSource)` = `source != activeSource && (source == MusicBed || source == Sequence)`. Wired in `SetFundamentalForSource`. Soft principle, **not** a hard rule (legit exceptions allowed; revisit if it false-positives).
+
+### Verification logs (B457) — "tests with logs" (Robin 2026-06-05)
+
+Where instantiating `MusicSystem1` in EditMode isn't practical, behavior is pinned by **structured B457 log lines** a scripted playtest (or log capture) can assert against — Robin's "lots of things here can be added to a test with logs." Emit one line per relevant event:
+
+- **Master commit:** `B457 FUND-COMMIT src=<source> <from>→<to> path=<raw|director> flourish=<none|audio|visual>` — the single line that makes **single-source parity** and **director-off parity** verifiable (diff the sequence of lines against today's behavior; `path=raw` must appear when `director.disable`).
+- **Slot set (deferred):** `B457 FUND-SLOT set=<note> (deferred, awaiting beat)` / **slot cleared on commit/flush**.
+- **Silent commit (shadow tracker):** `B457 FUND-SHADOW InputDriven silent-commit preferred=<note> (master unchanged, behind curtain)` — confirms the behind-the-curtain long test updates `preferred` + resets charge without moving the master.
+- **Warm handoff (InputDriven re-entry):** `B457 FUND-HANDOFF restored preferred=<X> master <Y>→<X>; ladder re-evaluating from charge` — so the restore-then-ladder path and any brief intermediate note are visible.
+- **Behind-the-curtain warning:** `B457 FUND-CURTAIN WARNING <source> preferred=<note> updated while not active (no master move) — changes are expected to accompany a source switch`.
+
+### Sub-stages (proposed — confirm scope)
+
+- **9a (small, can land early):** fix the **long-test bug** + add the **5s flourish suppression**. The fix is **enqueue-then-activate when the Director is enabled, apply raw when `director.disable`** (F2 — naive enqueue-then-activate would drop the change in Freeplay-with-Director-off). Introduce the tiny `AnnounceFundamental(target, immediate)` seed (raw-when-disabled; else enqueue counted `fundamentalChange`, `ActivateQueue` iff immediate) and route long/longish (immediate) + short (deferred) through it. Add dedicated `timeSinceLastFlourish` + `FundamentalDirectorPolicy.ShouldAddFlourish` (F4). Pure Director/InputDriven, no new sources. Behavior-improving; pin the flourish-suppression predicate with an EditMode test (the Director's flourish *add* calls Wwise/light so it can't run headless — test the **decision**, not the side effect).
+- **9b: likely DROPPED.** The consolidated slot design **retires** `directorStoredFundamental` rather than relocating it (the single `targetNextFundamental` slot subsumes its dedupe job). Only keep a 9b if 9c is deferred for a long time and a cosmetic relocate is wanted in the interim.
+- **9c (rides with 4e/4g): the `targetNextFundamental` slot design** (see *Consolidated design* above). Director consults the slot in `ActivateQueue` (slot-aware early-return + apply-first + `countAudio++`); realized-effect is **structural** (inject a counted audio event only when `slot != master`); late-binding for free; **retire `directorStoredFundamental`**; immediate vs deferred trigger paths; **source switch = flush + adopt + commit** with **disabled-bypass** (uniform across sources — no Sequence carve-out); warm-handoff on InputDriven re-entry; add `ApplyMasterFundamentalRaw`.
+
+### Test Runner tests (EditMode) — regression net for the goblin
+
+Strategy: `MusicSystem1` can't be instantiated headless (Wwise deps), so we **extract every multi-step decision into a pure policy and unit-test it**, then **log-assert** the few genuinely stateful integrations. The single most valuable extraction is the **trigger ladder** — it turns the whole change-decision matrix (parity + shadow-tracker + behind-curtain→reactivation) into pure unit tests.
+
+**A. Pure policies to extract + unit-test (the regression backbone)**
+
+1. **`FundamentalTriggerPolicy.WhichTest(charge, highestCharge, retriggerReady, firstFrameActive, longThreshold, longishOffset≈5, shortThreshold)` → `{None | Short | Longish | Long}`** — pure threshold math, the **parity anchor**. Write it FIRST as a *characterization of the current ladder* (so 9a and 9c are both provably parity), then route production through it. Cases: below-short → None; `[short, long−5)` + firstFrame → Short; `[long−5, long)` + firstFrame → Longish; `≥ long` **any frame** → Long; `≥ long` precedence over Longish/Short; `!retriggerReady` → None; `charge < highestCharge` (not the leader) → None; not-firstFrame with sub-long charge → None (only Long fires off-activation). *(The lock/active gate is applied by the caller — `IsFundamentalLocked()` in 9a, the active-source/shadow routing in 9c — so `WhichTest` stays stable across both.)*
+2. **`FundamentalTriggerPolicy.RouteTrigger(which, isActiveWriter, slotEqualsTarget, targetEqualsMaster)` → `{None | SilentCommit | ImmediateAudible | DeferredAudible}`** — the active/shadow/dedupe routing (the heart of the new model). Cases encode the *Behind-the-curtain thresholds* table: Long/Longish + `!isActiveWriter` → **SilentCommit**; Long/Longish + active → **ImmediateAudible**; Short + `!isActiveWriter` → **None** (skipped behind curtain); Short + active + (`targetEqualsMaster` || `slotEqualsTarget`) → **None** (dedupe); Short + active + neither → **DeferredAudible**; None → None.
+3. **`FundamentalDirectorPolicy.FlourishDecision(countAudio, countVisual)` → `{None | AddAudio | AddVisual}`** — `0/0 → None` (the property the slot relies on), audio-only → AddVisual, visual-only → AddAudio, both → None. Pins the two-branch logic so no phantom flourish creeps back.
+4. **`FundamentalDirectorPolicy.ShouldAddFlourish(timeSinceLastFlourish, window≈5s)`** — the 5s anti-clutter gate (F4); pins the constant.
+5. **`FundamentalSourcePolicy.ShouldWarnBehindCurtainUpdate(source, activeSource)`** = non-active MusicBed/Sequence only; InputDriven never warns; active source never warns.
+6. **`FundamentalSourcePolicy.ShouldCleanSlate(source, firstFundamental)`** = `source == InputDriven && firstFundamental != None` — pins **honor (`None`, preserve charge) vs clean-slate (`realNote`, wipe)**; the explicit "honor, don't wipe" rule.
+7. *(inline, optionally pinned)* `UseRawBypass(directorDisabled)` — trivial branch; can ride a `FundamentalDirectorPolicy` test.
+8. **Existing `FundamentalSourcePolicy`** (4d): `IsTrackingMode`, `ShouldWriteMaster`, `CanInputDrivenWriteMaster` — already green; keep.
+
+9. **`FundamentalTriggerPolicy.Effects(disposition)` → `(writesPreferred, resetsCharge, writesMaster, setsSlot, touchesDirector)`** — the side-effect *contract* per disposition, so each case's state effects are pinned without instantiating `MusicSystem1`:
+   - `None` → `(false, false, false, false, false)` — **the Case-A-immediate guard: charge is NOT reset.**
+   - `SilentCommit` → `(true, **true**, false, false, false)` — preferred written + charge reset, **no master/slot/Director** (Cases B & C immediate).
+   - `DeferredAudible` → `(false, false, false, true, false)` — slot set only; **preferred untouched** (the "don't update preferred on short detection" rule).
+   - `ImmediateAudible` → `(—, —, —, true, true)` — sets slot + requests activation; the *commit* effects (preferred write + charge reset + master move) then follow the **audible-commit** contract downstream.
+
+Together (1)+(2)+(9) make the **entire change decision and its per-case side-effect signature** a pure unit matrix, independent of Wwise and the Director.
+
+**B. Behind-the-curtain case coverage (A/B/C — explicit per Robin 2026-06-05).** Each row is one assertion; "unit" = pure policy, "log" = `Verification logs` capture.
+
+| Case | Phase | Assertion | How |
+|---|---|---|---|
+| **A Short** | immediate | `RouteTrigger(Short, isActiveWriter=false, …) == None` | unit |
+| **A Short** | immediate | `Effects(None).resetsCharge == false` (charge **kept**, keeps building); no preferred/master/slot/Director | unit |
+| **A Short** | reactivation `None` | `ShouldCleanSlate(InputDriven, None) == false` (charge **preserved**) | unit |
+| **A Short** | reactivation `None` | master adopts `preferred` (audible iff ≠ departed master); the preserved short-build then commits live on the next beat | log (`FUND-HANDOFF`, then `FUND-COMMIT` when it re-triggers) |
+| **B Longish** | immediate | `RouteTrigger(Longish, isActiveWriter=false, …) == SilentCommit` | unit |
+| **B Longish** | immediate | `Effects(SilentCommit) == (writesPreferred, resetsCharge, **no** master/slot/Director)` | unit |
+| **B Longish** | immediate | silent commit observed: `preferred` updated, master unchanged | log (`FUND-SHADOW`, no `FUND-COMMIT`) |
+| **B Longish** | reactivation `None` | master adopts `preferred` directly; charge ~0 → ladder quiet (no follow-up commit) | log (`FUND-HANDOFF`, no trailing `FUND-COMMIT`) |
+| **C Long** | immediate | `RouteTrigger(Long, isActiveWriter=false, …) == SilentCommit` (Long resolved by `WhichTest` **any frame**) | unit |
+| **C Long** | immediate / reactivation | same effect + log assertions as Case B | unit + log |
+| **progression** | — | sustained behind-curtain tone: `WhichTest` returns Short while sub-long, then Long once `charge ≥ longThreshold` (→ Case C) | unit |
+
+(Active-source counterparts — Short→DeferredAudible, Long/Longish→ImmediateAudible — are the `RouteTrigger(isActiveWriter=true)` rows under section A, giving the single-source parity decisions.)
+
+**C. Log-asserted integrations (stateful; can't unit-test — verify via the `Verification logs`)**
+
+- **Single-source parity:** drive InputDriven-only (Freeplay/SoundWorld); the sequence of `FUND-COMMIT` lines must match today's master-fundamental sequence (the `WhichTest` characterization guarantees the *decisions*; the log confirms the *applied* result).
+- **Director-off parity:** every change in a disabled-Director stage logs `path=raw flourish=none` and yields the same master change as today's direct `ChangeFundamental` (no enqueue, no flourish).
+- **Shadow tracker:** behind-the-curtain Long → `FUND-SHADOW` with `preferred` updated and **master unchanged** (no `FUND-COMMIT`, no flourish); behind-curtain Short → neither line (inert).
+- **Warm handoff:** `FUND-HANDOFF` on re-entry; charge **preserved** for a short-build (a subsequent `FUND-COMMIT` follows when it re-triggers); long/longish re-entry shows the handoff with no follow-up commit (ladder quiet).
+- **Slot dedupe / single-pending:** a repeated short to the same note doesn't re-set the slot (no duplicate `FUND-SLOT`); `slot != master` is the only thing that commits.
+- **Flush on switch:** switching source emits the flush and **no stale flourish** fires afterward.
+- **5s flourish suppression:** rapid back-to-back commits → changes still apply (`FUND-COMMIT` each) but flourishes are gated to ~5s (no spam).
+- **Savasana C-pin with Director disabled:** C is pinned via the raw-bypass; `path=raw`.
+
+### Playtests
+
+- Headphones + lights. Confirm: (1) an InputDriven change while a loop bed owns the master is **silent and unlit** (logic-only); (2) an audible change pairs a visual flourish exactly once; (3) rapid changes don't spam flourishes (5s); (4) Savasana C-pin still works with the Director disabled; (5) switch away from and back to InputDriven resumes correctly without a stale/late flourish.
+
+### Must not break
+
+- Savasana's C pin under a disabled Director.
+- The existing "weak changes don't churn the queue" dedupe behavior.
+- No re-introduction of the Director self-removal bug (see Cross-cutting risks).
+
+**Commit(s):** `Block 7 (9a): long-test enqueue-then-activate (disabled-bypass) + 5s flourish suppression + FundamentalTriggerPolicy/FundamentalDirectorPolicy + tests.` · *(9b dropped — slot retires `directorStoredFundamental`)* · `Block 7 (9c): targetNextFundamental slot — Director-consulted commit, structural realized-effect, shadow-tracker silent commit, source-switch flush/adopt/commit, disabled-bypass, warm-handoff honor-not-wipe + policy tests.`
+
+---
+
 ## Stage map
 
 ```mermaid
@@ -687,7 +934,9 @@ flowchart TD
   S6[Stage 6 Pitch / 5ths / harmony]
   S7[Stage 7 Interactive fade / silent loops / Stop_Toning]
   S8[Stage 8 Lock C / 15:00]
+  S9[Stage 9 Director ↔ fundamental unification: synchresis + timing goblin; rides with 4g]
   S0 --> S1 --> S2 --> S3 --> S3b --> S4 --> S5 --> S6 --> S7 --> S8
+  S4 -.-> S9
 ```
 
 *Plan: Blocks 4 / 5 / 7 / 8. No code until confirmed; each stage: Composer or Opus implement → required Opus regression pass → commit.*
