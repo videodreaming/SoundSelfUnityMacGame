@@ -52,7 +52,9 @@ public partial class MusicSystem1
     {
         bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
         bool retriggerTest = (fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
-        bool test = !IsFundamentalLocked() && retriggerTest && isHighestFundamentalTimer;
+        // Block 7 / 4e: the InputDriven write gate is the active-source rule, not the legacy lock stack.
+        // The ladder may fire/queue a fundamental change only when InputDriven is the active source.
+        bool test = FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource) && retriggerTest && isHighestFundamentalTimer;
         bool directorMatchTest = directorStoredFundamental != changeTarget;
 
         bool highThresholdPass = newChangeFundamentalTimer >= _initiateImminentFundamentalChangeThreshold;

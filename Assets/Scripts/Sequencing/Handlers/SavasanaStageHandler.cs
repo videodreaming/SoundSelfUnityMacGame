@@ -84,7 +84,10 @@ namespace SoundSelf.Sequence
             MicNormalizationStagePolicy.ApplyRaiseFrozenOnStageEnter(
                 _sequencer.imitoneVoiceInterpreter, StageType.Savasana);
 
-            MusicSystem1.instance.SetFundamentalContentLock(NoteName.C);
+            // Block 7 / 4e zone 6: Savasana pins the fundamental to C via the Sequence source (replaces
+            // SetFundamentalContentLock(NoteName.C) — content locks are retired in 4e). The 4d shim already routed the
+            // content-lock SET here, so this is behavior-equivalent; calling the source API directly is the clean form.
+            MusicSystem1.instance.SetFundamentalSource(FundamentalSource.Sequence, NoteName.C);
             _sequencer.director.ActivateQueue(15f);
             _sequencer.director.Disable();
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);

@@ -4,7 +4,7 @@ using ConversionUtilities;
 
 /// <summary>
 /// The thing that owns the master fundamental at a given moment. Exactly one is active at a time
-/// (the active-source model that replaces the old priority lock stack); a debug override sits on top.
+/// (the active-source model that replaces the old priority lock stack).
 /// </summary>
 public enum FundamentalSource
 {
@@ -17,17 +17,15 @@ public enum FundamentalSource
 }
 
 // Part of MusicSystem1 (see MusicSystem1.cs). Split out via `partial` to keep that file's size down (Block 7).
-// Holds the active-source fundamental authority introduced in Stage 4d: which source is active, each source's
-// preferred note, the debug override, and the public API. All other state (fundamentalNoteName, the charge dict,
-// the legacy lock fields, ApplyMasterFundamental, ResetFundamentalTimers, currentMusicMode) is declared in MusicSystem1.cs.
-//
-// 4d is behavior-preserving: the legacy lock setters keep their exact logic and route their inner master-write
-// through this API (recording the active source + preferred), while the production write-gate remains the legacy
-// IsFundamentalLocked(). The active-source state becomes authoritative as call sites migrate in 4e.
+// Holds the active-source fundamental authority: which source is active, each source's preferred note, and the
+// public API. All other state (fundamentalNoteName, the charge dict, ApplyMasterFundamental, ResetFundamentalTimers,
+// currentMusicMode) is declared in MusicSystem1.cs. The legacy priority lock stack + debug override it replaced
+// were removed in Stage 4e; the active source is now the sole authority over the master fundamental.
 public partial class MusicSystem1
 {
-    // Active-source authority state (Block 7 / 4d). Default Sequence — startup is owned by the sequencer (4e pins it on Awake).
-    private FundamentalSource activeFundamentalSource = FundamentalSource.Sequence;
+    // Active-source authority state (Block 7 / 4d). Startup is owned by the sequencer; 4e zone 1 declares this
+    // explicitly via SetFundamentalSource(StartupSource, ...) in Start (the field initializer is just the pre-Start default).
+    private FundamentalSource activeFundamentalSource = FundamentalSourcePolicy.StartupSource;
 
     // Each source's own preferred fundamental. NoteName.None = "not set yet" (seeded in Start to the startup fundamental).
     private readonly Dictionary<FundamentalSource, NoteName> preferredFundamentalBySource = new Dictionary<FundamentalSource, NoteName>
@@ -37,17 +35,15 @@ public partial class MusicSystem1
         { FundamentalSource.Sequence, NoteName.None },
     };
 
-    // Debug override sits on top of the active source; while held, nothing else writes the master.
-    private NoteName? debugFundamentalOverride = null;
-
     /// <summary>
     /// Switch the active source. <paramref name="firstFundamental"/> == None adopts that source's existing
     /// preferred; a real note sets it (and for InputDriven also wipes per-note charge memory — "clean slate").
-    /// Writes the master only if no debug override is held and the source has a real preferred.
+    /// Writes the master if the source has a real preferred.
     /// </summary>
     public void SetFundamentalSource(FundamentalSource source, NoteName firstFundamental = NoteName.None)
     {
         // InputDriven only "lives" where DynamicMusicSystem() runs (tracking modes). Honor the switch anywhere, but warn (B457).
+        // (Preparatory soundscape pre-sets don't reach here — they use SetSoundscapeWithoutChangingFundamentalSource.)
         if (source == FundamentalSource.InputDriven && !FundamentalSourcePolicy.IsTrackingMode(currentMusicMode))
         {
             if (debugAllowWarnings || debugAllowFundamentalLockLogs)
@@ -69,19 +65,41 @@ public partial class MusicSystem1
 
         if (debugAllowFundamentalLockLogs)
         {
-            Debug.Log($"MUSIC FUNDAMENTAL-SOURCE: Active source → {source}, preferred={preferredFundamentalBySource[source]}, debugOverride={(debugFundamentalOverride.HasValue ? debugFundamentalOverride.Value.ToString() : "none")}");
+            Debug.Log($"MUSIC FUNDAMENTAL-SOURCE: Active source → {source}, preferred={preferredFundamentalBySource[source]}");
         }
 
         NoteName preferred = preferredFundamentalBySource[source];
-        if (!debugFundamentalOverride.HasValue && preferred != NoteName.None)
+        if (preferred != NoteName.None)
         {
             ApplyMasterFundamental(preferred);
         }
     }
 
     /// <summary>
-    /// Update a source's preferred fundamental. Writes the master only if that source is currently active
-    /// and no debug override is held. InputDriven → clean-slate reset of the charge memory.
+    /// Resume the soundscape-driven source after a tutorial/correction pin (Block 7 / 4e zone 4/5).
+    /// This is the "exceptional space" resume — deliberately NOT the same as the playground/Freeplay entry resume:
+    /// <list type="bullet">
+    /// <item>SoundWorld → InputDriven seeded with the CURRENT master fundamental, so voice tracking resumes from where
+    /// the pin left it (clean slate), NOT from InputDriven's stale shadow-tracked preferred.</item>
+    /// <item>MusicLoop → MusicBed adopting the bed's own preferred (the correction must not overwrite the bed key).</item>
+    /// </list>
+    /// (Playground entry instead adopts the source's existing preferred — see SetMusicModeTo Freeplay zone 3.)
+    /// </summary>
+    public void ResumeFundamentalAfterCorrectionPin()
+    {
+        if (FundamentalSourcePolicy.SourceForInteractionType(currentInteractionType) == FundamentalSource.MusicBed)
+        {
+            SetFundamentalSource(FundamentalSource.MusicBed);
+        }
+        else
+        {
+            SetFundamentalSource(FundamentalSource.InputDriven, fundamentalNoteName);
+        }
+    }
+
+    /// <summary>
+    /// Update a source's preferred fundamental. Writes the master only if that source is currently active.
+    /// InputDriven → clean-slate reset of the charge memory.
     /// </summary>
     public void SetFundamentalForSource(FundamentalSource source, NoteName note)
     {
@@ -100,57 +118,13 @@ public partial class MusicSystem1
             ResetFundamentalTimers(); // clean slate
         }
 
-        if (FundamentalSourcePolicy.ShouldWriteMaster(source, activeFundamentalSource, debugFundamentalOverride.HasValue))
+        if (FundamentalSourcePolicy.ShouldWriteMaster(source, activeFundamentalSource))
         {
             ApplyMasterFundamental(note);
         }
         else if (debugAllowFundamentalLockLogs)
         {
-            Debug.Log($"MUSIC FUNDAMENTAL-SOURCE: preferred[{source}]={note} stored, but not written (active={activeFundamentalSource}, debugOverride={(debugFundamentalOverride.HasValue ? debugFundamentalOverride.Value.ToString() : "none")}).");
-        }
-    }
-
-    /// <summary>
-    /// Set or clear the debug fundamental override (sits on top of the active source). Pass null to clear,
-    /// which restores the active source's preferred. None is rejected.
-    /// </summary>
-    public void SetDebugFundamentalOverride(NoteName? note)
-    {
-        if (note.HasValue)
-        {
-            if (note.Value == NoteName.None)
-            {
-                if (debugAllowWarnings || debugAllowFundamentalLockLogs)
-                {
-                    Debug.LogWarning("MUSIC FUNDAMENTAL-SOURCE: SetDebugFundamentalOverride(None) ignored — None is not a valid fundamental.");
-                }
-                return;
-            }
-
-            debugFundamentalOverride = note.Value;
-            ApplyMasterFundamental(note.Value);
-            if (debugAllowFundamentalLockLogs)
-            {
-                Debug.Log($"MUSIC FUNDAMENTAL-SOURCE: Debug override set to {note.Value} (overrides active source {activeFundamentalSource}).");
-            }
-        }
-        else
-        {
-            if (!debugFundamentalOverride.HasValue)
-            {
-                return;
-            }
-
-            debugFundamentalOverride = null;
-            NoteName preferred = preferredFundamentalBySource[activeFundamentalSource];
-            if (preferred != NoteName.None)
-            {
-                ApplyMasterFundamental(preferred);
-            }
-            if (debugAllowFundamentalLockLogs)
-            {
-                Debug.Log($"MUSIC FUNDAMENTAL-SOURCE: Debug override cleared — restored active source {activeFundamentalSource} preferred={preferred}.");
-            }
+            Debug.Log($"MUSIC FUNDAMENTAL-SOURCE: preferred[{source}]={note} stored, but not written (active={activeFundamentalSource}).");
         }
     }
 }

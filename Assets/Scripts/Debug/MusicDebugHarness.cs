@@ -69,12 +69,6 @@ public class MusicDebugHarness : MonoBehaviour
             case MusicDebugHarnessAction.StepLornaKeyCue:
                 StepLornaKeyCue();
                 break;
-            case MusicDebugHarnessAction.LockFundamentalToC:
-                LockFundamentalToC();
-                break;
-            case MusicDebugHarnessAction.UnlockFundamentalLocks:
-                UnlockFundamentalLocks();
-                break;
             case MusicDebugHarnessAction.ToggleBinauralPlay:
                 ToggleBinauralPlay();
                 break;
@@ -298,28 +292,6 @@ public class MusicDebugHarness : MonoBehaviour
         DumpStateLine();
     }
 
-    void LockFundamentalToC()
-    {
-        var ms = MusicSystem1.instance;
-        if (ms == null)
-            return;
-        ms.SetFundamentalContentLock(NoteName.C);
-        Debug.Log(LogPrefix + " SetFundamentalContentLock C (savasana-style)");
-        DumpStateLine();
-    }
-
-    void UnlockFundamentalLocks()
-    {
-        var ms = MusicSystem1.instance;
-        if (ms == null)
-            return;
-        ms.SetFundamentalContentLock(null);
-        ms.SetFundamentalModeLock(false);
-        ms.SetFundamentalDebugLock(null);
-        Debug.Log(LogPrefix + " Cleared content/mode/debug fundamental locks");
-        DumpStateLine();
-    }
-
     void ToggleBinauralPlay()
     {
         var beats = MusicBinauralBeats.instance;
@@ -391,7 +363,7 @@ public class MusicDebugHarness : MonoBehaviour
 
     void LogKeyLegend()
     {
-        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | G=guided playtest (Space/Return between steps; tone only on Director prompts) | [=world ]=loop | ;=key cue | L=lock C | U=unlock | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
+        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | G=guided playtest (Space/Return between steps; tone only on Director prompts) | [=world ]=loop | ;=key cue | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
     }
 }
 #endif

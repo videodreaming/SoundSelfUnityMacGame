@@ -284,66 +284,6 @@ public class InputReferences : MonoBehaviour
         }
         */
         // ===================================================================
-        // KEYBOARD COMMANDS FOR FUNDAMENTAL LOCKS (MusicSystem1)
-        // I/O: Debug Lock   |   K/L: Content Lock   |   N/M: Mode Lock
-        // Press key to SET the lock, adjacent key to CLEAR the lock
-        // ===================================================================
-        // DEBUG LOCK (I = Set Debug Lock to C, O = Clear Debug Lock)
-        /*
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            if (MusicSystem1.instance != null)
-            {
-                MusicSystem1.instance.SetFundamentalDebugLock(NoteName.As);
-                Debug.Log("[LOCK] Debug fundamental lock set to As via I");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            if (MusicSystem1.instance != null)
-            {
-                MusicSystem1.instance.SetFundamentalDebugLock(null); // Pass null to clear
-                Debug.Log("[LOCK] Debug fundamental lock cleared via O");
-            }
-        }
-
-        // CONTENT LOCK (K = Set Content Lock to E, L = Clear Content Lock)
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            if (MusicSystem1.instance != null)
-            {
-                MusicSystem1.instance.SetFundamentalContentLock(NoteName.C);
-                Debug.Log("[LOCK] Content fundamental lock set to C via K");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            if (MusicSystem1.instance != null)
-            {
-                MusicSystem1.instance.SetFundamentalContentLock(null); // Pass null to clear, not NoteName.None
-                Debug.Log("[LOCK] Content fundamental lock cleared via L");
-            }
-        }
-
-        // MODE LOCK (N = Set Mode Lock to G, M = Clear Mode Lock)
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            if (MusicSystem1.instance != null)
-            {
-                MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.G);
-                Debug.Log("[LOCK] Mode fundamental lock set to G via N");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            if (MusicSystem1.instance != null)
-            {
-                MusicSystem1.instance.SetFundamentalModeLock(false); // Note parameter is ignored when doLock is false
-                Debug.Log("[LOCK] Mode fundamental lock cleared via M");
-            }
-        }
-        */
-        // ===================================================================
         // TESTING KEYBOARD COMMANDS FOR InputReferences.cs
         // ===================================================================
         // Add these commands to the Update() method in InputReferences.cs

@@ -546,12 +546,16 @@ public class Tutorial : MonoBehaviour
 
         
 
-        LogAcHumDiag("before SetFundamentalModeLock(C) for correction");
+        // Block 7 / 4e zone 4: hold the fundamental at C for A/C-hum correction (replaces SetFundamentalModeLock(true, C)),
+        // but ONLY when the soundscape is a SoundWorld (voice-driven). For a MusicLoop the bed owns the key, so the
+        // correction must not seize the fundamental — leave MusicBed in charge (Robin 2026-06-05).
+        if (musicSystem1.currentInteractionType == MusicSystem1.InteractionType.SoundWorld)
+        {
 
-        musicSystem1.SetFundamentalModeLock(true, NoteName.C);
-
-        LogAcHumDiag("after SetFundamentalModeLock(C) for correction");
-
+            LogAcHumDiag("before SetFundamentalSource(Sequence, C) for correction");
+            musicSystem1.SetFundamentalSource(FundamentalSource.Sequence, NoteName.C);
+            LogAcHumDiag("after SetFundamentalSource(Sequence, C) for correction");
+        }
 
 
         if (variant == "Long")
@@ -720,9 +724,13 @@ public class Tutorial : MonoBehaviour
 
         {
 
-            musicSystem1.SetFundamentalModeLock(false);
+            // Block 7 / 4e zone 4: resume the soundscape-driven source after the correction pin (replaces
+            // SetFundamentalModeLock(false) → ResolveFundamentalOnUnlock). SoundWorld → InputDriven seeded from the
+            // current master (track on from the pinned note); MusicLoop → MusicBed keeps the bed key. Tutorial runs in
+            // a tracking mode, so the InputDriven branch does not warn (B457).
+            musicSystem1.ResumeFundamentalAfterCorrectionPin();
 
-            LogAcHumDiag("unlocked fundamental after correction (non-Hum segment)");
+            LogAcHumDiag("resumed soundscape-driven fundamental after correction (non-Hum segment)");
 
         }
 
@@ -1000,9 +1008,12 @@ public class Tutorial : MonoBehaviour
 
 
 
+        // Block 7 / 4e zone 4: resume the soundscape-driven source when moving to a non-"Hum" vocalization (replaces
+        // SetFundamentalModeLock(false) → ResolveFundamentalOnUnlock). SoundWorld → InputDriven seeded from the current
+        // master; MusicLoop → MusicBed keeps the bed key. Tutorial = tracking mode, so the InputDriven branch doesn't warn.
         if (toType != "Hum" && musicSystem1 != null)
 
-            musicSystem1.SetFundamentalModeLock(false);
+            musicSystem1.ResumeFundamentalAfterCorrectionPin();
 
 
 

@@ -93,14 +93,6 @@ public class WwiseVOManager : MonoBehaviour
             WarnCueSkipped(cueName, "musicSystem1", skippedDescription);
     }
 
-    private void VoTryFundamentalModeUnlock(string cueName)
-    {
-        if (musicSystem1 != null)
-            musicSystem1.SetFundamentalModeLock(false);
-        else
-            WarnCueSkipped(cueName, "musicSystem1", "SetFundamentalModeLock(false)");
-    }
-
     private void VoTryTutorialSetVocalization(string cueName, string vocalizationType)
     {
         if (tutorial != null)

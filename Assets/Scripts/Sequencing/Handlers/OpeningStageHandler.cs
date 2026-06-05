@@ -116,16 +116,20 @@ namespace SoundSelf.Sequence
             _sequencer.worldShuffler.ExcludeColorWorld(PreferredColorWorld.Blue);
             _sequencer.worldShuffler.ExcludeSoundscape("Shadow");
 
+            // Preparatory soundscape staging (Block 7 / 4e zone 2): the Opening pre-stages the world/loop while mode is
+            // Silent — interactive music isn't playing yet. Use the WithoutChangingFundamentalSource variant so this
+            // does NOT seize the fundamental (source stays Sequence) and stays silent; the bed's start key is still
+            // remembered for when it goes live. The active source is established later at Tutorial/Freeplay entry.
             if (variant == StageVariant.Opening_PS_Ascending)
             {
                 Debug.Log("OpeningStageHandler: Adjunctive mode detected. Initializing Adjunctive session.");
-                MusicSystem1.instance.SetSoundWorld("Shadow");
-                MusicSystem1.instance.SetSoundscape("ShiftingEarth");
+                MusicSystem1.instance.SetSoundscapeWithoutChangingFundamentalSource("Shadow");
+                MusicSystem1.instance.SetSoundscapeWithoutChangingFundamentalSource("ShiftingEarth");
             }
             else
             {
                 Debug.Log("OpeningStageHandler: Standard mode detected. Initializing Standard.");
-                MusicSystem1.instance.SetSoundscape("SonoFlore");
+                MusicSystem1.instance.SetSoundscapeWithoutChangingFundamentalSource("SonoFlore");
             }
 
 

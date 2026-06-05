@@ -6,6 +6,59 @@
 
 ---
 
+## Status at a glance
+
+> **(a) what's done · (b) what's left** — at a glance. Legend: ✅ done · ▶ in progress · ◑ partial · ⬜ to do. Full detail for every stage lives in the **Appendices** (linked from §Active work and below).
+
+| Stage | State | Commit | What |
+|---|---|---|---|
+| 0 — Debug / test harness | ✅ | `c40e044b` | `Playground_Debug` harness + keyboard music controls |
+| 1 — Director queue + shuffle + sound-worlds | ✅ | `ab63eb4f`, `816218e3` | Director self-removal fix; shuffle/transition audit; SoundWorld-switch-not-audible fix |
+| 2 — Binaural stage gating | ✅ | `da074617` | binaural off on MusicPlaylist / LinearAudio |
+| 2b — Binaural single authority | ✅ | `dd1b7c0a` | stage owns base volume; mode only attenuates 30% |
+| 3 — Wwise switch hygiene | ◑ | `dd1b7c0a`, `816218e3` | MusicLoops→Silence before interactive (done); one-frame switch ordering still open |
+| 3b — Block 8 mic envelope | ✅ | `3dc74f22` | per-soundscape MicMixer dB + stacked ADSR monitoring |
+| 4a — dead-field cleanup | ✅ | `18651457` | remove `fundamentalNoteCompare` + dead harmony-retrigger fields |
+| 4b — NoteTracker split | ✅ | `d18b002e` | → `voiceActivity` + `fundamentalChargeByNote` |
+| 4c — partial-class split | ✅ | `0fced712` | `MusicSystem1.InputDrivenFundamental/Harmony.cs` |
+| 4d — active-source authority | ✅ | `e80da993` | `FundamentalSource` + `FundamentalSourcePolicy`; lock setters as shims |
+| 4e — migrate call sites to `SetFundamentalSource` (+ retire legacy lock stack & debug override) | ▶ | _(uncommitted)_ | gate flip + zones 1–6 + `ResolveFundamentalOnUnlock` removed; **Step 0 done in tree — whole lock stack + debug override + dev force-note surfaces deleted, policies lost `hasDebugOverride`**; shadow-tracker preferred-sync **deferred to 9c** (not standalone); pending Test Runner → Opus regression → one commit |
+| 4f — `HarmonyRunPolicy` | ⬜ | — | harmony in Tutorial/Freeplay + Savasana tail (`MusicLoopSilent && gameOn`) |
+| 4g — MusicBed `Cue_Key_*` listener | ⬜ | — | (folds old Stage 5 Unity side) binaural follows the bed key |
+| 4h — retire `FrozenFreeplay` | ⬜ (optional) | — | collapse to Freeplay + `gameOn=false` + Sequence(C); gated on a gameOn audit |
+| 5 — Lorna external Wwise embedding | ⬜ (external) | — | cue→`NoteName` contract; end-to-end verify |
+| 6 — pitch / 5ths / harmony audit | ⬜ | — | consonance + `changeHarmony` guards |
+| 7 — interactive fade / silent loops / Stop_Toning | ⬜ | — | fade feel; silent-loop persistence; Wwise-paced stop |
+| 8 — lock C before savasana + 15:00 | ⬜ | — | pin C ~60s pre-savasana; smooth 15:00 crossfade |
+| 9 — Director ↔ fundamental "goblin" | ⭐ NEXT (design settled) | — | synchresis/timing unification + `targetNextFundamental` slot + **shadow-tracker preferred-sync (deferred from 4e)**; 9a then 9c |
+
+---
+
+## Active work — what's left to do
+
+> **Execution order is driven by [`BLOCKS_4_5_7_BUILD_CHECKLIST.md`](BLOCKS_4_5_7_BUILD_CHECKLIST.md)** (adopted 2026-06-05): finish 4e → the **Stage 9 goblin spine (next)** → 4g / 4f → cleanups → musical polish → Lorna external. That checklist has the step-by-step boxes + the "how it works / why" primer; this section is the prose summary.
+
+**▶ Now — finish Stage 4e** (active-source call-site migration **+ Step 0: retire the legacy lock stack & debug override**). The bundle below is **uncommitted** in `WorkingWwise`, on top of 4d `e80da993`:
+
+- **Done in the working tree:** gate flip (both InputDriven gates → `FundamentalSourcePolicy.CanInputDrivenWriteMaster`); zone migrations (startup = Sequence; `SetSoundWorld`→InputDriven / `SetMusicLoop`→MusicBed; `SetMusicModeTo` modes; Tutorial A/C-hum correction; Savasana); `ResolveFundamentalOnUnlock` + `IsFundamentalLocked` deleted; `SourceForInteractionType` EditMode test added. *(detail: [Appendix D](#appendix-d--stage-4-block-7-fundamental-active-source-design-spec--4e-status--decision-log) §"4e IN-PROGRESS STATUS")*
+- **Step 0 done this session (Robin 2026-06-05 — "delete and forever forget the debug override"):** the **entire legacy lock stack** is gone — `debugFundamentalOverride` + `SetDebugFundamentalOverride`, the three lock fields + `SetFundamentalDebugLock`/`ContentLock`/`ModeLock`, `GetLockedFundamental`, and every dev force-note surface (`OnPermanentlySetFundamentalChanged`; the commented `InputReferences` I/O/K/L/N/M keys; the `MusicDebugHarness` `LockFundamentalToC`/`UnlockFundamentalLocks` actions + L/U keys). `FundamentalSourcePolicy.ShouldWriteMaster`/`CanInputDrivenWriteMaster` lost the `hasDebugOverride` param; both gate call sites + Block7/harness EditMode tests updated. No production behavior change (all debug-only after the migration). **Bundled into the single 4e commit.**
+- ⬜ **Shadow-tracker `preferred`-sync fix — DEFERRED to 9c (not standalone).** `preferred[InputDriven]` is never updated by live tracking, so adopt-preferred entries can snap the master to a stale note / wipe charge. A standalone attempt at this fix failed (confusing half-machinery), so it now lands as **Layer 1 of the 9c commit semantics** (silent/audible commit + honor-not-wipe built together). 4e ships with the bounded interim (InputDriven entry continues from current master). Design spec: [`HANDOFF_InputDriven_preferred_shadow_tracker.md`](HANDOFF_InputDriven_preferred_shadow_tracker.md) (consumed by 9c).
+- ⬜ **One bundled 4e commit (migration + Step 0):** Test Runner (EditMode) green → Opus regression pass → Robin's go → commit → record hash in [Appendix A](#appendix-a--commit-log).
+
+**⬜ Then — recommended order (adopted 2026-06-05; boxes in the [build checklist](BLOCKS_4_5_7_BUILD_CHECKLIST.md)):** the Stage 9 goblin spine comes **next** — it's the architecture everything else sits on — then the sources, cleanups, polish, and external. One-line goal each (full spec in the linked appendix):
+
+- **⭐ 9 — Director ↔ fundamental "goblin" (NEXT — the spine):** `targetNextFundamental` slot + `ApplyMasterFundamentalRaw`/announce + disabled-bypass + **structural** realized-effect + flush-on-switch + **shadow-tracker preferred-sync + warm handoff** (the deferred 4e fix, Layer 1 of commit semantics). **9a** (long-test enqueue-then-activate + 5s flourish suppression) then **9c** (the slot + commit semantics). *(Appendix G)*
+- **4g — MusicBed `Cue_Key_*` listener** in `MusicSystem1` (first consumer of the slot/announce path): post `Play_MusicLoops` with the cue callback flag → `TryHandleMusicKeyCue` → MusicBed source; binaural follows the master; cue→`NoteName` map. *(Appendix D + Appendix E Stage 5)*
+- **4f — `HarmonyRunPolicy.ShouldRun(mode, gameOn)`** gating `HarmonyUpdate`: run in Tutorial, Freeplay, and `MusicLoopSilent && gameOn` (Savasana toning tail; Linear off via `gameOn=false`). Independent — can slot in early as a quick win. *(Appendix D)*
+- **4h (optional) — retire `FrozenFreeplay`**: collapse the 4 call sites to `Freeplay` + `SetGameOn(false)` + `Sequence(C)`; gated on a `gameOn` audit. *(Appendix D)*
+- **Stage 3 leftover — one-frame switch ordering** + duplicate-post guard. *(Appendix C Stage 3)*
+- **6 — pitch / 5ths / harmony audit**: consonance + `changeHarmony` `None`-guard; revisit the harmony `gameOn` gate. *(Appendix E)*
+- **7 — interactive fade / silent loops / Stop_Toning**: fade-in feel; silent loops persist when toning stops; Wwise-paced stop. *(Appendix E)*
+- **8 — lock C before savasana + 15:00 transition** (after the slot, so it queues through the finished contract): pin C ~60s before savasana; smooth 15:00 crossfade. *(Appendix E)*
+- **5 — Lorna external**: she embeds `Cue_Key_*` in Wwise; verify end-to-end (Unity side is 4g). *(Appendix E)*
+
+---
+
 ## Standing rules (apply to every stage)
 
 1. **No code is written until Robin confirms** the plan, and confirms each stage as we reach it.
@@ -23,7 +76,11 @@
 
 ---
 
-## Commit log
+# Appendices
+
+> Reference + history. The **live plan** is §Status / §Active work / §Standing rules above; everything below is preserved detail, faithfully moved (nothing deleted).
+
+# Appendix A — Commit log
 
 Short hashes for each committed stage/fix (standing rule 9). Newest at the bottom. `origin/WorkingWwise`.
 
@@ -42,6 +99,8 @@ Short hashes for each committed stage/fix (standing rule 9). Newest at the botto
 | `e80da993` | **Stage 4d — active-source fundamental authority** — `FundamentalSource` enum + per-source preferred + debug override (`MusicSystem1.FundamentalAuthority.cs`); `SetFundamentalDirect` body → private `ApplyMasterFundamental` (public shim kept); legacy lock setters route inner master-write through the source API (DebugLock→override, Content/ModeLock→`Sequence`), production gate still `IsFundamentalLocked()`; `FundamentalSourcePolicy` + `Block7FundamentalPolicyEditModeTests` (9, green). Behavior-preserving (Opus 4d regression pass: shim-equivalent) |
 
 ---
+
+# Appendix B — Director-mode framing & test harness
 
 ## How director mode helps these blocks (and where it doesn't)
 
@@ -75,6 +134,8 @@ Editor/dev-only; **no production behavior change**, so it can land first and de-
 > Only non-`.cs` touches: the `StageVariant` enum value and `DebugSequence.asset`. No `.unity` / `.prefab` edits planned.
 
 ---
+
+# Appendix C — Completed stages 0–3b: detail & playtest results
 
 ## Stage 0 — Debug / test harness
 
@@ -389,6 +450,8 @@ Guided `G` order (after Parts A/B): **3b.1 ADSR first, then 3b.0 MicMixer A/B** 
 
 ---
 
+# Appendix D — Stage 4 (Block 7 fundamental): active-source design spec + 4e status & decision log
+
 ## Stage 4 — Block 7 core: break apart the fundamental system (discuss first)
 
 - **Implement with: Opus 4.8** · **Regression pass: Opus 4.8 (required)**
@@ -540,6 +603,55 @@ Startup + the explicit switch points (Robin 2026-06-04). **Default: `Sequence` o
 
 **Ordering (regression-proof via explicit sets, NOT a mode gate) — Robin 2026-06-04:** There is **no** blanket "only in Freeplay" suppression (that earlier proposal was wrong). Source changes are legitimate in multiple modes — including **Tutorial** and the **awkward adjunctive-savasana tail**. Each switch point sets the source **explicitly** and **last-writer-wins** ordering decides the outcome (a stage that must hold C sets `Sequence(C)` after any soundscape set in the same entry). The regression-proof contract is the transition table above + EditMode tests that assert the **resulting** active-source/master/preferred state for each real flow (tutorial entry + hum correction + release; freeplay world↔loop shuffle; savasana tail), not a mode-gated guard.
 
+### 4e IN-PROGRESS STATUS (2026-06-05, branch WorkingWwise, on top of 4d `e80da993`) — UNCOMMITTED working tree
+
+> **LIVE status is §Active work at the top of this doc** (it supersedes the "Immediate next step" / "NOT yet done" wording below, which predates the regression pass). The detail below is the per-zone build record.
+>
+> **SUPERSEDED by Step 0 (2026-06-05):** the per-zone notes below describe the 4d **shim** era — lock setters still present, `GetLockedFundamental` kept, gate calls threading `debugFundamentalOverride.HasValue`, DebugLock CLEAR → `SetDebugFundamentalOverride(null)`. **Step 0 deleted all of that** (entire lock stack + debug override + dev force-note surfaces; policies lost `hasDebugOverride`). Read the zone notes for *intent/history*; the current code has no lock stack. See §Active work "Step 0" at the top.
+>
+> **Shadow-tracker `preferred`-sync is no longer a 4e item — it is DEFERRED to 9c** (a standalone attempt failed; it's Layer 1 of the goblin commit semantics). Spec consumed by 9c: [`HANDOFF_InputDriven_preferred_shadow_tracker.md`](HANDOFF_InputDriven_preferred_shadow_tracker.md).
+
+**Done in the working tree (NOT yet committed — Robin is reviewing zone-by-zone; all zones commit together after a log/subjective pass):**
+- **Zone 1 (startup = Sequence):** `FundamentalSourcePolicy.StartupSource` const (= Sequence); `activeFundamentalSource` initializer + `MusicSystem1.Start` both use it; `Start` declares ownership via `SetFundamentalSource(StartupSource, fundamentalNoteName)` (in `Start`, not `Awake`, because the write path iterates `fundamentalChargeByNote`). EditMode pin `StartupSource_IsSequence`. **Ran green** (Robin, zone 1).
+- **Zone 2 (soundscape):** `SetSoundWorld` → `SetFundamentalSource(InputDriven)`; `SetMusicLoop` → `SetFundamentalSource(MusicBed, startNote)`. `GetMusicLoopFundamental` reframed as the **start note** (seed-before-cues, kept permanently — see 4g note). Content-lock calls removed from both.
+- **Zone 3 (mode):** `SetMusicModeTo` Tutorial/Frozen → `SetFundamentalSource(Sequence, C)`; Freeplay → `SetFundamentalSource(FundamentalSourcePolicy.SourceForInteractionType(currentInteractionType))` (new pure policy: MusicLoop→MusicBed, else InputDriven). Last-writer-wins confirmed (Tutorial entry sets no soundscape after).
+- **Preparatory soundscape (Robin 2026-06-05):** new `SetSoundscapeWithoutChangingFundamentalSource(soundscape)` + a `changeFundamentalSource = true` param threaded through `SetSoundscape`/`SetSoundWorld`/`SetMusicLoop`. Preparatory (false): SoundWorld touches nothing; MusicLoop only **remembers** the start note via `SetFundamentalForSource(MusicBed, startNote)` (stored, no master write, source stays Sequence). `OpeningStageHandler`'s 3 calls (`Shadow`/`ShiftingEarth`/`SonoFlore`) use it — Opening pre-stages while Silent without seizing the fundamental (matches legacy: legacy `SetSoundWorld` content-lock-clear was a no-op for a fresh world; this stays silent + source-stable). The earlier `warnIfNotTracking` flag on `SetFundamentalSource` was **reverted** (preparatory path no longer calls it; B457 stays a pure guardrail).
+- **Enum TODO** added above the `soundWorlds`/`musicLoops` string tables (future refactor, out of scope for 4e).
+- **Step 1 — GATE FLIP (done):** both InputDriven gates now use `FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource, debugFundamentalOverride.HasValue)` — the ENQUEUE gate (`MusicSystem1.InputDrivenFundamental.cs` `TryApplyFundamentalChangeTriggers`) and the WRITE gate (`MusicSystem1.cs` `ChangeFundamental`). `ChangeFundamental`'s else-branch warning reframed from "locked (`GetLockedFundamental`)" to "InputDriven is not the active source (active=…, debugOverride=…)".
+- **Step 2 — Zone 4 (`Tutorial.cs`) (done):** correction pin (was `SetFundamentalModeLock(true, C)`) → `SetFundamentalSource(Sequence, C)` **guarded** to run only when `currentInteractionType == SoundWorld` (a MusicLoop bed owns the key — leave MusicBed). The two non-"Hum" releases (was `SetFundamentalModeLock(false)`) → new `ResumeFundamentalAfterCorrectionPin()`. New helper in `MusicSystem1.FundamentalAuthority.cs`: SoundWorld → `SetFundamentalSource(InputDriven, fundamentalNoteName)` (clean-slate resume from the pinned note, NOT the stale shadow preferred); MusicLoop → `SetFundamentalSource(MusicBed)` (adopt the bed's preferred). Deliberately different from playground entry (which adopts preferred with no seed).
+- **Step 3 — Zone 5 (done):** `WwiseVOManager.VoTryFundamentalModeUnlock` was DEAD CODE (zero callers; its job moved to the Tutorial guidanceCount release) → **deleted**.
+- **Step 4 — Zone 6 (`SavasanaStageHandler`) (done):** `SetFundamentalContentLock(NoteName.C)` → `SetFundamentalSource(FundamentalSource.Sequence, NoteName.C)`.
+- **Step 5 — `ResolveFundamentalOnUnlock` removed + 3 lock-CLEAR sites rewired + dead `IsFundamentalLocked()` deleted (done; Robin chose Option A):** `ResolveFundamentalOnUnlock()` and `IsFundamentalLocked()` deleted (kept `GetLockedFundamental()` — still read by content/mode SET-path logging). DebugLock CLEAR → clear legacy field + `SetDebugFundamentalOverride(null)` (exact active-source equivalent: restores active source preferred). Content/Mode lock CLEAR → clear legacy field + log only, **no source switch / no master write** (production resume is owned by the explicit `SetFundamentalSource` calls in zones 2/3/4/6; the only remaining callers of these CLEAR paths are the debug harness; full debug rewire onto the source API is 4g). Subtle debug-only change flagged: legacy debug-unlock could re-queue a tracking change; the new path snaps to active-source preferred immediately.
+- **Step 6 — test + doc (done):** added `SourceForInteractionType` EditMode test (MusicLoop→MusicBed, SoundWorld→InputDriven) to `Block7FundamentalPolicyEditModeTests`; this status block updated.
+
+**Files touched (uncommitted):** `FundamentalSourcePolicy.cs`, `MusicSystem1.FundamentalAuthority.cs`, `MusicSystem1.cs`, `MusicSystem1.InputDrivenFundamental.cs`, `Assets/Scripts/Sequencing/Tutorial.cs`, `Assets/Scripts/WwiseManagers/WwiseVOManager.cs`, `Assets/Scripts/Sequencing/Handlers/SavasanaStageHandler.cs`, `OpeningStageHandler.cs`, `Assets/Editor/SoundSelf/Tests/EditMode/Block7FundamentalPolicyEditModeTests.cs`, this plan.
+
+**Status (superseded — see the LIVE-status banner above):** the call-site migration (gate flip + zones 4/5/6 + `ResolveFundamentalOnUnlock` removal + test) is in the working tree, **plus Step 0** (the whole legacy lock stack + debug override deleted — 2026-06-05). **Outstanding for the 4e bundle is only the commit ceremony:** Robin runs Test Runner (EditMode) → Opus regression pass → explicit go → single bundled 4e commit (record hash below). The **shadow-tracker `preferred`-sync fix is no longer a 4e item** — it was deferred to **9c** (a standalone attempt failed; it's Layer 1 of the goblin commit semantics). Spec: [`HANDOFF_InputDriven_preferred_shadow_tracker.md`](HANDOFF_InputDriven_preferred_shadow_tracker.md).
+
+**GATE-FLIP FINDING (2026-06-05) — supersedes the earlier "gate flip standalone, zones 4/5/6 after" idea:** the two input gates are `IsFundamentalLocked()` at `MusicSystem1.InputDrivenFundamental.cs:55` (ENQUEUE) and `MusicSystem1.cs` `ChangeFundamental` (WRITE); both flip to `FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource, debugFundamentalOverride.HasValue)`. `ChangeFundamental` is only ever called by the InputDriven ladder + `ResolveFundamentalOnUnlock`, so gating it on the active-source rule is exact. **But** the remaining lock-setter CLEAR sites are **"unlock → resume voice tracking"** flows whose resume is done *today* by `ResolveFundamentalOnUnlock`:
+  - **Zone 4 — `Tutorial.cs`:** `SetFundamentalModeLock(true, C)` at :551 (pin C for A/C-hum correction), then `SetFundamentalModeLock(false)` at :723 / :1005 **only when moving to a non-"Hum" vocalization** → resume tracking. So Tutorial is NOT statically Sequence(C): it pins C for correction, then **releases to InputDriven**.
+  - **Zone 5 — `WwiseVOManager.VoTryFundamentalModeUnlock` :99:** `SetFundamentalModeLock(false)` on a VO cue → resume soundscape-driven source.
+  - **Zone 6 — `SavasanaStageHandler` :87:** `SetFundamentalContentLock(C)` — a pin (SET), no release; the 4d shim already routes SET → `SetFundamentalSource(Sequence, C)`, so it works un-migrated, but migrate for cleanliness.
+
+  Consequence: once the gate is active-source and `ResolveFundamentalOnUnlock` is gone, a bare field-clear leaves the source stuck (e.g. `Sequence(C)`) and **input never resumes**. So **the gate flip MUST be bundled with zones 4 & 5 (and 6) migration + `ResolveFundamentalOnUnlock` removal**: each release site must call `SetFundamentalSource(InputDriven)` (Tutorial release / VO unlock = resume tracking; Tutorial release happens in tutorial = tracking mode, so no B457). After that, the only remaining lock-setter callers are **debug** (`InputReferences` :315/323/333/341, `MusicDebugHarness` :306/316/317, `OnPermanentlySetFundamentalChanged` → `SetFundamentalDebugLock`); decide whether the debug CLEAR paths switch to InputDriven or are migrated (these overlap 4g). The lock setters' SET paths keep working via the 4d shim until then.
+
+**Immediate next step (2026-06-05, UPDATED — all chunked Steps 1–6 done in the working tree, UNCOMMITTED):** the full 4e-finish is implemented and lint-clean (gate flip; zone 4 Tutorial pin SoundWorld-guarded + releases via `ResumeFundamentalAfterCorrectionPin()`; zone 5 dead `VoTryFundamentalModeUnlock` deleted; zone 6 Savasana → `SetFundamentalSource(Sequence, C)`; `ResolveFundamentalOnUnlock` + `IsFundamentalLocked` removed with the 3 CLEAR sites rewired per Robin's Option A; `SourceForInteractionType` EditMode test added). **Resume here:** full diff → Robin runs Test Runner (EditMode) → Opus regression pass → Robin's explicit go → single bundled 4e commit (record the hash in the commit log below). No EditMode/Test Runner run was done during implementation (chunk rule).
+
+#### 4e-finish chunked steps (Robin 2026-06-05 — review-driven, NOT bundled)
+
+Robin wants the 4e-finish work done as **logically-comprehensible chunks he reviews one at a time** (these are sensitive code paths), **not** a single bundle. Intermediate chunks **need not compile / be in a working state** — only the **end of the bundle** is coherent; **no EditMode/Test Runner run until all chunks are done**. Debug lock-setter CLEAR behavior is **deferred for discussion at Step 5** (not pre-decided). The dead `IsFundamentalLocked()` is to be **deleted** (Robin) once both gates are flipped.
+
+**STATUS (2026-06-05): all 6 steps DONE in the working tree (uncommitted).** Step 5 debug-CLEAR decision = **Option A** (clear legacy field only; no source switch on Content/Mode CLEAR; DebugLock CLEAR → `SetDebugFundamentalOverride(null)`).
+
+1. **Gate flip (conceptual core).** Both InputDriven gates `IsFundamentalLocked()` → `FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource, debugFundamentalOverride.HasValue)`: ENQUEUE gate `MusicSystem1.InputDrivenFundamental.cs` `TryApplyFundamentalChangeTriggers` (`test`), WRITE gate `MusicSystem1.cs` `ChangeFundamental`. Reframe `ChangeFundamental`'s else-branch warning from "locked (`GetLockedFundamental`)" to "InputDriven is not the active source (active=…, debugOverride=…)". *After this, production release sites are not yet migrated → input won't resume; fixed in steps 2–4.*
+2. **Zone 4 — `Tutorial.cs`.** Pin `:551` → `SetFundamentalSource(Sequence, C)`; non-"Hum" releases `:723` / `:1005` → `SetFundamentalSource(InputDriven)` (resume tracking; tutorial = tracking mode, no B457).
+3. **Zone 5 — `WwiseVOManager.VoTryFundamentalModeUnlock:99`.** VO unlock cue → `SetFundamentalSource(InputDriven)`.
+4. **Zone 6 — `SavasanaStageHandler:87`.** Pin → `SetFundamentalSource(Sequence, C)` (cleanliness; 4d shim already routed content-lock SET here).
+5. **Remove `ResolveFundamentalOnUnlock` + rewire its 3 lock-CLEAR call sites; delete dead `IsFundamentalLocked()`.** **STOP and discuss the debug lock-setter CLEAR behavior with Robin here** (DebugLock / ContentLock / ModeLock clears now have only debug callers — `InputReferences` I/O/K/L/N/M, `MusicDebugHarness` 306/316/317; decide switch-to-InputDriven vs minimal field-clear vs defer to 4g).
+6. **Tests + doc.** Add `SourceForInteractionType` EditMode test (MusicLoop→MusicBed, else→InputDriven); mark this status block's gate flip + zones 4/5/6 done; record the commit hash here on Robin's explicit go.
+
+Then: full diff → Robin runs Test Runner (EditMode) → Opus regression pass → wait for Robin's explicit go → single bundled commit.
+
 ### `HarmonyUpdate` run-gate — `HarmonyRunPolicy` (Robin 2026-06-04)
 
 Harmony runs when `HarmonyRunPolicy.ShouldRun(MusicMode mode, bool gameOn)` is true (still also honoring `enableHarmonyTracking`):
@@ -594,6 +706,8 @@ This is the **one deliberate behavior change** to harmony: vs. today it *additio
 
 ---
 
+# Appendix E — Future stages 5–8: detail
+
 ## Stage 5 — Block 7: `Cue_Key_*` listener (Unity side folded into Stage 4g) + Lorna external embedding
 
 > **Restructured (Robin 2026-06-04):** the Unity-side cue listener moved **into Stage 4 sub-stage 4g** (the listener lives in `MusicSystem1` and feeds the **MusicBed** source — it's part of the same system). What remains as "Stage 5" is the **external** dependency: Lorna embedding the cues in Wwise, then end-to-end verification. The cue→`NoteName` map + handler spec below are the 4g contract.
@@ -610,6 +724,8 @@ This is the **one deliberate behavior change** to harmony: vs. today it *additio
 **Playtests (keyboard, minimal listening):** simulate each `Cue_Key_*`; state line shows fundamental + binaural Hz matching; optional headphone check that bed / binaural sit in key.
 
 **External dependency:** Lorna embeds the cues in Wwise ([Appendix A](PLAYTEST_NOTES_ORGANIZED.md#appendix-a--externallorna--non-unity-batch-together)). The harness verifies the Unity side now. Note: `Play_MusicPlaylist` is posted **without** the music-sync callback flag — if bed key cues fire there, that post needs the flag added.
+
+**The loop→key table is the bed's START note, not a "required" lock (Robin 2026-06-05 — keep it permanently):** 4e zone 2 has `SetMusicLoop` call `SetFundamentalSource(MusicBed, GetMusicLoopFundamental(loop))`. `GetMusicLoopFundamental` is reframed as the loop's **start note** — the preferred we seed `preferred[MusicBed]` to **before any `Cue_Key_*` arrives**, so the bed opens in-key and there's **no wrong-key window / rapid switch** when the first cue lands. When 4g cues go live they **UPDATE** `preferred[MusicBed]` via `SetFundamentalForSource(MusicBed, cuedNote)`; the start note is **not removed** — it just stops being the only source of truth (cues take over after the first one). A loop with no start note (`None`) hands ownership to MusicBed at its existing preferred and waits for a cue.
 
 **Commit:** `Block 7: shared Cue_Key_* handler; binaural follows master fundamental.`
 
@@ -664,6 +780,8 @@ This is the **one deliberate behavior change** to harmony: vs. today it *additio
 
 ---
 
+# Appendix F — External (Lorna / Wwise) + cross-cutting regression risks
+
 ## External (Lorna / Wwise) — tracked, not stages
 
 See [Appendix A](PLAYTEST_NOTES_ORGANIZED.md#appendix-a--externallorna--non-unity-batch-together):
@@ -685,6 +803,8 @@ The harness lets us finish and verify the Unity side independently of Lorna's bu
 - Director queue: don't reintroduce the self-removal bug when touching shuffle / fundamental queueing in later stages.
 
 ---
+
+# Appendix G — Stage 9 ("goblin"): Director ↔ fundamental unification (design exploration)
 
 ## Stage 9 — Block 7: Director ↔ fundamental unification (the synchresis/timing "goblin")
 
@@ -919,6 +1039,8 @@ Together (1)+(2)+(9) make the **entire change decision and its per-case side-eff
 **Commit(s):** `Block 7 (9a): long-test enqueue-then-activate (disabled-bypass) + 5s flourish suppression + FundamentalTriggerPolicy/FundamentalDirectorPolicy + tests.` · *(9b dropped — slot retires `directorStoredFundamental`)* · `Block 7 (9c): targetNextFundamental slot — Director-consulted commit, structural realized-effect, shadow-tracker silent commit, source-switch flush/adopt/commit, disabled-bypass, warm-handoff honor-not-wipe + policy tests.`
 
 ---
+
+# Appendix H — Stage map
 
 ## Stage map
 

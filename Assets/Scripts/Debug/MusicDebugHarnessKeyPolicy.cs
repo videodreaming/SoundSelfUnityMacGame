@@ -7,8 +7,6 @@ public enum MusicDebugHarnessAction
     CycleSoundWorld,
     CycleMusicLoop,
     StepLornaKeyCue,
-    LockFundamentalToC,
-    UnlockFundamentalLocks,
     ToggleBinauralPlay,
     ToggleBinauralVolume,
     DirectorQueueRepro,
@@ -37,12 +35,6 @@ public static class MusicDebugHarnessKeyPolicy
                 return true;
             case KeyCode.Semicolon:
                 action = MusicDebugHarnessAction.StepLornaKeyCue;
-                return true;
-            case KeyCode.L:
-                action = MusicDebugHarnessAction.LockFundamentalToC;
-                return true;
-            case KeyCode.U:
-                action = MusicDebugHarnessAction.UnlockFundamentalLocks;
                 return true;
             case KeyCode.B:
                 action = MusicDebugHarnessAction.ToggleBinauralPlay;
