@@ -37,7 +37,7 @@ Short hashes for each committed stage/fix (standing rule 9). Newest at the botto
 | `816218e3` | **SOUNDWORLD_SWITCH_NOT_AUDIBLE resolved** — `SetSoundWorld` now posts `SoundWorldMode_Switch` (was gated out by the `!ToningV3WasAlreadyRestored` guard); via `InteractiveMusicSwitchPolicy.SetSoundWorldPosts` + EditMode test; plan standing rules 8/9 + commit log added |
 | `3dc74f22` | **Stage 3b — Block 8 mic envelope** — per-soundscape MicMixer dB (worlds 0 / loops +3); stacked monitoring ADSR; `SoundscapeMonitoringPolicy` + `MonitoringAdsrPolicy` + EditMode tests; guided playtest; inspector cleanup |
 | `18651457` | **Stage 4a — dead-field cleanup** — remove write-only `fundamentalNoteCompare`, `harmonyRetriggerThreshold`, `harmonyTimeSinceLastTrigger`; Stage 4 active-source design folded into plan (incl. former Stage 5 → 4g) |
-| _(pending)_ | **Stage 4b — split + rename `NoteTracker`** → `voiceActivity` (`VoiceActivity { ActiveSeconds; IsActive; JustActivated }`, activation half) + `fundamentalChargeByNote` (`Dictionary<NoteName,float>`, charge half); pure data-structure split, zero logic change; EditMode parity green |
+| `d18b002e` | **Stage 4b — split + rename `NoteTracker`** → `voiceActivity` (`VoiceActivity { ActiveSeconds; IsActive; JustActivated }`, activation half) + `fundamentalChargeByNote` (`Dictionary<NoteName,float>`, charge half); pure data-structure split, zero logic change; EditMode parity green |
 
 ---
 
@@ -405,10 +405,10 @@ Behavior-**preserving** refactor first (4a–4d), then behavior-**changing** wir
 |---|---|---|---|
 | **4a** | Dead-field cleanup (`fundamentalNoteCompare`, `harmonyRetriggerThreshold`, `harmonyTimeSinceLastTrigger`) | none | EditMode green; compiles |
 | **4b** | Split + rename `NoteTracker` → `voiceActivity` + `fundamentalChargeByNote` (still inside `MusicSystem1`) | none | EditMode parity |
-| **4c** | Extract `MusicInputDrivenFundamental` + `MusicInputDrivenHarmony` MonoBehaviours; set Script Execution Order; charge dict moves into the fundamental component | none (Robin wires the 2 components + execution order in Unity) | EditMode parity; logs unchanged |
+| **4c** | **Cosmetic `partial class` file split** of the oversized `MusicSystem1.cs`: move the fundamental + harmony method bodies into `MusicSystem1.InputDrivenFundamental.cs` / `MusicSystem1.InputDrivenHarmony.cs` (same class, fields stay declared in the core file) | none (pure file reorg; no new objects, no scene wiring, no `MainGame.unity` touch) | EditMode parity; logs unchanged |
 | **4d** | Active-source authority: `FundamentalSource`, `FundamentalSourcePolicy`, `SetFundamentalSource` / `SetFundamentalForSource` / `SetDebugFundamentalOverride`, private `ApplyMasterFundamental`; legacy lock setters become **thin shims** | none (shims provably identical for the real flows) | EditMode: policy + shim-equivalence |
 | **4e** | **Migrate call sites to `SetFundamentalSource` — its own carefully-staged sub-stage, broken into reviewed sub-sub-stages, one source-changing *zone* at a time** (Robin reviews each). Start from a **clean commit**. Zones: (1) startup = Sequence on `Awake`; (2) `SetSoundWorld`→InputDriven / `SetMusicLoop`→MusicBed; (3) `SetMusicModeTo` Tutorial/Freeplay/Frozen; (4) `Tutorial.cs` A/C-hum correction; (5) `WwiseVOManager` unlock cue; (6) `SavasanaStageHandler`. Each zone: remove the relevant shim, add EditMode end-state test, Robin review, commit. Then remove `ResolveFundamentalOnUnlock`. No blanket Freeplay gate; last-writer-wins ordering. | **yes** (genuinely source-driven) | per-zone EditMode end-state tests + **subjective (Round 1)** |
-| **4f** | `HarmonyRunPolicy.ShouldRun(mode, gameOn)` on the extracted `MusicInputDrivenHarmony`: run in `InteractiveTutorial`, `Freeplay`, and `MusicLoopSilent && gameOn` (Savasana tail; Linear stays off via `gameOn=false`). Scope = harmony only. | **yes** (small: harmony adds the savasana toning tail) | EditMode `HarmonyRunPolicy` + **subjective (Round 1)** |
+| **4f** | `HarmonyRunPolicy.ShouldRun(mode, gameOn)` gating `HarmonyUpdate` (in `MusicSystem1.InputDrivenHarmony.cs`): run in `InteractiveTutorial`, `Freeplay`, and `MusicLoopSilent && gameOn` (Savasana tail; Linear stays off via `gameOn=false`). Scope = harmony only. | **yes** (small: harmony adds the savasana toning tail) | EditMode `HarmonyRunPolicy` + **subjective (Round 1)** |
 | **4g** | (folds former Stage 5) Cue listener in `MusicSystem1`: post `Play_MusicLoops` with the `AK_MusicSyncUserCue` flag → `TryHandleMusicKeyCue` → MusicBed source; same shared handler at VO/closing callbacks; binaural follows master (free via `ApplyMasterFundamental`); fix the binaural retune coalescing/handle no-op for rapid cues | **yes** (new: cues drive key) | EditMode cue-map; **subjective (Round 2)** |
 | **4h** | **Retire `FrozenFreeplay`** (optional follow-up): collapse its 4 call sites to `SetMusicModeTo(Freeplay)` + `SetGameOn(false)` + Sequence(C); delete the enum value, `GameOnPolicy` case, `Update()` branch, `modeFrozenFreeplayFlag`, `Block3` test. Gated on a **`gameOn` audit** (see §below). | **yes** (mode removed; behavior intended-equivalent) | EditMode (gameOn map, `HarmonyRunPolicy`) + **subjective (Round 3, short)** |
 
@@ -480,25 +480,28 @@ This reframes today's behavior exactly: in Tutorial, `FundamentalUpdate` already
 
 Policy: `FundamentalSourcePolicy.IsTrackingMode(MusicMode)` (true for `InteractiveTutorial`/`Freeplay`) backs both the InputDriven write gate and the warning; covered by `Block7FundamentalPolicyEditModeTests`.
 
-### File split (MonoBehaviours — set Script Execution Order in Unity)
+### File split (Robin 2026-06-05 — purely cosmetic `partial class`)
 
-- **`MusicInputDrivenFundamental.cs`** — `FundamentalUpdate` + `TryApplyFundamentalChangeTriggers`; owns the **per-note charge memory** (see NoteTracker split); produces `preferredFundamental`; calls the authority apply when active. **TODO (future):** when the WorldShuffler / Director become more dynamic, use the preferred fundamental (and notes ±5 from it) to bias preferred next-soundscapes.
-- **`MusicInputDrivenHarmony.cs`** — `HarmonyUpdate` + harmony sequences; reads master fundamental.
-- Trivial sources (MusicBed / Sequence) + the authority stay as a small region in `MusicSystem1`. Pure rules → `FundamentalSourcePolicy` (testable).
+The driver for 4c is that `MusicSystem1.cs` (~2,900 lines) is **cumbersomely large**, not that the fundamental/harmony need their own objects. So 4c is a **`partial class MusicSystem1`** file reorganization — *not* new MonoBehaviours or plain classes, no back-reference seam, no Unity wiring, no `MainGame.unity` edit. The compiled type is identical; behavior is provably unchanged (method bodies cut-and-pasted into another file of the same class).
 
-**Execution order (earlier → later):** `ImitoneVoiceIntepreter` → `MusicSystem1` → `MusicInputDrivenFundamental` → `MusicInputDrivenHarmony`. Imitone makes the sung note; `MusicSystem1` interprets/snaps it against master + owns activation state + the apply path; the fundamental component decides/pushes master; harmony runs last on the freshest master.
+- **`MusicSystem1.InputDrivenFundamental.cs`** (`public partial class MusicSystem1`) — `FundamentalUpdate`, `TryApplyFundamentalChangeTriggers`, `TryGetSustainedFundamentalShiftTarget`, `ResolveFundamentalChangeTarget`.
+- **`MusicSystem1.InputDrivenHarmony.cs`** (`public partial class MusicSystem1`) — `HarmonyUpdate`, `changeHarmony`.
+- **Fields stay declared in the core `MusicSystem1.cs`** (the compact field block) — partials share all members, so nothing needs accessors. The apply path (`ChangeFundamental` / `SetFundamentalDirect` / locks / `ResetFundamentalTimers` / `ResolveFundamentalOnUnlock`) stays in the core file (it becomes `ApplyMasterFundamental` in 4d).
+- `DynamicMusicSystem()` keeps calling `FundamentalUpdate()` then `HarmonyUpdate()` exactly as today (same class, methods now defined in sibling files).
 
-### NoteTracker split (per-note charge memory → `MusicInputDrivenFundamental`)
+**Note on the original component design:** partials are *cosmetic only* — they shrink the file but do not enforce an object boundary. That matches the stated intent. The genuine architectural work (single-writer active-source authority) and the **testable pure rules** still land in 4d/4f via `FundamentalSourcePolicy` / `HarmonyRunPolicy`, which is where unit-test value lives regardless of file layout. If a real object boundary is ever wanted, a partial can be promoted to its own class later.
+
+### NoteTracker split (per-note charge memory) — DONE in 4b (`d18b002e`)
 
 Today `NoteTracker` packs two unrelated jobs in one tuple `(ActivationTimer, Active, FirstFrameActive, ChangeFundamentalTimer)`:
-- **Activation half** (`ActivationTimer/Active/FirstFrameActive`) — written by `InterpretImitoneUpdate`, read by **toning** (`musicNoteActivated`). Stays in `MusicSystem1`.
+- **Activation half** (`ActivationTimer/Active/FirstFrameActive`) — written by `InterpretImitoneUpdate`, read by **toning** (`musicNoteActivated`).
 - **Charge half** (`ChangeFundamentalTimer`) — used **only** by the fundamental decision.
 
-→ **Split the tuple**: keep an activation tracker in `MusicSystem1`; move a `Dictionary<NoteName,float>` **charge memory** into `MusicInputDrivenFundamental`, which reads activation state each frame via a small accessor and accumulates its own charge. Clean-slate = clear that dictionary.
+→ **Split the tuple** into two dictionaries, **both declared in `MusicSystem1`** (4c is a cosmetic partial-class split, so the fundamental method bodies move to a sibling file but the fields stay in the core file — no object owns the charge dict).
 
-**Rename both (Robin 2026-06-04 — `NoteTracker` is uselessly generic for a music system):** proposed names —
-- Activation tracker (stays in `MusicSystem1`): `voiceActivity` : `Dictionary<NoteName, VoiceActivity>` where `VoiceActivity { float ActiveSeconds; bool IsActive; bool JustActivated; }` (renames `ActivationTimer→ActiveSeconds`, `Active→IsActive`, `FirstFrameActive→JustActivated`).
-- Charge memory (moves to `MusicInputDrivenFundamental`): `fundamentalChargeByNote` : `Dictionary<NoteName, float>` (renames `ChangeFundamentalTimer` → the dictionary value).
+**Rename both (Robin 2026-06-04 — `NoteTracker` is uselessly generic for a music system):** as built in 4b —
+- Activation tracker: `voiceActivity` : `Dictionary<NoteName, VoiceActivity>` where `VoiceActivity { float ActiveSeconds; bool IsActive; bool JustActivated; }` (renames `ActivationTimer→ActiveSeconds`, `Active→IsActive`, `FirstFrameActive→JustActivated`).
+- Charge memory: `fundamentalChargeByNote` : `Dictionary<NoteName, float>` (renames `ChangeFundamentalTimer` → the dictionary value).
 
 Confirm names before coding.
 
@@ -524,7 +527,7 @@ Startup + the explicit switch points (Robin 2026-06-04). **Default: `Sequence` o
 
 **Ordering (regression-proof via explicit sets, NOT a mode gate) — Robin 2026-06-04:** There is **no** blanket "only in Freeplay" suppression (that earlier proposal was wrong). Source changes are legitimate in multiple modes — including **Tutorial** and the **awkward adjunctive-savasana tail**. Each switch point sets the source **explicitly** and **last-writer-wins** ordering decides the outcome (a stage that must hold C sets `Sequence(C)` after any soundscape set in the same entry). The regression-proof contract is the transition table above + EditMode tests that assert the **resulting** active-source/master/preferred state for each real flow (tutorial entry + hum correction + release; freeplay world↔loop shuffle; savasana tail), not a mode-gated guard.
 
-### `MusicInputDrivenHarmony` run-gate — `HarmonyRunPolicy` (Robin 2026-06-04)
+### `HarmonyUpdate` run-gate — `HarmonyRunPolicy` (Robin 2026-06-04)
 
 Harmony runs when `HarmonyRunPolicy.ShouldRun(MusicMode mode, bool gameOn)` is true (still also honoring `enableHarmonyTracking`):
 - `InteractiveTutorial` → true
@@ -534,9 +537,9 @@ Harmony runs when `HarmonyRunPolicy.ShouldRun(MusicMode mode, bool gameOn)` is t
 
 **Why `MusicLoopSilent && gameOn` = the Savasana tail:** `MusicLoopSilent` is shared by **Savasana** and **Linear**, but `LinearAudioStageHandler` forces `SetGameOn(false)` while the adjunctive Savasana keeps `gameOn` true until its delayed mic-off. So `gameOn` cleanly distinguishes the savasana toning tail (harmony on) from Linear (off) — no need for `MusicSystem1` to know `StageType`. `FrozenFreeplay` (standard savasana after `CueStopInteractive`) stays **off**.
 
-This is the **one deliberate behavior change** to harmony: vs. today it *additionally* runs during the Savasana tail while the user is still toning. Pure policy → EditMode test (incl. the documented assumption that `MusicLoopSilent && gameOn` ⇒ savasana, so a future non-savasana `MusicLoopSilent && gameOn` stage would trip the test). **Scope = harmony only** (the extracted `MusicInputDrivenHarmony` gate); the `DynamicMusicSystem` mode branch for fundamental/toning is unchanged. Decoupled from the active fundamental source (reads the master fundamental whoever set it).
+This is the **one deliberate behavior change** to harmony: vs. today it *additionally* runs during the Savasana tail while the user is still toning. Pure policy → EditMode test (incl. the documented assumption that `MusicLoopSilent && gameOn` ⇒ savasana, so a future non-savasana `MusicLoopSilent && gameOn` stage would trip the test). **Scope = harmony only** (the `HarmonyUpdate` gate); the `DynamicMusicSystem` mode branch for fundamental/toning is unchanged. Decoupled from the active fundamental source (reads the master fundamental whoever set it).
 
-> 4c extracts `MusicInputDrivenHarmony` preserving today's exact gate (`InteractiveTutorial`/`Freeplay`); **4f** then swaps that gate for `HarmonyRunPolicy` (adds the `MusicLoopSilent && gameOn` savasana case).
+> 4c just relocates `HarmonyUpdate` (preserving today's exact gate `InteractiveTutorial`/`Freeplay`); **4f** then swaps that gate for `HarmonyRunPolicy` (adds the `MusicLoopSilent && gameOn` savasana case).
 
 ### MusicBed cues — Wwise wiring note (Stage 5, informs MusicBed here)
 
@@ -569,7 +572,7 @@ This is the **one deliberate behavior change** to harmony: vs. today it *additio
 
 - **4a** `Block 7: remove dead fundamental/harmony fields (fundamentalNoteCompare, harmony retrigger).`
 - **4b** `Block 7: split + rename NoteTracker → voiceActivity + fundamentalChargeByNote.`
-- **4c** `Block 7: extract MusicInputDrivenFundamental + MusicInputDrivenHarmony (execution order).`
+- **4c** `Block 7: cosmetic partial-class split of MusicSystem1 (InputDrivenFundamental + InputDrivenHarmony files).`
 - **4d** `Block 7: active-source fundamental authority + FundamentalSourcePolicy (lock setters as shims) + tests.`
 - **4e** (multiple commits, one per reviewed zone) `Block 7: migrate <zone> to SetFundamentalSource …` — startup, soundscape, mode, tutorial, VO, savasana.
 - **4f** `Block 7: HarmonyRunPolicy — harmony runs in Tutorial/Freeplay + Savasana tail (MusicLoopSilent && gameOn).`
@@ -604,7 +607,7 @@ This is the **one deliberate behavior change** to harmony: vs. today it *additio
 - **Implement with: Opus 4.8** · **Regression pass: Opus 4.8 (required)**
 - **Listening load:** Real ear check — interval math is tested, but consonance ("does it sound harmonious") requires headphones.
 
-**Goal / acceptance:** Harmonious pitches around 5ths (Fundamental + Harmony); `changeHarmony` `NoteName.None` guard solid. (The dead harmony-retrigger threshold was deleted in Stage 4; if a retrigger floor is wanted, decide + wire it here.) Also revisit whether `MusicInputDrivenHarmony` should additionally gate on `gameOn` (deferred from Stage 4).
+**Goal / acceptance:** Harmonious pitches around 5ths (Fundamental + Harmony); `changeHarmony` `NoteName.None` guard solid. (The dead harmony-retrigger threshold was deleted in Stage 4; if a retrigger floor is wanted, decide + wire it here.) Also revisit whether `HarmonyUpdate` should additionally gate on `gameOn` (deferred from Stage 4).
 
 **Test Runner tests (EditMode):** harmony interval selection guards; `NoteName.None` guard.
 
