@@ -242,6 +242,7 @@ namespace SoundSelf.Sequence
 
             ApplyMenuScreenForSequenceStage(stage.type);
             ApplyDuskBackgroundForSequenceStage(stage.type);
+            AudiometerFeedbackStagePolicy.ApplyAudiometerFeedbackButtonForStage(stage.type);
 
             // 5. Fire event
             OnStageChanged?.Invoke(index, stage.type);
