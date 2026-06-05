@@ -1053,8 +1053,8 @@ public partial class MusicSystem1 : MonoBehaviour
     /// Conversion point: NoteName enum is converted to frequency (Hz) for binaural beats via NoteUtils.NoteToFrequencyA440().
     /// </remarks>
     // Renamed from the old public SetFundamentalDirect (Block 7 / 4d): the single private master-apply mechanism.
-    // Clears the fundamentalChange queue → sets fundamentalNoteName → Wwise ...FundamentalOnly switch → binaural retune
-    // → resets fundamental timers (charge). No external bypass.
+    // Supersedes any pending change (clears the fundamentalChange queue + the 9c targetNextFundamental slot) →
+    // sets fundamentalNoteName → Wwise ...FundamentalOnly switch → binaural retune → resets fundamental timers (charge).
     private void ApplyMasterFundamental(NoteName newFundamental)
     {
         // Validate that we're not setting fundamental to None
@@ -1067,9 +1067,14 @@ public partial class MusicSystem1 : MonoBehaviour
             return;
         }
 
-        // Self-clear any queued fundamentalChange, then retune. The Director-owned activation path uses
-        // ApplyMasterFundamentalRaw directly (it owns the queue during activation, so it must NOT self-clear — 9c).
+        // An external/source-switch master write SUPERSEDES any pending InputDriven change: clear both the
+        // (now-legacy) queued fundamentalChange items AND the 9c slot, so a stale deferred-short target can't
+        // re-apply on the next activation and override this write. (Pre-9c, the ClearQueueOfType alone did this,
+        // because the pending change lived in the queue; the slot is separate now, so it must be nulled too.)
+        // The Director-owned activation path uses ApplyMasterFundamentalRaw directly (it owns the queue + already
+        // cleared the slot in the consult, so it must NOT self-clear — 9c).
         director.ClearQueueOfType("fundamentalChange");
+        targetNextFundamental = null;
         ApplyMasterFundamentalRaw(newFundamental);
     }
 
@@ -1156,33 +1161,10 @@ public partial class MusicSystem1 : MonoBehaviour
     // API. New internal code should use SetFundamentalSource / SetFundamentalForSource.
     public void SetFundamentalDirect(NoteName newFundamental) => ApplyMasterFundamental(newFundamental);
 
-    /// <summary>
-    /// Externally-callable active-source-gated master apply: writes the master only when InputDriven is the active
-    /// source (FundamentalSourcePolicy.CanInputDrivenWriteMaster); otherwise logs a guardrail warning.
-    /// </summary>
-    /// <param name="newFundamental">The NoteName to change the fundamental to. Must not be NoteName.None.</param>
-    /// <remarks>
-    /// Block 7 / 9c: the InputDriven ladder no longer routes through here — it sets the
-    /// <see cref="targetNextFundamental"/> slot via <see cref="AnnounceFundamental"/> and the disabled-bypass applies
-    /// raw. This is retained only as a public gated-apply surface and currently has no internal callers
-    /// (final-commit cleanup candidate; see the build checklist).
-    /// </remarks>
-    public void ChangeFundamental(NoteName newFundamental)
-    {
-        // The InputDriven write gate is the active-source rule; the else-branch is a "shouldn't happen" guardrail.
-        if(FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource))
-        {
-            SetFundamentalDirect(newFundamental);
-        }
-        else
-        {
-            string sourceInfo = $" (active source {activeFundamentalSource})";
-            if(debugAllowWarnings || debugAllowFundamentalChangeLogs || debugAllowFundamentalLockLogs)
-            {
-                Debug.LogWarning("MUSIC: Tried to change the fundamental via the input-driven path, but InputDriven is not the active source" + sourceInfo + ". This shouldn't happen, and probably indicates a logic flaw in the code.");
-            }
-        }
-    }
+    // Block 7 / 9c: the old public ChangeFundamental (active-source-gated InputDriven apply) was retired here — the
+    // InputDriven ladder now sets the targetNextFundamental slot via AnnounceFundamental and the disabled-bypass
+    // applies raw, so it had no remaining callers. The write gate it enforced (CanInputDrivenWriteMaster) lives in
+    // TryApplyFundamentalChangeTriggers / RouteTrigger (the active-writer rows).
 
     /// <summary>
     /// Block 7 / Stage 9c — the single announce path for an InputDriven fundamental change. Writes the master's

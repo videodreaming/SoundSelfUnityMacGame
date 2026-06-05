@@ -141,7 +141,7 @@ flowchart TD
 
 **9c — the `targetNextFundamental` slot (the full spine; rides with/before 4g):**
 
-> **Progress (2026-06-05):** **Chunk 1** (slot + Director consult + raw primitive) and **Chunk 2** (slot-based trigger paths + `RouteTrigger`/`Effects` + retire `directorStoredFundamental`) are **DONE** — EditMode green + goblin playtest **PASSED** (see note below). **Chunk 3** (shadow-tracker `preferred`-sync / warm-handoff / behind-the-curtain) and **Chunk 4** (source switch = flush+adopt+commit) remain.
+> **Progress (2026-06-05):** **Chunk 1** (slot + Director consult + raw primitive) and **Chunk 2** (slot-based trigger paths + `RouteTrigger`/`Effects` + retire `directorStoredFundamental`) are **DONE — committed `0dbde359`** — EditMode green + goblin playtest **PASSED** (see note below). **Chunk 3** (shadow-tracker `preferred`-sync / warm-handoff / behind-the-curtain) and **Chunk 4** (source switch = flush+adopt+commit) remain.
 
 - [x] Add `private NoteName? targetNextFundamental` to `MusicSystem1` ("master's next commit target"; durable per-source memory stays in `preferredFundamentalBySource`). *(Chunk 1)*
 - [x] **Director consults the slot** at the top of `ActivateQueue`: if `slot.HasValue && slot != master` ⇒ apply raw + side-effects, `countAudioEvents++`, then `slot=null` (apply *first*, matching fundamentalChange-to-front). *(Chunk 1 — `DirectorConsultPendingFundamental`)*
