@@ -3212,7 +3212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &170429290
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13457,7 +13457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequencer: {fileID: 1564575221}
   wwiseVOManager: {fileID: 486583134}
-  hummingbirdContentPackOverride: {fileID: 11400000, guid: 4e99c01d9fc8aca48b3853cc19a7a31d, type: 2}
+  hummingbirdContentPackOverride: {fileID: 11400000, guid: bfb436b45ee21f443a4800a1a029ac5a, type: 2}
   firstTimeUserWhenContentPackOverride: 0
   definitionOverride: {fileID: 11400000, guid: 18c54947d36ae6f498f9287453fecc31, type: 2}
   timeToPlayClosingGoodbye: 0
@@ -32544,8 +32544,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.3, y: 63.5}
-  m_SizeDelta: {x: 216.2, y: 29.8}
+  m_AnchoredPosition: {x: 23.3, y: 52.3}
+  m_SizeDelta: {x: 357.2, y: 78.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1668636999
 MonoBehaviour:
@@ -32560,7 +32560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.838703, g: 1, b: 0.6745283, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -32569,11 +32569,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 9d8170c20029cbb418d4c5117905c1c5, type: 3}
-    m_FontSize: 15
+    m_FontSize: 19
     m_FontStyle: 2
     m_BestFit: 0
-    m_MinSize: 1
-    m_MaxSize: 40
+    m_MinSize: 0
+    m_MaxSize: 48
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -40547,7 +40547,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &1554759739903280147
 CanvasRenderer:
   m_ObjectHideFlags: 0

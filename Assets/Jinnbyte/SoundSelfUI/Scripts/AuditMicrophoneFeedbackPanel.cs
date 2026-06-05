@@ -44,7 +44,7 @@ public class AuditMicrophoneFeedbackPanel : MonoBehaviour
         if (audiometerFeedbackPopup.activeSelf)
         {
             audiometerFeedbackIndicator.SetActive(sequencer.imitoneVoiceInterpreter.toneActive);
-            miceDisable.SetActive(sequencer.imitoneVoiceInterpreter.gameOn);
+            miceDisable.SetActive(!sequencer.imitoneVoiceInterpreter.gameOn);
         }
 
     }
