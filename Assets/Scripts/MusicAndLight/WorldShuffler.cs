@@ -74,6 +74,9 @@ public class WorldShuffler : MonoBehaviour
 
     private string currentSoundscape;
 
+    /// <summary>Current soundscape name the shuffler last set (empty if none). Used by per-soundscape monitoring.</summary>
+    public string CurrentSoundscape => currentSoundscape ?? "";
+
 #if UNITY_EDITOR
     /// <summary>Harness / editor diagnostics only.</summary>
     public string EditorCurrentSoundscape => currentSoundscape ?? "";

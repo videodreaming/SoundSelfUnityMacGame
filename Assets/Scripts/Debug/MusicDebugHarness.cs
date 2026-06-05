@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class MusicDebugHarness : MonoBehaviour
 {
-    const string LogPrefix = "[MusicDebugHarness]";
+    const string LogPrefix = "[B457 MusicDebugHarness]";
 
     static readonly string[] SoundWorldCycle = { "SonoFlore", "Shadow", "Gentle", "Shruti" };
     static readonly string[] MusicLoopCycle = { "ShiftingEarth", "SitarAmbience", "PinkNoiseAtmosphere" };
@@ -132,7 +132,11 @@ public class MusicDebugHarness : MonoBehaviour
         float? binauralBusVolume,
         bool? binauralAttenuated,
         float? binauralOutVolume,
-        bool? gameOn)
+        bool? gameOn,
+        float? micMixerSumDb = null,
+        float? soundscapeMonitoringDb = null,
+        float? adsrSum = null,
+        int? adsrVoices = null)
     {
         string modeStr = mode.HasValue ? mode.Value.ToString() : "n/a";
         string interactionStr = interaction.HasValue ? interaction.Value.ToString() : "n/a";
@@ -140,6 +144,10 @@ public class MusicDebugHarness : MonoBehaviour
         string binauralVolStr = binauralBusVolume.HasValue ? binauralBusVolume.Value.ToString("F0") : "n/a";
         string binauralOutStr = binauralOutVolume.HasValue ? binauralOutVolume.Value.ToString("F0") : "n/a";
         string attStr = binauralAttenuated.HasValue ? (binauralAttenuated.Value ? "on" : "off") : "n/a";
+        string micSumStr = micMixerSumDb.HasValue ? micMixerSumDb.Value.ToString("F1") : "n/a";
+        string soundscapeMonStr = soundscapeMonitoringDb.HasValue ? soundscapeMonitoringDb.Value.ToString("F1") : "n/a";
+        string adsrSumStr = adsrSum.HasValue ? adsrSum.Value.ToString("F2") : "n/a";
+        string adsrVoicesStr = adsrVoices.HasValue ? adsrVoices.Value.ToString() : "n/a";
         return "mode=" + modeStr
             + " | fundamental=" + fundamental
             + " | harmony=" + harmony
@@ -149,7 +157,11 @@ public class MusicDebugHarness : MonoBehaviour
             + " | binauralBase=" + binauralVolStr
             + " | binauralAtt=" + attStr
             + " | binauralOut=" + binauralOutStr
-            + " | gameOn=" + gameOnStr;
+            + " | gameOn=" + gameOnStr
+            + " | micMixerSumDb=" + micSumStr
+            + " | SoundscapeMonitoringDb=" + soundscapeMonStr
+            + " | adsrSum=" + adsrSumStr
+            + " | adsrVoices=" + adsrVoicesStr;
     }
 
     void DumpStateLine()
@@ -170,6 +182,17 @@ public class MusicDebugHarness : MonoBehaviour
         bool? binauralAtt = beats != null ? beats.IsAttenuated : (bool?)null;
         float? binauralOut = beats != null ? beats.EffectiveBusVolume : (float?)null;
 
+        var dvm = UnityEngine.Object.FindObjectOfType<DirectVoiceMonitoring>();
+        float? micSum = dvm != null ? dvm.GetMicMixerVolumeSumDb() : (float?)null;
+        float? soundscapeMon = null;
+        if (dvm != null && dvm.TryGetMicMixerVolumeContributionDb(
+                DirectVoiceMonitoring.SoundscapeMonitoringContributionName, out float soundscapeDb))
+        {
+            soundscapeMon = soundscapeDb;
+        }
+        float? adsrSum = dvm != null ? dvm.GetMonitoringAdsrSum() : (float?)null;
+        int? adsrVoices = dvm != null ? dvm.GetMonitoringAdsrVoiceCount() : (int?)null;
+
         string line = FormatStateLine(
             ms != null ? ms.currentMusicMode : (MusicSystem1.MusicMode?)null,
             ms != null ? ms.fundamentalNoteName : NoteName.None,
@@ -180,7 +203,11 @@ public class MusicDebugHarness : MonoBehaviour
             binauralVol,
             binauralAtt,
             binauralOut,
-            imitone != null ? imitone.gameOn : (bool?)null);
+            imitone != null ? imitone.gameOn : (bool?)null,
+            micSum,
+            soundscapeMon,
+            adsrSum,
+            adsrVoices);
 
         Debug.Log(LogPrefix + " STATE " + line);
     }
@@ -198,6 +225,36 @@ public class MusicDebugHarness : MonoBehaviour
         string world = SoundWorldCycle[_soundWorldIndex];
         ms.SetSoundWorld(world);
         Debug.Log(LogPrefix + " SetSoundWorld " + world);
+        DumpStateLine();
+    }
+
+    /// <summary>Guided playtest + manual check: mode-only binaural attenuation (binauralAtt=on, out ≈ base×0.7).</summary>
+    public void ApplyMusicLoopSilentMode()
+    {
+        var ms = MusicSystem1.instance;
+        if (ms == null)
+        {
+            Debug.LogWarning(LogPrefix + " MusicSystem1.instance is null.");
+            return;
+        }
+
+        ms.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
+        Debug.Log(LogPrefix + " SetMusicMode MusicLoopSilent (Silence bed / binaural attenuation).");
+        DumpStateLine();
+    }
+
+    /// <summary>Restore interactive sound-world mode after MusicLoopSilent attenuation test.</summary>
+    public void ApplyFreeplayMode()
+    {
+        var ms = MusicSystem1.instance;
+        if (ms == null)
+        {
+            Debug.LogWarning(LogPrefix + " MusicSystem1.instance is null.");
+            return;
+        }
+
+        ms.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+        Debug.Log(LogPrefix + " SetMusicMode Freeplay (end MusicLoopSilent test).");
         DumpStateLine();
     }
 
@@ -219,11 +276,8 @@ public class MusicDebugHarness : MonoBehaviour
         }
         else
         {
-            ms.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
-            Debug.Log(LogPrefix + " SetMusicMode MusicLoopSilent (Silence bed)");
+            ApplyMusicLoopSilentMode();
         }
-
-        DumpStateLine();
     }
 
     void StepLornaKeyCue()
@@ -337,7 +391,7 @@ public class MusicDebugHarness : MonoBehaviour
 
     void LogKeyLegend()
     {
-        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | G=guided Stage1+2 playtest | [=world ]=loop | ;=key cue | L=lock C | U=unlock | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
+        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | G=guided playtest (Space/Return between steps; tone only on Director prompts) | [=world ]=loop | ;=key cue | L=lock C | U=unlock | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
     }
 }
 #endif

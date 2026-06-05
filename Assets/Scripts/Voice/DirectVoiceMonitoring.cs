@@ -44,14 +44,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float monitoringVolume = 0.357f;
     [Tooltip("Select which mic ring stream (raw vs. normalized) to monitor for A/B testing and debugging.")]
     [SerializeField] private MonitoringStreamSource monitoringStreamSource = MonitoringStreamSource.Normalized;
-    [Tooltip("When true, monitoring is attenuated (post dynamic scaling) by monitoringAttenuationDb.")]
-    [SerializeField] private bool monitoringAttenuated = false;
-    [Tooltip("Gain applied when attenuated (dB). 0 dB = unity; -8 dB ≈ former linear 0.4.")]
-    [FormerlySerializedAs("monitoringAttenuationMultiplier")]
-    [SerializeField] [Range(-60f, 0f)] private float monitoringAttenuationDb = 0f;
-    [Tooltip("Smoothing time for attenuation transitions to reduce click risk when toggled.")]
-    private float attenuationSmoothingSeconds = 0.03f;
-
     // =============================================================================
     // TODO (AI — read before refactoring monitoring or record/replay on the mic bus)
     // =============================================================================
@@ -63,18 +55,17 @@ public class DirectVoiceMonitoring : MonoBehaviour
     //
     // 1) MicMixer bus fader (below) — named dB contributions summed into exposed parameter
     //    micMixerVolumeParameterName (default MicProcessingVolume) on mixer group
-    //    SoundSelf MicProcessing. LerpMicMixerVolumeContributionTo for stepped changes.
-    //    Live contributors today: Initialization (+6 dB at startup), CalibrationMicrophone
-    //    (CalibrationStageHandler, target/duration in handler).
+    //    SoundSelf MicProcessing. This is the **whole voice channel** (direct monitoring now;
+    //    future session recordings on the same bus). LerpMicMixerVolumeContributionTo for stepped changes.
+    //    Live contributors: Initialization (+6 dB at startup), CalibrationMicrophone,
+    //    SoundscapeMonitoring (per-soundscape dB set on soundscape change; silence → 0 — MusicSystem1, 3b.0).
     //
     // 2) Software monitoring gain — ApplyMonitoringVolume (main thread): scales
-    //    monitoringSource.volume by gameOnScale x chargeDuckScale x chantPresenceScale, then
-    //    x AttenuateMonitoring / monitoringAttenuationDb. chargeDuckScale follows GameValues
-    //    _chantCharge / chargeLerp; chantPresenceScale follows GameValues._chantLerpSlow.
-    //    Chant charge ducking is NOT on the MicMixer contribution dict.
-    //    MusicSystem1 drives AttenuateMonitoring for SoundWorld vs MusicLoop
-    //    (SetMonitoringAttenuationOnce, tutorial/calibration overrides). Calibration uses
-    //    SetChantBasedAttenuationOverride to force chant duck off while gameOn gate stays live.
+    //    monitoringSource.volume by gameOnScale x chargeDuckScale x _adsrPresenceScale (the stacked
+    //    monitoring ADSR, 3b.1 — see MonitoringAdsrPolicy / UpdateMonitoringAdsr; replaces the legacy
+    //    chantPresence BoardFader of _chantLerpSlow). chargeDuckScale follows GameValues _chantCharge /
+    //    chargeLerp. Chant ducking is NOT on the MicMixer dict. Calibration uses
+    //    SetChantBasedAttenuationOverride to force chant duck + ADSR presence to 1f while the gameOn gate stays live.
     //
     // Likely direction (needs design agreement):
     // - Record/replay will add pre-recorded elements on the mic bus BEFORE SoundSelf
@@ -90,18 +81,17 @@ public class DirectVoiceMonitoring : MonoBehaviour
     //   record/replay; do not conflate with chantPresence / ApplyMonitoringVolume.
     // - Initialization may stay the global startup offset on MicProcessing (or move earlier
     //   on the bus — decide in design).
-    // - Retire or slim AttenuateMonitoring + MusicSystem1 monitoringAttenuationApplied cache
-    //   once equivalents exist as named bus contributions or pre-fader automation; use
-    //   LerpMicMixerVolumeContributionTo (or successor) for fades.
+    // - AttenuateMonitoring removed in 3b.0 (was 0 dB no-op); per-soundscape headroom is SoundscapeMonitoring on MicMixer.
     // - Re-unify chant/gameOn dynamics: chantPresence / chargeDuck as monitoringSource scale vs
     //   mixer contributions vs split (e.g. gameOn pre-fader, chant duck post-sum).
     //
-    // See also: MusicSystem1.SetMonitoringAttenuationOnce / SetCalibrationMonitoringOverride,
+    // See also: MusicSystem1.SyncSoundscapeMonitoring / SetCalibrationMonitoringOverride,
     // CalibrationStageHandler.SyncMicMixerForCalibrationStep, GameValues chant charge coroutines,
     // WorldShuffler.cs TODO (Director/color — separate refactor).
     // =============================================================================
 
     [Header("MicMixer bus volume (named dB contributions)")]
+    [Tooltip("Wwise exposed parameter on SoundSelf MicProcessing — summed contributions set the whole voice-channel fader (monitoring + future record path).")]
     private string micMixerVolumeParameterName = "MicProcessingVolume";
     [Tooltip("Baseline Mic Processing attenuation fader (dB). Seeded as contribution \"Initialization\".")]
     [SerializeField] private float micMixerInitializationVolumeDb = 6f;
@@ -110,6 +100,48 @@ public class DirectVoiceMonitoring : MonoBehaviour
     public const string MicMixerInitializationContributionName = "Initialization";
     /// <summary>Named MicMixer offset used during calibration mic test (see <c>CalibrationStageHandler</c> for target dB / duration).</summary>
     public const string CalibrationMicrophoneContributionName = "CalibrationMicrophone";
+    /// <summary>Block 8 / 3b.0: per-soundscape voice-bus gain set when the soundscape changes (see <c>SoundscapeMonitoringPolicy</c>).</summary>
+    public const string SoundscapeMonitoringContributionName = SoundscapeMonitoringPolicy.ContributionName;
+
+    // ============================================================================================================
+    // BLOCK 8 MONITORING — Inspector telemetry + baked constants (read-only gray fields mirror policy values).
+    // Per-soundscape dB: SoundscapeMonitoringPolicy.BakedMonitoringDbMap. ADSR tuning: MonitoringAdsrPolicy constants.
+    // ============================================================================================================
+    [Header("=== BLOCK 8 MONITORING (telemetry + baked constants) ===")]
+    [Tooltip("Read-only. Baked ADSR sustain after decay (MonitoringAdsrPolicy.DefaultSustainLevel).")]
+    [SerializeField] private float monitoringAdsrSustainLevel = MonitoringAdsrPolicy.DefaultSustainLevel;
+    [Tooltip("Read-only. Baked BoardFader low dB (MonitoringAdsrPolicy.DefaultBoardFaderLowDb).")]
+    [SerializeField] private float monitoringAdsrBoardFaderLowDb = MonitoringAdsrPolicy.DefaultBoardFaderLowDb;
+    [Tooltip("Read-only telemetry: summed (clamped) ADSR level, live instance count, and ADSR stage of the most recent burst.")]
+    [SerializeField] private float debugMonitoringAdsrSum;
+    [SerializeField] private int debugMonitoringAdsrVoiceCount;
+    [Tooltip("Read-only. ADSR stage (A/D/S/R) for the most recent confident onset — Idle between bursts or after it finishes (even if older instances are still releasing).")]
+    [SerializeField] private string debugMonitoringAdsrCurrentBurstPhase = "Idle";
+
+    private readonly HashSet<string> _warnedMissingSoundscapeMonitoring = new HashSet<string>();
+
+    /// <summary>Per-soundscape voice-bus dB (unknown / null / silence → 0).</summary>
+    public float GetSoundscapeMonitoringDb(string soundscape)
+    {
+        return SoundscapeMonitoringPolicy.MonitoringDbForSoundscape(soundscape);
+    }
+
+    /// <summary>Lerps the per-soundscape voice-bus contribution to the value for <paramref name="soundscape"/> over the policy duration.</summary>
+    public void ApplySoundscapeMonitoring(string soundscape)
+    {
+        // Catch a real soundscape added to MusicSystem1 without a baked entry (silence/null is intentional 0, no warning).
+        if (!string.IsNullOrEmpty(soundscape)
+            && !SoundscapeMonitoringPolicy.IsKnownSoundscape(soundscape)
+            && _warnedMissingSoundscapeMonitoring.Add(soundscape))
+        {
+            DbgWarn($"B457 DirectVoiceMonitoring: soundscape '{soundscape}' has no baked monitoring dB — using 0 dB. Add it to SoundscapeMonitoringPolicy.BakedMonitoringDbMap.");
+        }
+
+        LerpMicMixerVolumeContributionTo(
+            SoundscapeMonitoringPolicy.ContributionName,
+            SoundscapeMonitoringPolicy.MonitoringDbForSoundscape(soundscape),
+            SoundscapeMonitoringPolicy.DefaultLerpDurationSeconds);
+    }
 
     [Header("Dynamic Monitoring Volume")]
     [Tooltip("When enabled, monitoring volume follows gameOn/toneActive/chant state (migrated from MusicSystem1).")]
@@ -118,10 +150,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] private float gameOnFallSpeed = 0.5f;
     [SerializeField] private float chargeRiseSpeed = 1f;
     [SerializeField] private float chargeFallSpeed = 1f;
-    [Header("Chant Presence Gain Shaping")]
-    private float chantPresenceMinGainDb = -35f;
-    private float chantPresenceMaxGainDb = 0f;
-    private float chantPresenceLinearFloorRange = 0.125f;
+    // Block 8 / 3b.1: legacy "Chant Presence Gain Shaping" (BoardFader of _chantLerpSlow) retired on the monitoring
+    // path — voice presence now comes from the stacked ADSR (see MonitoringAdsrPolicy + UpdateMonitoringAdsr).
 
     private float bufferedReadLatencyMs = 125f;
     private int bufferUnderflowWarningThresholdPerWindow = 8;
@@ -161,13 +191,18 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private AudioClip silentMonitoringDummyClip;
     private float gameOnLerp = 0f;
     private float chargeLerp = 0f;
-    private float smoothedAttenuationScale = 1f;
-    private bool attenuationScaleInitialized;
+
+    // Block 8 / 3b.1: stacked monitoring ADSR state. One instance per confident onset; summed → clamped → BoardFader.
+    private readonly List<MonitoringAdsrVoice> _adsrVoices = new List<MonitoringAdsrVoice>();
+    private MonitoringAdsrVoice _adsrNewestBurstVoice; // most recent spawn — drives debugMonitoringAdsrCurrentBurstPhase
+    private bool _adsrConfidentLastFrame = false;
+    private bool _adsrArmed = true; // "finger off the piano key" — must see confident go false before a new attack
+    private float _adsrPresenceScale = 0f; // replaces the old chantPresenceScale in ApplyMonitoringVolume
     private readonly Dictionary<string, float> micMixerVolumeContributionsDb = new Dictionary<string, float>();
     private readonly Dictionary<string, Coroutine> _micMixerVolumeContributionLerpCoroutines = new Dictionary<string, Coroutine>();
     private AudioMixer resolvedMicMixer;
     private bool loggedMicMixerApplyFailure;
-    /// <summary>External override (e.g. <c>CalibrationStageHandler</c>) — when true, the chant-driven ducking contributions (<c>chantPresenceScale</c> and <c>chargeDuckScale</c>) are forced to 1f. Mic-gate (<c>gameOnScale</c>) and outer attenuation are unaffected.</summary>
+    /// <summary>External override (e.g. <c>CalibrationStageHandler</c>) — when true, the chant-driven contributions (<c>_adsrPresenceScale</c> and <c>chargeDuckScale</c>) are forced to 1f. Mic-gate (<c>gameOnScale</c>) is unaffected.</summary>
     private bool chantBasedAttenuationOverrideActive = false;
     private string nextStartPrimeReason = "start_prime";
     private float lastHealthSummaryLogTime = -999f;
@@ -193,7 +228,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private int callbackStarvationCountWindow = 0;
     private int transitionStartCount = 0;
     private int transitionStopCount = 0;
-    private int transitionAttenuationToggleCount = 0;
     private int transitionStreamSwitchCount = 0;
     private int hardVolumeStepCount = 0;
     private float lastVolumeStepDelta = 0f;
@@ -260,10 +294,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
         dynamicVolumeEnabled = true;
         monitoringEnabled = true;
 
-        MigrateLegacyLinearAttenuationIfNeeded();
-        float initialAttenuationScale = GetMonitoringAttenuationLinearScale();
-        smoothedAttenuationScale = initialAttenuationScale;
-        attenuationScaleInitialized = true;
         lastWarningWindowResetTime = Time.unscaledTime;
 
         if (monitoringSource == null)
@@ -431,6 +461,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             }
         }
 
+        UpdateMonitoringAdsr();
         ApplyMonitoringVolume("update");
         UpdateReliabilityTelemetry();
         UpdateRuntimeDynamicDebugState();
@@ -438,6 +469,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
 
     private void UpdateRuntimeDynamicDebugState()
     {
+        monitoringAdsrSustainLevel = MonitoringAdsrPolicy.DefaultSustainLevel;
+        monitoringAdsrBoardFaderLowDb = MonitoringAdsrPolicy.DefaultBoardFaderLowDb;
+
         telemetryEffectiveMonitoringGain = Mathf.Clamp01(effectiveMonitoringGain);
         telemetryAppliedAudioSourceVolume = monitoringSource != null ? monitoringSource.volume : 0f;
 
@@ -637,9 +671,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
 
     /// <summary>
     /// External override (e.g. <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>) for the chant-driven ducking contributions:
-    /// while <paramref name="active"/> is true, both <c>chantPresenceScale</c> (from <c>chantLerpSlow</c>) and
-    /// <c>chargeDuckScale</c> (from <c>chantCharge</c>) are forced to <c>1f</c> inside <see cref="ApplyMonitoringVolume"/>.
-    /// The mic-gate (<c>gameOnLerp</c>) and outer attenuation/dynamic-volume toggles are unaffected, so
+    /// while <paramref name="active"/> is true, both <c>_adsrPresenceScale</c> (the stacked monitoring ADSR) and
+    /// <c>chargeDuckScale</c> (from <c>chantCharge</c>) are forced to <c>1f</c> (see <see cref="UpdateMonitoringAdsr"/> / <see cref="ApplyMonitoringVolume"/>).
+    /// The mic-gate (<c>gameOnLerp</c>) and dynamic-volume toggles are unaffected, so
     /// <c>Cue_Microphone_ON</c> / <c>Cue_Microphone_OFF</c> still gate monitoring as expected.
     /// Idempotent and cheap to call from <c>Enter</c> / <c>LocalCleanup</c>.
     /// </summary>
@@ -651,21 +685,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
         chantBasedAttenuationOverrideActive = active;
         ApplyMonitoringVolume("chant_attenuation_override_toggle");
-    }
-
-    /// <summary>
-    /// Applies or removes monitoring attenuation while preserving dynamic volume behavior.
-    /// </summary>
-    public void AttenuateMonitoring(bool attenuated)
-    {
-        if (monitoringAttenuated == attenuated)
-        {
-            return;
-        }
-
-        monitoringAttenuated = attenuated;
-        transitionAttenuationToggleCount++;
-        ApplyMonitoringVolume("attenuation_toggle");
     }
 
     /// <summary>
@@ -739,7 +758,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
         lastHealthSummaryLogTime = Time.unscaledTime;
         transitionStartCount = 0;
         transitionStopCount = 0;
-        transitionAttenuationToggleCount = 0;
         transitionStreamSwitchCount = 0;
         hardVolumeStepCount = 0;
         lastVolumeStepDelta = 0f;
@@ -1201,35 +1219,10 @@ public class DirectVoiceMonitoring : MonoBehaviour
         DbgWarn($"DirectVoiceMonitoring: Failed to apply MicMixer volume (parameter '{micMixerVolumeParameterName}'). Route monitoring AudioSource to MicMixer → SoundSelf MicProcessing and expose Volume as MicProcessingVolume.");
     }
 
-    /// <summary>Linear gain for interaction-based outer attenuation (1 when off, <see cref="AudioLevelUtilities.DbToLinear"/> when on).</summary>
-    private float GetMonitoringAttenuationLinearScale()
-    {
-        if (!monitoringAttenuated)
-        {
-            return 1f;
-        }
-
-        return AudioLevelUtilities.DbToLinear(Mathf.Clamp(monitoringAttenuationDb, -60f, 0f));
-    }
-
-    /// <summary>
-    /// Upgrades scenes that still store the old 0–1 linear multiplier (e.g. 0.4) on the renamed dB field.
-    /// </summary>
-    private void MigrateLegacyLinearAttenuationIfNeeded()
-    {
-        if (monitoringAttenuationDb <= 0f)
-        {
-            return;
-        }
-
-        monitoringAttenuationDb = AudioLevelUtilities.LinearToDb(monitoringAttenuationDb);
-    }
-
     // Update volume when changed in inspector
     // runs on: main thread (Unity Editor lifecycle; only fires in the Editor).
     private void OnValidate()
     {
-        MigrateLegacyLinearAttenuationIfNeeded();
         if (monitoringSource != null && Application.isPlaying)
         {
             ApplyMonitoringVolume("on_validate");
@@ -1276,33 +1269,26 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         float dynamicScale = 1f;
-        float chantPresenceScale = 1f;
         float gameOnScale = 1f;
         float chargeDuckScale = 1f;
         if (dynamicVolumeEnabled && imitoneVoiceInterpreter != null && GameValues.instance != null)
         {
             UpdateDynamicVolumeLerps();
-            chantPresenceScale = AudioLevelUtilities.BoardFader(
-                GameValues.instance._chantLerpSlow,
-                chantPresenceMinGainDb,
-                chantPresenceMaxGainDb,
-                chantPresenceLinearFloorRange);
+            // 3b.1: voice presence is the stacked ADSR (_adsrPresenceScale, updated in UpdateMonitoringAdsr) — the legacy
+            // chantPresence (BoardFader of _chantLerpSlow) is retired on the monitoring path.
             gameOnScale = gameOnLerp;
             chargeDuckScale = 1f - chargeLerp * 0.5f;
             if (chantBasedAttenuationOverrideActive)
             {
-                // Calibration (and any future external owner) forces the two chant-driven ducking contributions to 1f.
-                // gameOnScale stays live so Cue_Microphone_ON/OFF still gates monitoring during calibration.
-                chantPresenceScale = 1f;
+                // Calibration (and any future external owner) forces the chant-driven ducking to 1f. gameOnScale stays
+                // live so Cue_Microphone_ON/OFF still gates monitoring during calibration. _adsrPresenceScale is
+                // likewise forced to 1f in UpdateMonitoringAdsr while the override is active.
                 chargeDuckScale = 1f;
             }
-            dynamicScale = gameOnScale * chargeDuckScale * chantPresenceScale;
-            //dynamicScale = GameValues.instance._chantLerpSlow;
+            dynamicScale = gameOnScale * chargeDuckScale * _adsrPresenceScale;
         }
 
-        float targetAttenuationScale = GetMonitoringAttenuationLinearScale();
-        float attenuationScale = GetSmoothedAttenuationScale(targetAttenuationScale);
-        float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale) * attenuationScale);
+        float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale));
         float audioSourceVolumeScale = Mathf.Clamp01(monitoringSource.volume);
         float muteScale = monitoringSource.mute ? 0f : 1f;
         float appliedGain = targetVolume * audioSourceVolumeScale * muteScale;
@@ -1319,28 +1305,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
         effectiveMonitoringGain = appliedGain;
         lastAppliedMonitoringVolume = appliedGain;
-    }
-
-    private float GetSmoothedAttenuationScale(float targetScale)
-    {
-        if (!attenuationScaleInitialized)
-        {
-            smoothedAttenuationScale = targetScale;
-            attenuationScaleInitialized = true;
-            return smoothedAttenuationScale;
-        }
-
-        float tau = Mathf.Max(0.005f, attenuationSmoothingSeconds);
-        float deltaTime = Mathf.Max(0f, Time.unscaledDeltaTime);
-        if (deltaTime <= 0f)
-        {
-            smoothedAttenuationScale = targetScale;
-            return smoothedAttenuationScale;
-        }
-
-        float alpha = 1f - Mathf.Exp(-deltaTime / tau);
-        smoothedAttenuationScale = Mathf.Lerp(smoothedAttenuationScale, targetScale, alpha);
-        return smoothedAttenuationScale;
     }
 
     private void UpdateReliabilityTelemetry()
@@ -1396,7 +1360,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             int overflowTotal = AtomicRead(ref bufferOverflowDropCount);
             int overflowSamples = AtomicRead(ref bufferOverflowDropSamples);
             int starvationTotal = AtomicRead(ref callbackStarvationCount);
-            DbgLog($"DirectVoiceMonitoring Health: seeks(total={seekCorrectionCountTotal}, drift={seekCorrectionCountDrift}, start={seekCorrectionCountStartPrime}, switch={seekCorrectionCountStreamSwitchPrime}) cooldownSuppressed={seekCooldownSuppressedCount} rebinds(success={captureRebindCount}, fail={captureRebindFailureCount}) buffered(underflow={underflowTotal}, underflowSamples={underflowSamples}, overflow={overflowTotal}, overflowSamples={overflowSamples}, starvation={starvationTotal}) transitions(start={transitionStartCount}, stop={transitionStopCount}, atten={transitionAttenuationToggleCount}, switch={transitionStreamSwitchCount}) hardSteps={hardVolumeStepCount} source={monitoringStreamSource} enabled={monitoringEnabled}");
+            DbgLog($"DirectVoiceMonitoring Health: seeks(total={seekCorrectionCountTotal}, drift={seekCorrectionCountDrift}, start={seekCorrectionCountStartPrime}, switch={seekCorrectionCountStreamSwitchPrime}) cooldownSuppressed={seekCooldownSuppressedCount} rebinds(success={captureRebindCount}, fail={captureRebindFailureCount}) buffered(underflow={underflowTotal}, underflowSamples={underflowSamples}, overflow={overflowTotal}, overflowSamples={overflowSamples}, starvation={starvationTotal}) transitions(start={transitionStartCount}, stop={transitionStopCount}, switch={transitionStreamSwitchCount}) hardSteps={hardVolumeStepCount} source={monitoringStreamSource} enabled={monitoringEnabled}");
             lastHealthSummaryLogTime = now;
         }
     }
@@ -1458,6 +1422,167 @@ public class DirectVoiceMonitoring : MonoBehaviour
         {
             Debug.LogWarning(message);
         }
+    }
+
+    /// <summary>ADSR phases for a single monitoring envelope instance (one per confident onset).</summary>
+    private enum AdsrPhase { Attack, Decay, Sustain, Release, Finished }
+
+    /// <summary>
+    /// Block 8 / 3b.1: one stacked monitoring envelope instance. Attack follows the blended chant reference up to
+    /// <see cref="MonitoringAdsrPolicy.AttackTarget"/>, decays to <paramref name="sustainLevel"/> over the charge runway,
+    /// holds, then releases to 0 the instant both confident + bias gates drop.
+    /// </summary>
+    private sealed class MonitoringAdsrVoice
+    {
+        public AdsrPhase phase = AdsrPhase.Attack;
+        public float level = 0f;
+        private float decayElapsed = 0f;
+        private float decayDuration = MonitoringAdsrPolicy.MinDecaySeconds;
+        private float releaseElapsed = 0f;
+        private float releaseStartLevel = 0f;
+
+        public bool IsFinished => phase == AdsrPhase.Finished;
+
+        public static string FormatPhaseLabel(AdsrPhase phase)
+        {
+            switch (phase)
+            {
+                case AdsrPhase.Attack: return "Attack (A)";
+                case AdsrPhase.Decay: return "Decay (D)";
+                case AdsrPhase.Sustain: return "Sustain (S)";
+                case AdsrPhase.Release: return "Release (R)";
+                default: return "Idle";
+            }
+        }
+
+        public void Tick(float dt, float riseReference, float sustainLevel, float chantCharge01, bool confident, bool bias)
+        {
+            // Release interrupts any active phase the first frame both gates are off (option C — immediate, no wait).
+            // ("finger off the piano key" — trivial rule inlined per the lean-policy guideline.)
+            if (phase != AdsrPhase.Release && phase != AdsrPhase.Finished && !confident && !bias)
+            {
+                phase = AdsrPhase.Release;
+                releaseElapsed = 0f;
+                releaseStartLevel = level;
+            }
+
+            switch (phase)
+            {
+                case AdsrPhase.Attack:
+                    // Rise with the chant curve, monotonic up, capped at the attack peak.
+                    level = Mathf.Min(MonitoringAdsrPolicy.AttackTarget, Mathf.Max(level, riseReference));
+                    if (level >= MonitoringAdsrPolicy.AttackTarget - 0.001f)
+                    {
+                        phase = AdsrPhase.Decay;
+                        decayElapsed = 0f;
+                        decayDuration = MonitoringAdsrPolicy.DecayDurationSeconds(chantCharge01);
+                    }
+                    break;
+
+                case AdsrPhase.Decay:
+                    decayElapsed += dt;
+                    float decayT = decayDuration > 0f ? Mathf.Clamp01(decayElapsed / decayDuration) : 1f;
+                    level = Mathf.Lerp(MonitoringAdsrPolicy.AttackTarget, sustainLevel, decayT);
+                    if (decayT >= 1f)
+                    {
+                        phase = AdsrPhase.Sustain;
+                    }
+                    break;
+
+                case AdsrPhase.Sustain:
+                    level = sustainLevel;
+                    break;
+
+                case AdsrPhase.Release:
+                    releaseElapsed += dt;
+                    float releaseT = MonitoringAdsrPolicy.ReleaseSeconds > 0f
+                        ? Mathf.Clamp01(releaseElapsed / MonitoringAdsrPolicy.ReleaseSeconds)
+                        : 1f;
+                    // Ease-out to feel like the slow chant-down rather than a linear drop.
+                    float eased = 1f - (1f - releaseT) * (1f - releaseT);
+                    level = Mathf.Lerp(releaseStartLevel, 0f, eased);
+                    if (releaseT >= 1f)
+                    {
+                        level = 0f;
+                        phase = AdsrPhase.Finished;
+                    }
+                    break;
+            }
+        }
+    }
+
+    /// <summary>Summed (clamped) ADSR level driving the monitoring presence scale — for telemetry / playtest state lines.</summary>
+    public float GetMonitoringAdsrSum() => debugMonitoringAdsrSum;
+
+    /// <summary>Live (non-finished) ADSR instance count — for telemetry / playtest state lines.</summary>
+    public int GetMonitoringAdsrVoiceCount() => debugMonitoringAdsrVoiceCount;
+
+    // Block 8 / 3b.1: advance the stacked monitoring ADSR once per frame and publish _adsrPresenceScale, which
+    // ApplyMonitoringVolume multiplies in place of the retired chantPresenceScale.
+    private void UpdateMonitoringAdsr()
+    {
+        if (!dynamicVolumeEnabled || imitoneVoiceInterpreter == null || GameValues.instance == null)
+        {
+            _adsrVoices.Clear();
+            _adsrNewestBurstVoice = null;
+            _adsrArmed = true;
+            _adsrConfidentLastFrame = false;
+            _adsrPresenceScale = 0f;
+            debugMonitoringAdsrSum = 0f;
+            debugMonitoringAdsrVoiceCount = 0;
+            debugMonitoringAdsrCurrentBurstPhase = "Idle";
+            return;
+        }
+
+        float dt = Time.deltaTime;
+        bool confident = imitoneVoiceInterpreter.toneActiveConfident;
+        bool bias = imitoneVoiceInterpreter.toneActiveBiasTrue;
+
+        // Re-attack gate: re-arm once confident drops, spawn exactly one instance on the next confident rising edge.
+        // ("finger off the piano key" — trivial edge rule inlined per the lean-policy guideline.)
+        if (!confident)
+        {
+            _adsrArmed = true;
+        }
+        if (_adsrArmed && confident && !_adsrConfidentLastFrame)
+        {
+            var burst = new MonitoringAdsrVoice();
+            _adsrVoices.Add(burst);
+            _adsrNewestBurstVoice = burst;
+            _adsrArmed = false;
+        }
+        _adsrConfidentLastFrame = confident;
+
+        float meditativeLerp = RespirationTracker.instance != null ? RespirationTracker.instance.modeMeditativeLerp : 0f;
+        float riseReference = MonitoringAdsrPolicy.RiseReference(
+            GameValues.instance._chantLerpFast, GameValues.instance._chantLerpSlow, meditativeLerp);
+        float charge01 = Mathf.Clamp01(GameValues.instance._chantCharge);
+
+        float sum = 0f;
+        for (int i = _adsrVoices.Count - 1; i >= 0; i--)
+        {
+            MonitoringAdsrVoice voice = _adsrVoices[i];
+            voice.Tick(dt, riseReference, MonitoringAdsrPolicy.DefaultSustainLevel, charge01, confident, bias);
+            if (voice.IsFinished)
+            {
+                _adsrVoices.RemoveAt(i);
+                continue;
+            }
+            sum += voice.level;
+        }
+
+        float adsrSum01 = Mathf.Clamp01(sum); // stacking clamp (inlined per lean-policy guideline)
+        debugMonitoringAdsrSum = adsrSum01;
+        debugMonitoringAdsrVoiceCount = _adsrVoices.Count;
+        debugMonitoringAdsrCurrentBurstPhase = _adsrNewestBurstVoice != null && !_adsrNewestBurstVoice.IsFinished
+            ? MonitoringAdsrVoice.FormatPhaseLabel(_adsrNewestBurstVoice.phase)
+            : "Idle";
+
+        // Calibration (and any future external owner) forces presence to unity so the mic test isn't ducked.
+        // Presence mapping (BoardFader high 0 dB / low tunable) inlined per lean-policy guideline.
+        _adsrPresenceScale = chantBasedAttenuationOverrideActive
+            ? 1f
+            : AudioLevelUtilities.BoardFader(adsrSum01, MonitoringAdsrPolicy.DefaultBoardFaderLowDb, MonitoringAdsrPolicy.BoardFaderHighDb);
     }
 
     private void UpdateDynamicVolumeLerps()

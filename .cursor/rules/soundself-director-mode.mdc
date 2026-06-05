@@ -61,6 +61,17 @@ When adding behavior with clear rules (thresholds, stage gates, mode → flag ma
 
 Remove **temporary** debug logging/helpers at the **final commit** for a completed playtest pass; keep policy + Test Runner tests.
 
+### Policy vs class — rule of thumb (Robin, 2026-06-04: **Option A, lean**)
+
+Extract a rule into a **policy** class **only if the rule is individually non-trivial** — i.e. **more than a single expression** (more than one boolean op, one `Clamp`/`Mathf` call, one dictionary lookup, or one thin wrapper around an existing util).
+
+- **Non-trivial → policy + EditMode test.** Multi-step math, precedence/ordering, blend formulas, runway/floor math (e.g. `RiseReference`, `DecayDurationSeconds`, `MonitoringDbForSoundscape`).
+- **Single-expression → inline in the class**, even if a sibling rule lives in a policy. Add a short `// ... (inlined per lean-policy rule of thumb)` comment. Examples deliberately inlined: release gate `!a && !b`, attack edge `armed && now && !last`, `Clamp01(sum)`, `BoardFader(Clamp01(x), low, high)`.
+- **Constants** (agreed tuning numbers) may live in the policy as the single source of truth even when most logic is inlined — that is not "over-extraction."
+- **Cost accepted:** inlined single-expression rules are **not** unit-tested in isolation; they're covered by playtest. If a thin rule is product-critical and Robin wants it pinned, he can ask for an explicit exception (keep it in the policy with a test).
+
+Do **not** wrap one-liners in a policy purely for symmetry / "all rules in one file."
+
 ## Prompting (examples)
 
 - `Director mode, Block 3 — Test Runner tests + playtest for opening gameOn`  

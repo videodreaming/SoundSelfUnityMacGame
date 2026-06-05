@@ -43,7 +43,7 @@
 
 **Debug toggles (editable):** `enableReliabilityLogs`, `logWindowWarnings`, `logHealthSummary`, `debugAllowMonitoringLogs`, `debugAllowMonitoringWarnings`.
 
-**Editable tuning:** `gameOnRiseSpeed`, `gameOnFallSpeed`, `chargeRiseSpeed`, `chargeFallSpeed`.
+**Frozen (gray):** `gameOnRiseSpeed` (**2**), `gameOnFallSpeed` (**0.5**), `chargeRiseSpeed` (**1**), `chargeFallSpeed` (**1**) — dynamic monitoring ramp speeds; accidental edits would change game feel.
 
 ---
 

@@ -65,6 +65,11 @@ public class RespirationTracker : MonoBehaviour
     private bool frameGuardTone = false;
     public bool modePlayful     = true;
     public bool modeMeditative  = false;
+
+    // Block 8 / 3b.1: smoothed meditative weight in [0,1] for AUDIO blends (no audible jump when modeMeditative flips).
+    // The monitoring ADSR rise blend reads THIS, not the raw bool. Init 0 (playful); full 0<->1 traverse ≈ 60 s.
+    [System.NonSerialized] public float modeMeditativeLerp = 0f;
+    private const float ModeMeditativeLerpSeconds = 60f;
     private float _respirationMeasurementWindow1 = 60.0f;
     private float _respirationMeasurementWindow2 = 120.0f;
     private int idCounter = 0;
@@ -238,6 +243,12 @@ public class RespirationTracker : MonoBehaviour
         }
         AkSoundEngine.SetRTPCValue("Unity_Absorption", Mathf.Clamp(_absorption, 0f, 1f) * 100f , gameObject);
 
+        // Block 8 / 3b.1: smooth modeMeditativeLerp toward the current mode so audio blends never jump on the bool flip.
+        // TODO(Lorna): Unity modeMeditativeLerp ramps over 60 s but Wwise AbsorptionMode (set above) flips on the
+        // instant bool — align Unity/Wwise timing or document the intentional split.
+        float meditativeTarget = modeMeditative ? 1f : 0f;
+        float step = ModeMeditativeLerpSeconds > 0f ? Time.deltaTime / ModeMeditativeLerpSeconds : 1f;
+        modeMeditativeLerp = Mathf.MoveTowards(modeMeditativeLerp, meditativeTarget, step);
     }
 
     private IEnumerator RespirationCycleCoroutine (Dictionary<int,BreathCycleData> BreathCycleDictionary, float _measurementWindow = 60.0f, bool visualize = true, int visualizeY = 0){

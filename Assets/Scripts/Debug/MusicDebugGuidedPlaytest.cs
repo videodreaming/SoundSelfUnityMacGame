@@ -4,17 +4,47 @@ using SoundSelf.Sequence;
 using UnityEngine;
 
 /// <summary>
-/// Editor-only guided subjective playtest for Stage 1 (Director queue) + Stage 2 (binaural gating).
-/// Started from <see cref="MusicDebugHarness"/> (G key) while parked in <see cref="StageVariant.Playground_Debug"/>.
+/// Editor-only guided subjective playtest. Runs three parts in one coroutine (G key) while parked in
+/// <see cref="StageVariant.Playground_Debug"/>:
+/// <list type="number">
+/// <item>Part A — sound-world cycle audit (all 4 worlds distinct; SOUNDWORLD_SWITCH_NOT_AUDIBLE follow-up).</item>
+/// <item>Part B — MusicLoops → Silence hygiene (no loop bleed under a world).</item>
+/// <item>Part C — Stage 1 (Director queue) + Stage 2 (binaural gating).</item>
+/// </list>
 /// </summary>
 public class MusicDebugGuidedPlaytest : MonoBehaviour
 {
-    const string Prefix = "[MusicDebugHarness] GUIDED";
+    const string Prefix = "[B457 MusicDebugHarness] GUIDED";
+    const string AdvanceHintKeyboard = "PRESS SPACE OR RETURN WHEN READY.";
+    const string StepNavHint = "SPACE/RETURN/→ = NEXT · ←/BACKSPACE = PREVIOUS.";
+    const float AdvanceTimeoutSeconds = 600f;
+    const float ToneReleaseSeconds = 0.25f;
+    const float ToneHoldRequiredSeconds = 0.4f;
     const float DirectorTimerSeconds = 8f;
-    const float BinauralLerpWaitSeconds = 32f;
     const string ShadowSoundWorldTarget = "Shadow";
     /// <summary>Used when auto-shuffle already landed on Shadow so the director step is a real world→world change.</summary>
     const string ShadowTestBaselineWorld = "SonoFlore";
+
+    /// <summary>Part A: every sound world, set in turn, listening for a distinct + clean switch.</summary>
+    static readonly string[] WorldAuditCycle = { "SonoFlore", "Shadow", "Gentle", "Shruti" };
+    /// <summary>Part B: a music loop set first, then a world, to confirm the loop bed is silenced (no bleed).</summary>
+    const string MusicLoopForHygiene = "ShiftingEarth";
+    const string HygieneWorldTarget = "Shadow";
+
+    /// <summary>
+    /// Stage 3b.0: every soundscape (4 worlds + 3 loops) in alternating world↔loop order so each step is an A/B
+    /// transition for per-soundscape SoundscapeMonitoring tuning (see BLOCKS_4_5_7_PLAN §3b.0).
+    /// </summary>
+    static readonly (string soundscape, bool isLoop)[] MicMixerTuneOrder =
+    {
+        ("SonoFlore", false),
+        ("ShiftingEarth", true),
+        ("Shadow", false),
+        ("SitarAmbience", true),
+        ("Gentle", false),
+        ("PinkNoiseAtmosphere", true),
+        ("Shruti", false),
+    };
 
     [SerializeField] private MusicDebugHarness harness;
     [SerializeField] private Sequencer sequencer;
@@ -41,20 +71,190 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
             return;
         }
 
-        _run = StartCoroutine(RunStage1And2Playtest());
+        _run = StartCoroutine(RunGuidedPlaytest());
     }
 
-    IEnumerator RunStage1And2Playtest()
+    IEnumerator RunGuidedPlaytest()
     {
         try
         {
+            LogCaps("GUIDED PLAYTEST START — A → B → 3b.1 ADSR → 3b.0 MIC A/B → C. CONSOLE FILTER: B457. G AGAIN = ABORT.");
+            yield return RunWorldAndLoopAuditCore();
+            yield return RunMonitoringAdsrTuneCore();
+            yield return RunMicMixerHeadroomTuneCore();
             yield return RunStage1And2PlaytestCore();
         }
         finally
         {
             _run = null;
-            LogCaps("GUIDED PLAYTEST FINISHED — paste Console logs (filter: MusicDebugHarness | Director Queue | Binaural) and your subjective notes.");
+            LogCaps("GUIDED PLAYTEST FINISHED — paste Console logs (single filter: B457) and your subjective notes.");
         }
+    }
+
+    // === Part A (world cycle) + Part B (MusicLoops → Silence hygiene) ===
+    IEnumerator RunWorldAndLoopAuditCore()
+    {
+        if (harness == null || sequencer == null)
+        {
+            Debug.LogError(Prefix + " Missing harness / sequencer.");
+            yield break;
+        }
+
+        var ms = MusicSystem1.instance;
+        if (ms == null)
+        {
+            Debug.LogWarning(Prefix + " MusicSystem1.instance null — skipping world/loop audit (Parts A/B).");
+            yield break;
+        }
+
+        var imitone = sequencer.imitoneVoiceInterpreter;
+
+        LogPartBegin(
+            "A",
+            "SOUND WORLD CYCLE (BLOCK 4 / SET SOUND WORLD)",
+            "Each of the four sound worlds (SonoFlore, Shadow, Gentle, Shruti) is set in turn via SetSoundWorld — you hear one bed at a time, switching cleanly in Wwise.",
+            "By ear: all four sound clearly different; no stacked worlds, no old world lingering after a switch.");
+        LogCaps("PUT ON HEADPHONES. TONE WHILE LISTENING IS FINE — ONLY SPACE/RETURN ADVANCES. WHEN READY FOR THE FIRST WORLD, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        foreach (var world in WorldAuditCycle)
+        {
+            ms.SetSoundWorld(world);
+            harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+            LogCaps("NOW LISTENING: " + world.ToUpperInvariant()
+                + " IS ACTIVE. TONE WHILE YOU LISTEN — ONLY SPACE/RETURN ADVANCES WHEN DONE (DISTINCT + CLEAN). " + AdvanceHintKeyboard);
+            yield return WaitForAdvance(imitone);
+        }
+
+        LogPartComplete("A", "Note any world that sounded the same, muddy, or layered.");
+        yield return WaitForAdvance(imitone);
+
+        yield return BeginNextPart(
+            imitone,
+            "B",
+            "MUSICLOOPS → SILENCE HYGIENE (BLOCK 4)",
+            "A music loop bed is started, then a sound world is set — the loop must be silenced (MusicLoops_Switch → Silence) so only the world is audible, not the loop underneath.",
+            "By ear: loop bed audible on step 1; after world switch the loop is fully gone — no bleed under the world.");
+
+        ms.SetMusicLoop(MusicLoopForHygiene);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("LOOP SET → " + MusicLoopForHygiene.ToUpperInvariant()
+            + ". YOU SHOULD HEAR THE LOOP BED. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        ms.SetSoundWorld(HygieneWorldTarget);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("WORLD SET → " + HygieneWorldTarget.ToUpperInvariant()
+            + ". CRITICAL: LOOP BED MUST BE SILENT — ONLY THE WORLD, NO LOOP UNDERNEATH. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogPartComplete("B", "Report any loop bleed you still heard under the world.");
+        yield return WaitForAdvance(imitone);
+    }
+
+    IEnumerator RunMicMixerHeadroomTuneCore()
+    {
+        if (harness == null || sequencer == null)
+        {
+            Debug.LogError(Prefix + " Missing harness / sequencer.");
+            yield break;
+        }
+
+        var ms = MusicSystem1.instance;
+        if (ms == null)
+        {
+            Debug.LogWarning(Prefix + " MusicSystem1.instance null — skipping 3b.0 MicMixer A/B.");
+            yield break;
+        }
+
+        var imitone = sequencer.imitoneVoiceInterpreter;
+        var dvm = UnityEngine.Object.FindObjectOfType<DirectVoiceMonitoring>();
+
+        yield return BeginNextPart(
+            imitone,
+            "3b.0",
+            "MIC MIXER A/B (BLOCK 8 — PER-SOUNDSCAPE MONITORING)",
+            "Walk every soundscape (4 worlds + 3 loops) in alternating world↔loop order so you can set each by ear. Each soundscape lerps its own SoundscapeMonitoring dB on the MicMixer bus (loops seeded +8, worlds 0, over 10s).",
+            "By ear: each soundscape's mic monitoring feels usable; loops ≈ worlds (baked: worlds 0 dB, loops +3 dB). State line: micMixerSumDb + SoundscapeMonitoringDb. Wait ~10s after each change before judging.");
+
+        LogCaps("PUT ON HEADPHONES. TONE WHILE LISTENING. THIS WALKS EVERY SOUNDSCAPE IN ORDER, ALTERNATING WORLD↔LOOP. STEP " + StepNavHint + " — GO BACK AND FORTH TO A/B EACH PAIR. ALLOW ~10s AFTER EACH STEP FOR THE LERP. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        var nav = new StepNav[1];
+        int idx = 0;
+        while (idx < MicMixerTuneOrder.Length)
+        {
+            var (soundscape, isLoop) = MicMixerTuneOrder[idx];
+            ms.SetSoundscape(soundscape);
+            harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+            if (dvm != null)
+            {
+                Debug.Log(Prefix + " 3b.0 step " + (idx + 1) + "/" + MicMixerTuneOrder.Length + " "
+                    + (isLoop ? "loop=" : "world=") + soundscape
+                    + " soundscapeDb=" + dvm.GetSoundscapeMonitoringDb(soundscape).ToString("F1")
+                    + " sum=" + dvm.GetMicMixerVolumeSumDb().ToString("F1") + " dB (expect SoundscapeMonitoring ≈ that after 10s lerp).");
+            }
+            LogCaps((isLoop ? "LOOP → " : "WORLD → ") + soundscape.ToUpperInvariant()
+                + " [STEP " + (idx + 1) + "/" + MicMixerTuneOrder.Length + "]. LISTEN — BAKED PER-SOUNDSCAPE dB. WAIT ~10s. "
+                + StepNavHint);
+            yield return WaitForStepNav(imitone, nav);
+            idx += nav[0] == StepNav.Back ? -1 : 1;
+            if (idx < 0) idx = 0;
+        }
+
+        LogPartComplete("3b.0", "All soundscapes visited. Step back/forward (←/→) to re-check any pair; paste B457 state lines.");
+        yield return WaitForAdvance(imitone);
+    }
+
+    // === Stage 3b.1: stacked monitoring ADSR tune (see BLOCKS_4_5_7_PLAN §3b.1) ===
+    IEnumerator RunMonitoringAdsrTuneCore()
+    {
+        if (harness == null || sequencer == null)
+        {
+            Debug.LogError(Prefix + " Missing harness / sequencer.");
+            yield break;
+        }
+
+        var ms = MusicSystem1.instance;
+        if (ms == null)
+        {
+            Debug.LogError(Prefix + " MusicSystem1.instance null — cannot run 3b.1.");
+            yield break;
+        }
+
+        var imitone = sequencer.imitoneVoiceInterpreter;
+        var dvm = UnityEngine.Object.FindObjectOfType<DirectVoiceMonitoring>();
+
+        yield return BeginNextPart(
+            imitone,
+            "3b.1",
+            "MONITORING ADSR (BLOCK 8 — VOICE ENVELOPE)",
+            "Headphone mic monitoring now follows a stacked ADSR (attack on confident tone → decay to sustain over the charge runway → release when you take the tone off). Replaces the old sluggish chantPresence. Tune by ear in the ONE box on DirectVoiceMonitoring.",
+            "Attack not sluggish; decay settles to sustain (not endless creep); release on finger-off (both gates off) not harsh; stacking sums but never clips. Baked: sustain 0.4, BoardFader low -18 dB. Press P anytime → adsrSum / adsrVoices; Inspector shows ADSR phase telemetry.");
+
+        // Interactive world so toning drives the envelope.
+        ms.SetSoundscape("SonoFlore");
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("PUT ON HEADPHONES. SONOFLORE SET. PRESS P ANYTIME FOR adsrSum / adsrVoices. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogCaps("STEP 1 — PLAYFUL RISE: TONE SHORT NOTES (modeMeditativeLerp ≈ 0). ATTACK SHOULD FEEL SNAPPY (chantLerpFast). " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogCaps("STEP 2 — MEDITATIVE RISE (OPTIONAL): IF ABSORPTION > 0.25, TONE AGAIN — RISE SHOULD FEEL SOFTER/ROUNDER OVER ~60s (blend of fast+slow). SKIP IF STILL PLAYFUL. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogCaps("STEP 3 — DECAY→SUSTAIN: HOLD A LONG TONE. LEVEL RISES THEN SETTLES TO SUSTAIN (baked 0.4). WATCH debugMonitoringAdsrCurrentBurstPhase. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogCaps("STEP 4 — RELEASE: STOP TONING. MONITORING SHOULD EASE DOWN (not snap). BoardFader floor baked -18 dB. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogCaps("STEP 5 — STACKING: TONE, RELEASE THE KEY (let confident drop), THEN TONE AGAIN BEFORE IT FULLY FADES. NEW ATTACK STACKS ON THE TAIL — adsrVoices > 1, adsrSum CLAMPS AT 1. NO HARSH JUMP. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogPartComplete("3b.1", "Attack/decay/release/stacking feel right; paste B457 state lines (adsrSum / adsrVoices / burst phase).");
+        yield return WaitForAdvance(imitone);
     }
 
     IEnumerator RunStage1And2PlaytestCore()
@@ -69,64 +269,69 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         var ms = MusicSystem1.instance;
         var shuffler = sequencer.worldShuffler;
 
-        LogCaps("=== STAGE 1 + 2 SUBJECTIVE PLAYTEST START ===");
-        LogCaps("PUT ON HEADPHONES NOW. Console filter: MusicDebugHarness | Director Queue | Binaural");
-        LogCaps("YOU MUST BE PARKED IN Playground_Debug (DebugSequence). G again = abort.");
-        LogCaps("MIC / gameOn SHOULD BE ON — hum or tone when instructed.");
-
-        yield return WaitSeconds(3f);
+        yield return BeginNextPart(
+            imitone,
+            "C",
+            "DIRECTOR QUEUE + BINAURAL STAGE GATING (STAGES 1 + 2)",
+            "Stage 1: Director items expire and fire on tone (whole-queue activation, Shadow soundscape, transition flourish, shuffle) — no empty-queue bug. Stage 2: binaural fades in on Playground, optional attenuation, fades out after E → Linear_Nature.",
+            "Logs: 'Activating entire queue with tone' and repro/shuffle execute — NOT 'queue is empty'. By ear: binaural present on Playground (~70–100), gone on Linear (~0); optional MusicLoopSilent → binauralAtt=on, binauralOut≈70.");
+        ClearPlaygroundShuffleQueue(director);
         harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
 
-        // --- Stage 2: binaural audible on Playground ---
-        LogCaps("--- STAGE 2 (BINAURAL) — PLAYGROUND ---");
-        LogCaps("LISTEN: BINURAL BEATS SHOULD FADE IN OVER ~30 SECONDS (TARGET binauralBase=100 binauralOut=100).");
-        LogCaps("YOU MAY HEAR A GENTLE PULSE / HUM UNDER THE BED — NOT LOUD, BUT PRESENT.");
+        // --- Part C / Stage 2: binaural audible on Playground ---
+        LogCaps("--- PART C / STAGE 2: BINAURAL ON PLAYGROUND ---");
+        LogCaps("LISTEN: BINAURAL BEATS SHOULD FADE IN OVER ~30 SECONDS (TARGET binauralBase≈70–100 binauralOut≈70–100).");
+        LogCaps("OPTIONAL: PRESS P ANYTIME FOR A STATE LINE. WHEN FADE-IN SOUNDS RIGHT, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
 
-        for (int i = 0; i < 6; i++)
-        {
-            yield return WaitSeconds(5f);
-            if (i == 2 || i == 5)
-                harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-        }
-
-        LogCaps("NOW PRESS P — CONFIRM binauralBase≈100 binauralAtt=off binauralOut≈100 (may still be lerping).");
-        yield return WaitSeconds(8f);
-
-        // --- Stage 1: Director repro (ActivateEntireQueueOnNextTone self-retention) ---
-        LogCaps("--- STAGE 1 (DIRECTOR) — REPRO: ActivateEntireQueueOnNextTone ---");
-        LogCaps("QUEUING HARNESS REPRO (0.05s TIMER). WAIT ~10 SECONDS — DO NOT TONE YET.");
+        // --- Part C / Stage 1: Director repro (ActivateEntireQueueOnNextTone self-retention) ---
+        LogCaps("--- PART C / STAGE 1: DIRECTOR — REPRO (ActivateEntireQueueOnNextTone) ---");
+        LogCaps("RELEASE ANY TONE NOW — REPRO MUST NOT FIRE UNTIL THE 'NOW TONE' STEP BELOW.");
+        yield return WaitForToneRelease(imitone, 120f);
 
         director.ClearQueueOfType("MusicDebugHarness_Repro");
-        harness.ExecuteAction(MusicDebugHarnessAction.DirectorQueueRepro);
-        Debug.Log(Prefix + " Queue: " + director.FormatQueueContents());
+        bool reproFired = false;
+        int reproId = director.AddActionToQueue(
+            () =>
+            {
+                reproFired = true;
+                Debug.Log(Prefix + " Director repro action executed (ActivateEntireQueueOnNextTone).");
+            },
+            "MusicDebugHarness_Repro",
+            true,
+            false,
+            0.05f,
+            DirectorActivationBehavior.ActivateEntireQueueOnNextTone,
+            DirectorExclusivityBehavior.None);
+        Debug.Log(Prefix + " Queued repro id=" + reproId + " " + director.FormatQueueContents());
+        yield return WaitForDirectorTimerElapsed(0.12f);
+        LogCaps("REPRO TIMER EXPIRED (0.05s). STAY SILENT — DO NOT TONE. WHEN READY FOR THE TONE STEP, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
 
-        yield return WaitSeconds(10f);
+        LogCaps("NOW DO A CLEAR, SUSTAINED TONE (2–3 SECONDS) TO FIRE THE REPRO — RELEASE, THEN SPACE/RETURN.");
+        LogCaps("EXPECT: 'Director repro action executed' + 'Activating entire queue with tone' — NOT 'queue is empty'.");
+        if (reproFired)
+            LogCaps("NOTE: REPRO ALREADY FIRED (YOU MAY HAVE TONED EARLY) — STILL OK IF LOGS MATCH EXPECTATION.");
 
-        LogCaps("NOW DO A CLEAR, SUSTAINED TONE (2–3 SECONDS).");
-        LogCaps("WATCH CONSOLE: YOU SHOULD SEE 'Director repro action executed' AND 'Activating entire queue with tone'.");
-        LogCaps("YOU SHOULD NOT SEE 'Queue activation requested but queue is empty' (THAT WAS THE OLD BUG).");
-
-        yield return WaitForTone(imitone, 60f);
-        yield return WaitSeconds(2f);
+        yield return WaitForSustainedTone(imitone);
+        yield return WaitForAdvance(imitone);
         harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
         Debug.Log(Prefix + " Queue after repro tone: " + director.FormatQueueContents());
-
-        yield return WaitSeconds(3f);
+        LogCaps("REPRO STEP DONE. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
 
         // --- Stage 1: whole-queue soundscape change (Shadow) ---
         if (ms != null)
         {
-            LogCaps("--- STAGE 1 (DIRECTOR) — BASELINE BEFORE SHADOW (KILL SAME-VALUE NO-OP) ---");
+            LogCaps("--- PART C / STAGE 1: DIRECTOR — BASELINE BEFORE SHADOW ---");
             EnsureBaselineBeforeSoundWorldTest(shuffler, ms, ShadowSoundWorldTarget, ShadowTestBaselineWorld);
             harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-            LogCaps("LISTEN BRIEFLY — YOU SHOULD BE ON " + ShadowTestBaselineWorld.ToUpperInvariant()
-                + " (OR ANOTHER NON-SHADOW WORLD), NOT SHADOW YET.");
-            yield return WaitSeconds(5f);
+            LogCaps("LISTEN — BASELINE SHOULD BE " + ShadowTestBaselineWorld.ToUpperInvariant()
+                + " (OR ANOTHER NON-SHADOW WORLD), NOT SHADOW YET. " + AdvanceHintKeyboard);
+            yield return WaitForAdvance(imitone);
 
-            LogCaps("--- STAGE 1 (DIRECTOR) — SOUNDSCAPE CHANGE ON TONE (Shadow) ---");
-            LogCaps("QUEUING Soundscape→Shadow (" + DirectorTimerSeconds + "s, ActivateEntireQueueOnNextTone). WAIT FOR TIMER…");
-            LogCaps("THIS IS A REAL CHANGE FROM THE BASELINE ABOVE — NOT A NO-OP IF SWITCH WORKS.");
-
+            LogCaps("--- PART C / STAGE 1: DIRECTOR — SOUNDSCAPE → SHADOW ON TONE ---");
             director.ClearQueueOfType("Soundscape");
             int shadowId = director.AddActionToQueue(
                 ms.Action_SetSoundscape(ShadowSoundWorldTarget),
@@ -137,23 +342,20 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
                 DirectorActivationBehavior.ActivateEntireQueueOnNextTone,
                 DirectorExclusivityBehavior.ReplaceAllOfType);
             Debug.Log(Prefix + " Queued Shadow id=" + shadowId + " " + director.FormatQueueContents());
+            LogCaps("SHADOW QUEUED (" + DirectorTimerSeconds + "s TIMER). WHEN TIMER EXPIRED, " + AdvanceHintKeyboard);
 
-            yield return WaitSeconds(DirectorTimerSeconds + 2f);
+            yield return WaitForAdvance(imitone);
 
-            LogCaps("NOW TONE AGAIN — YOU SHOULD NOTICE THE SOUND BED SHIFT TO SHADOW (DARKER / DIFFERENT TIMBRE).");
-            LogCaps("CONSOLE SHOULD LOG Soundscape SET AND Director queue activation.");
-
-            yield return WaitForTone(imitone, 60f);
-            yield return WaitSeconds(2f);
+            LogCaps("NOW TONE — SOUND BED SHOULD SHIFT TO SHADOW. RELEASE, THEN " + AdvanceHintKeyboard);
+            yield return WaitForSustainedTone(imitone);
+            yield return WaitForAdvance(imitone);
             harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+            LogCaps("SHADOW DIRECTOR STEP DONE. " + AdvanceHintKeyboard);
+            yield return WaitForAdvance(imitone);
         }
 
-        yield return WaitSeconds(3f);
-
         // --- Stage 1: ActivateThisActionOnNextTone (transition flourish) ---
-        LogCaps("--- STAGE 1 (DIRECTOR) — ActivateThisActionOnNextTone (transition sound) ---");
-        LogCaps("QUEUING PlayTransitionSound (" + DirectorTimerSeconds + "s). WAIT FOR TIMER…");
-
+        LogCaps("--- PART C / STAGE 1: DIRECTOR — TRANSITION SOUND (ActivateThisActionOnNextTone) ---");
         director.ClearQueueOfType("TransitionSound");
         int transId = director.AddActionToQueue(
             director.Action_PlayTransitionSound(),
@@ -164,20 +366,18 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
             DirectorActivationBehavior.ActivateThisActionOnNextTone,
             DirectorExclusivityBehavior.ReplaceAllOfType);
         Debug.Log(Prefix + " Queued TransitionSound id=" + transId);
+        LogCaps("TRANSITION QUEUED (" + DirectorTimerSeconds + "s TIMER). WHEN EXPIRED, " + AdvanceHintKeyboard);
 
-        yield return WaitSeconds(DirectorTimerSeconds + 2f);
+        yield return WaitForAdvance(imitone);
 
-        LogCaps("NOW TONE — YOU SHOULD HEAR A SHORT TRANSITION / WHOOSH ON TONE START (AUDIO FLOURISH).");
-
-        yield return WaitForTone(imitone, 60f);
-        yield return WaitSeconds(2f);
+        LogCaps("NOW TONE — EXPECT A SHORT TRANSITION / WHOOSH. RELEASE, THEN " + AdvanceHintKeyboard);
+        yield return WaitForSustainedTone(imitone);
+        yield return WaitForAdvance(imitone);
 
         // --- Stage 1: whole-queue shuffle (SoundscapeShuffle + ColorWorldShuffle pattern) ---
         if (shuffler != null)
         {
-            LogCaps("--- STAGE 1 (DIRECTOR) — SHUFFLE ON TONE (SoundscapeShuffle) ---");
-            LogCaps("QUEUING ShuffleWorldsNow via ActivateEntireQueueOnNextTone (" + DirectorTimerSeconds + "s). WAIT FOR TIMER…");
-
+            LogCaps("--- PART C / STAGE 1: DIRECTOR — SHUFFLE ON TONE ---");
             director.ClearQueueOfType("SoundscapeShuffle");
             director.ClearQueueOfType("ColorWorldShuffle");
             int shuffleId = director.AddActionToQueue(
@@ -193,60 +393,45 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
                 DirectorActivationBehavior.ActivateEntireQueueOnNextTone,
                 DirectorExclusivityBehavior.PreferShorterTimeRemaining);
             Debug.Log(Prefix + " Queued SoundscapeShuffle id=" + shuffleId + " " + director.FormatQueueContents());
+            LogCaps("SHUFFLE QUEUED (" + DirectorTimerSeconds + "s TIMER). WHEN EXPIRED, " + AdvanceHintKeyboard);
 
-            yield return WaitSeconds(DirectorTimerSeconds + 2f);
+            yield return WaitForAdvance(imitone);
 
-            LogCaps("NOW TONE — YOU SHOULD NOTICE SOUND WORLD + LIGHT COLOR CHANGE TOGETHER (SHUFFLE).");
-            LogCaps("CONSOLE: 'ShuffleWorldsNow executing' AND queue activation logs — NOT empty queue.");
-
-            yield return WaitForTone(imitone, 60f);
-            yield return WaitSeconds(2f);
+            LogCaps("NOW TONE — SOUND WORLD + LIGHT COLOR SHOULD SHUFFLE TOGETHER. RELEASE, THEN " + AdvanceHintKeyboard);
+            yield return WaitForSustainedTone(imitone);
+            yield return WaitForAdvance(imitone);
             harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+            LogCaps("SHUFFLE STEP DONE. " + AdvanceHintKeyboard);
+            yield return WaitForAdvance(imitone);
         }
 
-        yield return WaitSeconds(3f);
-
         // --- Stage 2: optional attenuation on playground (MusicLoopSilent) ---
-        if (ms != null)
+        if (ms != null && harness != null)
         {
-            LogCaps("--- STAGE 2 (BINAURAL) — ATTENUATION ON PLAYGROUND (OPTIONAL) ---");
-            LogCaps("PRESS ] NOW (MusicLoopSilent) — OVER ~30s binauralOut SHOULD DIP FROM ~100 TOWARD ~70 (100×0.7).");
-            LogCaps("LISTEN: BEATS GET SLIGHTLY QUIETER; binauralAtt SHOULD BECOME on. SKIP IF YOU WANT TO RUSH TO STAGE EXIT.");
-
-            yield return WaitSeconds(15f);
-            harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-            yield return WaitSeconds(20f);
-            harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-
-            LogCaps("PRESS [ TWICE TO RETURN TO A SOUND WORLD (Freeplay) — binauralOut SHOULD CREEP BACK TOWARD ~100.");
-            yield return WaitSeconds(25f);
-            harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+            LogCaps("--- PART C / STAGE 2: BINAURAL ATTENUATION ON PLAYGROUND (OPTIONAL) — SPACE TO SKIP ---");
+            harness.ApplyMusicLoopSilentMode();
+            LogCaps("MUSICLOOPSILENT MODE SET. LISTEN ~30s: binauralAtt SHOULD BECOME on; binauralOut ≈ 70 (100×0.7) IF base=100. " + AdvanceHintKeyboard);
+            yield return WaitForAdvance(imitone);
+            harness.ApplyFreeplayMode();
+            LogCaps("FREEPLAY RESTORED. binauralAtt SHOULD TURN off; binauralOut RECOVER TOWARD ~100. " + AdvanceHintKeyboard);
+            yield return WaitForAdvance(imitone);
+            LogCaps("ATTENUATION OPTIONAL DONE. " + AdvanceHintKeyboard);
+            yield return WaitForAdvance(imitone);
         }
 
         // --- Stage 2: leave Playground → Linear_Nature (mute) ---
-        LogCaps("--- STAGE 2 (BINAURAL) — LEAVE PLAYGROUND ---");
-        LogCaps("PRESS E NOW (EndThisSequenceStage) — ADVANCES TO Linear_Nature IN DebugSequence.");
-        LogCaps("LISTEN: BINURAL BEATS SHOULD FADE OUT OVER ~30 SECONDS (TARGET binauralBase=0 binauralOut=0).");
-        LogCaps("gameOn MAY TURN OFF ON Linear_Nature — THAT IS EXPECTED.");
+        LogCaps("--- PART C / STAGE 2: LEAVE PLAYGROUND (BINAURAL FADE OUT) ---");
+        LogCaps("PRESS E NOW (EndThisSequenceStage) → Linear_Nature. gameOn MAY TURN OFF — EXPECTED.");
+        yield return WaitForAdvance(imitone, AdvanceTimeoutSeconds, KeyCode.E);
 
-        yield return WaitSeconds(20f);
+        LogCaps("LISTEN: BINAURAL SHOULD FADE OUT OVER ~30s (binauralBase=0 binauralOut=0). PRESS P FOR STATE. WHEN FADE-OUT JUDGED, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
 
-        LogCaps("WAITING " + BinauralLerpWaitSeconds + "s FOR BINURAL FADE-OUT — LISTEN FOR FADE…");
-
-        for (int i = 0; i < 6; i++)
-        {
-            yield return WaitSeconds(5f);
-            if (i == 2 || i == 5)
-                harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-        }
-
-        LogCaps("PRESS P — CONFIRM binauralBase=0 binauralAtt=on binauralOut=0 (OR VERY CLOSE).");
-        LogCaps("SUBJECTIVE: ARE THE BINURAL BEATS GONE / INAUDIBLE NOW?");
-
-        yield return WaitSeconds(10f);
-
-        LogCaps("OPTIONAL: PRESS E AGAIN TO ADVANCE (MusicPlaylist) — BINURAL SHOULD STAY MUTED (binauralOut=0).");
-        LogCaps("=== END OF SCRIPT — REPORT WHAT YOU HEARD VS WHAT LOGS SAY ===");
+        LogCaps("OPTIONAL: PRESS E AGAIN FOR NEXT STAGE — BINURAL SHOULD STAY MUTED ON NON-PLAYGROUND STAGES. OR " + AdvanceHintKeyboard + " TO FINISH.");
+        yield return WaitForAdvance(imitone, AdvanceTimeoutSeconds, KeyCode.E);
+        LogPartComplete("C", "Report what you heard vs B457 logs for director + binaural.");
+        LogCaps("=== ALL PARTS A + B + C FINISHED ===");
     }
 
     static void LogCaps(string message)
@@ -254,10 +439,59 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         Debug.Log(Prefix + " >>> " + message.ToUpperInvariant() + " <<<");
     }
 
+    static void LogPartBegin(string part, string shortTitle, string testingFor, string passIf)
+    {
+        LogCaps("════════════════════════════════════════");
+        LogCaps("ENTERING PART " + part + " — " + shortTitle);
+        LogCaps("WHAT WE ARE TESTING: " + testingFor);
+        LogCaps("PASS IF: " + passIf);
+        LogCaps("════════════════════════════════════════");
+    }
+
+    static void LogPartComplete(string part, string wrapUpNote)
+    {
+        LogCaps("────────────────────────────────────────");
+        LogCaps("PART " + part + " COMPLETE — " + wrapUpNote);
+        LogCaps("────────────────────────────────────────");
+    }
+
+    static IEnumerator BeginNextPart(
+        ImitoneVoiceIntepreter imitone,
+        string part,
+        string shortTitle,
+        string testingFor,
+        string passIf)
+    {
+        LogCaps("▶▶▶ MOVING ON TO PART " + part + " ◀◀◀");
+        LogPartBegin(part, shortTitle, testingFor, passIf);
+        LogCaps("WHEN YOU HAVE READ THE PART " + part + " GOALS ABOVE, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+    }
+
     /// <summary>
     /// Auto-shuffle during the repro step can land on Shadow before we queue Shadow via Director.
     /// Force a known non-Shadow baseline so the next step is a real world change (Step 0 in SOUNDWORLD_SWITCH_NOT_AUDIBLE.md).
     /// </summary>
+    static void ClearPlaygroundShuffleQueue(Director director)
+    {
+        if (director == null)
+            return;
+
+        director.ClearQueueOfType("SoundscapeShuffle");
+        director.ClearQueueOfType("ColorWorldShuffle");
+        Debug.Log(Prefix + " Cleared SoundscapeShuffle + ColorWorldShuffle from director queue (playground auto-queue noise).");
+    }
+
+    static IEnumerator WaitForDirectorTimerElapsed(float seconds)
+    {
+        float elapsed = 0f;
+        while (elapsed < seconds)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
     static void EnsureBaselineBeforeSoundWorldTest(
         WorldShuffler shuffler,
         MusicSystem1 ms,
@@ -285,38 +519,102 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         LogCaps("CURRENT BASELINE: " + current.ToUpperInvariant() + " — NEXT STEP QUEUES SHADOW.");
     }
 
-    static IEnumerator WaitSeconds(float seconds)
+    /// <summary>
+    /// Pacing gate: Space/Return or optional harness keys only. Toning does not advance (prevents one held note skipping steps).
+    /// Waits for any in-progress tone to release before listening for input.
+    /// </summary>
+    static IEnumerator WaitForAdvance(
+        ImitoneVoiceIntepreter imitone,
+        float timeoutSeconds = AdvanceTimeoutSeconds,
+        params KeyCode[] extraAdvanceKeys)
     {
+        yield return WaitForToneRelease(imitone);
+
         float elapsed = 0f;
-        while (elapsed < seconds)
+        while (elapsed < timeoutSeconds)
         {
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                Debug.Log(Prefix + " Advance: Space/Return.");
+                yield break;
+            }
+
+            for (int i = 0; i < extraAdvanceKeys.Length; i++)
+            {
+                if (Input.GetKeyDown(extraAdvanceKeys[i]))
+                {
+                    Debug.Log(Prefix + " Advance: " + extraAdvanceKeys[i] + ".");
+                    yield break;
+                }
+            }
+
             elapsed += Time.deltaTime;
             yield return null;
         }
+
+        Debug.LogWarning(Prefix + " Advance wait timed out after " + timeoutSeconds + "s — continuing.");
     }
 
-    /// <summary>Waits until the player sustains a confident tone, or times out.</summary>
-    static IEnumerator WaitForTone(ImitoneVoiceIntepreter imitone, float timeoutSeconds)
+    /// <summary>Direction chosen at a navigable step (forward/back through a linear list).</summary>
+    enum StepNav { Next, Back }
+
+    /// <summary>
+    /// Pacing gate for linear lists where Robin can step forward AND backward.
+    /// Space/Return/Right = Next, Left/Backspace = Back. Toning does not advance. Result written to result[0].
+    /// </summary>
+    static IEnumerator WaitForStepNav(ImitoneVoiceIntepreter imitone, StepNav[] result)
     {
+        yield return WaitForToneRelease(imitone);
+
+        float elapsed = 0f;
+        while (elapsed < AdvanceTimeoutSeconds)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)
+                || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                result[0] = StepNav.Next;
+                Debug.Log(Prefix + " Step: NEXT.");
+                yield break;
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Backspace))
+            {
+                result[0] = StepNav.Back;
+                Debug.Log(Prefix + " Step: BACK.");
+                yield break;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        result[0] = StepNav.Next;
+        Debug.LogWarning(Prefix + " Step wait timed out after " + AdvanceTimeoutSeconds + "s — advancing.");
+    }
+
+    /// <summary>Director on-tone steps only — does not advance on Space (tone must fire game logic).</summary>
+    static IEnumerator WaitForSustainedTone(ImitoneVoiceIntepreter imitone, float timeoutSeconds = 90f)
+    {
+        yield return WaitForToneRelease(imitone);
+
         if (imitone == null)
         {
-            Debug.LogWarning(Prefix + " No imitoneVoiceInterpreter — cannot detect tone; waiting " + timeoutSeconds + "s.");
-            yield return WaitSeconds(timeoutSeconds);
+            Debug.LogWarning(Prefix + " No imitone — cannot detect tone; " + AdvanceHintKeyboard);
+            yield return WaitForAdvance(null);
             yield break;
         }
 
         float elapsed = 0f;
         float toneHeld = 0f;
-        const float holdRequired = 0.4f;
-
         while (elapsed < timeoutSeconds)
         {
             if (imitone.toneActiveConfident)
             {
                 toneHeld += Time.deltaTime;
-                if (toneHeld >= holdRequired)
+                if (toneHeld >= ToneHoldRequiredSeconds)
                 {
-                    Debug.Log(Prefix + " Tone detected (held " + holdRequired + "s).");
+                    Debug.Log(Prefix + " Director step: sustained tone detected.");
+                    yield return WaitForToneRelease(imitone);
                     yield break;
                 }
             }
@@ -329,7 +627,33 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
             yield return null;
         }
 
-        Debug.LogWarning(Prefix + " Tone wait timed out after " + timeoutSeconds + "s — continue anyway; director may still fire on a late tone.");
+        Debug.LogWarning(Prefix + " Tone wait timed out after " + timeoutSeconds + "s — continue with Space when ready.");
+    }
+
+    /// <summary>After a step ends, require brief silence so the next step does not instantly consume the same held tone.</summary>
+    static IEnumerator WaitForToneRelease(ImitoneVoiceIntepreter imitone, float timeoutSeconds = 30f)
+    {
+        if (imitone == null)
+            yield break;
+
+        float elapsed = 0f;
+        float releasedFor = 0f;
+        while (elapsed < timeoutSeconds)
+        {
+            if (!imitone.toneActiveConfident)
+            {
+                releasedFor += Time.deltaTime;
+                if (releasedFor >= ToneReleaseSeconds)
+                    yield break;
+            }
+            else
+            {
+                releasedFor = 0f;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
     }
 }
 #endif

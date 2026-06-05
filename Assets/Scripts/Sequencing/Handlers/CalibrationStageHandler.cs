@@ -258,12 +258,10 @@ namespace SoundSelf.Sequence
             var directVoiceMonitoring = ResolveDirectVoiceMonitoring();
             if (directVoiceMonitoring != null)
             {
-                directVoiceMonitoring.AttenuateMonitoring(false);
                 directVoiceMonitoring.SetChantBasedAttenuationOverride(true);
             }
             if (MusicSystem1.instance != null)
             {
-                MusicSystem1.instance.NotifyMonitoringAttenuationChangedExternally(false);
                 if (!_hasClaimedMonitoringOverride)
                 {
                     MusicSystem1.instance.SetCalibrationMonitoringOverride(true);

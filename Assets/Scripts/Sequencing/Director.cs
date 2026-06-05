@@ -265,7 +265,7 @@ public class Director : MonoBehaviour
             {
                 if(debugAllowLogs)
                 {
-                    Debug.Log("Director Queue: Activating entire queue with tone");
+                    Debug.Log("B457 Director Queue: Activating entire queue with tone");
                 }
                 ActivateQueue();
             }
@@ -273,7 +273,7 @@ public class Director : MonoBehaviour
             {
                 if(debugAllowLogs)
                 {
-                    Debug.Log("Director Queue: Queue activation requested but queue is empty (may have been cleared)");
+                    Debug.Log("B457 Director Queue: Queue activation requested but queue is empty (may have been cleared)");
                 }
             }
         }

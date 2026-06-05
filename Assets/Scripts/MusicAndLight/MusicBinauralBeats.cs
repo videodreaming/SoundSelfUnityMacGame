@@ -201,7 +201,7 @@ public class MusicBinauralBeats : MonoBehaviour
         }
         //snap at end
         _volume = _targetVolume;
-        Debug.Log("Binaural Beats: New Volume is " + _targetVolume);
+        Debug.Log("B457 Binaural Beats: New Volume is " + _targetVolume);
         ApplyBusVolume();
     }
 

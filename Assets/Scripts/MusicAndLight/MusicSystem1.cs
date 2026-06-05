@@ -162,9 +162,8 @@ public class MusicSystem1 : MonoBehaviour
     private bool enableBassSynth = true;
     private bool enableBasicToning = true;
     private bool enableDirectVoiceMonitoring = true;
-    private bool monitoringAttenuationApplied = false;
-    private bool tutorialMonitoringOverrideActive = false;
-    private bool calibrationMonitoringOverrideActive = false;
+    private bool tutorialMicMixerOverrideActive = false;
+    private bool calibrationMicMixerOverrideActive = false;
     private bool enableThumpSFX = true;
     private bool enableImitoneInterpretation = true;
 
@@ -376,100 +375,94 @@ public class MusicSystem1 : MonoBehaviour
         return directVoiceMonitoring != null;
     }
 
-    private void SetMonitoringAttenuationOnce(bool attenuate)
+    /// <summary>
+    /// Lerps the per-soundscape SoundscapeMonitoring MicMixer contribution for <paramref name="soundscape"/>
+    /// (null / empty = silence → 0). Blocked while tutorial / calibration own monitoring.
+    /// </summary>
+    private void ApplySoundscapeMonitoring(string soundscape)
     {
         if (!TryResolveDirectVoiceMonitoring())
         {
             return;
         }
 
-        if (monitoringAttenuationApplied == attenuate)
+        if (IsMicMixerInteractionOverrideActive())
         {
             return;
         }
 
-        directVoiceMonitoring.AttenuateMonitoring(attenuate);
-        monitoringAttenuationApplied = attenuate;
-    }
-
-    /// <summary>
-    /// Allows external owners (e.g. TutorialStageHandler) to keep attenuation cache in sync
-    /// when they directly call DirectVoiceMonitoring.AttenuateMonitoring(...).
-    /// </summary>
-    public void NotifyMonitoringAttenuationChangedExternally(bool attenuated)
-    {
-        monitoringAttenuationApplied = attenuated;
+        directVoiceMonitoring.ApplySoundscapeMonitoring(soundscape);
+        if (debugAllowMusicModeLogs)
+        {
+            Debug.Log("B457 MUSIC: MicMixer " + SoundscapeMonitoringPolicy.ContributionName + " → "
+                + directVoiceMonitoring.GetSoundscapeMonitoringDb(soundscape) + " dB over "
+                + SoundscapeMonitoringPolicy.DefaultLerpDurationSeconds + "s (soundscape="
+                + (string.IsNullOrEmpty(soundscape) ? "(silence)" : soundscape)
+                + ", sum=" + directVoiceMonitoring.GetMicMixerVolumeSumDb() + " dB)");
+        }
     }
 
     private void OnInteractionTypeChanged(InteractionType newInteractionType)
     {
-        bool changed = currentInteractionType != newInteractionType;
         currentInteractionType = newInteractionType;
-        if (!changed || IsAnyMonitoringAttenuationOverrideActive())
-        {
-            return;
-        }
-
-        // Edge-triggered attenuation: ON for SoundWorld (quieter), OFF for MusicLoop (louder).
-        SetMonitoringAttenuationOnce(currentInteractionType == InteractionType.SoundWorld);
-    }
-
-    public void SyncMonitoringAttenuationFromInteractionType()
-    {
-        if (IsAnyMonitoringAttenuationOverrideActive())
-        {
-            SetMonitoringAttenuationOnce(false);
-            return;
-        }
-
-        // Used when playground (Freeplay) starts to re-apply interaction-based attenuation once.
-        // Attenuate on SoundWorld (quieter), not on MusicLoop (louder) — see OnInteractionTypeChanged.
-        SetMonitoringAttenuationOnce(currentInteractionType == InteractionType.SoundWorld);
-    }
-
-    public void SetTutorialMonitoringOverride(bool tutorialActive)
-    {
-        if (tutorialMonitoringOverrideActive == tutorialActive)
-        {
-            return;
-        }
-
-        tutorialMonitoringOverrideActive = tutorialActive;
-        if (IsAnyMonitoringAttenuationOverrideActive())
-        {
-            // Tutorial (or calibration) owns attenuation while active; MusicSystem only blocks its own interaction-driven writes.
-            return;
-        }
-
-        // Priority lifted: immediately apply interaction-based attenuation once.
-        SyncMonitoringAttenuationFromInteractionType();
     }
 
     /// <summary>
-    /// Calibration sibling of <see cref="SetTutorialMonitoringOverride"/>: while active, forces monitoring unattenuated (louder)
-    /// and blocks <see cref="OnInteractionTypeChanged"/> / <see cref="SyncMonitoringAttenuationFromInteractionType"/> from
-    /// re-driving attenuation. Calibration and tutorial never overlap in normal flow, but the override flags coexist safely
-    /// (both must be released before interaction-based attenuation resumes).
+    /// Re-applies the SoundscapeMonitoring contribution from the shuffler's current soundscape (e.g. when Freeplay starts).
+    /// </summary>
+    public void SyncSoundscapeMonitoring()
+    {
+        if (IsMicMixerInteractionOverrideActive())
+        {
+            return;
+        }
+
+        string soundscape = worldShuffler != null ? worldShuffler.CurrentSoundscape : null;
+        ApplySoundscapeMonitoring(soundscape);
+    }
+
+    /// <summary>
+    /// While tutorial is active, blocks soundscape-driven MicMixer lerps (calibration uses its own MicMixer steps).
+    /// </summary>
+    public void SetTutorialMonitoringOverride(bool tutorialActive)
+    {
+        if (tutorialMicMixerOverrideActive == tutorialActive)
+        {
+            return;
+        }
+
+        tutorialMicMixerOverrideActive = tutorialActive;
+        if (IsMicMixerInteractionOverrideActive())
+        {
+            return;
+        }
+
+        SyncSoundscapeMonitoring();
+    }
+
+    /// <summary>
+    /// Calibration sibling of <see cref="SetTutorialMonitoringOverride"/>: blocks soundscape-driven MicMixer
+    /// lerps while calibration owns monitoring. Tutorial and calibration never overlap in normal flow.
     /// </summary>
     public void SetCalibrationMonitoringOverride(bool calibrationActive)
     {
-        if (calibrationMonitoringOverrideActive == calibrationActive)
+        if (calibrationMicMixerOverrideActive == calibrationActive)
         {
             return;
         }
 
-        calibrationMonitoringOverrideActive = calibrationActive;
-        if (IsAnyMonitoringAttenuationOverrideActive())
+        calibrationMicMixerOverrideActive = calibrationActive;
+        if (IsMicMixerInteractionOverrideActive())
         {
             return;
         }
 
-        SyncMonitoringAttenuationFromInteractionType();
+        SyncSoundscapeMonitoring();
     }
 
-    private bool IsAnyMonitoringAttenuationOverrideActive()
+    private bool IsMicMixerInteractionOverrideActive()
     {
-        return tutorialMonitoringOverrideActive || calibrationMonitoringOverrideActive;
+        return tutorialMicMixerOverrideActive || calibrationMicMixerOverrideActive;
     }
 
     /// <summary>
@@ -891,6 +884,8 @@ public class MusicSystem1 : MonoBehaviour
                 // Set state to MusicLoops and ensure interaction type is MusicLoop (required for this mode)
                 //RecoverInteractiveMusicModeFromInteractionType(); //this may be necessary in futrue...
                 OnInteractionTypeChanged(InteractionType.MusicLoop);
+                // MusicLoopSilent has no audible soundscape — zero the per-soundscape voice boost (Savasana / Linear stay quiet).
+                ApplySoundscapeMonitoring(null);
                 RunWithToningRestoredAfterInteractiveSwitch(() =>
                 {
                     AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
@@ -970,7 +965,7 @@ public class MusicSystem1 : MonoBehaviour
                 SetMusicSilentLayerVolume(_silentVolumeHigh, 40f);  
 
                 RecoverInteractiveMusicModeFromInteractionType();
-                SyncMonitoringAttenuationFromInteractionType();
+                SyncSoundscapeMonitoring();
             }
             else
             {
@@ -1173,6 +1168,7 @@ public class MusicSystem1 : MonoBehaviour
         });
 
         worldShuffler.SetCurrentSoundscape(soundWorld);
+        ApplySoundscapeMonitoring(soundWorld);
         SetSoundWorldFlag();
         
         // Clear content lock since SoundWorlds work with any fundamental
@@ -1216,6 +1212,7 @@ public class MusicSystem1 : MonoBehaviour
             AkSoundEngine.SetSwitch("MusicLoops_Switch", musicLoop, gameObject);
         });
         worldShuffler.SetCurrentSoundscape(musicLoop);
+        ApplySoundscapeMonitoring(musicLoop);
         
         // Set content lock to the required fundamental for this MusicLoop
         NoteName requiredNote = GetMusicLoopFundamental(musicLoop);

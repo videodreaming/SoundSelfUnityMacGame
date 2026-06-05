@@ -126,13 +126,6 @@ namespace SoundSelf.Sequence
 
             _sequencer.wwiseVOManager.ResetTutorialGuidanceCount();
             MusicSystem1.instance.SetAllowThumpAlways(true);
-            var directVoiceMonitoring = UnityEngine.Object.FindObjectOfType<DirectVoiceMonitoring>();
-            if (directVoiceMonitoring != null)
-            {
-                // Tutorial explicitly owns "never attenuate" while active.
-                directVoiceMonitoring.AttenuateMonitoring(false);
-            }
-            MusicSystem1.instance.NotifyMonitoringAttenuationChangedExternally(false);
             MusicSystem1.instance.SetTutorialMonitoringOverride(true);
             LightControl.instance.StartLights();
             _sequencer.imitoneVoiceInterpreter.gameOn = true;
