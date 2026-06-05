@@ -1249,10 +1249,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Voice detection should match user vocal tones. Extensive false positives
-    may indicate audio feedback, which compromises experiential responsiveness. \n\nControl
-    feedback environmentally, using the volume and vibroacoustic controls on your
-    devices."
+  m_Text: "Voice detection should match user vocal tones.\nExtensive false positives
+    may indicate audio feedback, which compromises SoundSelf's responsiveness. \n\nYou
+    can prevent feedback using the volume and vibroacoustic controls on your devices."
 --- !u!222 &77317022
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -32527,7 +32526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1668636998
 RectTransform:
   m_ObjectHideFlags: 0
