@@ -398,7 +398,7 @@ Guided `G` order (after Parts A/B): **3b.1 ADSR first, then 3b.0 MicMixer A/B** 
 
 ### Sub-stage ordering (each ends with a regression test)
 
-Behavior-**preserving** refactor first (4a–4d), then behavior-**changing** wiring (4e–4g). A careful regression checkpoint follows **every** sub-stage.
+Behavior-**preserving** refactor first (4a–4d), then behavior-**changing** wiring (4e–4g). A careful regression checkpoint follows **every** sub-stage. **4e is itself broken into reviewed sub-sub-stages** (one source-changing zone at a time).
 
 | Sub-stage | What | Behavior change? | Regression |
 |---|---|---|---|
@@ -406,15 +406,43 @@ Behavior-**preserving** refactor first (4a–4d), then behavior-**changing** wir
 | **4b** | Split + rename `NoteTracker` → `noteActivity` + `fundamentalChargeByNote` (still inside `MusicSystem1`) | none | EditMode parity |
 | **4c** | Extract `MusicInputDrivenFundamental` + `MusicInputDrivenHarmony` MonoBehaviours; set Script Execution Order; charge dict moves into the fundamental component | none (Robin wires the 2 components + execution order in Unity) | EditMode parity; logs unchanged |
 | **4d** | Active-source authority: `FundamentalSource`, `FundamentalSourcePolicy`, `SetFundamentalSource` / `SetFundamentalForSource` / `SetDebugFundamentalOverride`, private `ApplyMasterFundamental`; legacy lock setters become **thin shims** | none (shims provably identical for the real flows) | EditMode: policy + shim-equivalence |
-| **4e** | Migrate call sites to `SetFundamentalSource` (startup = Sequence; SoundWorld→InputDriven, MusicLoop→MusicBed, Tutorial/Frozen/Savasana→Sequence C, Freeplay handoff); explicit ordered source sets (no blanket Freeplay gate; last-writer-wins); remove shims; remove `ResolveFundamentalOnUnlock` | **yes** (genuinely source-driven) | EditMode transition tests + **subjective (Round 1)** |
-| **4f** | Harmony on/off toggle in stage `Enter()` + savasana-until-gameOff exception | **yes** (equivalent for normal flows) | EditMode harmony policy + **subjective (Round 1)** |
+| **4e** | **Migrate call sites to `SetFundamentalSource` — its own carefully-staged sub-stage, broken into reviewed sub-sub-stages, one source-changing *zone* at a time** (Robin reviews each). Start from a **clean commit**. Zones: (1) startup = Sequence on `Awake`; (2) `SetSoundWorld`→InputDriven / `SetMusicLoop`→MusicBed; (3) `SetMusicModeTo` Tutorial/Freeplay/Frozen; (4) `Tutorial.cs` A/C-hum correction; (5) `WwiseVOManager` unlock cue; (6) `SavasanaStageHandler`. Each zone: remove the relevant shim, add EditMode end-state test, Robin review, commit. Then remove `ResolveFundamentalOnUnlock`. No blanket Freeplay gate; last-writer-wins ordering. | **yes** (genuinely source-driven) | per-zone EditMode end-state tests + **subjective (Round 1)** |
+| **4f** | `HarmonyRunPolicy.ShouldRun(mode, gameOn)` on the extracted `MusicInputDrivenHarmony`: run in `InteractiveTutorial`, `Freeplay`, and `MusicLoopSilent && gameOn` (Savasana tail; Linear stays off via `gameOn=false`). Scope = harmony only. | **yes** (small: harmony adds the savasana toning tail) | EditMode `HarmonyRunPolicy` + **subjective (Round 1)** |
 | **4g** | (folds former Stage 5) Cue listener in `MusicSystem1`: post `Play_MusicLoops` with the `AK_MusicSyncUserCue` flag → `TryHandleMusicKeyCue` → MusicBed source; same shared handler at VO/closing callbacks; binaural follows master (free via `ApplyMasterFundamental`); fix the binaural retune coalescing/handle no-op for rapid cues | **yes** (new: cues drive key) | EditMode cue-map; **subjective (Round 2)** |
+| **4h** | **Retire `FrozenFreeplay`** (optional follow-up): collapse its 4 call sites to `SetMusicModeTo(Freeplay)` + `SetGameOn(false)` + Sequence(C); delete the enum value, `GameOnPolicy` case, `Update()` branch, `modeFrozenFreeplayFlag`, `Block3` test. Gated on a **`gameOn` audit** (see §below). | **yes** (mode removed; behavior intended-equivalent) | EditMode (gameOn map, `HarmonyRunPolicy`) + **subjective (Round 3, short)** |
 
-**Subjective testing — two rounds (answer to Robin's question):**
-- **Round 1 (after 4f):** behavior-change pass for the Unity-side refactor — dynamic source switching, who-won state line, harmony on/off across stages + savasana tail, fundamental tracking feel. 4a–4d are behavior-preserving so they ride a quick *parity* confirmation that nothing changed; 4e–4f are the first real listening.
+**Subjective testing — two rounds:**
+- **Round 1 (after 4f):** behavior-change pass for the Unity-side refactor — dynamic source switching, who-won state line, fundamental tracking feel across the migrated zones, and harmony now playing during the Savasana toning tail. 4a–4d are behavior-preserving so they ride a quick *parity* confirmation that nothing changed; 4e–4f are the first real listening.
 - **Round 2 (after 4g):** cue pass — MusicBed `Cue_Key_*` driving the fundamental + binaural following the key, rapid-cue coalescing. (Needs the harness cue simulation; full Wwise-embedded verification waits on Lorna.)
 
 So: **two rounds**, not one — split at the cue boundary (4g), because the cue listener adds a distinct new audible behavior worth isolating.
+
+### 4h — Retire `FrozenFreeplay` (optional follow-up after the active-source model lands)
+
+**Why it becomes removable.** `FrozenFreeplay` today has only two jobs (its whole footprint is tiny — `modeFrozenFreeplayFlag` is effectively write-only): (1) **pin the fundamental to C** (`SetFundamentalModeLock(true, C)`), and (2) **stop the voice→music pipeline** by *not* calling `DynamicMusicSystem()` in its `Update()` branch. `gameOn` is then set false by `GameOnPolicy`. There's already a `//TODO: likely we don't need this mode anymore` at `MusicSystem1.cs:975`.
+
+- **Job (1) dissolves into the active-source model:** "frozen fundamental" = active source **Sequence(C)**. An InputDriven source would only *track*, never *write*, so the freeze is expressed by authority, not by stopping the loop. (Already mapped: `Enter FrozenFreeplay → Sequence(C)`.)
+- **Job (2) is fully downstream of `gameOn`** (verified 2026-06-05): every `DynamicMusicSystem` sub-update collapses when `imitoneVoiceInterpreter.gameOn` is false —
+  - `imitoneActive = gameOn && !nearNoiseFloor` (`ImitoneVoiceIntepreter.cs:991`), forced false with no tone (`:1021`); tone flags clear in the `!imitoneActive` branch (`:1114`, `:1118-1119`); `toneActiveBiasTrueFrame` follows (`:1226`).
+  - `FundamentalUpdate` gated by `if (imitoneActive)` (`MusicSystem1.cs:643`); `HarmonyUpdate` by `if (toneActiveBiasTrueFrame)` (`:742`); `InterpretImitoneUpdate` note-activation by `if (imitoneActive)` (`:2056`) (the lines above only compute local fields, no Wwise/no `NoteTracker` mutation).
+  - `BasicToningUpdate` / `BassSynthUpdate` are edge-triggered on the tone flags; the **falling edge** actively calls `StopWwiseToning()` (`:1728`) / `Stop_BassSynth` (`:1809`), then no-ops. So `gameOn=false` doesn't just skip work — it *stops* the audio, arguably cleaner than today (FrozenFreeplay relies on a separate stop).
+
+So the collapse is: **callers do `SetMusicModeTo(Freeplay)` + `SetGameOn(false)` + Sequence(C)** instead of `SetMusicModeTo(FrozenFreeplay)`.
+
+**The one real watch-item — `gameOn` audit (gates 4h).** Collapsing into `Freeplay` means `GameOnPolicy` maps the mode → `true`, so the call sites must explicitly drive `gameOn=false`, **and nothing in the `Freeplay` entry path may re-assert `gameOn=true`.** This audit — not the music updates — is what makes or breaks 4h.
+
+Call sites to convert (the 4 `FrozenFreeplay` callers): `PlaygroundStageHandler.cs` (×2, ~137 & ~384), `SavasanaStageHandler.cs` (~165), `WwiseVOManager.cs` fallback (~347).
+
+**Checklist:**
+- [ ] Confirm `Freeplay` entry (`SetMusicModeTo(Freeplay)` path) does not set `gameOn=true` after the caller sets it false (audit `StartInteractiveMusic`, `RecoverInteractiveMusicModeFromInteractionType`, `ApplyGameOnPolicy`).
+- [ ] Convert the 4 call sites to `Freeplay` + explicit `SetGameOn(false)` + `SetFundamentalSource(Sequence, C)`.
+- [ ] `HarmonyRunPolicy`: key the Freeplay case on `gameOn` for coherence (harmony already can't fire — gated on `toneActiveBiasTrueFrame` — but make the policy honest).
+- [ ] Delete enum value `FrozenFreeplay`, its `Update()`/`SetMusicModeTo` branches, `modeFrozenFreeplayFlag`, the `GameOnPolicy` case, and `Block3PolicyEditModeTests.FrozenFreeplayMode_AssignsGameOnFalse`.
+- [ ] Accept the **release-tail** difference (tone flags decay over the normal negative thresholds rather than hard-cutting) — equivalent to releasing a tone; confirm `CueStopInteractive` doesn't need an instant freeze.
+
+**Caveats (intended-equivalent, not byte-identical):** `DynamicMusicSystem()` now *runs as a no-op* in Freeplay+gameOn=false (only harmless timers — `fundamentalTimeSinceLastTrigger`, `bassSynthCooldownTimer` — advance) rather than not being called; and the stop is via release tail. Both are audibly equivalent to today, but worth a short **Round 3** listening pass.
+
+**Sequencing:** keep this **out of Stage 4 proper** — it touches `gameOn` semantics and three sequence handlers, which would muddy the behavior-preserving→behavior-adding arc. Do it after the active-source model is in and proven.
 
 ### The model: one active source + a Debug override
 
@@ -435,6 +463,21 @@ Each source carries its own `preferredFundamental`. Methods:
 - `SetDebugFundamentalOverride(NoteName? note)` — set/clear the override.
 
 `SetFundamentalDirect` becomes the **private** apply mechanism (`ApplyMasterFundamental`): clear `fundamentalChange` queue → set `fundamentalNoteName` → Wwise `...FundamentalOnly` switch → binaural retune → reset activation/charge → `directorStoredFundamental`. No external bypass. `ResolveFundamentalOnUnlock` is **removed** — "unlock" becomes "switch active source," resolving to that source's preferred.
+
+### InputDriven vs `DynamicMusicSystem` gating (Robin, 2026-06-05)
+
+`FundamentalUpdate()` **is** the InputDriven source, and it only lives inside `DynamicMusicSystem()` (runs only in `InteractiveTutorial` + `Freeplay`). So InputDriven is only *alive* in those "tracking modes." Two distinct gates:
+
+- **Tracking gate** = `DynamicMusicSystem` running (mode ∈ {`InteractiveTutorial`, `Freeplay`}). InputDriven keeps accumulating its per-note charge / `preferredFundamental` here **even when it is not the active source** (warm handoff).
+- **Write gate** = active source == InputDriven **and** no Debug override. Only then does `FundamentalUpdate` push to the master via `ApplyMasterFundamental`.
+
+This reframes today's behavior exactly: in Tutorial, `FundamentalUpdate` already *tracks* but the mode-lock C blocks the *write*; in the new model the write is blocked because Sequence (not InputDriven) is the active source. Same observable result.
+
+**Switching active source → InputDriven while `DynamicMusicSystem` is not running ⇒ `Debug.LogWarning` (B457).** Nothing would be running to track/drive the master, so it almost always indicates a sequencing mistake. In normal flows InputDriven only becomes active in Freeplay/Tutorial (both tracking modes), so the warning is purely a guardrail. **Behavior: warn-and-honor** — we still set the source and apply `firstFundamental` once (the master won't *track* until a tracking mode resumes). _(Refusing could cause a worse silent failure; revisit if it bites.)_
+
+**Sequence / MusicBed / Debug are NOT gated by `DynamicMusicSystem`** — they are direct setters and apply the master fundamental immediately in any mode.
+
+Policy: `FundamentalSourcePolicy.IsTrackingMode(MusicMode)` (true for `InteractiveTutorial`/`Freeplay`) backs both the InputDriven write gate and the warning; covered by `Block7FundamentalPolicyEditModeTests`.
 
 ### File split (MonoBehaviours — set Script Execution Order in Unity)
 
@@ -480,15 +523,19 @@ Startup + the explicit switch points (Robin 2026-06-04). **Default: `Sequence` o
 
 **Ordering (regression-proof via explicit sets, NOT a mode gate) — Robin 2026-06-04:** There is **no** blanket "only in Freeplay" suppression (that earlier proposal was wrong). Source changes are legitimate in multiple modes — including **Tutorial** and the **awkward adjunctive-savasana tail**. Each switch point sets the source **explicitly** and **last-writer-wins** ordering decides the outcome (a stage that must hold C sets `Sequence(C)` after any soundscape set in the same entry). The regression-proof contract is the transition table above + EditMode tests that assert the **resulting** active-source/master/preferred state for each real flow (tutorial entry + hum correction + release; freeplay world↔loop shuffle; savasana tail), not a mode-gated guard.
 
-### `MusicInputDrivenHarmony` run-gate — explicit on/off toggle (Robin 2026-06-04)
+### `MusicInputDrivenHarmony` run-gate — `HarmonyRunPolicy` (Robin 2026-06-04)
 
-Harmony accompaniment is a simple **on/off** flag (`MusicSystem1.SetInteractiveHarmonyEnabled(bool)`), **not** a per-frame mode check — set in stage `Enter()`:
-- **ON** in `Enter()` of **Tutorial** and **Freeplay / Playground** (incl. `Playground_Debug`).
-- **OFF** in `Enter()` of every other stage (Calibration, Opening, Linear, MusicPlaylist, Environment).
-- **Savasana (all variants) — harmony follows `gameOn`** (Robin 2026-06-04, generalized — no hard-coded variant exception): ON while `gameOn` is true (the toning tail), OFF when `gameOn` becomes false. Usually `gameOn` is already false on savasana enter → switches straight to OFF; if still on, it waits for the gameOff flip (the same moment the title card flips to "Savasana", `SavasanaStageHandler.BeginShowSavasanaSectionHeaderWhenGameOff`).
-  - `// TODO (Wwise refactor): move the programming of this early savasana toning tail (before the Savasana card) into Unity code.`
+Harmony runs when `HarmonyRunPolicy.ShouldRun(MusicMode mode, bool gameOn)` is true (still also honoring `enableHarmonyTracking`):
+- `InteractiveTutorial` → true
+- `Freeplay` → true
+- `MusicLoopSilent` → **`gameOn`** (the Savasana toning tail — see note)
+- everything else (Silent / FrozenFreeplay / Environment) → false
 
-Decoupled from the active fundamental source — harmony reads the master fundamental whoever set it. Default on/off comes from a small `InteractiveHarmonyStagePolicy.ShouldEnable(StageType)` applied centrally on stage entry (like the Stage 2b binaural base); the savasana gameOn-follow lives in the savasana handler. `MusicInputDrivenHarmony.Update` early-outs unless enabled; when enabled it emits on a tone onset as today.
+**Why `MusicLoopSilent && gameOn` = the Savasana tail:** `MusicLoopSilent` is shared by **Savasana** and **Linear**, but `LinearAudioStageHandler` forces `SetGameOn(false)` while the adjunctive Savasana keeps `gameOn` true until its delayed mic-off. So `gameOn` cleanly distinguishes the savasana toning tail (harmony on) from Linear (off) — no need for `MusicSystem1` to know `StageType`. `FrozenFreeplay` (standard savasana after `CueStopInteractive`) stays **off**.
+
+This is the **one deliberate behavior change** to harmony: vs. today it *additionally* runs during the Savasana tail while the user is still toning. Pure policy → EditMode test (incl. the documented assumption that `MusicLoopSilent && gameOn` ⇒ savasana, so a future non-savasana `MusicLoopSilent && gameOn` stage would trip the test). **Scope = harmony only** (the extracted `MusicInputDrivenHarmony` gate); the `DynamicMusicSystem` mode branch for fundamental/toning is unchanged. Decoupled from the active fundamental source (reads the master fundamental whoever set it).
+
+> 4c extracts `MusicInputDrivenHarmony` preserving today's exact gate (`InteractiveTutorial`/`Freeplay`); **4f** then swaps that gate for `HarmonyRunPolicy` (adds the `MusicLoopSilent && gameOn` savasana case).
 
 ### MusicBed cues — Wwise wiring note (Stage 5, informs MusicBed here)
 
@@ -502,8 +549,9 @@ Decoupled from the active fundamental source — harmony reads the master fundam
 ### Test Runner tests (EditMode): `Block7FundamentalPolicyEditModeTests`
 
 - Source-write rule: Debug override beats any active source; only the active source writes; `None` rejected as a source.
-- Input-driven mode gate `CanInputDrivenChange` (`InteractiveTutorial`/`Freeplay` track; not Frozen / MusicLoopSilent / Environment / Silent).
-- Harmony gate `ShouldRunInteractiveHarmony` (`InteractiveTutorial`/`Freeplay`; off elsewhere) — separate from the input-driven gate.
+- Input-driven mode gate `IsTrackingMode`/`CanInputDrivenChange` (`InteractiveTutorial`/`Freeplay` track; not Frozen / MusicLoopSilent / Environment / Silent).
+- InputDriven-source-outside-tracking-mode: `SetFundamentalSource(InputDriven, …)` in a non-tracking mode warns (B457) and warn-and-honors (source set, note applied once); Sequence/MusicBed/Debug are ungated by tracking mode.
+- `HarmonyRunPolicy.ShouldRun(mode, gameOn)`: true for `InteractiveTutorial`, `Freeplay`, and `MusicLoopSilent && gameOn`; false otherwise (incl. `MusicLoopSilent && !gameOn` = Linear, and `FrozenFreeplay`).
 - `NoteName.None` note rejection in the apply path.
 - Clean-slate reset on `SetFundamentalSource(InputDriven, note)` and `SetFundamentalForSource(InputDriven, …)`.
 - Mode→source mapping regression pin (Tutorial/Frozen → Sequence C; Freeplay → soundscape-driven).
@@ -522,9 +570,10 @@ Decoupled from the active fundamental source — harmony reads the master fundam
 - **4b** `Block 7: split + rename NoteTracker → noteActivity + fundamentalChargeByNote.`
 - **4c** `Block 7: extract MusicInputDrivenFundamental + MusicInputDrivenHarmony (execution order).`
 - **4d** `Block 7: active-source fundamental authority + FundamentalSourcePolicy (lock setters as shims) + tests.`
-- **4e** `Block 7: migrate fundamental call sites to SetFundamentalSource; startup Sequence; Freeplay-gated soundscape switches.`
-- **4f** `Block 7: harmony on/off toggle in stage Enter() + savasana-until-gameOff exception.`
+- **4e** (multiple commits, one per reviewed zone) `Block 7: migrate <zone> to SetFundamentalSource …` — startup, soundscape, mode, tutorial, VO, savasana.
+- **4f** `Block 7: HarmonyRunPolicy — harmony runs in Tutorial/Freeplay + Savasana tail (MusicLoopSilent && gameOn).`
 - **4g** `Block 7: MusicBed Cue_Key_* listener (Play_MusicLoops callback) + binaural follows key + retune coalescing.`
+- **4h** (optional follow-up) `Block 7: retire FrozenFreeplay — Freeplay + gameOn=false + Sequence(C) (gameOn audit).`
 
 ---
 
@@ -629,7 +678,7 @@ flowchart TD
   S2[Stage 2 Binaural gating]
   S3[Stage 3 Switch hygiene]
   S3b[Stage 3b Block 8 Mic envelope]
-  S4[Stage 4 Fundamental split + cue listener 4a-4g]
+  S4[Stage 4 Fundamental split + cue listener 4a-4g; 4h retire FrozenFreeplay]
   S5[Stage 5 Lorna external Wwise embedding + e2e]
   S6[Stage 6 Pitch / 5ths / harmony]
   S7[Stage 7 Interactive fade / silent loops / Stop_Toning]

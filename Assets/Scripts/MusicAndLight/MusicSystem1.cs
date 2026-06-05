@@ -833,6 +833,11 @@ public class MusicSystem1 : MonoBehaviour
     // -> interactiveMusicMode (not even set - interacts straight with WWise)
 
     // ~~~~
+    // TODO (retire MusicMode): MusicMode is an inelegant leftover from an earlier way of handling things. Once the
+    // active-source fundamental model + gameOn-driven gating land (see Docs/BLOCKS_4_5_7_PLAN.md), most modes collapse:
+    // FrozenFreeplay → Freeplay + gameOn=false (Stage 4h), the two Silent variants merge, and the remaining behavior
+    // (voice→music pipeline on/off, base binaural, etc.) is governed by gameOn + active source + stage policy rather
+    // than a mode enum. Retire the enum and SetMusicModeTo once those dependencies are removed.
     public enum MusicMode
     {
         Silent,
