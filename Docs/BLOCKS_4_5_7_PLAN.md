@@ -36,6 +36,7 @@ Short hashes for each committed stage/fix (standing rule 9). Newest at the botto
 | `daca6470` | Investigation start — `SOUNDWORLD_SWITCH_NOT_AUDIBLE.md` + guided playtest / binaural WIP checkpoint |
 | `816218e3` | **SOUNDWORLD_SWITCH_NOT_AUDIBLE resolved** — `SetSoundWorld` now posts `SoundWorldMode_Switch` (was gated out by the `!ToningV3WasAlreadyRestored` guard); via `InteractiveMusicSwitchPolicy.SetSoundWorldPosts` + EditMode test; plan standing rules 8/9 + commit log added |
 | `3dc74f22` | **Stage 3b — Block 8 mic envelope** — per-soundscape MicMixer dB (worlds 0 / loops +3); stacked monitoring ADSR; `SoundscapeMonitoringPolicy` + `MonitoringAdsrPolicy` + EditMode tests; guided playtest; inspector cleanup |
+| _(pending)_ | **Stage 4a — dead-field cleanup** — remove write-only `fundamentalNoteCompare`, `harmonyRetriggerThreshold`, `harmonyTimeSinceLastTrigger`; Stage 4 active-source design folded into plan (incl. former Stage 5 → 4g) |
 
 ---
 
@@ -391,32 +392,150 @@ Guided `G` order (after Parts A/B): **3b.1 ADSR first, then 3b.0 MicMixer A/B** 
 - **This stage starts with a design discussion, not code.** Agree the split before editing.
 - **Listening load:** Logs only — lock precedence / mode gates verified from the state line.
 
-**Goal / acceptance:** A clean, documented separation:
-- **Master fundamental** = authority (cues / content / director / debug).
-- **Input-driven** = `FundamentalUpdate` + Director queue; feeds master only when allowed by mode / lock.
-- A single entry point for cue-driven sets that respects lock precedence (`Debug > Content > Mode`).
+**Status (2026-06-05): design agreed with Robin — replacing the priority-ranked lock stack with an explicit *active-source* model.** Implementation not started; this section is the agreed design + remaining open questions.
 
-**Current state (from investigation):** `fundamentalNoteName` is already the single live authority; there is no master/input enum. Locks just freeze it. `FundamentalUpdate` runs only in `Freeplay` / `InteractiveTutorial`. `SetFundamentalDirect` is the only path that retunes binaural and resets timers.
+**Goal / acceptance:** The fundamental is driven by exactly **one active source** at a time, switched explicitly. **Debug** is the only override on top. No priority ranking (`Debug > Content > Mode` retired); `None` is not a valid source. Each source tracks its own preferred fundamental; harmony + interpreted input continue to derive from the master fundamental. **Stage 5 (`Cue_Key_*` Unity listener) is folded in here as sub-stage 4g** — the listener lives in `MusicSystem1` and feeds the MusicBed source, so it belongs to this system.
 
-**Open design questions to resolve in-stage:**
-- Does a `Cue_Key_*` override a content lock (MusicLoops key) or defer to it?
-- How does the 4s binaural stop/wait/retune interact with rapid cue changes?
-- Do we add a `master`-level lock distinct from content?
+### Sub-stage ordering (each ends with a regression test)
 
-**Test Runner tests (EditMode):** `Block7FundamentalPolicyEditModeTests` — lock precedence; mode gates (no input-driven change in FrozenFreeplay / MusicLoopSilent / Environment); `NoteName.None` rejection; dead-field cleanup (`fundamentalNoteCompare`, unused harmony retrigger threshold).
+Behavior-**preserving** refactor first (4a–4d), then behavior-**changing** wiring (4e–4g). A careful regression checkpoint follows **every** sub-stage.
 
-**Playtests:** harness lock / unlock + input-driven sim; state line confirms who won.
+| Sub-stage | What | Behavior change? | Regression |
+|---|---|---|---|
+| **4a** | Dead-field cleanup (`fundamentalNoteCompare`, `harmonyRetriggerThreshold`, `harmonyTimeSinceLastTrigger`) | none | EditMode green; compiles |
+| **4b** | Split + rename `NoteTracker` → `noteActivity` + `fundamentalChargeByNote` (still inside `MusicSystem1`) | none | EditMode parity |
+| **4c** | Extract `MusicInputDrivenFundamental` + `MusicInputDrivenHarmony` MonoBehaviours; set Script Execution Order; charge dict moves into the fundamental component | none (Robin wires the 2 components + execution order in Unity) | EditMode parity; logs unchanged |
+| **4d** | Active-source authority: `FundamentalSource`, `FundamentalSourcePolicy`, `SetFundamentalSource` / `SetFundamentalForSource` / `SetDebugFundamentalOverride`, private `ApplyMasterFundamental`; legacy lock setters become **thin shims** | none (shims provably identical for the real flows) | EditMode: policy + shim-equivalence |
+| **4e** | Migrate call sites to `SetFundamentalSource` (startup = Sequence; SoundWorld→InputDriven, MusicLoop→MusicBed, Tutorial/Frozen/Savasana→Sequence C, Freeplay handoff); explicit ordered source sets (no blanket Freeplay gate; last-writer-wins); remove shims; remove `ResolveFundamentalOnUnlock` | **yes** (genuinely source-driven) | EditMode transition tests + **subjective (Round 1)** |
+| **4f** | Harmony on/off toggle in stage `Enter()` + savasana-until-gameOff exception | **yes** (equivalent for normal flows) | EditMode harmony policy + **subjective (Round 1)** |
+| **4g** | (folds former Stage 5) Cue listener in `MusicSystem1`: post `Play_MusicLoops` with the `AK_MusicSyncUserCue` flag → `TryHandleMusicKeyCue` → MusicBed source; same shared handler at VO/closing callbacks; binaural follows master (free via `ApplyMasterFundamental`); fix the binaural retune coalescing/handle no-op for rapid cues | **yes** (new: cues drive key) | EditMode cue-map; **subjective (Round 2)** |
 
-**Commit:** `Block 7: separate master vs input-driven fundamental authority (+ policy tests).`
+**Subjective testing — two rounds (answer to Robin's question):**
+- **Round 1 (after 4f):** behavior-change pass for the Unity-side refactor — dynamic source switching, who-won state line, harmony on/off across stages + savasana tail, fundamental tracking feel. 4a–4d are behavior-preserving so they ride a quick *parity* confirmation that nothing changed; 4e–4f are the first real listening.
+- **Round 2 (after 4g):** cue pass — MusicBed `Cue_Key_*` driving the fundamental + binaural following the key, rapid-cue coalescing. (Needs the harness cue simulation; full Wwise-embedded verification waits on Lorna.)
+
+So: **two rounds**, not one — split at the cue boundary (4g), because the cue listener adds a distinct new audible behavior worth isolating.
+
+### The model: one active source + a Debug override
+
+```
+enum FundamentalSource { InputDriven, MusicBed, Sequence }   // active source (Debug is a separate override)
+```
+
+- **InputDriven** — sung-pitch tracking (the decision ladder; owns the per-note **charge memory**). Keeps tracking its `preferredFundamental` even when it is **not** the active source (so a later handoff is meaningful).
+- **MusicBed** — the bed's key. Fed by `Cue_Key_*` user cues embedded in the MusicLoops (wired in Stage 5); the old static `musicLoops`→note table (`SetMusicLoop` → `SetFundamentalContentLock`) is **replaced by cues**. Holds the last cued note as its preferred.
+- **Sequence** — the sequencer/stage pins the note. Replaces today's *mode lock* **and** savasana's use of the *content lock*. Tutorial / FrozenFreeplay / Savasana pin **C**; Freeplay hands off to InputDriven.
+- **Debug override** — dev keys / harness. Sits above the active source; clearing it restores `activeSource.preferred`. Replaces `fundamentalDebugLock`.
+
+### Per-source preferred + the write API
+
+Each source carries its own `preferredFundamental`. Methods:
+- `SetFundamentalSource(FundamentalSource source, NoteName firstFundamental = None)` — switch active source. `None` → adopt that source's existing preferred (no reset). A real note → set that source's preferred to it. **For `InputDriven`, a real note also wipes the per-note charge memory ("clean slate").**
+- `SetFundamentalForSource(FundamentalSource source, NoteName note)` — update a source's preferred; writes master only if it's the active source and no Debug override, else staged for when it next becomes active. **If `source == InputDriven`, this also runs the clean-slate reset** (Robin, 2026-06-05).
+- `SetDebugFundamentalOverride(NoteName? note)` — set/clear the override.
+
+`SetFundamentalDirect` becomes the **private** apply mechanism (`ApplyMasterFundamental`): clear `fundamentalChange` queue → set `fundamentalNoteName` → Wwise `...FundamentalOnly` switch → binaural retune → reset activation/charge → `directorStoredFundamental`. No external bypass. `ResolveFundamentalOnUnlock` is **removed** — "unlock" becomes "switch active source," resolving to that source's preferred.
+
+### File split (MonoBehaviours — set Script Execution Order in Unity)
+
+- **`MusicInputDrivenFundamental.cs`** — `FundamentalUpdate` + `TryApplyFundamentalChangeTriggers`; owns the **per-note charge memory** (see NoteTracker split); produces `preferredFundamental`; calls the authority apply when active. **TODO (future):** when the WorldShuffler / Director become more dynamic, use the preferred fundamental (and notes ±5 from it) to bias preferred next-soundscapes.
+- **`MusicInputDrivenHarmony.cs`** — `HarmonyUpdate` + harmony sequences; reads master fundamental.
+- Trivial sources (MusicBed / Sequence) + the authority stay as a small region in `MusicSystem1`. Pure rules → `FundamentalSourcePolicy` (testable).
+
+**Execution order (earlier → later):** `ImitoneVoiceIntepreter` → `MusicSystem1` → `MusicInputDrivenFundamental` → `MusicInputDrivenHarmony`. Imitone makes the sung note; `MusicSystem1` interprets/snaps it against master + owns activation state + the apply path; the fundamental component decides/pushes master; harmony runs last on the freshest master.
+
+### NoteTracker split (per-note charge memory → `MusicInputDrivenFundamental`)
+
+Today `NoteTracker` packs two unrelated jobs in one tuple `(ActivationTimer, Active, FirstFrameActive, ChangeFundamentalTimer)`:
+- **Activation half** (`ActivationTimer/Active/FirstFrameActive`) — written by `InterpretImitoneUpdate`, read by **toning** (`musicNoteActivated`). Stays in `MusicSystem1`.
+- **Charge half** (`ChangeFundamentalTimer`) — used **only** by the fundamental decision.
+
+→ **Split the tuple**: keep an activation tracker in `MusicSystem1`; move a `Dictionary<NoteName,float>` **charge memory** into `MusicInputDrivenFundamental`, which reads activation state each frame via a small accessor and accumulates its own charge. Clean-slate = clear that dictionary.
+
+**Rename both (Robin 2026-06-04 — `NoteTracker` is uselessly generic for a music system):** proposed names —
+- Activation tracker (stays in `MusicSystem1`): `noteActivity` : `Dictionary<NoteName, NoteActivity>` where `NoteActivity { float ActiveSeconds; bool IsActive; bool JustActivated; }` (renames `ActivationTimer→ActiveSeconds`, `Active→IsActive`, `FirstFrameActive→JustActivated`).
+- Charge memory (moves to `MusicInputDrivenFundamental`): `fundamentalChargeByNote` : `Dictionary<NoteName, float>` (renames `ChangeFundamentalTimer` → the dictionary value).
+
+Confirm names before coding.
+
+### Sequence source (mode lock + savasana content-lock) — careful refactor
+
+Ownership is today *implicit* (priority stack) and set/cleared in scattered places: `SetMusicModeTo` (Tutorial/Frozen pin C, Freeplay unlock), `Tutorial.cs` (A/C-hum correction pins C then releases), a VO unlock cue, and `SavasanaStageHandler` (content-lock C via `MusicLoopSilent`, not the mode lock). The refactor makes ownership **explicit single-writer**: each stage/mode declares the active source on entry. Full refactor expected (Robin 2026-06-04). The safe sequencing is to land the authority + InputDriven/Harmony split first with the lock setters kept as **thin shims** over `SetFundamentalSource` (provably identical), then delete the shims and migrate call sites. **The shim-equivalence is itself baked into EditMode tests** (Robin 2026-06-04): each old call (`SetFundamentalModeLock(true,C)`, `SetFundamentalContentLock(C)`, unlock) must produce the same active-source + master + preferred state as the direct `SetFundamentalSource` call it forwards to — so the migration provably never changes behavior.
+
+### Active-source transitions (startup + regression-proof plan)
+
+Startup + the explicit switch points (Robin 2026-06-04). **Default: `Sequence` on `Awake`** (preferred = the startup `fundamentalNoteName`).
+
+| Trigger | Call site | New action |
+|---|---|---|
+| Scene load | `MusicSystem1.Awake` | active source = **Sequence** (preferred = startup fundamental) |
+| Soundscape set to a **SoundWorld** (InteractiveMusicSystem, not a loop) | `SetSoundWorld` | → **InputDriven** |
+| Soundscape set to a **MusicLoop** | `SetMusicLoop` | → **MusicBed** (interim: preferred = static loop key until Stage 5 cues feed it) |
+| Enter Tutorial | `SetMusicModeTo(InteractiveTutorial)` | → **Sequence** (C) *(replaces `SetFundamentalModeLock(true,C)`)* |
+| Enter Freeplay | `SetMusicModeTo(Freeplay)` | → soundscape-driven (**InputDriven** for world / **MusicBed** for loop) *(replaces `SetFundamentalModeLock(false)`)* |
+| Enter FrozenFreeplay | `SetMusicModeTo(FrozenFreeplay)` | → **Sequence** (C) *(replaces `SetFundamentalModeLock(true,C)`)* |
+| A/C-hum correction | `Tutorial.cs` | → **Sequence** (C), then restore prior source *(replaces lock(true,C)/false)* |
+| VO unlock cue | `WwiseVOManager` | → restore soundscape-driven source *(replaces `SetFundamentalModeLock(false)`)* |
+| Enter Savasana | `SavasanaStageHandler.Enter` | → **Sequence** (C) *(replaces `SetFundamentalContentLock(C)`)* |
+
+**Ordering (regression-proof via explicit sets, NOT a mode gate) — Robin 2026-06-04:** There is **no** blanket "only in Freeplay" suppression (that earlier proposal was wrong). Source changes are legitimate in multiple modes — including **Tutorial** and the **awkward adjunctive-savasana tail**. Each switch point sets the source **explicitly** and **last-writer-wins** ordering decides the outcome (a stage that must hold C sets `Sequence(C)` after any soundscape set in the same entry). The regression-proof contract is the transition table above + EditMode tests that assert the **resulting** active-source/master/preferred state for each real flow (tutorial entry + hum correction + release; freeplay world↔loop shuffle; savasana tail), not a mode-gated guard.
+
+### `MusicInputDrivenHarmony` run-gate — explicit on/off toggle (Robin 2026-06-04)
+
+Harmony accompaniment is a simple **on/off** flag (`MusicSystem1.SetInteractiveHarmonyEnabled(bool)`), **not** a per-frame mode check — set in stage `Enter()`:
+- **ON** in `Enter()` of **Tutorial** and **Freeplay / Playground** (incl. `Playground_Debug`).
+- **OFF** in `Enter()` of every other stage (Calibration, Opening, Linear, MusicPlaylist, Environment).
+- **Savasana (all variants) — harmony follows `gameOn`** (Robin 2026-06-04, generalized — no hard-coded variant exception): ON while `gameOn` is true (the toning tail), OFF when `gameOn` becomes false. Usually `gameOn` is already false on savasana enter → switches straight to OFF; if still on, it waits for the gameOff flip (the same moment the title card flips to "Savasana", `SavasanaStageHandler.BeginShowSavasanaSectionHeaderWhenGameOff`).
+  - `// TODO (Wwise refactor): move the programming of this early savasana toning tail (before the Savasana card) into Unity code.`
+
+Decoupled from the active fundamental source — harmony reads the master fundamental whoever set it. Default on/off comes from a small `InteractiveHarmonyStagePolicy.ShouldEnable(StageType)` applied centrally on stage entry (like the Stage 2b binaural base); the savasana gameOn-follow lives in the savasana handler. `MusicInputDrivenHarmony.Update` early-outs unless enabled; when enabled it emits on a tone onset as today.
+
+### MusicBed cues — Wwise wiring note (Stage 5, informs MusicBed here)
+
+`AK_MusicSyncUserCue` callbacks are **per `PostEvent` instance**, not per-gameObject: cues arrive only if the Play event was posted with the callback flag + delegate. VO events already do (`WwiseVOManager.VOCallbackFunction`). **`Play_MusicLoops` (`MusicSystem1`) and `Play_MusicPlaylist` (`WwiseVOManager`) are posted WITHOUT the flag** → `Cue_Key_*` in the bed won't reach Unity until Stage 5 adds the flag + a handler feeding the **MusicBed** source. `MusicSystem1` posts `Play_MusicLoops` on its own gameObject, so the handler can live there.
+
+### Dead-field cleanup (do FIRST)
+
+- `fundamentalNoteCompare` — never read → **delete** (first commit).
+- `harmonyRetriggerThreshold` / `harmonyTimeSinceLastTrigger` — seeded + incremented but **never gated** (intended 6 s min between harmony retriggers, never wired). **Delete both** (Robin 2026-06-04: cut, do not wire).
+
+### Test Runner tests (EditMode): `Block7FundamentalPolicyEditModeTests`
+
+- Source-write rule: Debug override beats any active source; only the active source writes; `None` rejected as a source.
+- Input-driven mode gate `CanInputDrivenChange` (`InteractiveTutorial`/`Freeplay` track; not Frozen / MusicLoopSilent / Environment / Silent).
+- Harmony gate `ShouldRunInteractiveHarmony` (`InteractiveTutorial`/`Freeplay`; off elsewhere) — separate from the input-driven gate.
+- `NoteName.None` note rejection in the apply path.
+- Clean-slate reset on `SetFundamentalSource(InputDriven, note)` and `SetFundamentalForSource(InputDriven, …)`.
+- Mode→source mapping regression pin (Tutorial/Frozen → Sequence C; Freeplay → soundscape-driven).
+- Shim-equivalence: each legacy lock call yields the same active-source/master/preferred state as the `SetFundamentalSource` it forwards to.
+- Real-flow end-state (no blanket Freeplay gate): tutorial entry/hum/release, freeplay world↔loop shuffle, savasana tail each land on the documented active-source/master/preferred.
+
+### Playtests (one inspector block + single `b457` filter)
+
+- **One** Inspector block (harness / `MusicSystem1`) tracking: **active source, master fundamental, each source's preferred, harmony, debug override** — Robin watches only this block.
+- Harness keys to switch active source dynamically and set/clear the debug override; STATE line (`b457`) shows who won.
+- **`b457` console hygiene:** audit existing `b457`-tagged logs and quiet the incidental ones (binaural volume `B457 Binaural Beats: New Volume…`, Director queue activation) so the fundamental test console shows only the harness STATE line + source switches.
+
+### Commits (one per sub-stage, each after its regression test)
+
+- **4a** `Block 7: remove dead fundamental/harmony fields (fundamentalNoteCompare, harmony retrigger).`
+- **4b** `Block 7: split + rename NoteTracker → noteActivity + fundamentalChargeByNote.`
+- **4c** `Block 7: extract MusicInputDrivenFundamental + MusicInputDrivenHarmony (execution order).`
+- **4d** `Block 7: active-source fundamental authority + FundamentalSourcePolicy (lock setters as shims) + tests.`
+- **4e** `Block 7: migrate fundamental call sites to SetFundamentalSource; startup Sequence; Freeplay-gated soundscape switches.`
+- **4f** `Block 7: harmony on/off toggle in stage Enter() + savasana-until-gameOff exception.`
+- **4g** `Block 7: MusicBed Cue_Key_* listener (Play_MusicLoops callback) + binaural follows key + retune coalescing.`
 
 ---
 
-## Stage 5 — Block 7: `Cue_Key_*` handler + binaural tracks key
+## Stage 5 — Block 7: `Cue_Key_*` listener (Unity side folded into Stage 4g) + Lorna external embedding
+
+> **Restructured (Robin 2026-06-04):** the Unity-side cue listener moved **into Stage 4 sub-stage 4g** (the listener lives in `MusicSystem1` and feeds the **MusicBed** source — it's part of the same system). What remains as "Stage 5" is the **external** dependency: Lorna embedding the cues in Wwise, then end-to-end verification. The cue→`NoteName` map + handler spec below are the 4g contract.
 
 - **Implement with: Opus 4.8** · **Regression pass: Opus 4.8 (required)**
 - **Listening load:** Logs + optional ear — state line confirms binaural Hz matches the cued note (objective); optional headphone check that bed/binaural sit in key.
 
-**Goal / acceptance:** Shared `TryHandleMusicKeyCue(cue)` called at the top of **both** [`VOCallbackFunction`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) and `ClosingCallBackFunction`; cue→`NoteName` map per Lorna's spellings; applies to master fundamental; **binaural center frequency follows**; unknown `Cue_Key_*` logged at warning. This is the fix for "binaural tracking the wrong sound" — in MusicLoops the fundamental is content-locked and never tracks the bed's key changes today.
+**Goal / acceptance (4g contract):** Shared `TryHandleMusicKeyCue(cue)` called from the `Play_MusicLoops` callback in `MusicSystem1` **and** at the top of [`VOCallbackFunction`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) / `ClosingCallBackFunction`; cue→`NoteName` map per Lorna's spellings; routes to the **MusicBed** source (`SetFundamentalForSource(MusicBed, note)`); **binaural center frequency follows** automatically via `ApplyMasterFundamental`; unknown `Cue_Key_*` logged at warning. This is the fix for "binaural tracking the wrong sound" — in MusicLoops the fundamental was content-locked and never tracked the bed's key changes.
 
 **Cue → `NoteName` map:** `Cue_Key_C..B` → naturals; `Cue_Key_Gsharp` → Gs; `Cue_Key_Bflat` → As; `Cue_Key_Aflat` → Gs; `Cue_Key_Eflat` → Ds. Single dictionary keyed by full cue name; no duplicated switch cases across the two callbacks.
 
@@ -435,7 +554,7 @@ Guided `G` order (after Parts A/B): **3b.1 ADSR first, then 3b.0 MicMixer A/B** 
 - **Implement with: Opus 4.8** · **Regression pass: Opus 4.8 (required)**
 - **Listening load:** Real ear check — interval math is tested, but consonance ("does it sound harmonious") requires headphones.
 
-**Goal / acceptance:** Harmonious pitches around 5ths (Fundamental + Harmony); `changeHarmony` `NoteName.None` guard solid; remove or wire the dead harmony-retrigger threshold.
+**Goal / acceptance:** Harmonious pitches around 5ths (Fundamental + Harmony); `changeHarmony` `NoteName.None` guard solid. (The dead harmony-retrigger threshold was deleted in Stage 4; if a retrigger floor is wanted, decide + wire it here.) Also revisit whether `MusicInputDrivenHarmony` should additionally gate on `gameOn` (deferred from Stage 4).
 
 **Test Runner tests (EditMode):** harmony interval selection guards; `NoteName.None` guard.
 
@@ -510,8 +629,8 @@ flowchart TD
   S2[Stage 2 Binaural gating]
   S3[Stage 3 Switch hygiene]
   S3b[Stage 3b Block 8 Mic envelope]
-  S4[Stage 4 Fundamental split]
-  S5[Stage 5 Cue_Key_* + binaural tracks key]
+  S4[Stage 4 Fundamental split + cue listener 4a-4g]
+  S5[Stage 5 Lorna external Wwise embedding + e2e]
   S6[Stage 6 Pitch / 5ths / harmony]
   S7[Stage 7 Interactive fade / silent loops / Stop_Toning]
   S8[Stage 8 Lock C / 15:00]

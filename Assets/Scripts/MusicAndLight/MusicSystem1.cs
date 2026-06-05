@@ -78,12 +78,9 @@ public class MusicSystem1 : MonoBehaviour
     private const int _sustainedFundamentalShiftSemitones = -5;
     private const float _sustainedFundamentalFillRateMultiplier = 0.25f;
     public NoteName fundamentalNoteName = NoteName.A; // Base note around which other notes are calculated
-    private NoteName? fundamentalNoteCompare = null; // Used to catch changes that are not triggered in this script, and to compare with the previous fundamentalNoteName for the purpose of changing the fundamental
     public NoteName harmonyNote = NoteName.None; // Note that plays in harmony with the fundamental note
     private float fundamentalTimeSinceLastTrigger   = 0f;
-    private float harmonyTimeSinceLastTrigger = 0f;
     private float fundamentalRetriggerThreshold = 18f; // minimum time between fundamental retriggering
-    private float harmonyRetriggerThreshold = 6f; // minimum time between harmony retriggering
 
     // BASSSYNTH CONTROL AND OTHER SUBACOUSTIC SOUNDS
     private bool bassSynthPlaying = false; // Whether BassSynth is currently playing
@@ -313,7 +310,6 @@ public class MusicSystem1 : MonoBehaviour
         }
         //Set these so they can be triggered right away
         fundamentalTimeSinceLastTrigger = fundamentalRetriggerThreshold;
-        harmonyTimeSinceLastTrigger = harmonyRetriggerThreshold;
         
         //Initialize harmony sequences
         sequences = new List<List<int>>
@@ -738,7 +734,6 @@ public class MusicSystem1 : MonoBehaviour
         }
 
         fundamentalTimeSinceLastTrigger += Time.deltaTime;
-        harmonyTimeSinceLastTrigger += Time.deltaTime;
     }
 
 
