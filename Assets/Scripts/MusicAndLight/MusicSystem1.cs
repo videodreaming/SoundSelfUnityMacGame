@@ -44,11 +44,27 @@ public class MusicSystem1 : MonoBehaviour
     public SavasanaPlayer SavasanaPlayer;
    // public RecordedAudioPlayback recordedAudioPlayback;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
-    private Dictionary<NoteName, (float ActivationTimer, bool Active, bool FirstFrameActive, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<NoteName, (float, bool, bool, float)>();
-    // Tracks information for each musical note:
-    // ActivationTimer: Time duration the note has been active
-    // Active: Whether the note is currently active
-    // ChangeFundamentalTimer: Timer for changing the fundamental note
+    // Per-note voice activity (the toning half of the old NoteTracker tuple). Read by toning (musicNoteActivated).
+    // ActiveSeconds: time the note has been continuously active (was ActivationTimer)
+    // IsActive: whether the note is currently active (was Active)
+    // JustActivated: true only on the first frame the note activates (was FirstFrameActive)
+    private struct VoiceActivity
+    {
+        public float ActiveSeconds;
+        public bool IsActive;
+        public bool JustActivated;
+
+        public VoiceActivity(float activeSeconds, bool isActive, bool justActivated)
+        {
+            ActiveSeconds = activeSeconds;
+            IsActive = isActive;
+            JustActivated = justActivated;
+        }
+    }
+    private Dictionary<NoteName, VoiceActivity> voiceActivity = new Dictionary<NoteName, VoiceActivity>();
+    // Per-note fundamental-change charge (the ChangeFundamentalTimer half of the old NoteTracker tuple).
+    // Used only by the fundamental decision (FundamentalUpdate / ResolveFundamentalOnUnlock).
+    private Dictionary<NoteName, float> fundamentalChargeByNote = new Dictionary<NoteName, float>();
     
     // IMITONE INTERPRETATION AND BASIC TONES
     private float musicNoteInputRaw; // The raw note input from voice interpretation
@@ -303,10 +319,11 @@ public class MusicSystem1 : MonoBehaviour
     void Start()
     {
 
-        // Initialize the NoteTracker dictionary with 12 keys for each note in an octave
+        // Initialize the note-activity and fundamental-charge dictionaries with 12 keys for each note in an octave
         for (NoteName note = NoteName.C; note <= NoteName.B; note++)
         {
-            NoteTracker.Add(note, (0f, false, false, 0f));
+            voiceActivity.Add(note, new VoiceActivity(0f, false, false));
+            fundamentalChargeByNote.Add(note, 0f);
         }
         //Set these so they can be triggered right away
         fundamentalTimeSinceLastTrigger = fundamentalRetriggerThreshold;
@@ -634,30 +651,30 @@ public class MusicSystem1 : MonoBehaviour
     //Take the fundamental behaviors in the InterpretImitonUpdate method and move them here for clarity
     private void FundamentalUpdate()
     {
-        var updates = new Dictionary<NoteName, (float, bool, bool, float)>();
+        var updates = new Dictionary<NoteName, float>();
         float highestFundamentalTimer = 0;
 
         // Cache keys to avoid modifying the dictionary while iterating
-        List<NoteName> noteKeys = new List<NoteName>(NoteTracker.Keys);
+        List<NoteName> noteKeys = new List<NoteName>(voiceActivity.Keys);
 
         if (imitoneVoiceInterpreter.imitoneActive)
         {
             // First get the highest fundamental timer at the start
             foreach (NoteName key in noteKeys)
             {
-                if (NoteTracker[key].ChangeFundamentalTimer > highestFundamentalTimer)
+                if (fundamentalChargeByNote[key] > highestFundamentalTimer)
                 {
-                    highestFundamentalTimer = NoteTracker[key].ChangeFundamentalTimer;
+                    highestFundamentalTimer = fundamentalChargeByNote[key];
                 }
             }
 
             // Perform the updates
             foreach (NoteName key in noteKeys)
             {
-                var scaleNote = NoteTracker[key];
-                float newChangeFundamentalTimer = scaleNote.ChangeFundamentalTimer;
+                var scaleNote = voiceActivity[key];
+                float newChangeFundamentalTimer = fundamentalChargeByNote[key];
 
-                if (scaleNote.Active)
+                if (scaleNote.IsActive)
                 {
                     // Shared inputs for both the non-root and sustained-root paths.
                     float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(RespirationTracker.instance._absorption, 0, 1) * -1);
@@ -703,7 +720,7 @@ public class MusicSystem1 : MonoBehaviour
                             changeTarget,
                             newChangeFundamentalTimer,
                             highestFundamentalTimer,
-                            scaleNote.FirstFrameActive,
+                            scaleNote.JustActivated,
                             logContext);
                     }
 
@@ -714,22 +731,21 @@ public class MusicSystem1 : MonoBehaviour
                         {
                             if (otherKey != key)
                             {
-                                var otherNote = NoteTracker[otherKey];
-                                float newChangeFundamentalTimerOther = Mathf.Max(0, otherNote.ChangeFundamentalTimer - Time.deltaTime * 0.075f);
-                                updates[otherKey] = (otherNote.ActivationTimer, otherNote.Active, otherNote.FirstFrameActive, newChangeFundamentalTimerOther);
+                                float newChangeFundamentalTimerOther = Mathf.Max(0, fundamentalChargeByNote[otherKey] - Time.deltaTime * 0.075f);
+                                updates[otherKey] = newChangeFundamentalTimerOther;
                             }
                         }
                     }
                 }
 
-                // Save updated state
-                updates[key] = (scaleNote.ActivationTimer, scaleNote.Active, scaleNote.FirstFrameActive, newChangeFundamentalTimer);
+                // Save updated charge
+                updates[key] = newChangeFundamentalTimer;
             }
 
             // Apply all updates at once
             foreach (var update in updates)
             {
-                NoteTracker[update.Key] = update.Value;
+                fundamentalChargeByNote[update.Key] = update.Value;
             }
         }
 
@@ -1264,12 +1280,11 @@ public class MusicSystem1 : MonoBehaviour
 
     private void ResetFundamentalTimers()
     {
-        var keys = new List<NoteName>(NoteTracker.Keys);
+        var keys = new List<NoteName>(fundamentalChargeByNote.Keys);
 
         foreach (var key in keys)
         {
-            var currentValue = NoteTracker[key];
-            NoteTracker[key] = (currentValue.ActivationTimer, currentValue.Active, currentValue.FirstFrameActive, 0.0f);
+            fundamentalChargeByNote[key] = 0.0f;
             if (debugAllowFundamentalLogicLogs)
             {
                 Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
@@ -1668,11 +1683,11 @@ public class MusicSystem1 : MonoBehaviour
             NoteName? newFundamental = null;
             float highestFundamentalTimer = 0;
             
-            foreach (var trackedNote in NoteTracker)
+            foreach (var trackedNote in fundamentalChargeByNote)
             {
-                if (trackedNote.Value.ChangeFundamentalTimer > highestFundamentalTimer)
+                if (trackedNote.Value > highestFundamentalTimer)
                 {
-                    highestFundamentalTimer = trackedNote.Value.ChangeFundamentalTimer;
+                    highestFundamentalTimer = trackedNote.Value;
                     newFundamental = trackedNote.Key;
                 }
             }
@@ -2053,25 +2068,25 @@ public class MusicSystem1 : MonoBehaviour
             noteTrackerThreshold = imitoneVoiceInterpreter.positiveActiveThreshold1 / 4;
         }
         // Temporary storage for updates to notes and their activations
-        var updates = new Dictionary<NoteName, (float, bool, bool, float)>();
+        var updates = new Dictionary<NoteName, VoiceActivity>();
         var activations = new Dictionary<NoteName, bool>();
         var fundamentalChanges = new Dictionary<NoteName, bool>();
 
         // Process each note only if the imitone system is active
         if (imitoneVoiceInterpreter.imitoneActive)
         {
-            foreach (var scaleNote in NoteTracker)
+            foreach (var scaleNote in voiceActivity)
             {
-                float thisActivationTimer = scaleNote.Value.ActivationTimer;
-                //float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
-                bool isActive = scaleNote.Value.Active;
+                float thisActivationTimer = scaleNote.Value.ActiveSeconds;
+                //float newChangeFundamentalTimer = fundamentalChargeByNote[scaleNote.Key];
+                bool isActive = scaleNote.Value.IsActive;
                 bool isHighestActivationTimer = false;
                 bool firstFrameActive = false;
                 bool anyNoteActive = false;
 
-                foreach (var note in NoteTracker) //REEF: THIS IS NEW, WE NEED TO TEST.
+                foreach (var note in voiceActivity) //REEF: THIS IS NEW, WE NEED TO TEST.
                 {
-                    if (note.Value.Active)
+                    if (note.Value.IsActive)
                     {
                         anyNoteActive = true;
                         break;
@@ -2133,7 +2148,7 @@ public class MusicSystem1 : MonoBehaviour
                             activations[scaleNote.Key] = isActive;
                         }
                     }
-                    updates[scaleNote.Key] = (thisActivationTimer, isActive, firstFrameActive, scaleNote.Value.ChangeFundamentalTimer);
+                    updates[scaleNote.Key] = new VoiceActivity(thisActivationTimer, isActive, firstFrameActive);
                 }
                 else if (!imitoneVoiceInterpreter.toneActiveBiasTrue) 
                 {
@@ -2141,14 +2156,14 @@ public class MusicSystem1 : MonoBehaviour
                     //Then for notes other than the note that imitone thinks we are toning,
                     //Reset the activation timer, active flat, and first frame active flat.
 
-                    updates[scaleNote.Key] = (0, false, false, scaleNote.Value.ChangeFundamentalTimer);
+                    updates[scaleNote.Key] = new VoiceActivity(0, false, false);
                     musicNoteActivated = NoteName.None; 
                 }
             }
-            // Apply the accumulated updates to the NoteTracker
+            // Apply the accumulated activity updates
             foreach (var update in updates)
             {
-                NoteTracker[update.Key] = update.Value;
+                voiceActivity[update.Key] = update.Value;
             }
 
             // Deactivate other notes if a new note has become active
@@ -2159,8 +2174,7 @@ public class MusicSystem1 : MonoBehaviour
                     //When one note becomes active, deactivate others.
                     if (scaleNote.Key != nextNote && scaleNote.Value == true)
                     {
-                        var currentValue = NoteTracker[scaleNote.Key];
-                        NoteTracker[scaleNote.Key] = (0.0f, false, false, currentValue.ChangeFundamentalTimer);
+                        voiceActivity[scaleNote.Key] = new VoiceActivity(0.0f, false, false);
                         if(debugAllowImitoneUpdateLogs)
                         {
                             Debug.Log("MUSIC 7: Key(" + scaleNote.Key + ": deactivated (and highestActivationTimer reset)");
@@ -2177,10 +2191,9 @@ public class MusicSystem1 : MonoBehaviour
         {
             //RESET ALL TONE ACTIVE TIMERS
             //Optimization opportunity: add a flag here to just do this once, when the player stops toning.
-            foreach (var key in NoteTracker.Keys.ToList())
+            foreach (var key in voiceActivity.Keys.ToList())
             {
-                var current = NoteTracker[key];
-                NoteTracker[key] = (0f, false, false, current.ChangeFundamentalTimer);
+                voiceActivity[key] = new VoiceActivity(0f, false, false);
             }
             musicNoteActivated = NoteName.None;
         }
@@ -2665,10 +2678,9 @@ public class MusicSystem1 : MonoBehaviour
         if (!enabled)
         {
             // Reset note tracking when disabling
-            foreach (var key in NoteTracker.Keys.ToList())
+            foreach (var key in voiceActivity.Keys.ToList())
             {
-                var current = NoteTracker[key];
-                NoteTracker[key] = (0f, false, false, current.ChangeFundamentalTimer);
+                voiceActivity[key] = new VoiceActivity(0f, false, false);
             }
             musicNoteActivated = NoteName.None;
         }

@@ -36,7 +36,8 @@ Short hashes for each committed stage/fix (standing rule 9). Newest at the botto
 | `daca6470` | Investigation start — `SOUNDWORLD_SWITCH_NOT_AUDIBLE.md` + guided playtest / binaural WIP checkpoint |
 | `816218e3` | **SOUNDWORLD_SWITCH_NOT_AUDIBLE resolved** — `SetSoundWorld` now posts `SoundWorldMode_Switch` (was gated out by the `!ToningV3WasAlreadyRestored` guard); via `InteractiveMusicSwitchPolicy.SetSoundWorldPosts` + EditMode test; plan standing rules 8/9 + commit log added |
 | `3dc74f22` | **Stage 3b — Block 8 mic envelope** — per-soundscape MicMixer dB (worlds 0 / loops +3); stacked monitoring ADSR; `SoundscapeMonitoringPolicy` + `MonitoringAdsrPolicy` + EditMode tests; guided playtest; inspector cleanup |
-| _(pending)_ | **Stage 4a — dead-field cleanup** — remove write-only `fundamentalNoteCompare`, `harmonyRetriggerThreshold`, `harmonyTimeSinceLastTrigger`; Stage 4 active-source design folded into plan (incl. former Stage 5 → 4g) |
+| `18651457` | **Stage 4a — dead-field cleanup** — remove write-only `fundamentalNoteCompare`, `harmonyRetriggerThreshold`, `harmonyTimeSinceLastTrigger`; Stage 4 active-source design folded into plan (incl. former Stage 5 → 4g) |
+| _(pending)_ | **Stage 4b — split + rename `NoteTracker`** → `voiceActivity` (`VoiceActivity { ActiveSeconds; IsActive; JustActivated }`, activation half) + `fundamentalChargeByNote` (`Dictionary<NoteName,float>`, charge half); pure data-structure split, zero logic change; EditMode parity green |
 
 ---
 
@@ -403,7 +404,7 @@ Behavior-**preserving** refactor first (4a–4d), then behavior-**changing** wir
 | Sub-stage | What | Behavior change? | Regression |
 |---|---|---|---|
 | **4a** | Dead-field cleanup (`fundamentalNoteCompare`, `harmonyRetriggerThreshold`, `harmonyTimeSinceLastTrigger`) | none | EditMode green; compiles |
-| **4b** | Split + rename `NoteTracker` → `noteActivity` + `fundamentalChargeByNote` (still inside `MusicSystem1`) | none | EditMode parity |
+| **4b** | Split + rename `NoteTracker` → `voiceActivity` + `fundamentalChargeByNote` (still inside `MusicSystem1`) | none | EditMode parity |
 | **4c** | Extract `MusicInputDrivenFundamental` + `MusicInputDrivenHarmony` MonoBehaviours; set Script Execution Order; charge dict moves into the fundamental component | none (Robin wires the 2 components + execution order in Unity) | EditMode parity; logs unchanged |
 | **4d** | Active-source authority: `FundamentalSource`, `FundamentalSourcePolicy`, `SetFundamentalSource` / `SetFundamentalForSource` / `SetDebugFundamentalOverride`, private `ApplyMasterFundamental`; legacy lock setters become **thin shims** | none (shims provably identical for the real flows) | EditMode: policy + shim-equivalence |
 | **4e** | **Migrate call sites to `SetFundamentalSource` — its own carefully-staged sub-stage, broken into reviewed sub-sub-stages, one source-changing *zone* at a time** (Robin reviews each). Start from a **clean commit**. Zones: (1) startup = Sequence on `Awake`; (2) `SetSoundWorld`→InputDriven / `SetMusicLoop`→MusicBed; (3) `SetMusicModeTo` Tutorial/Freeplay/Frozen; (4) `Tutorial.cs` A/C-hum correction; (5) `WwiseVOManager` unlock cue; (6) `SavasanaStageHandler`. Each zone: remove the relevant shim, add EditMode end-state test, Robin review, commit. Then remove `ResolveFundamentalOnUnlock`. No blanket Freeplay gate; last-writer-wins ordering. | **yes** (genuinely source-driven) | per-zone EditMode end-state tests + **subjective (Round 1)** |
@@ -496,7 +497,7 @@ Today `NoteTracker` packs two unrelated jobs in one tuple `(ActivationTimer, Act
 → **Split the tuple**: keep an activation tracker in `MusicSystem1`; move a `Dictionary<NoteName,float>` **charge memory** into `MusicInputDrivenFundamental`, which reads activation state each frame via a small accessor and accumulates its own charge. Clean-slate = clear that dictionary.
 
 **Rename both (Robin 2026-06-04 — `NoteTracker` is uselessly generic for a music system):** proposed names —
-- Activation tracker (stays in `MusicSystem1`): `noteActivity` : `Dictionary<NoteName, NoteActivity>` where `NoteActivity { float ActiveSeconds; bool IsActive; bool JustActivated; }` (renames `ActivationTimer→ActiveSeconds`, `Active→IsActive`, `FirstFrameActive→JustActivated`).
+- Activation tracker (stays in `MusicSystem1`): `voiceActivity` : `Dictionary<NoteName, VoiceActivity>` where `VoiceActivity { float ActiveSeconds; bool IsActive; bool JustActivated; }` (renames `ActivationTimer→ActiveSeconds`, `Active→IsActive`, `FirstFrameActive→JustActivated`).
 - Charge memory (moves to `MusicInputDrivenFundamental`): `fundamentalChargeByNote` : `Dictionary<NoteName, float>` (renames `ChangeFundamentalTimer` → the dictionary value).
 
 Confirm names before coding.
@@ -567,7 +568,7 @@ This is the **one deliberate behavior change** to harmony: vs. today it *additio
 ### Commits (one per sub-stage, each after its regression test)
 
 - **4a** `Block 7: remove dead fundamental/harmony fields (fundamentalNoteCompare, harmony retrigger).`
-- **4b** `Block 7: split + rename NoteTracker → noteActivity + fundamentalChargeByNote.`
+- **4b** `Block 7: split + rename NoteTracker → voiceActivity + fundamentalChargeByNote.`
 - **4c** `Block 7: extract MusicInputDrivenFundamental + MusicInputDrivenHarmony (execution order).`
 - **4d** `Block 7: active-source fundamental authority + FundamentalSourcePolicy (lock setters as shims) + tests.`
 - **4e** (multiple commits, one per reviewed zone) `Block 7: migrate <zone> to SetFundamentalSource …` — startup, soundscape, mode, tutorial, VO, savasana.
