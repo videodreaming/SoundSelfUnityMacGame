@@ -101,25 +101,25 @@ flowchart TD
 
 ### Phase A — Finish Stage 4e (active-source migration + lock-stack removal) ▶
 
-**Done in the working tree (uncommitted):** ([Appendix D §"4e IN-PROGRESS STATUS"](BLOCKS_4_5_7_PLAN.md))
+**Committed in `38a66816`:** ([Appendix D §"4e IN-PROGRESS STATUS"](BLOCKS_4_5_7_PLAN.md))
 
-- [~] **Zone 1 — startup = Sequence.** `FundamentalSourcePolicy.StartupSource`; `Start` declares `SetFundamentalSource(StartupSource, fundamentalNoteName)`. EditMode pin `StartupSource_IsSequence`.
-- [~] **Zone 2 — soundscape.** `SetSoundWorld`→`InputDriven`; `SetMusicLoop`→`MusicBed(startNote)`; content-lock calls removed; `GetMusicLoopFundamental` reframed as the bed **start note**.
-- [~] **Zone 3 — mode.** `SetMusicModeTo` Tutorial/Frozen→`Sequence(C)`; Freeplay→`SourceForInteractionType(...)` (MusicLoop→MusicBed, else InputDriven).
-- [~] **Preparatory soundscape.** `SetSoundscapeWithoutChangingFundamentalSource` + `changeFundamentalSource` param; `OpeningStageHandler`'s 3 pre-stage calls use it (pre-stage while Silent without seizing the fundamental).
-- [~] **Gate flip (Step 1).** Both InputDriven gates → `CanInputDrivenWriteMaster`; `ChangeFundamental` else-branch warning reframed.
-- [~] **Zone 4 — `Tutorial.cs` (Step 2).** Correction pin → `SetFundamentalSource(Sequence, C)` guarded to `SoundWorld`; releases → `ResumeFundamentalAfterCorrectionPin()`.
-- [~] **Zone 5 — `WwiseVOManager` (Step 3).** Dead `VoTryFundamentalModeUnlock` deleted.
-- [~] **Zone 6 — `SavasanaStageHandler` (Step 4).** `SetFundamentalContentLock(C)` → `SetFundamentalSource(Sequence, C)`.
-- [~] **Step 5 — removals.** `ResolveFundamentalOnUnlock` + `IsFundamentalLocked` deleted; production CLEAR sites rewired onto the source API.
-- [~] **Step 0 — retire the legacy lock stack + debug override** (done this session): deleted `debugFundamentalOverride` + `SetDebugFundamentalOverride`; the three lock fields + `SetFundamentalDebugLock`/`ContentLock`/`ModeLock` + `GetLockedFundamental`; the dev force-note surfaces (`OnPermanentlySetFundamentalChanged`, the commented `InputReferences` I/O/K/L/N/M keys, the `MusicDebugHarness` lock actions + L/U keys). `FundamentalSourcePolicy.ShouldWriteMaster`/`CanInputDrivenWriteMaster` lost the `hasDebugOverride` param; the two gate call sites updated. Block7 + harness EditMode tests updated.
-- [~] **Step 6 — test + doc.** `SourceForInteractionType` EditMode test added; plan + checklist status updated.
+- [x] **Zone 1 — startup = Sequence.** `FundamentalSourcePolicy.StartupSource`; `Start` declares `SetFundamentalSource(StartupSource, fundamentalNoteName)`. EditMode pin `StartupSource_IsSequence`.
+- [x] **Zone 2 — soundscape.** `SetSoundWorld`→`InputDriven`; `SetMusicLoop`→`MusicBed(startNote)`; content-lock calls removed; `GetMusicLoopFundamental` reframed as the bed **start note**.
+- [x] **Zone 3 — mode.** `SetMusicModeTo` Tutorial/Frozen→`Sequence(C)`; Freeplay→`SourceForInteractionType(...)` (MusicLoop→MusicBed, else InputDriven).
+- [x] **Preparatory soundscape.** `SetSoundscapeWithoutChangingFundamentalSource` + `changeFundamentalSource` param; `OpeningStageHandler`'s 3 pre-stage calls use it (pre-stage while Silent without seizing the fundamental).
+- [x] **Gate flip (Step 1).** Both InputDriven gates → `CanInputDrivenWriteMaster`; `ChangeFundamental` else-branch warning reframed.
+- [x] **Zone 4 — `Tutorial.cs` (Step 2).** Correction pin → `SetFundamentalSource(Sequence, C)` guarded to `SoundWorld`; releases → `ResumeFundamentalAfterCorrectionPin()`.
+- [x] **Zone 5 — `WwiseVOManager` (Step 3).** Dead `VoTryFundamentalModeUnlock` deleted.
+- [x] **Zone 6 — `SavasanaStageHandler` (Step 4).** `SetFundamentalContentLock(C)` → `SetFundamentalSource(Sequence, C)`.
+- [x] **Step 5 — removals.** `ResolveFundamentalOnUnlock` + `IsFundamentalLocked` deleted; production CLEAR sites rewired onto the source API.
+- [x] **Step 0 — retire the legacy lock stack + debug override** (Robin "delete and forever forget"): deleted `debugFundamentalOverride` + `SetDebugFundamentalOverride`; the three lock fields + `SetFundamentalDebugLock`/`ContentLock`/`ModeLock` + `GetLockedFundamental`; the dev force-note surfaces (`OnPermanentlySetFundamentalChanged`, the commented `InputReferences` I/O/K/L/N/M keys, the `MusicDebugHarness` lock actions + L/U keys). `FundamentalSourcePolicy.ShouldWriteMaster`/`CanInputDrivenWriteMaster` lost the `hasDebugOverride` param; the two gate call sites updated. Block7 + harness EditMode tests updated.
+- [x] **Step 6 — test + doc.** `SourceForInteractionType` EditMode test added; plan + checklist status updated.
 
-**One bundled 4e commit (migration + Step 0):**
+**One bundled 4e commit (migration + Step 0) — DONE (`38a66816`, pushed):**
 
-- [ ] **Run Test Runner (EditMode)** — all green (Block7 + harness key-policy + Block3, etc.).
-- [ ] **Opus regression pass** over the full 4e diff (migration + lock-stack deletion).
-- [ ] **Robin's explicit go** → **commit 4e** → record hash in [Appendix A](BLOCKS_4_5_7_PLAN.md).
+- [x] **Run Test Runner (EditMode)** — all green.
+- [x] **Opus regression pass** over the full 4e diff (migration + lock-stack deletion) — PASS, no regressions.
+- [x] **Robin's explicit go** → **committed + pushed 4e** (`38a66816`); hash recorded in [Appendix A](BLOCKS_4_5_7_PLAN.md).
 
 > **Shadow-tracker `preferred`-sync is NOT here.** It folds into **Phase B / 9c** (§1.3) as Layer 1 of the goblin's commit semantics. 4e ships with the bounded interim: `preferred[InputDriven]` is unmaintained, so InputDriven entry continues from the current master; no standalone half-fix.
 

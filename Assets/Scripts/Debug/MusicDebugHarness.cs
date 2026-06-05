@@ -90,6 +90,9 @@ public class MusicDebugHarness : MonoBehaviour
             case MusicDebugHarnessAction.GuidedStage1And2Playtest:
                 ToggleGuidedPlaytest();
                 break;
+            case MusicDebugHarnessAction.GuidedGoblinPlaytest:
+                ToggleGoblinPlaytest();
+                break;
         }
     }
 
@@ -98,6 +101,13 @@ public class MusicDebugHarness : MonoBehaviour
         if (guidedPlaytest == null)
             guidedPlaytest = gameObject.AddComponent<MusicDebugGuidedPlaytest>();
         guidedPlaytest.ToggleRun();
+    }
+
+    void ToggleGoblinPlaytest()
+    {
+        if (guidedPlaytest == null)
+            guidedPlaytest = gameObject.AddComponent<MusicDebugGuidedPlaytest>();
+        guidedPlaytest.ToggleRunGoblin();
     }
 
     void EndThisSequenceStage()
@@ -363,7 +373,7 @@ public class MusicDebugHarness : MonoBehaviour
 
     void LogKeyLegend()
     {
-        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | G=guided playtest (Space/Return between steps; tone only on Director prompts) | [=world ]=loop | ;=key cue | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
+        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | G=guided playtest | F=goblin playtest (Stage 9a fundamental↔flourish; Space/Return between steps) | [=world ]=loop | ;=key cue | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
     }
 }
 #endif

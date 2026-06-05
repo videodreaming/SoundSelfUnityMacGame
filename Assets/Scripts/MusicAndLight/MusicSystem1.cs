@@ -1064,9 +1064,11 @@ public partial class MusicSystem1 : MonoBehaviour
 
         if(debugAllowFundamentalChangeLogs)
         {
-            Debug.Log("MUSIC 6: Fundamental Note Changing to " + NoteUtils.NoteToWwiseString(newFundamental));
+            // B457-tagged so the master move is visible under the single "B457" console filter (with FUND-ANNOUNCE + DIRECTOR-FLOURISH).
+            // Logged before the reassignment below, so fundamentalNoteName is still the previous note here.
+            Debug.Log("[B457 FUND-COMMIT] " + NoteUtils.NoteToWwiseString(fundamentalNoteName) + "→" + NoteUtils.NoteToWwiseString(newFundamental) + " src=" + activeFundamentalSource);
         }
-        
+
         director.ClearQueueOfType("fundamentalChange");
         fundamentalNoteName = newFundamental;
 
@@ -1125,6 +1127,57 @@ public partial class MusicSystem1 : MonoBehaviour
             {
                 Debug.LogWarning("MUSIC: Tried to change the fundamental via the input-driven path, but InputDriven is not the active source" + sourceInfo + ". This shouldn't happen, and probably indicates a logic flaw in the code.");
             }
+        }
+    }
+
+    /// <summary>
+    /// Block 7 / Stage 9a — the single announce path for an InputDriven fundamental change. Routes the change
+    /// through the Director so an audible change is *counted* (and therefore pairs a visual flourish), fixing the
+    /// legacy long-test bug where the change happened outside the queue and got no reliable pairing.
+    ///
+    /// <para><b>immediate</b> (long/longish band): enqueue a counted <c>fundamentalChange</c> then activate now —
+    /// the queued action retunes the master and ActivateQueue pairs a visual.
+    /// <b>deferred</b> (short band): enqueue only; the next external beat activates it.</para>
+    ///
+    /// <para><b>Disabled-bypass (F2):</b> while <c>director.disable</c> (Opening/Savasana/Playground-off) ActivateQueue
+    /// no-ops, so an <i>immediate</i> change applies directly — parity with the legacy long-test direct apply. A
+    /// <i>deferred</i> change relies on AddActionToQueue, which already no-ops while disabled — parity with the legacy
+    /// short-test (queued change dropped when disabled).</para>
+    ///
+    /// The queued action is <see cref="Action_ChangeFundamental"/> (not a raw apply) so it keeps the fire-time
+    /// active-source gate; flush-on-switch + the raw split arrive in 9c.
+    /// </summary>
+    private void AnnounceFundamental(NoteName target, bool immediate)
+    {
+        if (immediate && director.disable)
+        {
+            if (debugAllowFundamentalLogicLogs)
+            {
+                Debug.Log("[B457 FUND-ANNOUNCE] band=immediate target=" + NoteUtils.NoteToWwiseString(target) + " path=raw (director disabled — direct apply, no flourish)");
+            }
+            ChangeFundamental(target);
+            return;
+        }
+
+        // ReplaceAllOfType clears any existing fundamentalChange item before adding (no explicit ClearQueueOfType needed).
+        director.AddActionToQueue(
+            Action_ChangeFundamental(target),
+            "fundamentalChange",
+            true,
+            false,
+            9999f,
+            DirectorActivationBehavior.ExpireWithoutExecuting,
+            DirectorExclusivityBehavior.ReplaceAllOfType);
+
+        if (debugAllowFundamentalLogicLogs)
+        {
+            Debug.Log("[B457 FUND-ANNOUNCE] band=" + (immediate ? "immediate" : "deferred") + " target=" + NoteUtils.NoteToWwiseString(target)
+                + " path=director (" + (immediate ? "enqueue + activate now → pairs a flourish" : "queued, awaiting next beat") + ")");
+        }
+
+        if (immediate)
+        {
+            director.ActivateQueue(5.0f);
         }
     }
 

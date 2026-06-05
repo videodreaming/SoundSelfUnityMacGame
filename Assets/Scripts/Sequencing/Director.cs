@@ -69,6 +69,11 @@ public class Director : MonoBehaviour
     private float timeSinceLastActivation = 0.0f;
     private float activateWhenEmptyThreshold = 25.0f;
 
+    // Block 7 / Stage 9a — dedicated 5s anti-clutter timer for the synchresis flourish *add* (NOT timeSinceLastActivation,
+    // which also drives the 25s activateWhenEmpty). Queued actions still execute every activation; only the flourish add is
+    // gated (see FundamentalDirectorPolicy.ShouldAddFlourish). Seeded high so the first activation isn't suppressed.
+    private float timeSinceLastFlourish = 999f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,6 +83,7 @@ public class Director : MonoBehaviour
     void Update()
     {
         timeSinceLastActivation += Time.deltaTime;
+        timeSinceLastFlourish += Time.deltaTime;
         QueueUpdate(); 
 
         if(disable != disableLast)
@@ -431,26 +437,47 @@ public class Director : MonoBehaviour
         // (which no longer breaks the iteration because we’re not iterating over the original dictionary)
         if (queuedItems.Count > 0 || localActivateWhenEmpty)
         {
-            // If no audio events, do an audio flourish
-            if (countAudioEvents == 0 && countVisualEvents != 0)
+            // Block 7 / 9a: which modality (if any) completes synchresis is the pure FundamentalDirectorPolicy.FlourishDecision
+            // (audio-only ⇒ add visual; visual-only ⇒ add audio; 0/0 or both ⇒ none). The *add* is then gated by a dedicated
+            // 5s anti-clutter window so rapid re-activations still propagate changes without flourish spam.
+            var flourish = FundamentalDirectorPolicy.FlourishDecision(countAudioEvents, countVisualEvents);
+            if (flourish != FundamentalDirectorPolicy.FlourishAdd.None)
             {
-                if(debugAllowLogs)
+                if (FundamentalDirectorPolicy.ShouldAddFlourish(timeSinceLastFlourish))
                 {
-                    Debug.Log("Director Queue: No Audio Actions Queued, triggering one to complete syncresis");
-                }
-                TweakAudio(transitionTimeForFlourishes);
-                PlayTransitionSound();
-            }
+                    if (flourish == FundamentalDirectorPolicy.FlourishAdd.AddAudio)
+                    {
+                        if(debugAllowLogs)
+                        {
+                            Debug.Log("Director Queue: No Audio Actions Queued, triggering one to complete syncresis");
+                        }
+                        TweakAudio(transitionTimeForFlourishes);
+                        PlayTransitionSound();
+                    }
+                    else // AddVisual
+                    {
+                        if(debugAllowLogs)
+                        {
+                            Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
+                        }
+                        lightControl.NextPreferredColorWorld(transitionTimeForFlourishes);
+                        lightControl.FXWave(0.75f, 15.0f, 0.1f, true);
+                    }
 
-            // If no visual events, do a visual flourish
-            if (countVisualEvents == 0 && countAudioEvents != 0)
-            {
-                if(debugAllowLogs)
-                {
-                    Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
+                    if(debugAllowLogs)
+                    {
+                        Debug.Log("[B457 DIRECTOR-FLOURISH] add=" + (flourish == FundamentalDirectorPolicy.FlourishAdd.AddAudio ? "audio" : "visual")
+                            + " (paired; audio=" + countAudioEvents + " visual=" + countVisualEvents + ")");
+                    }
+
+                    // Reset only when a flourish was actually added (queued actions still execute every activation).
+                    timeSinceLastFlourish = 0.0f;
                 }
-                lightControl.NextPreferredColorWorld(transitionTimeForFlourishes);
-                lightControl.FXWave(0.75f, 15.0f, 0.1f, true);
+                else if(debugAllowLogs)
+                {
+                    Debug.Log("[B457 DIRECTOR-FLOURISH] suppressed=" + (flourish == FundamentalDirectorPolicy.FlourishAdd.AddAudio ? "audio" : "visual")
+                        + " (within " + FundamentalDirectorPolicy.FlourishWindowSeconds + "s anti-clutter window, dt=" + timeSinceLastFlourish.ToString("F1") + "s)");
+                }
             }
         }
         timeSinceLastActivation = 0.0f;

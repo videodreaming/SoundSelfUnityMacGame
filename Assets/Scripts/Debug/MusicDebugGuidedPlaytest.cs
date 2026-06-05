@@ -74,6 +74,99 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         _run = StartCoroutine(RunGuidedPlaytest());
     }
 
+    /// <summary>Stage 9a goblin playtest only (F key): fundamental change ↔ visual flourish pairing, anti-clutter, disabled-bypass.</summary>
+    public void ToggleRunGoblin()
+    {
+        if (_run != null)
+        {
+            StopCoroutine(_run);
+            _run = null;
+            if (director != null)
+                director.Enable(); // re-enable in case we aborted mid disabled-bypass step
+            Debug.Log(Prefix + " GOBLIN STOPPED by user (F again).");
+            return;
+        }
+
+        _run = StartCoroutine(RunGoblinPlaytest());
+    }
+
+    IEnumerator RunGoblinPlaytest()
+    {
+        try
+        {
+            LogCaps("STAGE 9A GOBLIN PLAYTEST START — FUNDAMENTAL CHANGE ↔ FLOURISH. CONSOLE FILTER: B457. F AGAIN = ABORT.");
+            yield return RunGoblinCore();
+        }
+        finally
+        {
+            if (director != null)
+                director.Enable();
+            _run = null;
+            LogCaps("GOBLIN PLAYTEST FINISHED — paste Console logs (filter: B457) and your subjective notes (did the key shift pair a light flourish?).");
+        }
+    }
+
+    // === Stage 9a: long-test fundamental change pairs a visual flourish; anti-clutter; disabled-bypass ===
+    IEnumerator RunGoblinCore()
+    {
+        if (sequencer == null || director == null || harness == null)
+        {
+            Debug.LogError(Prefix + " Missing harness / sequencer / director.");
+            yield break;
+        }
+
+        var ms = MusicSystem1.instance;
+        if (ms == null)
+        {
+            Debug.LogError(Prefix + " MusicSystem1.instance null — cannot run goblin playtest.");
+            yield break;
+        }
+
+        var imitone = sequencer.imitoneVoiceInterpreter;
+        var shuffler = sequencer.worldShuffler;
+
+        LogPartBegin(
+            "9A",
+            "FUNDAMENTAL CHANGE ↔ VISUAL FLOURISH (STAGE 9A GOBLIN)",
+            "An InputDriven (sung-pitch) fundamental change now routes through the Director so it is a COUNTED audio event — so it pairs exactly one VISUAL flourish (color-world shift + FX wave). A dedicated 5s window prevents flourish spam. While the Director is disabled the change still applies directly (no flourish).",
+            "By ear+eye: (1) a sung key shift is accompanied by a light flourish; (2) rapid key shifts do NOT flash a flourish every time (≈5s gate); (3) with the Director disabled the key still shifts, with NO flourish. Console (B457): FUND-ANNOUNCE band=immediate path=director → DIRECTOR-FLOURISH add=visual; suppressed lines between rapid changes; path=raw while disabled.");
+
+        // Stop auto-shuffle so soundscape changes don't muddy the fundamental↔flourish read; put us on a voice-tracked world.
+        if (shuffler != null && shuffler.shuffling)
+            shuffler.StopShuffle();
+        ms.SetSoundWorld("SonoFlore");
+        director.Enable();
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("PUT ON HEADPHONES. SONOFLORE SET (VOICE-TRACKED, INPUTDRIVEN ACTIVE), DIRECTOR ENABLED. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        // --- Step 1: long-test change pairs a visual flourish ---
+        LogCaps("STEP 1 — KEY SHIFT PAIRS A FLOURISH: SING A CLEAR, SUSTAINED PITCH A FEW SEMITONES OFF THE CURRENT KEY AND HOLD IT (~5–10s) UNTIL THE MUSICAL KEY SHIFTS.");
+        LogCaps("WATCH THE LIGHTS AT THE MOMENT THE KEY SHIFTS — EXPECT A VISUAL FLOURISH (COLOR-WORLD SHIFT + FX WAVE). CONSOLE: FUND-ANNOUNCE band=immediate path=director, THEN DIRECTOR-FLOURISH add=visual.");
+        LogCaps("WHEN YOU'VE SEEN A KEY SHIFT PAIR WITH A FLOURISH (OR IF IT DID NOT), " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+
+        // --- Step 2: anti-clutter (rapid changes don't spam flourishes) ---
+        LogCaps("STEP 2 — NO FLOURISH SPAM: NOW SING SEVERAL DIFFERENT SUSTAINED PITCHES IN QUICK SUCCESSION (FORCE A FEW KEY CHANGES WITHIN ~5s OF EACH OTHER).");
+        LogCaps("EXPECT: THE KEY KEEPS CHANGING, BUT THE LIGHT FLOURISH DOES NOT FIRE ON EVERY CHANGE (≈5s GATE). CONSOLE: SEVERAL FUND-ANNOUNCE LINES, WITH DIRECTOR-FLOURISH suppressed BETWEEN THE CLOSELY-SPACED ONES.");
+        LogCaps("WHEN DONE, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+
+        // --- Step 3: disabled-bypass (change still applies, no flourish) ---
+        director.Disable();
+        LogCaps("STEP 3 — DISABLED-BYPASS: DIRECTOR IS NOW DISABLED (AS DURING PLAYGROUND-OFF / SAVASANA). SING A SUSTAINED OFF-KEY PITCH AND HOLD IT UNTIL THE KEY SHIFTS.");
+        LogCaps("EXPECT: THE KEY STILL SHIFTS (APPLIED DIRECTLY), WITH NO FLOURISH. CONSOLE: FUND-ANNOUNCE band=immediate path=raw (DIRECTOR DISABLED), NO DIRECTOR-FLOURISH.");
+        LogCaps("WHEN DONE, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+        director.Enable();
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        Debug.Log(Prefix + " Director re-enabled after disabled-bypass step.");
+
+        LogPartComplete("9A", "Report: did the key shift pair a flourish (step 1)? Were rapid changes un-spammy (step 2)? Did the key still shift while disabled with no flourish (step 3)?");
+    }
+
     IEnumerator RunGuidedPlaytest()
     {
         try

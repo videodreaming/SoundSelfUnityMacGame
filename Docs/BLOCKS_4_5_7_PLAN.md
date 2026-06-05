@@ -22,11 +22,11 @@
 | 4b — NoteTracker split | ✅ | `d18b002e` | → `voiceActivity` + `fundamentalChargeByNote` |
 | 4c — partial-class split | ✅ | `0fced712` | `MusicSystem1.InputDrivenFundamental/Harmony.cs` |
 | 4d — active-source authority | ✅ | `e80da993` | `FundamentalSource` + `FundamentalSourcePolicy`; lock setters as shims |
-| 4e — migrate call sites to `SetFundamentalSource` (+ retire legacy lock stack & debug override) | ▶ | _(uncommitted)_ | gate flip + zones 1–6 + `ResolveFundamentalOnUnlock` removed; **Step 0 done in tree — whole lock stack + debug override + dev force-note surfaces deleted, policies lost `hasDebugOverride`**; shadow-tracker preferred-sync **deferred to 9c** (not standalone); pending Test Runner → Opus regression → one commit |
+| 4e — migrate call sites to `SetFundamentalSource` (+ retire legacy lock stack & debug override) | ✅ | `38a66816` | gate flip + zones 1–6 + whole lock stack + debug override + dev force-note surfaces deleted, policies lost `hasDebugOverride`; Test Runner green + Opus regression passed; shadow-tracker preferred-sync **deferred to 9c** |
 | 4f — `HarmonyRunPolicy` | ⬜ | — | harmony in Tutorial/Freeplay + Savasana tail (`MusicLoopSilent && gameOn`) |
 | 4g — MusicBed `Cue_Key_*` listener | ⬜ | — | (folds old Stage 5 Unity side) binaural follows the bed key |
 | 4h — retire `FrozenFreeplay` | ⬜ (optional) | — | collapse to Freeplay + `gameOn=false` + Sequence(C); gated on a gameOn audit |
-| 5 — Lorna external Wwise embedding | ⬜ (external) | — | cue→`NoteName` contract; end-to-end verify |
+| 5 — Lorna external Wwise embedding | ⬜ (external) | — | cue→`NoteName` contract; end-to-end verify **Note that the cues are in WWise**|
 | 6 — pitch / 5ths / harmony audit | ⬜ | — | consonance + `changeHarmony` guards |
 | 7 — interactive fade / silent loops / Stop_Toning | ⬜ | — | fade feel; silent-loop persistence; Wwise-paced stop |
 | 8 — lock C before savasana + 15:00 | ⬜ | — | pin C ~60s pre-savasana; smooth 15:00 crossfade |
@@ -97,6 +97,7 @@ Short hashes for each committed stage/fix (standing rule 9). Newest at the botto
 | `0fced712` | **Stage 4c — cosmetic partial-class split** of `MusicSystem1.cs`: `FundamentalUpdate`/`TryApplyFundamentalChangeTriggers`/shift helpers → `MusicSystem1.InputDrivenFundamental.cs`; `HarmonyUpdate`/`changeHarmony` → `MusicSystem1.InputDrivenHarmony.cs`; same class via `partial`, zero behavior change; EditMode parity green |
 | `d18b002e` | **Stage 4b — split + rename `NoteTracker`** → `voiceActivity` (`VoiceActivity { ActiveSeconds; IsActive; JustActivated }`, activation half) + `fundamentalChargeByNote` (`Dictionary<NoteName,float>`, charge half); pure data-structure split, zero logic change; EditMode parity green |
 | `e80da993` | **Stage 4d — active-source fundamental authority** — `FundamentalSource` enum + per-source preferred + debug override (`MusicSystem1.FundamentalAuthority.cs`); `SetFundamentalDirect` body → private `ApplyMasterFundamental` (public shim kept); legacy lock setters route inner master-write through the source API (DebugLock→override, Content/ModeLock→`Sequence`), production gate still `IsFundamentalLocked()`; `FundamentalSourcePolicy` + `Block7FundamentalPolicyEditModeTests` (9, green). Behavior-preserving (Opus 4d regression pass: shim-equivalent) |
+| `38a66816` | **Stage 4e — migrate call sites to active-source model + retire legacy lock stack** — both InputDriven gates → `CanInputDrivenWriteMaster`; zones 1–6 migrated onto `SetFundamentalSource` (startup=Sequence, SoundWorld→InputDriven, MusicLoop→MusicBed start-note, mode pins, Tutorial correction pin/resume, Savasana); **deleted the entire legacy priority lock stack + debug override** (debug/content/mode lock setters, `GetLockedFundamental`, `IsFundamentalLocked`, `ResolveFundamentalOnUnlock`, `SetDebugFundamentalOverride`) + every dev force-note surface; policies lost `hasDebugOverride`. Test Runner green + Opus regression passed. Shadow-tracker `preferred`-sync **deferred to 9c**. *(includes Step 0 — Robin "delete and forever forget the debug override")* |
 
 ---
 

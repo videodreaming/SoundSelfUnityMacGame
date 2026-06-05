@@ -16,6 +16,8 @@ public enum MusicDebugHarnessAction
     EndThisSequenceStage,
     /// <summary>Start/stop guided Stage 1+2 subjective playtest coroutine (G key).</summary>
     GuidedStage1And2Playtest,
+    /// <summary>Start/stop the guided Stage 9a goblin playtest (fundamental change pairs a flourish / anti-clutter / disabled-bypass) (F key).</summary>
+    GuidedGoblinPlaytest,
 }
 
 public static class MusicDebugHarnessKeyPolicy
@@ -56,6 +58,9 @@ public static class MusicDebugHarnessKeyPolicy
                 return true;
             case KeyCode.G:
                 action = MusicDebugHarnessAction.GuidedStage1And2Playtest;
+                return true;
+            case KeyCode.F:
+                action = MusicDebugHarnessAction.GuidedGoblinPlaytest;
                 return true;
             default:
                 action = default;

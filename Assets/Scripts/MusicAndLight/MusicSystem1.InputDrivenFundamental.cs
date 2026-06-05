@@ -50,38 +50,43 @@ public partial class MusicSystem1
         bool firstFrameActive,
         string logContext)
     {
-        bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
-        bool retriggerTest = (fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
-        // Block 7 / 4e: the InputDriven write gate is the active-source rule, not the legacy lock stack.
-        // The ladder may fire/queue a fundamental change only when InputDriven is the active source.
-        bool test = FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource) && retriggerTest && isHighestFundamentalTimer;
-        bool directorMatchTest = directorStoredFundamental != changeTarget;
+        bool retriggerReady = fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold;
 
-        bool highThresholdPass = newChangeFundamentalTimer >= _initiateImminentFundamentalChangeThreshold;
-        bool highThresholdPass_variation = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold - 5.0f);
-        bool lowThresholdPass = newChangeFundamentalTimer >= _queueFundamentalChangeThreshold;
+        // Block 7 / 9a: the threshold/precedence math is the pure FundamentalTriggerPolicy.WhichTest (parity anchor).
+        // The two gates the policy deliberately omits are applied here: the active-source write gate (the ladder may
+        // fire/queue only when InputDriven owns the master) and the short-test dedupe (don't re-queue a note already queued).
+        var which = FundamentalTriggerPolicy.WhichTest(
+            newChangeFundamentalTimer,
+            highestFundamentalTimer,
+            retriggerReady,
+            firstFrameActive,
+            _initiateImminentFundamentalChangeThreshold,
+            5.0f,
+            _queueFundamentalChangeThreshold);
 
-        bool longTest = test && highThresholdPass;
-        bool longishTest = test && highThresholdPass_variation && firstFrameActive;
-        bool shortTest = test && lowThresholdPass && directorMatchTest && firstFrameActive;
+        bool canWrite = FundamentalSourcePolicy.CanInputDrivenWriteMaster(activeFundamentalSource);
+        if (!canWrite || which == FundamentalTriggerPolicy.TriggerTest.None)
+        {
+            return;
+        }
 
-        if (longTest || longishTest)
+        if (FundamentalTriggerPolicy.IsImmediate(which))
         {
             if (debugAllowFundamentalLogicLogs)
             {
-                if (longTest)
-                    Debug.Log("MUSIC: Long Test" + logContext + " Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(changeTarget));
-                else
-                    Debug.Log("MUSIC: Longish Test" + logContext + " Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(changeTarget));
+                Debug.Log("MUSIC: " + which + " Test" + logContext + " Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(changeTarget));
             }
 
-            ChangeFundamental(changeTarget);
-            director.ActivateQueue(5.0f);
+            AnnounceFundamental(changeTarget, immediate: true);
         }
-        else if (shortTest)
+        else // Short — deferred, with the queue dedupe
         {
-            director.ClearQueueOfType("fundamentalChange");
-            director.AddActionToQueue(Action_ChangeFundamental(changeTarget), "fundamentalChange", true, false, 9999f, DirectorActivationBehavior.ExpireWithoutExecuting, DirectorExclusivityBehavior.ReplaceAllOfType);
+            if (directorStoredFundamental == changeTarget)
+            {
+                return;
+            }
+
+            AnnounceFundamental(changeTarget, immediate: false);
             directorStoredFundamental = changeTarget;
 
             if (debugAllowFundamentalLogicLogs)
