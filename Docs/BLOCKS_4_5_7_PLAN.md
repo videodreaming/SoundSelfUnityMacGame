@@ -35,6 +35,7 @@ Short hashes for each committed stage/fix (standing rule 9). Newest at the botto
 | `dd1b7c0a` | Stage 2b + Stage 3 first fix — single-authority binaural + Block 4 first switch fix (marked UNTESTED) |
 | `daca6470` | Investigation start — `SOUNDWORLD_SWITCH_NOT_AUDIBLE.md` + guided playtest / binaural WIP checkpoint |
 | `816218e3` | **SOUNDWORLD_SWITCH_NOT_AUDIBLE resolved** — `SetSoundWorld` now posts `SoundWorldMode_Switch` (was gated out by the `!ToningV3WasAlreadyRestored` guard); via `InteractiveMusicSwitchPolicy.SetSoundWorldPosts` + EditMode test; plan standing rules 8/9 + commit log added |
+| `3dc74f22` | **Stage 3b — Block 8 mic envelope** — per-soundscape MicMixer dB (worlds 0 / loops +3); stacked monitoring ADSR; `SoundscapeMonitoringPolicy` + `MonitoringAdsrPolicy` + EditMode tests; guided playtest; inspector cleanup |
 
 ---
 
@@ -380,7 +381,7 @@ Guided `G` order (after Parts A/B): **3b.1 ADSR first, then 3b.0 MicMixer A/B** 
 
 **Must not break:** Calibration `SetChantBasedAttenuationOverride` (chant duck on **monitoringSource** path, separate from MicMixer); `CalibrationMicrophone` MicMixer contribution; `Cue_Microphone_ON` / `OFF` gating; Block 3 noise-floor work ([`PLAYTEST_NOTES` Block 3](PLAYTEST_NOTES_ORGANIZED.md#block-3--calibration--lights-medium)).
 
-**Commit:** `Block 8: per-soundscape MicMixer monitoring + stacked ADSR envelope; bake playtest tuning; policy tests.` *(hash in commit log below after push)*
+**Commit:** `3dc74f22` — per-soundscape MicMixer monitoring + stacked ADSR envelope; bake playtest tuning; policy tests.
 
 ---
 
