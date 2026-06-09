@@ -58,6 +58,13 @@ public class Director : MonoBehaviour
     private int audioTweakCounter = 0;
     public bool disable = false;
     private bool disableLast = false;
+
+    // Block 7 / 9c Chunk 4 — true only while ActivateQueue is running. A queued action can synchronously call back into
+    // code that switches the fundamental source (a SoundscapeShuffle action → SetSoundscape → SetFundamentalSource); that
+    // code checks this so it commits the master RAW instead of nesting another ActivateQueue (which would re-execute the
+    // same queued actions — the live queue isn't cleared until the outer call returns). The in-flight activation already
+    // counts the shuffle as the audio beat, so the fundamental rides along without a second beat/flourish.
+    public bool IsActivatingQueue { get; private set; }
     
     // Transition sound cooldown
     private bool canPlayTransitionSound = true;
@@ -384,6 +391,13 @@ public class Director : MonoBehaviour
             return;
         }
 
+        // 9c Chunk 4: mark the activation in progress (try/finally so it clears on every exit path). Code reached
+        // synchronously from a queued action (e.g. SetFundamentalSource via a SoundscapeShuffle) reads IsActivatingQueue
+        // and commits raw rather than nesting another ActivateQueue.
+        IsActivatingQueue = true;
+        try
+        {
+
         // Block 7 / 9c: consult the music system's pending-fundamental slot FIRST (matches the existing
         // fundamentalChange-to-front prioritization). A real master move counts as one audio event so it pairs a
         // visual flourish; a drifted-back/empty slot does nothing (structural realized-effect → no phantom flourish).
@@ -492,6 +506,12 @@ public class Director : MonoBehaviour
         // Clear the dictionary at the end
         queue.Clear();
         // LogQueue();
+
+        }
+        finally
+        {
+            IsActivatingQueue = false;
+        }
     }
 
     public void LogQueue()

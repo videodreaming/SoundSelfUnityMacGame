@@ -373,7 +373,7 @@ public class MusicDebugHarness : MonoBehaviour
 
     void LogKeyLegend()
     {
-        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | G=guided playtest | F=goblin playtest (Stage 9a fundamental↔flourish; Space/Return between steps) | [=world ]=loop | ;=key cue | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
+        Debug.Log(LogPrefix + " Keys: P=state | E=end stage | G=guided playtest | F=goblin playtest (9C-C4 Step B re-entrancy only; Space/Return between steps) | [=world ]=loop | ;=key cue | B/V=binaural | R=director repro | 1=15:00 cd | 2=60s cd (Shift+E also ends stage via InputReferences)");
     }
 }
 #endif

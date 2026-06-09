@@ -81,6 +81,13 @@ public partial class MusicSystem1 : MonoBehaviour
     // per-source memory stays in preferredFundamentalBySource; this slot is the transient hand-off to the Director.
     // (Chunk 2: the trigger paths now SET it via AnnounceInputDrivenFundamental; it fully subsumes the retired directorStoredFundamental dedupe.)
     private NoteName? targetNextFundamental = null;
+    // Block 7 / 9c Chunk 4 — companion to targetNextFundamental: whether the Director's commit of the slot should reset
+    // InputDriven's per-note charge. A sung change resets (parity — the just-committed note's charge clears so the next
+    // builds fresh); a SOURCE-SWITCH commit does NOT (the switch already did any needed clean-slate reset itself, and the
+    // warm-handoff / behind-the-curtain shadow cases must PRESERVE charge so a sung pitch resumes live). Invariant: this is
+    // reset to true (the default) wherever the slot is cleared, so it only ever carries "false" for the one switch commit
+    // that set it.
+    private bool nextFundamentalResetsCharge = true;
     private NoteName nextNote = NoteName.None; // Next note to activate
     private float highestActivationTimer = 0.0f;
     public bool localToneOn {get; private set;} = false;
@@ -1076,6 +1083,7 @@ public partial class MusicSystem1 : MonoBehaviour
         // cleared the slot in the consult, so it must NOT self-clear — 9c).
         director.ClearQueueOfType("fundamentalChange");
         targetNextFundamental = null;
+        nextFundamentalResetsCharge = true; // slot cleared → restore the companion default (9c Chunk 4 invariant)
         ApplyMasterFundamentalRaw(newFundamental, resetCharge);
     }
 
@@ -1149,7 +1157,11 @@ public partial class MusicSystem1 : MonoBehaviour
         }
 
         NoteName target = targetNextFundamental.Value;
+        // 9c Chunk 4: read the companion charge-reset intent, then restore both slot + companion to their cleared
+        // defaults BEFORE applying (the slot is consumed here; a source-switch set it to false, a sung change to true).
+        bool resetCharge = nextFundamentalResetsCharge;
         targetNextFundamental = null;
+        nextFundamentalResetsCharge = true;
 
         if (target == fundamentalNoteName)
         {
@@ -1164,7 +1176,7 @@ public partial class MusicSystem1 : MonoBehaviour
         {
             Debug.Log("[B457 FUND-SLOT] cleared → applying " + NoteUtils.NoteToWwiseString(target) + " (master move, counts as one audio event)");
         }
-        ApplyMasterFundamentalRaw(target);
+        ApplyMasterFundamentalRaw(target, resetCharge);
         return true;
     }
 
@@ -1196,6 +1208,7 @@ public partial class MusicSystem1 : MonoBehaviour
     private void AnnounceInputDrivenFundamental(NoteName target, bool immediate)
     {
         targetNextFundamental = target;
+        nextFundamentalResetsCharge = true; // a sung change resets charge on commit (parity); see SetFundamentalSource for the switch case
 
         if (!immediate)
         {

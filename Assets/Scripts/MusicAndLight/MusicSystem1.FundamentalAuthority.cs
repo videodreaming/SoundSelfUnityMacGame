@@ -36,12 +36,21 @@ public partial class MusicSystem1
     };
 
     /// <summary>
-    /// Switch the active source. <paramref name="firstFundamental"/> == None adopts that source's existing
-    /// preferred; a real note sets it. Writes the master if the source has a real preferred.
-    /// <para>9c Chunk 3 — charge handling is the <see cref="FundamentalSourcePolicy.ShouldCleanSlate"/> rule:
-    /// InputDriven + real seed = clean slate (wipe per-note charge); InputDriven + adopt (None) = the warm-handoff
-    /// "honor, don't wipe" path that preserves any behind-the-curtain charge build so a sung pitch resumes live
-    /// (the shadow-tracker fix). A non-InputDriven switch never owns the charge dict, so it never resets it.</para>
+    /// Switch the active source (Block 7 / 9c Chunk 4 — flush + adopt + commit). <paramref name="firstFundamental"/> ==
+    /// None adopts that source's existing preferred; a real note sets it.
+    /// <list type="number">
+    /// <item><b>Flush</b> — clear any in-flight Director <c>fundamentalChange</c> item + the next-commit slot, so a stale
+    /// cross-source pending change can't fire/stomp after the switch (the correctness guard, esp. switching away from InputDriven).</item>
+    /// <item><b>Adopt</b> — become the active source; adopt intent = the explicit seed or this source's preferred. Only an
+    /// InputDriven + real seed is a clean slate (<see cref="FundamentalSourcePolicy.ShouldCleanSlate"/>) — wipe per-note
+    /// charge now. InputDriven + adopt (None) is the warm-handoff "honor, don't wipe" path that preserves any
+    /// behind-the-curtain charge build so a sung pitch resumes live (the shadow-tracker fix).</item>
+    /// <item><b>Commit</b> — move the master to the intent via <see cref="FundamentalSourcePolicy.SwitchCommitDisposition"/>:
+    /// a switch that moves the master with the Director enabled is a Director beat (pairs one visual flourish); when the
+    /// Director is disabled (Savasana/Opening) it applies raw; a benign same-note switch re-posts raw (no flourish). The
+    /// commit always applies with <c>resetCharge:false</c> — the clean-slate reset was already done in Adopt, and the
+    /// warm-handoff / non-InputDriven cases must preserve charge.</item>
+    /// </list>
     /// </summary>
     public void SetFundamentalSource(FundamentalSource source, NoteName firstFundamental = NoteName.None)
     {
@@ -55,8 +64,18 @@ public partial class MusicSystem1
             }
         }
 
-        activeFundamentalSource = source;
+        // (1) FLUSH — drop any in-flight fundamentalChange item + the slot so a stale cross-source change can't fire after
+        // the switch. Usually a no-op for InputDriven (its enqueue gate == write gate, so it adds nothing to the Director
+        // behind the curtain), but it is the guard for anything in flight at the instant of the switch.
+        if (director != null)
+        {
+            director.ClearQueueOfType("fundamentalChange");
+        }
+        targetNextFundamental = null;
+        nextFundamentalResetsCharge = true;
 
+        // (2) ADOPT — become the active source + adopt the intent (explicit seed or this source's preferred).
+        activeFundamentalSource = source;
         if (firstFundamental != NoteName.None)
         {
             preferredFundamentalBySource[source] = firstFundamental;
@@ -67,23 +86,53 @@ public partial class MusicSystem1
             Debug.Log($"MUSIC FUNDAMENTAL-SOURCE: Active source → {source}, preferred={preferredFundamentalBySource[source]}");
         }
 
-        NoteName preferred = preferredFundamentalBySource[source];
-        if (preferred != NoteName.None)
+        bool cleanSlate = FundamentalSourcePolicy.ShouldCleanSlate(source, firstFundamental);
+        if (cleanSlate)
         {
-            // ShouldCleanSlate drives the charge reset: true wipes (explicit InputDriven seed), false preserves
-            // (the InputDriven adopt warm-handoff + every non-InputDriven takeover). The explicit ResetInputDrivenFundamentalTimers
-            // that used to live in the seed block above is now subsumed by resetCharge:true through the apply.
-            bool cleanSlate = FundamentalSourcePolicy.ShouldCleanSlate(source, firstFundamental);
+            // Explicit InputDriven (re)seed: wipe per-note charge now. The commit below then applies with resetCharge:false
+            // (so it isn't redone, and so warm-handoff / non-InputDriven switches preserve charge).
+            ResetInputDrivenFundamentalTimers();
+        }
 
-            if (!cleanSlate && source == FundamentalSource.InputDriven && firstFundamental == NoteName.None
-                && (debugAllowFundamentalChangeLogs || debugAllowFundamentalLockLogs))
-            {
-                Debug.Log("[B457 FUND-HANDOFF] InputDriven re-entry adopt preferred=" + NoteUtils.NoteToWwiseString(preferred)
-                    + " (master " + NoteUtils.NoteToWwiseString(fundamentalNoteName) + "→" + NoteUtils.NoteToWwiseString(preferred)
-                    + ", charge preserved)");
-            }
+        NoteName intent = preferredFundamentalBySource[source];
 
-            ApplyMasterFundamental(preferred, resetCharge: cleanSlate);
+        // (3) COMMIT — fundamentalNoteName is still the OLD master here, so `intent != fundamentalNoteName` == "master moves".
+        // Route raw (not through the Director) when the Director is null/disabled OR already mid-activation: a switch reached
+        // from inside ActivateQueue (e.g. a SoundscapeShuffle action) must not nest another ActivateQueue — the in-flight
+        // activation already counts the shuffle as the beat, so the fundamental rides along raw without a second flourish.
+        bool routeRaw = director == null || director.disable || director.IsActivatingQueue;
+        var commit = FundamentalSourcePolicy.SwitchCommitDisposition(intent, fundamentalNoteName, routeRaw);
+
+        // Warm-handoff visibility: an InputDriven adopt (None) that actually moves the master preserves charge so a sung
+        // pitch resumes live (the shadow-tracker re-entry). Logged whether it commits via the Director or the raw bypass.
+        if (source == FundamentalSource.InputDriven && firstFundamental == NoteName.None && intent != NoteName.None
+            && intent != fundamentalNoteName
+            && (debugAllowFundamentalChangeLogs || debugAllowFundamentalLockLogs))
+        {
+            Debug.Log("[B457 FUND-HANDOFF] InputDriven re-entry adopt preferred=" + NoteUtils.NoteToWwiseString(intent)
+                + " (master " + NoteUtils.NoteToWwiseString(fundamentalNoteName) + "→" + NoteUtils.NoteToWwiseString(intent)
+                + ", charge preserved, via " + (commit == FundamentalSwitchCommit.Director ? "Director" : "raw") + ")");
+        }
+
+        switch (commit)
+        {
+            case FundamentalSwitchCommit.Director:
+                // Arm the slot for the Director + activate now: the consult applies it, counts one audio event, and pairs
+                // a visual flourish. resetCharge:false — Adopt already handled any clean-slate reset; warm-handoff preserves.
+                targetNextFundamental = intent;
+                nextFundamentalResetsCharge = false;
+                director.ActivateQueue(5.0f);
+                break;
+
+            case FundamentalSwitchCommit.Raw:
+                // Director disabled (Savasana/Opening) OR a benign same-note re-post. No Director beat / flourish.
+                ApplyMasterFundamentalRaw(intent, resetCharge: false);
+                break;
+
+            case FundamentalSwitchCommit.None:
+            default:
+                // Intent is None (the source has no preferred yet) — nothing to apply.
+                break;
         }
     }
 

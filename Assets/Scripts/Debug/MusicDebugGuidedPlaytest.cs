@@ -86,8 +86,8 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         _run = StartCoroutine(RunGuidedPlaytest());
     }
 
-    /// <summary>Stage 9 goblin playtest (F key): 9a fundamental change ↔ visual flourish (pairing, anti-clutter, disabled-bypass)
-    /// then 9c shadow-tracker (behind-the-curtain silent commit + warm-handoff re-entry).</summary>
+    /// <summary>Stage 9 goblin playtest (F key). TEMPORARY: runs only 9C-C4 Step B (re-entrancy guard) — restore full
+    /// <see cref="RunGoblinCore"/> before the Stage 9 final commit.</summary>
     public void ToggleRunGoblin()
     {
         if (_run != null)
@@ -107,16 +107,47 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
     {
         try
         {
-            LogCaps("STAGE 9 GOBLIN PLAYTEST START — 9A FUNDAMENTAL CHANGE ↔ FLOURISH, THEN 9C SHADOW-TRACKER. CONSOLE FILTER: B457. F AGAIN = ABORT.");
-            yield return RunGoblinCore();
+            LogCaps("STAGE 9 GOBLIN PLAYTEST START — 9C-C4 STEP B ONLY (RE-ENTRANCY GUARD). CONSOLE FILTER: B457. F AGAIN = ABORT.");
+            yield return RunGoblinReentrancyOnly();
         }
         finally
         {
             if (director != null)
                 director.Enable();
             _run = null;
-            LogCaps("GOBLIN PLAYTEST FINISHED — paste Console logs (filter: B457) and your subjective notes (did the key shift pair a light flourish?).");
+            LogCaps("GOBLIN PLAYTEST FINISHED — paste Console logs (filter: B457) and your subjective notes.");
         }
+    }
+
+    // === TEMPORARY — 9C-C4 Step B only (re-entrancy guard). Restore RunGoblinCore in RunGoblinPlaytest at Stage 9 final commit. ===
+    IEnumerator RunGoblinReentrancyOnly()
+    {
+        if (sequencer == null || director == null || harness == null)
+        {
+            Debug.LogError(Prefix + " Missing harness / sequencer / director.");
+            yield break;
+        }
+
+        var ms = MusicSystem1.instance;
+        if (ms == null)
+        {
+            Debug.LogError(Prefix + " MusicSystem1.instance null — cannot run goblin playtest.");
+            yield break;
+        }
+
+        var imitone = sequencer.imitoneVoiceInterpreter;
+        var shuffler = sequencer.worldShuffler;
+        if (shuffler != null && shuffler.shuffling)
+            shuffler.StopShuffle();
+
+        // Minimal setup: voice-tracked world + InputDriven active so Step B's MusicLoop change flips source to MusicBed.
+        ms.SetSoundWorld("SonoFlore");
+        director.Enable();
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("SETUP: SonoFlore (InputDriven active), Director enabled. ONLY 9C-C4 STEP B WILL RUN. " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        yield return RunGoblinReentrancyStepB(ms, imitone);
     }
 
     // === Stage 9a: long-test fundamental change pairs a visual flourish; anti-clutter; disabled-bypass ===
@@ -225,7 +256,7 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         LogCaps("▶ HANDING MASTER TO MUSICBED NOW (current audible key = " + ms.fundamentalNoteName + ").");
         ms.SetFundamentalSource(FundamentalSource.MusicBed);
         harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-        LogCaps("DID IT HAPPEN? EXPECT: ACTIVE SOURCE NOW MUSICBED; AUDIBLE KEY = " + ms.fundamentalNoteName + " (THE BED KEY). CONSOLE: FUND-COMMIT … src=MusicBed.");
+        LogCaps("DID IT HAPPEN? EXPECT: ACTIVE SOURCE NOW MUSICBED; AUDIBLE KEY = " + ms.fundamentalNoteName + " (THE BED KEY). CONSOLE: FUND-SLOT cleared → applying → FUND-COMMIT … src=MusicBed, AND — SINCE THE KEY MOVED WITH THE DIRECTOR ENABLED — ONE DIRECTOR-FLOURISH add=visual (9c Chunk 4: a source switch that moves the key is now a Director beat). If the bed key already equalled the audible key, there is NO move and NO flourish.");
         LogCaps("WHEN READY, " + AdvanceHintKeyboard);
         yield return WaitForAdvance(imitone);
 
@@ -252,11 +283,87 @@ public class MusicDebugGuidedPlaytest : MonoBehaviour
         LogCaps("▶ HANDING MASTER BACK TO INPUTDRIVEN (ADOPT) NOW — WATCH/LISTEN FOR THE KEY TO LAND ON THE STEP-5 SHADOW NOTE.");
         ms.SetFundamentalSource(FundamentalSource.InputDriven);
         harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
-        LogCaps("DID IT HAPPEN? EXPECT: AUDIBLE KEY NOW = " + ms.fundamentalNoteName + " (THE STEP-5 SHADOW NOTE, +" + SimSemitoneStep + " FROM WHERE IT WAS). CONSOLE: FUND-HANDOFF restored preferred=… → FUND-COMMIT … src=InputDriven, WITH *NO* 'ChangeFundamentalTimer reset' LINES FROM THE HANDOFF (CHARGE PRESERVED).");
+        LogCaps("DID IT HAPPEN? EXPECT: AUDIBLE KEY NOW = " + ms.fundamentalNoteName + " (THE STEP-5 SHADOW NOTE, +" + SimSemitoneStep + " FROM WHERE IT WAS). CONSOLE: FUND-HANDOFF restored preferred=… (via Director) → FUND-SLOT cleared → applying → FUND-COMMIT … src=InputDriven + ONE DIRECTOR-FLOURISH add=visual (9c Chunk 4: the warm-handoff key move is a Director beat), WITH *NO* 'ChangeFundamentalTimer reset' LINES FROM THE HANDOFF (CHARGE PRESERVED).");
         LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW/HEARD, " + AdvanceHintKeyboard);
         yield return WaitForAdvance(imitone);
 
-        LogPartComplete("9C", "Report: (4) did MusicBed take the audible key? (5) did the behind-curtain note advance 'preferred' with the AUDIBLE KEY UNCHANGED and NO flourish (FUND-SHADOW, no FUND-COMMIT)? (6) did the handoff land the key on the step-5 shadow note (FUND-HANDOFF → FUND-COMMIT) with NO charge-reset lines? Paste the full B457 console.");
+        LogPartComplete("9C", "Report: (4) did MusicBed take the audible key (with one flourish on the move)? (5) did the behind-curtain note advance 'preferred' with the AUDIBLE KEY UNCHANGED and NO flourish (FUND-SHADOW, no FUND-COMMIT)? (6) did the handoff land the key on the step-5 shadow note (FUND-HANDOFF → FUND-COMMIT + one flourish) with NO charge-reset lines? Paste the full B457 console.");
+
+        yield return RunGoblinSwitchSection(ms, imitone, sequencer != null ? sequencer.worldShuffler : null);
+    }
+
+    // === Stage 9c Chunk 4: source switch = flush + adopt + commit (a switch that moves the key is a Director beat) +
+    // the re-entrancy guard (a switch reached from inside an activation commits raw, never nests ActivateQueue). ===
+    IEnumerator RunGoblinSwitchSection(MusicSystem1 ms, ImitoneVoiceIntepreter imitone, WorldShuffler shuffler)
+    {
+        LogPartBegin(
+            "9C-C4",
+            "SOURCE-SWITCH BEATS + RE-ENTRANCY GUARD (STAGE 9C CHUNK 4)",
+            "A source switch that MOVES the audible key is now a Director beat — it pairs exactly one visual flourish (Director enabled). A BENIGN switch (intent already equals the key) re-posts with NO flourish. And a switch reached from INSIDE a Director activation (a soundscape change that flips the fundamental source to MusicBed) must commit the key RAW — never nesting another activation — so the action fires once, ≤1 flourish, and no freeze.",
+            "Console (B457): STEP A benign switch → FUND-COMMIT X→X with NO DIRECTOR-FLOURISH. STEP B soundscape-change-driven switch commits RAW (FUND-COMMIT src=MusicBed with NO preceding 'FUND-SLOT cleared → applying' line), fires ONCE, ≤1 DIRECTOR-FLOURISH, no recursion / no freeze.");
+
+        director.Enable();
+
+        // ============================ 9C-C4 STEP A — benign switch must NOT flourish ============================
+        var masterA = ms.fundamentalNoteName;
+        LogCaps("──────── 9C-C4 STEP A OF B — BENIGN SWITCH (SAME KEY) MUST NOT FLOURISH ────────");
+        LogCaps("WHAT'S ABOUT TO HAPPEN: I RE-ASSERT INPUTDRIVEN AS THE ACTIVE SOURCE WHILE THE KEY IS ALREADY " + masterA + ". THE KEY MUST NOT MOVE AND THERE MUST BE NO FLOURISH.");
+        LogCaps("GET READY TO WATCH THE LIGHTS (EXPECT NONE). " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogCaps("▶ RE-ASSERTING INPUTDRIVEN (BENIGN) NOW.");
+        ms.SetFundamentalSource(FundamentalSource.InputDriven);
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("DID IT HAPPEN? EXPECT: KEY STILL " + masterA + ", NO FLOURISH. CONSOLE: FUND-COMMIT " + masterA + "→" + masterA + " (benign re-post), AND *NO* DIRECTOR-FLOURISH.");
+        LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        yield return RunGoblinReentrancyStepB(ms, imitone);
+
+        LogPartComplete("9C-C4", "Report: (A) benign switch — key unchanged, no flourish? (B) soundscape-change-driven source switch — the SetSoundscape line once, a RAW MusicBed commit (no 'FUND-SLOT cleared → applying' line before it), ≤1 flourish, NO freeze/recursion? Paste the full B457 console.");
+    }
+
+    /// <summary>9C-C4 Step B — soundscape change flips source to MusicBed mid-activation; commit must go raw (IsActivatingQueue guard).</summary>
+    IEnumerator RunGoblinReentrancyStepB(MusicSystem1 ms, ImitoneVoiceIntepreter imitone)
+    {
+        LogPartBegin(
+            "9C-C4-B",
+            "RE-ENTRANCY GUARD (9C-C4 STEP B ONLY)",
+            "A soundscape change to a MusicLoop is queued as a Director action and activated synchronously. That flips the fundamental source to MusicBed *during* the activation — the key must commit RAW (never nest another ActivateQueue). No freeze; the action fires once; ≤1 flourish.",
+            "Console (B457): '[9C-C4] SetSoundscape' once → FUND-COMMIT … src=MusicBed with NO preceding 'FUND-SLOT cleared → applying' line (raw = guard worked); ≤1 DIRECTOR-FLOURISH; no recursion.");
+
+        if (director == null)
+        {
+            LogCaps("(NO DIRECTOR — SKIPPING RE-ENTRANCY STEP.)");
+            yield break;
+        }
+
+        // Deterministic: queue SetSoundscape to a known MusicLoop so the source DEFINITELY flips to MusicBed inside the activation.
+        var masterBeforeReentry = ms.fundamentalNoteName;
+        LogCaps("──────── 9C-C4 STEP B — SOUNDSCAPE CHANGE FLIPS SOURCE MID-ACTIVATION (RAW COMMIT, NO RECURSION) ────────");
+        LogCaps("WHAT'S ABOUT TO HAPPEN: I QUEUE A SOUNDSCAPE CHANGE TO THE MUSIC LOOP '" + MusicLoopForHygiene + "' AS A DIRECTOR ACTION, THEN ACTIVATE THE QUEUE SYNCHRONOUSLY. THAT SWITCHES THE FUNDAMENTAL SOURCE TO MUSICBED *DURING* THE ACTIVATION — THE KEY MUST COMMIT **RAW** (NOT NEST ANOTHER ACTIVATION). NO FREEZE; THE ACTION FIRES ONCE; ≤1 FLOURISH.");
+        LogCaps("GET READY TO WATCH (ONE SOUNDSCAPE CHANGE, ≤1 FLOURISH, NO FREEZE). " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        director.ClearQueueOfType("SoundscapeShuffle");
+        director.ClearQueueOfType("ColorWorldShuffle");
+        director.AddActionToQueue(
+            () =>
+            {
+                Debug.Log(Prefix + " [9C-C4] SetSoundscape(" + MusicLoopForHygiene + ") from director queue — real production re-entrancy (soundscape change → MusicBed switch mid-activation).");
+                ms.SetSoundscape(MusicLoopForHygiene);
+            },
+            "SoundscapeShuffle", true, false,
+            DirectorActivationBehavior.ActivateEntireQueueOnNextTone);
+
+        LogCaps("▶ ACTIVATING QUEUE NOW (SYNCHRONOUS). IF YOU SEE THE DUMP + NEXT PROMPT, THERE WAS NO HANG.");
+        director.ActivateQueue();
+        harness.ExecuteAction(MusicDebugHarnessAction.DumpState);
+        LogCaps("DID IT HAPPEN? EXPECT: THE '[9C-C4] SetSoundscape' LINE APPEARS *ONCE* (NO RECURSION). THE MUSICBED COMMIT IS **RAW** — a FUND-COMMIT … src=MusicBed (master from " + masterBeforeReentry + " to the bed key) WITH *NO* 'FUND-SLOT cleared → applying' LINE BEFORE IT (raw, NOT via the Director consult = the guard worked). AT MOST ONE DIRECTOR-FLOURISH; NO FREEZE. (If the bed key already equals " + masterBeforeReentry + ", the commit is a benign FUND-COMMIT X→X — still raw, still no consult line.)");
+        LogCaps("WHEN YOU'VE NOTED WHAT YOU SAW, " + AdvanceHintKeyboard);
+        yield return WaitForAdvance(imitone);
+
+        LogPartComplete("9C-C4-B", "Report: SetSoundscape line once, RAW MusicBed commit (no 'FUND-SLOT cleared → applying' before it), ≤1 flourish, NO freeze/recursion? Paste the full B457 console.");
     }
 
     IEnumerator RunGuidedPlaytest()

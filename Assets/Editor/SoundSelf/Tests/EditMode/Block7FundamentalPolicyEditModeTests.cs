@@ -113,4 +113,47 @@ public class Block7FundamentalPolicyEditModeTests
     {
         Assert.That(FundamentalSourcePolicy.ShouldCleanSlate(source, NoteName.None), Is.False);
     }
+
+    // ---- SwitchCommitDisposition (Block 7 / 9c Chunk 4: how a source switch commits its adopted intent) ----
+
+    [Test]
+    public void SwitchCommit_NoIntent_None()
+    {
+        // The source has no preferred yet (e.g. a MusicBed/InputDriven adopt before any note was set) — nothing to apply.
+        Assert.That(FundamentalSourcePolicy.SwitchCommitDisposition(NoteName.None, NoteName.C, directorDisabled: false),
+            Is.EqualTo(FundamentalSwitchCommit.None));
+    }
+
+    [Test]
+    public void SwitchCommit_NoIntent_TakesPrecedenceOverDisabled()
+    {
+        // None intent short-circuits regardless of Director state (no apply path is even considered).
+        Assert.That(FundamentalSourcePolicy.SwitchCommitDisposition(NoteName.None, NoteName.C, directorDisabled: true),
+            Is.EqualTo(FundamentalSwitchCommit.None));
+    }
+
+    [Test]
+    public void SwitchCommit_BenignSameNote_Raw_EvenWhenDirectorEnabled()
+    {
+        // Benign switch: the adopted note already equals the master, so the master does NOT move → raw re-post (Wwise +
+        // binaural parity with the legacy direct apply / startup init), but no Director beat and no phantom flourish.
+        Assert.That(FundamentalSourcePolicy.SwitchCommitDisposition(NoteName.C, NoteName.C, directorDisabled: false),
+            Is.EqualTo(FundamentalSwitchCommit.Raw));
+    }
+
+    [Test]
+    public void SwitchCommit_MasterMoves_DirectorDisabled_Raw()
+    {
+        // Master moves but the Director is off (Opening/Savasana/Playground-off) → raw apply, no flourish (Savasana C-pin).
+        Assert.That(FundamentalSourcePolicy.SwitchCommitDisposition(NoteName.E, NoteName.C, directorDisabled: true),
+            Is.EqualTo(FundamentalSwitchCommit.Raw));
+    }
+
+    [Test]
+    public void SwitchCommit_MasterMoves_DirectorEnabled_Director()
+    {
+        // Master moves with the Director enabled → route through the slot + activation so the switch pairs one flourish.
+        Assert.That(FundamentalSourcePolicy.SwitchCommitDisposition(NoteName.E, NoteName.C, directorDisabled: false),
+            Is.EqualTo(FundamentalSwitchCommit.Director));
+    }
 }
