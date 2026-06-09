@@ -141,7 +141,7 @@ flowchart TD
 
 **9c — the `targetNextFundamental` slot (the full spine; rides with/before 4g):**
 
-> **Progress:** **Chunks 1+2** `0dbde359` · **Chunk 3** `d3fbde97` · **Chunk 4** source-switch **DONE — playtest PASSED 2026-06-09** (this commit). **9c goblin spine complete.**
+> **Progress:** **Chunks 1+2** `0dbde359` · **Chunk 3** `d3fbde97` · **Chunk 4** source-switch **DONE — playtest PASSED 2026-06-09** (`ee86bd7d`). **9c goblin spine complete.**
 
 - [x] Add `private NoteName? targetNextFundamental` to `MusicSystem1` ("master's next commit target"; durable per-source memory stays in `preferredFundamentalBySource`). *(Chunk 1)*
 - [x] **Director consults the slot** at the top of `ActivateQueue`: if `slot.HasValue && slot != master` ⇒ apply raw + side-effects, `countAudioEvents++`, then `slot=null` (apply *first*, matching fundamentalChange-to-front). *(Chunk 1 — `DirectorConsultPendingFundamental`)*
@@ -163,7 +163,7 @@ flowchart TD
   - [x] Behind-the-curtain A/B/C case matrix — unit rows (Chunk 2) + production split-gate/silent commit (Chunk 3) + **log** assertions verified goblin 9c steps 4–6 (playtest PASSED 2026-06-09).
 - [x] **Verification logs (B457)** — `FUND-COMMIT` + `FUND-SLOT` (C1+C2); `FUND-SHADOW` + `FUND-HANDOFF` (C3); switch-beat + raw mid-activation commit (C4). `FUND-CURTAIN` **dropped**.
 - [x] **Playtest (headphones + lights) PASSED 2026-06-09:** 9a steps 1–3 ✅; 9c steps 4–6 (shadow + warm handoff + switch flourishes) ✅; 9C-C4 A benign `Fs→Fs` no flourish ✅; 9C-C4 B `SetSoundscape(ShiftingEarth)` mid-activation — one `[9C-C4] SetSoundscape`, `FUND-COMMIT A#→C src=MusicBed` raw (no `FUND-SLOT cleared → applying`), ≤1 flourish, no freeze ✅. Savasana C-pin rides disabled-bypass (not re-run in goblin).
-- [x] Commit(s) per [Appendix G §"Commit(s)"](BLOCKS_4_5_7_PLAN.md) — Chunk 4 in this commit; goblin spine complete.
+- [x] Commit(s) per [Appendix G §"Commit(s)"](BLOCKS_4_5_7_PLAN.md) — Chunk 4 `ee86bd7d`; goblin spine complete.
 
 > **9c Chunks 1+2 playtest PASSED 2026-06-05** (`Playground_Debug`, **F**, filter **B457**; `DebugSimulateSungFundamentalChange`, no singing). B457 log + by ear/eye: (1) one immediate change = `FUND-SLOT set`→`FUND-SLOT cleared → applying`→`FUND-COMMIT`→`DIRECTOR-FLOURISH add=visual` (the two-line slot pattern confirms the slot is the real commit path); (2) burst = 5× `FUND-COMMIT`, 1× `add=visual`, 4× `suppressed` (dt 1.0→4.1s); (3) disabled Director = `FUND-SLOT set (…raw apply)`→`FUND-COMMIT` direct, **no** flourish, slot cleared. No slot leak / no double-commit. *(The startup `FUND-COMMIT As→As` from `SetFundamentalSource` is the pre-existing benign self-commit — Chunk 4 self-protection.)*
 
