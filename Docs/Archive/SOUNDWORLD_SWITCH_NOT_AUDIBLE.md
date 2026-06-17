@@ -1,7 +1,7 @@
 # Troubleshooting: Sound-world change is not audible
 
 **Status:** **RESOLVED.** Root cause = layer C guard in `SetSoundWorld`. Fixed via `InteractiveMusicSwitchPolicy.SetSoundWorldPosts` + rewire; EditMode tests pass; playtest verified audible world change + Wwise switch confirmation (2026-06-04).
-**Parent plan:** [`BLOCKS_4_5_7_PLAN.md`](BLOCKS_4_5_7_PLAN.md) — surfaced during the Stage 1 + Stage 2 guided playtest (`MusicDebugGuidedPlaytest`, **G** key).
+**Parent plan:** [`BLOCKS_4_5_7_PLAN.md`](../BLOCKS_4_5_7_PLAN.md) — surfaced during the Stage 1 + Stage 2 guided playtest (`MusicDebugGuidedPlaytest`, **G** key).
 **Related:** Block 4 (Wwise switch hygiene), Block 7 (sound-world transitions / `WorldShuffler`).
 
 ---

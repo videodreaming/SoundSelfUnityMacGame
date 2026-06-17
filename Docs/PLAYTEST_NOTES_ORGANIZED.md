@@ -102,7 +102,7 @@ flowchart TD
 
 ## Block 2 — Calibration-only audio / light tweaks
 
-**Block 2 status: complete** (implementation + playtest verified). Parallel **[inspector cleanup](INSPECTOR_CLEANUP_IMITONE_AND_DVR2.md)** for `ImitoneVoiceIntepreter` and `DirectVoiceMonitoring` is also **complete**.
+**Block 2 status: complete** (implementation + playtest verified). Parallel **[inspector cleanup](Archive/INSPECTOR_CLEANUP_IMITONE_AND_DVR2.md)** for `ImitoneVoiceIntepreter` and `DirectVoiceMonitoring` is also **complete**.
 
 **Test focus:** Mic calibration comfortable (−6 dB only on mic step, **1 s** fade); vibro at gameplay MicMixer level; calibration lights use dedicated **Calibration** color world (stable, not voice-pumped); playground **White1/White3** globally brighter.
 

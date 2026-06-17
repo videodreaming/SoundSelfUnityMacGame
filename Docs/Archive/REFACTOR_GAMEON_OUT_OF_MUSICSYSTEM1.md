@@ -8,7 +8,7 @@
 - Add explicit `gameOn` at sequencing call sites that today rely on the music-mode side effect.
 - **Not in scope:** Full audit of every `SetGameOn` in the project (calibration, `WwiseVOManager` mic cues, `Tutorial.cs`, etc.). Those stay as-is unless a call site is listed below because it pairs with `SetMusicModeTo`.
 
-**Related:** Block 3 — [`PLAYTEST_NOTES_ORGANIZED.md`](PLAYTEST_NOTES_ORGANIZED.md), [`GameOnPolicy.cs`](../Assets/Scripts/Voice/GameOnPolicy.cs), [`Block3PolicyEditModeTests.cs`](../Assets/Editor/SoundSelf/Tests/EditMode/Block3PolicyEditModeTests.cs).
+**Related:** Block 3 — [`PLAYTEST_NOTES_ORGANIZED.md`](../PLAYTEST_NOTES_ORGANIZED.md), [`GameOnPolicy.cs`](../Assets/Scripts/Voice/GameOnPolicy.cs), [`Block3PolicyEditModeTests.cs`](../Assets/Editor/SoundSelf/Tests/EditMode/Block3PolicyEditModeTests.cs).
 
 ---
 
@@ -264,7 +264,7 @@ Unchanged. Still parallel authority; logs (`debugAllowGameOnLogs`) remain import
 | [`SavasanaStageHandler.cs`](../Assets/Scripts/Sequencing/Handlers/SavasanaStageHandler.cs) | Apply on `CueStopInteractive` |
 | [`WwiseVOManager.cs`](../Assets/Scripts/WwiseManagers/WwiseVOManager.cs) | Fallback parity (small) |
 | [`GameOnPolicy.cs`](../Assets/Scripts/Voice/GameOnPolicy.cs) | Doc comment only |
-| [`PLAYTEST_NOTES_ORGANIZED.md`](PLAYTEST_NOTES_ORGANIZED.md) | One line under Block 3: refactor done / playtest again |
+| [`PLAYTEST_NOTES_ORGANIZED.md`](../PLAYTEST_NOTES_ORGANIZED.md) | One line under Block 3: refactor done / playtest again |
 
 **Unlikely:** `SequenceRunner.cs` unless you centralize stage-agnostic helpers there.
 
